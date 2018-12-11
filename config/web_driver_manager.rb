@@ -4,7 +4,7 @@ require_relative 'config'
 class WebDriverManager
 
   def WebDriverManager.launch_browser
-    driver_config = Config.settings['webdriver']
+    driver_config = Config.webdriver_settings
     browser = case driver_config['browser']
 
                when 'chrome'
