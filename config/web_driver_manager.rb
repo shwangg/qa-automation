@@ -1,11 +1,15 @@
-require 'selenium-webdriver'
-require_relative 'config'
+require_relative '../spec_helper'
 
-class WebDriverManager
+module WebDriverManager
 
-  def WebDriverManager.launch_browser
-    driver_config = Config.webdriver_settings
-    browser = case driver_config['browser']
+  include Logging
+  include Config
+
+  def launch_browser
+    driver_config = webdriver_settings
+    browser = driver_config['browser']
+    logger.warn "Launching #{browser.capitalize}"
+    driver = case driver_config['browser']
 
                when 'chrome'
                  options = Selenium::WebDriver::Chrome::Options.new
@@ -21,11 +25,16 @@ class WebDriverManager
                  Selenium::WebDriver.for :safari
 
                else
-                 puts 'Designated WebDriver is not supported'
-                 nil
+                 logger.error 'Designated WebDriver is not supported'
+                 fail
              end
-    browser.manage.window.resize_to(1600, 900)
-    browser
+    driver.manage.window.resize_to(1600, 900)
+    driver
+  end
+
+  def quit_browser(driver)
+    logger.warn "Quitting #{driver.browser.capitalize}"
+    driver.quit
   end
 
 end
