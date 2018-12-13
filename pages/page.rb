@@ -101,13 +101,13 @@ module Page
   # Waits a short time for an element to be present and clicks it. Intended for Ajax updates.
   # @param [Hash] locator
   def wait_for_element_and_click(locator)
-    when_exists(locator, short_wait)
+    when_exists(locator, Config.short_wait)
     element(locator).click
   end
 
   # Waits a moderate time for an element to be present and clicks it. Intended for page loads.
   def wait_for_page_and_click(locator)
-    when_exists(locator, medium_wait)
+    when_exists(locator, Config.medium_wait)
     element(locator).click
   end
 

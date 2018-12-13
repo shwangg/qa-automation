@@ -9,15 +9,40 @@ timeout:
   medium: 30
   long: 240
 
-base_url:
-  bampfa: https://bampfa-dev.cspace.berkeley.edu
-  botgarden: https://botgarden-dev.cspace.berkeley.edu
-  cinefiles: https://cinefiles-dev.cspace.berkeley.edu
-  core: https://core.collectionspace.org
-  pahma: https://pahma-dev.cspace.berkeley.edu
-  ucjeps: https://ucjeps-dev.cspace.berkeley.edu/
+deployment: core
 
-credentials:
-  core:
-    admin_username: admin@core.collectionspace.org
-    admin_password: Administrator
+bampfa:
+  base_url: https://bampfa-dev.cspace.berkeley.edu
+  admin:
+    username: secret
+    password: secret
+
+botgarden:
+  base_url: https://botgarden-dev.cspace.berkeley.edu
+  admin:
+    username: secret
+    password: secret
+
+cinefiles:
+  base_url: https://cinefiles-dev.cspace.berkeley.edu
+  admin:
+    username: secret
+    password: secret
+
+core:
+  base_url: https://core.collectionspace.org
+  admin:
+    username: secret
+    password: secret
+
+pahma:
+  base_url: https://pahma-dev.cspace.berkeley.edu
+  admin:
+    username: secret
+    password: secret
+
+ucjeps:
+  base_url: https://ucjeps-dev.cspace.berkeley.edu/
+  admin:
+    username: secret
+    password: secret
