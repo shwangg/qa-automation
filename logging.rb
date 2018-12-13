@@ -2,12 +2,10 @@ require_relative 'spec_helper'
 
 module Logging
 
-  include Config
-
   class << self
     def logger
-      @logger ||= Logger.new log_file
-      @logger.level = log_level
+      @logger ||= Logger.new Config.log_file
+      @logger.level = Config.log_level
       @logger
     end
 

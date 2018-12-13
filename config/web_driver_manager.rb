@@ -3,22 +3,21 @@ require_relative '../spec_helper'
 module WebDriverManager
 
   include Logging
-  include Config
 
   def launch_browser
-    driver_config = webdriver_settings
-    browser = driver_config['browser']
+    driver_config = Config.webdriver_settings
+    browser = driver_config[:browser]
     logger.warn "Launching #{browser.capitalize}"
-    driver = case driver_config['browser']
+    driver = case browser
 
                when 'chrome'
                  options = Selenium::WebDriver::Chrome::Options.new
-                 options.add_argument 'headless' if driver_config['headless']
+                 options.add_argument 'headless' if driver_config[:headless]
                  Selenium::WebDriver.for :chrome, :options => options
 
                when 'firefox'
                  options = Selenium::WebDriver::Firefox::Options.new
-                 options.add_argument '-headless' if driver_config['headless']
+                 options.add_argument '-headless' if driver_config[:headless]
                  Selenium::WebDriver.for :firefox, :options => options
 
                when 'safari'
