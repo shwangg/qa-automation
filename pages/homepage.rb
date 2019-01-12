@@ -6,25 +6,19 @@ class Homepage
   include Page
   include CollectionSpacePages
 
-  USERNAME_INPUT = {:id => 'username'}
-  PASSWORD_INPUT = {:id => 'password'}
-  SIGN_IN_BUTTON = {:name => 'login'}
-
-  # Returns the sub-classes of Homepage
-  # @return [Array<Class>]
-  def self.descendants
-    ObjectSpace.each_object(Class).select { |klass| klass < self }
-  end
+  def username_input; {:id => 'username'} end
+  def password_input; {:id => 'password'} end
+  def sign_in_button; {:name => 'login'} end
 
   # Logs in from homepage
   # @param [String] username
   # @param [String] password
   def log_in(username, password)
     logger.info "Logging in as #{username}"
-    wait_for_element_and_type(USERNAME_INPUT, username)
-    wait_for_element_and_type(PASSWORD_INPUT, password)
-    wait_for_element_and_click SIGN_IN_BUTTON
-    when_exists(SIGN_OUT_LINK, Config.short_wait)
+    wait_for_element_and_type(username_input, username)
+    wait_for_element_and_type(password_input, password)
+    wait_for_element_and_click sign_in_button
+    when_exists(sign_out_link, Config.short_wait)
   end
 
 end

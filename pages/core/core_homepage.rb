@@ -4,20 +4,17 @@ class CoreHomepage < Homepage
 
   include Logging
   include Page
+  include CollectionSpacePages
 
-  HEADING = {:xpath => '//h2[contains(.,"Welcome to the CollectionSpace Demo")]'}
+  def page_heading; {:xpath => '//h2[contains(.,"Welcome to the CollectionSpace Demo")]'} end
 
   DEPLOYMENT = Deployment::CORE
-
-  def initialize(driver)
-    @driver = driver
-  end
 
   # Loads the Core homepage
   def load_page
     logger.info 'Loading Core homepage'
     get ConfigCore.base_url
-    when_exists(HEADING, Config.medium_wait)
+    when_exists(page_heading, Config.medium_wait)
   end
 
 end

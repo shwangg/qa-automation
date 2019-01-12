@@ -2,8 +2,10 @@ require_relative '../spec_helper'
 
 class Config
 
+  @override_settings_dir = File.join(ENV['HOME'], '.cspace-selenium-config/')
+
   default_settings = File.join(File.dirname(File.absolute_path(__FILE__)), 'settings.yml')
-  override_settings = File.join(File.join(ENV['HOME'], '.cspace-selenium-config/'), 'settings.yml')
+  override_settings = File.join(@override_settings_dir, 'settings.yml')
 
   @global_settings = {}
   @global_settings.merge! YAML.load_file(default_settings)
@@ -11,6 +13,10 @@ class Config
 
   def Config.global_settings
     @global_settings
+  end
+
+  def Config.override_settings_dir
+    @override_settings_dir
   end
 
   # BROWSER
@@ -37,15 +43,31 @@ class Config
 
   # TIMEOUTS
 
+  def Config.timeouts
+    @global_settings['timeout']
+  end
+
+  # For inserting a pause before each click, should default to zero but can be used to slow down test execution
+  def Config.click_wait
+    timeouts['click']
+  end
+
+  # Intended for awaiting updates to a loaded page, e.g., Ajax
   def Config.short_wait
-    @global_settings['timeout']['short']
+    timeouts['short']
   end
 
+  # Intended for awaiting page loads or slow page updates
   def Config.medium_wait
-    @global_settings['timeout']['medium']
+    timeouts['medium']
   end
 
-  # MUSEUM SPECIFIC SETTINGS
+  # Intended for file uploads and downloads, or asynchronous updates
+  def Config.long_wait
+    timeouts['long']
+  end
+
+  # DEPLOYMENT SPECIFIC SETTINGS
 
   def Config.deployment
     Deployment::DEPLOYMENTS.find { |m| m.code == @global_settings['deployment'] }
