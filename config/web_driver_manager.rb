@@ -4,6 +4,9 @@ module WebDriverManager
 
   include Logging
 
+  # Launches the configured browser and returns the browser driver, headless if so configured. Allows Chrome, Firefox, or
+  # Safari, though Chrome is the main one supported for now.
+  # @return [Selenium::WebDriver]
   def launch_browser
     driver_config = Config.webdriver_settings
     browser = driver_config[:browser]
@@ -31,6 +34,8 @@ module WebDriverManager
     driver
   end
 
+  # Quits the browser
+  # @param [Selenium::WebDriver] driver
   def quit_browser(driver)
     logger.warn "Quitting #{driver.browser.capitalize}"
     driver.quit

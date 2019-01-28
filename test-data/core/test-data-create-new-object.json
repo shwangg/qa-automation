@@ -1,0 +1,166 @@
+{
+    "objects": [
+        {
+            "briefDescriptions": [
+                {
+                    "briefDescription": "Test 1 - brief description 1"
+                },
+                {
+                    "briefDescription": "Test 1 - brief description 2"
+                }
+            ],
+            "comments": [
+                {
+                    "comment": "Test 1 - comment"
+                }
+            ],
+            "distinguishingFeatures": "Test 1 - distinguishing features",
+            "inventoryStatusList": [
+                {
+                    "inventoryStatus": "on loan"
+                },
+                {
+                    "inventoryStatus": "destroyed"
+                }
+            ],
+            "numberOfObjects": 1,
+            "objectNames": [
+                {
+                    "objectName": "Test 1 - object 1 name",
+                    "objectNameCurrency": "current",
+                    "objectNameLevel": "group",
+                    "objectNameSystem": "nomenclature",
+                    "objectNameType": "simple",
+                    "objectNameLanguage": "Arabic",
+                    "objectNameNote": "Test 1 - object 1 note"
+                }
+            ],
+            "objectNumber": null,
+            "otherNumber": [
+                {
+                    "numberValue": "Test 1 - number value 1",
+                    "numberType": "lender"
+                },
+                {
+                    "numberValue": "Test 1 - number value 2",
+                    "numberType": "unknown"
+                }
+            ],
+            "publishToList": [
+                {
+                    "publishTo": "All"
+                }
+            ],
+            "recordStatus": "new",
+            "responsibleDepartments": [
+                {
+                    "responsibleDepartment": "Photographs"
+                }
+             ],
+            "titleGroup": [
+                {
+                    "title": "Test 1 - Title 1",
+                    "titleLanguage": "English",
+                    "titleTranslationSubGroup": [
+                        {
+                            "titleTranslation": "Test 1 - Translation 1",
+                            "titleTranslationLanguage": "Latin"
+                        }
+                    ]
+                },
+                {
+                    "title": "Test 1 - Title 2",
+                    "titleLanguage": "Latin",
+                    "titleTranslationSubGroup": [
+                        {
+                            "titleTranslation": "Test 1 - Translation 1",
+                            "titleTranslationLanguage": "German"
+                        },
+                        {
+                            "titleTranslation": "Test 1 - Translation 2",
+                            "titleTranslationLanguage": "English"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "briefDescriptions": [
+                {
+                    "briefDescription": "Test 2 - brief description 1"
+                }
+            ],
+            "comments": [
+                {
+                    "comment": "Test 2 - comment 1"
+                },
+                {
+                    "comment": "Test 2 - comment 2"
+                }
+            ],
+            "distinguishingFeatures": "Test 2 - distinguishing features",
+            "inventoryStatusList": [
+                {
+                    "inventoryStatus": "accession status unclear"
+                }
+            ],
+            "numberOfObjects": 1,
+            "objectNames": [
+                {
+                    "objectName": "Test 2 - object 1 name",
+                    "objectNameCurrency": "current",
+                    "objectNameLevel": "group",
+                    "objectNameSystem": "nomenclature",
+                    "objectNameType": "simple",
+                    "objectNameLanguage": "Arabic",
+                    "objectNameNote": "Test 2 - object 1 note"
+                },
+                {
+                    "objectName": "Test 2 - object 2 name",
+                    "objectNameCurrency": "archaic",
+                    "objectNameLevel": "subgroup",
+                    "objectNameSystem": "nomenclature",
+                    "objectNameType": "taxonomic",
+                    "objectNameLanguage": "Old English",
+                    "objectNameNote": "Test 2 - object 2 note"
+                }
+            ],
+            "objectNumber": null,
+            "otherNumber": [
+                {
+                    "numberValue": "Test 2 - number value 1",
+                    "numberType": "previous"
+                }
+            ],
+            "publishToList": [
+                {
+                    "publishTo": "Culture Object"
+                },
+                {
+                    "publishTo": "None"
+                }
+            ],
+            "recordStatus": "in process",
+            "responsibleDepartments": [
+                {
+                    "responsibleDepartment": "Prints and Drawings"
+                },
+                {
+                    "responsibleDepartment": "Antiquities"
+                }
+            ],
+            "titleGroup": [
+                {
+                    "title": "Test 2 - Title 1",
+                    "titleLanguage": "Hebrew",
+                    "titleTranslationSubGroup": [
+                        {
+                            "titleTranslation": "Test 2 - Translation 1",
+                            "titleTranslationLanguage": "Tagalog"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

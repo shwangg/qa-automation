@@ -4,6 +4,10 @@ module Page
 
   include Logging
 
+  def initialize(driver)
+    @driver = driver
+  end
+
   # Navigates to a URL
   # @param [String] url
   def get(url)
@@ -60,14 +64,29 @@ module Page
     nil
   end
 
-  # Returns to true if an element with a given locator can be found
+  # Returns an array of elements with a given locator, or an empty array if none can be found
+  # @param [Hash] locator
+  # @return [Array<Selenium::WebDriver::Element>]
+  def elements(locator)
+    @driver.find_elements(locator)
+  end
+
+  # Returns to true if a given element can be found
   # @param [Hash] locator
   # @return [boolean]
   def exists?(locator)
-    element(locator).size
+    @driver.find_element(locator).size
     true
-  rescue NoMethodError
+  rescue
     false
+  end
+
+  # Waits a configurable time and then clicks an element with a given locator
+  # @param [Hash] locator
+  def click_element(locator)
+    wait_until(Config.short_wait) { element(locator).enabled? }
+    sleep Config.click_wait
+    element(locator).click
   end
 
   # Waits a given number of seconds to find an element
@@ -102,16 +121,16 @@ module Page
   # @param [Hash] locator
   def wait_for_element_and_click(locator)
     when_exists(locator, Config.short_wait)
-    element(locator).click
+    click_element locator
   end
 
   # Waits a moderate time for an element to be present and clicks it. Intended for page loads.
   def wait_for_page_and_click(locator)
     when_exists(locator, Config.medium_wait)
-    element(locator).click
+    click_element locator
   end
 
-  # Waits a short time for an input to be present, removes any existing text from it, and sends a given string to it.
+  # Waits a short time for an input to be present and enters a given string
   # @param [Hash] locator
   # @param [String] string
   def wait_for_element_and_type(locator, string)
@@ -120,13 +139,28 @@ module Page
     element(locator).send_keys string
   end
 
-  # Waits a short time for a select to be present and selects the option with the given text.
-  # @param [Hash] locator
+  # Clicks an input, waits for options to appear, and enters a given string
+  # @param [Hash] input_locator
+  # @param [Hash] options_locator
+  # @param [String] string
+  def wait_for_options_and_type(input_locator, options_locator, string)
+    wait_for_element_and_click input_locator
+    wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
+    element(input_locator).clear
+    element(input_locator).send_keys string
+  end
+
+  # Clicks an input, waits for options to appear, and selects a given option
+  # @param [Hash] input_locator
+  # @param [Hash] options_locator
   # @param [String] option
-  def wait_for_element_and_select(locator, option)
-    wait_for_element_and_click locator
-    select = Selenium::WebDriver::Support::Select.new element(locator)
-    select.select_by(:text, option)
+  def wait_for_options_and_select(input_locator, options_locator, option)
+    if option
+      wait_for_element_and_click input_locator
+      wait_until(Config.short_wait) { elements(options_locator).map(&:text).include? option }
+      option_el = elements(options_locator).find { |el| el.text == option}
+      option_el.click
+    end
   end
 
   # Returns true if a clock completes, otherwise false

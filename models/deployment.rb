@@ -10,12 +10,7 @@ class Deployment
   end
 
   DEPLOYMENTS = [
-      BAMPFA = new('Berkeley Art Museum and Pacific Film Archive', 'bampfa'),
-      BOT_GARDEN = new('UC Botanical Garden', 'botgarden'),
-      CINE_FILES = new('CineFiles', 'cinefiles'),
-      CORE = new('Core', 'core'),
-      PAHMA = new('Phoebe A Hearst Museum of Anthropology', 'pahma'),
-      UCJEPS = new('University and Jepson Herbaria', 'ucjeps')
+      CORE = new('Core', 'core')
   ]
 
 end
