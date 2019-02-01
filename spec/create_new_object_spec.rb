@@ -11,13 +11,13 @@ describe 'CollectionSpace' do
   before(:all) do
     test_run.set_driver launch_browser
     @admin = test_run.get_admin_user
-    @homepage = test_run.get_page Homepage
+    @login_page = test_run.get_page LoginPage
     @search_page = test_run.get_page SearchPage
     @create_new_page = test_run.get_page CreateNewPage
     @new_object_page = test_run.get_page NewObjectPage
 
-    @homepage.load_page
-    @homepage.log_in(@admin.username, @admin.password)
+    @login_page.load_page
+    @login_page.log_in(@admin.username, @admin.password)
   end
 
   after(:all) { quit_browser test_run.driver }

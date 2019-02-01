@@ -1,14 +1,14 @@
 require_relative '../../spec_helper'
 
-class CoreHomepage < Homepage
+class CoreLoginPage < LoginPage
 
   include Logging
   include Page
   include CollectionSpacePages
 
-  def page_heading; {:xpath => '//h2[contains(.,"Welcome to the CollectionSpace Demo")]'} end
-
   DEPLOYMENT = Deployment::CORE
+
+  def page_heading; {:xpath => '//h2[contains(.,"Welcome to the CollectionSpace Demo")]'} end
 
   # Loads the Core homepage
   def load_page
