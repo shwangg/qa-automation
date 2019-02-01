@@ -1,3 +1,5 @@
+require 'rspec'
+require 'rspec/core/rake_task'
 require 'yaml'
 require 'hash_deep_merge'
 require 'fileutils'
