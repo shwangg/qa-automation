@@ -41,6 +41,12 @@ class Config
     File.join(log_dir, "#{Time.now.strftime('%Y-%m-%d')}.log")
   end
 
+  def Config.test_results
+    results_dir = 'tmp/test-results'
+    FileUtils.mkdir_p results_dir
+    File.join(results_dir, "test-results-#{Time.now.strftime('%Y-%m-%d-%H-%M')}")
+  end
+
   # TIMEOUTS
 
   def Config.timeouts
