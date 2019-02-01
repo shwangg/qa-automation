@@ -11,14 +11,14 @@ describe 'CollectionSpace' do
     test_run = TestConfig.new
     test_run.set_driver launch_browser
     @admin = test_run.get_admin_user
-    @homepage = test_run.get_page Homepage
-    @homepage.load_page
+    @login_page = test_run.get_page LoginPage
+    @login_page.load_page
   end
 
   after(:all) { quit_browser test_run.driver }
 
-  it('allows a user to log in') { @homepage.log_in(@admin.username, @admin.password) }
+  it('allows a user to log in') { @login_page.log_in(@admin.username, @admin.password) }
 
-  it('allows a user to log out') { @homepage.log_out }
+  it('allows a user to log out') { @login_page.log_out }
 
 end

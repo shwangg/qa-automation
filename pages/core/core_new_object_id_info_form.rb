@@ -323,6 +323,8 @@ module CoreNewObjectIdInfoForm
 
     brief_descrips = data_set[CoreObjectData::BRIEF_DESCRIPS.name]
     if brief_descrips
+      # Scroll to top to ensure brief description field is not obscured by floating header bar
+      scroll_to_top
       brief_descrips.each do |descrip|
         index = brief_descrips.index descrip
         wait_for_element_and_click brief_desc_add_btn unless index.zero?

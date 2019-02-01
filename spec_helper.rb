@@ -20,16 +20,16 @@ require_relative 'config/test_config'
 require_relative 'pages/page'
 require_relative 'pages/collection_space_pages'
 
-require_relative 'pages/homepage'
-require_relative 'pages/core/core_homepage'
+require_relative 'pages/supers/login_page'
+require_relative 'pages/core/core_login_page'
 
-require_relative 'pages/search_page'
+require_relative 'pages/supers/search_page'
 require_relative 'pages/core/core_search_page'
 
-require_relative 'pages/create_new_page'
+require_relative 'pages/supers/create_new_page'
 require_relative 'pages/core/core_create_new_page'
 
-require_relative 'pages/new_object_id_info_form'
-require_relative 'pages/new_object_page'
+require_relative 'pages/supers/new_object_id_info_form'
+require_relative 'pages/supers/new_object_page'
 require_relative 'pages/core/core_new_object_id_info_form'
 require_relative 'pages/core/core_new_object_page'

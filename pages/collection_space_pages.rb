@@ -14,6 +14,7 @@ module CollectionSpacePages
   def sign_out_link; {:xpath => '//a[contains(.,"Sign out")]'} end
   def save_button; {:name => 'save'} end
   def delete_button; {:name => 'delete'} end
+  def header_bar; {:xpath => '//header/div'} end
   def notifications_bar; {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]'} end
 
   # Returns a hash containing both the data name used to locate a set of data fields on the page and also the index of the data (i.e., which row)
@@ -114,6 +115,11 @@ module CollectionSpacePages
   def hide_notifications_bar
     when_exists(notifications_bar, Config.short_wait)
     @driver.execute_script("arguments[0].style.visibility='hidden';", element(notifications_bar))
+  end
+
+  def hide_header_bar
+    when_exists(header_bar, Config.short_wait)
+    @driver.execute_script("arguments[0].style.visibility='hidden';", element(header_bar))
   end
 
 end

@@ -81,6 +81,10 @@ module Page
     false
   end
 
+  def scroll_to_top
+    @driver.execute_script('window.scrollTo(0, 0);')
+  end
+
   # Waits a configurable time and then clicks an element with a given locator
   # @param [Hash] locator
   def click_element(locator)

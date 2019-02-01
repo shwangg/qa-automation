@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../../spec_helper'
 
-class Homepage
+class LoginPage
 
   include Logging
   include Page
