@@ -1,11 +1,11 @@
 require_relative '../../spec_helper'
 
-class NewObjectPage
+class ObjectPage
 
   include Logging
   include Page
   include CollectionSpacePages
-  include NewObjectIdInfoForm
+  include ObjectIdInfoForm
 
   def page_heading; {:xpath => '//h1'} end
 
