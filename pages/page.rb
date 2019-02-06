@@ -48,11 +48,20 @@ module Page
     @driver.switch_to.alert.accept
   end
 
-  # Waits a given number of seconds for a block to complete
+  # Waits a given number of seconds for a block to complete. Logs an optional message if block fails.
   # @param [Integer] timeout
-  def wait_until(timeout, &blk)
-    wait = Selenium::WebDriver::Wait.new :timeout => timeout
+  # @param [String] msg
+  def wait_until(timeout, msg=nil, &blk)
+    wait = Selenium::WebDriver::Wait.new :timeout => timeout, :message => msg
     wait.until &blk
+  end
+
+  # Checks equivalence of two parameters. Will fail if they do not match or if they are not instances of String or Nil.
+  # @param [Object] expected
+  # @param [Object] actual
+  def text_values_match?(expected, actual)
+    logger.debug "Checking for '#{expected}'"
+    verify_block { wait_until(0.5, "Expected '#{expected}', got '#{actual}'") { expected.to_s == actual.to_s } }
   end
 
   # Returns an element with a given locator, or nil if it cannot be found
@@ -81,6 +90,14 @@ module Page
     false
   end
 
+  # Returns the value attribute of an element with a given locator
+  # @param [Hash] locator
+  # @return [String]
+  def element_value(locator)
+    element(locator).attribute('value') if exists?(locator)
+  end
+
+  # Uses JavaScript to scroll to the top of the page
   def scroll_to_top
     @driver.execute_script('window.scrollTo(0, 0);')
   end
@@ -150,6 +167,7 @@ module Page
   def wait_for_options_and_type(input_locator, options_locator, string)
     wait_for_element_and_click input_locator
     wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
+    sleep Config.click_wait
     element(input_locator).clear
     element(input_locator).send_keys string
   end
@@ -162,8 +180,8 @@ module Page
     if option
       wait_for_element_and_click input_locator
       wait_until(Config.short_wait) { elements(options_locator).map(&:text).include? option }
-      option_el = elements(options_locator).find { |el| el.text == option}
-      option_el.click
+      sleep Config.click_wait
+      (elements(options_locator).find { |el| el.text == option}).click
     end
   end
 

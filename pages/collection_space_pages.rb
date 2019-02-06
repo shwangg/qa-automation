@@ -99,6 +99,12 @@ module CollectionSpacePages
     wait_for_element_and_click create_new_link
   end
 
+  # Clicks the 'Search' link in the navigation menu
+  def click_search_link
+    logger.info 'Clicking link to Search'
+    wait_for_element_and_click search_link
+  end
+
   # Clicks the save button
   def click_save_button
     wait_for_element_and_click save_button

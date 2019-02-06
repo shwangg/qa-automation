@@ -9,6 +9,7 @@
                     "briefDescription": "Test 1 - brief description 2"
                 }
             ],
+            "collection": "permanent collection",
             "comments": [
                 {
                     "comment": "Test 1 - comment"
@@ -24,7 +25,7 @@
                 }
             ],
             "numberOfObjects": 1,
-            "objectNames": [
+            "objectNameGroup": [
                 {
                     "objectName": "Test 1 - object 1 name",
                     "objectNameCurrency": "current",
@@ -35,7 +36,6 @@
                     "objectNameNote": "Test 1 - object 1 note"
                 }
             ],
-            "objectNumber": null,
             "otherNumber": [
                 {
                     "numberValue": "Test 1 - number value 1",
@@ -85,11 +85,6 @@
             ]
         },
         {
-            "briefDescriptions": [
-                {
-                    "briefDescription": "Test 2 - brief description 1"
-                }
-            ],
             "comments": [
                 {
                     "comment": "Test 2 - comment 1"
@@ -105,7 +100,7 @@
                 }
             ],
             "numberOfObjects": 1,
-            "objectNames": [
+            "objectNameGroup": [
                 {
                     "objectName": "Test 2 - object 1 name",
                     "objectNameCurrency": "current",
@@ -125,7 +120,6 @@
                     "objectNameNote": "Test 2 - object 2 note"
                 }
             ],
-            "objectNumber": null,
             "otherNumber": [
                 {
                     "numberValue": "Test 2 - number value 1",

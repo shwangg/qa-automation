@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 
-module NewObjectIdInfoForm
+module ObjectIdInfoForm
 
   include Logging
   include Page

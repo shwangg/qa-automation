@@ -28,10 +28,13 @@ require_relative 'pages/core/core_login_page'
 require_relative 'pages/supers/search_page'
 require_relative 'pages/core/core_search_page'
 
+require_relative 'pages/supers/search_results_page'
+require_relative 'pages/core/core_search_results_page'
+
 require_relative 'pages/supers/create_new_page'
 require_relative 'pages/core/core_create_new_page'
 
-require_relative 'pages/supers/new_object_id_info_form'
-require_relative 'pages/supers/new_object_page'
-require_relative 'pages/core/core_new_object_id_info_form'
-require_relative 'pages/core/core_new_object_page'
+require_relative 'pages/supers/object_id_info_form'
+require_relative 'pages/supers/object_page'
+require_relative 'pages/core/core_object_id_info_form'
+require_relative 'pages/core/core_object_page'

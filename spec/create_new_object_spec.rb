@@ -13,8 +13,9 @@ describe 'CollectionSpace' do
     @admin = test_run.get_admin_user
     @login_page = test_run.get_page LoginPage
     @search_page = test_run.get_page SearchPage
+    @search_results_page = test_run.get_page SearchResultsPage
     @create_new_page = test_run.get_page CreateNewPage
-    @new_object_page = test_run.get_page NewObjectPage
+    @object_page = test_run.get_page ObjectPage
 
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)
@@ -24,11 +25,22 @@ describe 'CollectionSpace' do
 
   test_data.each do |test|
     it "allows an admin to create a new collection object with #{test}" do
-      test_run.set_unique_test_id(test, ObjectData::OBJECT_NUM.name)
+      test_run.set_unique_test_id(test, CoreObjectData::OBJECT_NUM.name)
       @search_page.click_create_new_link
       @create_new_page.click_create_new_object
-      @new_object_page.create_new_object test
+      @object_page.create_new_object test
+    end
+
+    it "allows an admin to search Objects for a new collection object with #{test}" do
+      @object_page.click_search_link
+      @search_page.perform_adv_search_for_all test
+      @search_results_page.wait_for_results
+      expect(@search_results_page.object_row_exists? test).to be true
+    end
+
+    it "search results allows a user to view object metadata for a new collection object with #{test}" do
+      @search_results_page.click_result test
+      expect(@object_page.verify_object_data test).to be true
     end
   end
-
 end
