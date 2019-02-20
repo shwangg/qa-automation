@@ -9,7 +9,7 @@ class Config
 
   @global_settings = {}
   @global_settings.merge! YAML.load_file(default_settings)
-  @global_settings.deep_merge! YAML.load_file(override_settings)
+  @global_settings.deep_merge! YAML.load_file(override_settings) if File.exist? override_settings
 
   def Config.global_settings
     @global_settings
