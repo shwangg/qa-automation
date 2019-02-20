@@ -59,9 +59,15 @@ module Page
   # Checks equivalence of two parameters. Will fail if they do not match or if they are not instances of String or Nil.
   # @param [Object] expected
   # @param [Object] actual
-  def text_values_match?(expected, actual)
+  # @param [Array<Object>] errors
+  # @return [boolean]
+  def text_values_match?(expected, actual, errors=nil)
     logger.debug "Checking for '#{expected}'"
-    verify_block { wait_until(0.5, "Expected '#{expected}', got '#{actual}'") { expected.to_s == actual.to_s } }
+    wait_until(0.5) { expected.to_s == actual.to_s }
+    true
+  rescue
+    errors << "Expected '#{expected}', got '#{actual}'" if errors
+    false
   end
 
   # Returns an element with a given locator, or nil if it cannot be found
@@ -167,7 +173,6 @@ module Page
   def wait_for_options_and_type(input_locator, options_locator, string)
     wait_for_element_and_click input_locator
     wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
-    sleep Config.click_wait
     element(input_locator).clear
     element(input_locator).send_keys string
   end
@@ -180,7 +185,6 @@ module Page
     if option
       wait_for_element_and_click input_locator
       wait_until(Config.short_wait) { elements(options_locator).map(&:text).include? option }
-      sleep Config.click_wait
       (elements(options_locator).find { |el| el.text == option}).click
     end
   end
@@ -188,12 +192,27 @@ module Page
   # Returns true if a clock completes, otherwise false
   # @return [boolean]
   def verify_block(&blk)
-    begin
-      return true if yield
-    rescue => e
-      logger.debug e.message
-      false
-    end
+    yield
+    true
+  rescue => e
+    logger.debug e.message
+    false
+  end
+
+  # Attempts to perform an action. If the action fails, adds an action object to an array. Useful for catching errors with
+  # individual fields in forms while allowing the rest of the fields to be completed.
+  # @param [Array<Object>] errors
+  # @param [Object] action
+  # @return [Array<Object>]
+  def attempt_action(errors, action, &blk)
+    yield
+  rescue => e
+    logger.error "Action failed: #{action}"
+    logger.error "#{e.message}\n#{e.backtrace}"
+    errors << action
+
+    # Hit ESC key in case the action has left open an element that obscures other elements (e.g., a drop-down, an alert)
+    @driver.action.send_keys(:escape).perform
   end
 
 end
