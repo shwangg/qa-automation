@@ -10,7 +10,8 @@ class Deployment
   end
 
   DEPLOYMENTS = [
-      CORE = new('Core', 'core')
+      CORE = new('Core', 'core'),
+      PAHMA = new('PAHMA', 'pahma')
   ]
 
 end
