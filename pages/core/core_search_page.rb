@@ -107,7 +107,9 @@ class CoreSearchPage < SearchPage
 
   # Using a single set of test data, enters search parameters in the advanced search form
   # @param [Hash] data_set
+  # @return [Array<Object>]
   def enter_object_id_search_data(data_set)
+    search_input_errors = []
     hide_notifications_bar
 
     object_nums = data_set[CoreObjectData::OBJECT_NUM.name]
@@ -119,11 +121,11 @@ class CoreSearchPage < SearchPage
           index = object_nums.index num
           logger.debug "Entering object number #{data} at index #{index}"
           wait_for_element_and_click object_num_add_btn unless index.zero?
-          wait_for_element_and_type(object_num_input(index), data)
+          attempt_action(search_input_errors, data) { wait_for_element_and_type(object_num_input(index), data) }
         end
       else
         logger.debug "Entering object number #{object_nums}"
-        wait_for_element_and_type(object_num_input(0), object_nums)
+        attempt_action(search_input_errors, object_nums) { wait_for_element_and_type(object_num_input(0), object_nums) }
       end
     end
 
@@ -133,7 +135,7 @@ class CoreSearchPage < SearchPage
       index = resp_depts.index dept
       logger.debug "Selecting responsible department #{data} at index #{index}"
       wait_for_element_and_click resp_dept_add_btn unless index.zero?
-      wait_for_options_and_select(resp_dept_input(index), resp_dept_options(index), data)
+      attempt_action(search_input_errors, data) { wait_for_options_and_select(resp_dept_input(index), resp_dept_options(index), data) }
     end
 
     collections = data_set[CoreObjectData::COLLECTION.name]
@@ -145,11 +147,11 @@ class CoreSearchPage < SearchPage
           index = collections.index collection
           logger.debug "Selecting collection #{data} at index #{index}"
           wait_for_element_and_click collection_add_btn unless index.zero?
-          wait_for_options_and_select(collection_input(index), collection_options(index), data)
+          attempt_action(search_input_errors, data) { wait_for_options_and_select(collection_input(index), collection_options(index), data) }
         end
       else
         logger.debug "Selecting collection #{collections}"
-        wait_for_options_and_select(collection_input(0), collection_options(0), collections)
+        attempt_action(search_input_errors, collections) { wait_for_options_and_select(collection_input(0), collection_options(0), collections) }
       end
     end
 
@@ -162,11 +164,11 @@ class CoreSearchPage < SearchPage
           index = record_statuses.index status
           logger.debug "Selecting record status #{data} at index #{index}"
           wait_for_element_and_click record_status_add_btn unless index.zero?
-          wait_for_options_and_select(record_status_input(index), record_status_options(index), data)
+          attempt_action(search_input_errors, data) { wait_for_options_and_select(record_status_input(index), record_status_options(index), data) }
         end
       else
         logger.debug "Selecting record status #{record_statuses}"
-        wait_for_options_and_select(record_status_input(0), record_status_options(0), record_statuses)
+        attempt_action(search_input_errors, record_statuses) { wait_for_options_and_select(record_status_input(0), record_status_options(0), record_statuses) }
       end
     end
 
@@ -176,7 +178,7 @@ class CoreSearchPage < SearchPage
       index = titles.index title
       logger.debug "Entering title #{data} at index #{index}"
       wait_for_element_and_click title_add_btn unless index.zero?
-      wait_for_element_and_type(title_input(index), data)
+      attempt_action(search_input_errors, data) { wait_for_element_and_type(title_input(index), data) }
     end
 
     object_names = data_set[CoreObjectData::OBJ_NAME_GRP.name]
@@ -185,15 +187,20 @@ class CoreSearchPage < SearchPage
       index = object_names.index name
       logger.debug "Entering object name #{data} at index #{index}"
       wait_for_element_and_click object_name_add_btn unless index.zero?
-      wait_for_element_and_type(object_name_input(index), data)
+      attempt_action(search_input_errors, data) { wait_for_element_and_type(object_name_input(index), data) }
     end
+    search_input_errors
   end
 
+  # Enters object search criteria and hits search. Returns an array of any errors caused by form fields.
+  # @param [Hash] data_set
+  # @return [Array<Object>]
   def perform_adv_search_for_all(data_set)
     click_clear_button
     select_adv_search_all_option
-    enter_object_id_search_data data_set
+    search_input_errors = enter_object_id_search_data data_set
     click_search_button
+    search_input_errors
   end
 
 end

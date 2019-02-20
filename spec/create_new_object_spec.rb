@@ -28,19 +28,22 @@ describe 'CollectionSpace' do
       test_run.set_unique_test_id(test, CoreObjectData::OBJECT_NUM.name)
       @search_page.click_create_new_link
       @create_new_page.click_create_new_object
-      @object_page.create_new_object test
+      data_input_errors = @object_page.create_new_object test
+      expect(data_input_errors).to be_empty
     end
 
     it "allows an admin to search Objects for a new collection object with #{test}" do
       @object_page.click_search_link
-      @search_page.perform_adv_search_for_all test
+      search_input_errors = @search_page.perform_adv_search_for_all test
       @search_results_page.wait_for_results
       expect(@search_results_page.object_row_exists? test).to be true
+      expect(search_input_errors).to be_empty
     end
 
-    it "search results allows a user to view object metadata for a new collection object with #{test}" do
+    it "search results allow a user to view object metadata for a new collection object with #{test}" do
       @search_results_page.click_result test
-      expect(@object_page.verify_object_data test).to be true
+      object_data_errors = @object_page.verify_object_data test
+      expect(object_data_errors).to be_empty
     end
   end
 end
