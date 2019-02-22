@@ -551,15 +551,15 @@ module PAHMAObjectIdInfoForm
   # COLLECTION
 
   def collection_input(index)
-    input_locator([fieldset(PAHMAObjectData::COLLECTION_LIST.name, index)], PAHMAObjectData::COLLECTION.name)
+    input_locator([fieldset(PAHMAObjectData::PAHMA_COLLECTION_LIST.name, index)], PAHMAObjectData::PAHMA_COLLECTION.name)
   end
 
   def collection_options(index)
-    input_options_locator([fieldset(PAHMAObjectData::COLLECTION_LIST.name, index)], PAHMAObjectData::COLLECTION.name)
+    input_options_locator([fieldset(PAHMAObjectData::PAHMA_COLLECTION_LIST.name, index)], PAHMAObjectData::PAHMA_COLLECTION.name)
   end
 
   def collection_add_btn
-    add_button_locator [fieldset(PAHMAObjectData::COLLECTION_LIST.name)]
+    add_button_locator [fieldset(PAHMAObjectData::PAHMA_COLLECTION_LIST.name)]
   end
 
   # TMS DATA SOURCE
@@ -801,12 +801,12 @@ module PAHMAObjectIdInfoForm
       attempt_action(data_input_errors, series) { wait_for_options_and_select(series_input, series_options, series) }
     end
 
-    collections = data_set[PAHMAObjectData::COLLECTION_LIST.name]
+    collections = data_set[PAHMAObjectData::PAHMA_COLLECTION_LIST.name]
     collections && collections.each do |collect|
       index = collections.index collect
       logger.debug "Entering collection '#{collect}' at index #{index}"
       wait_for_element_and_click collection_add_btn unless index.zero?
-      attempt_action(data_input_errors, collect) { wait_for_options_and_select(collection_input(index), collection_options(index), collect[PAHMAObjectData::COLLECTION.name]) if collect[PAHMAObjectData::COLLECTION.name] }
+      attempt_action(data_input_errors, collect) { wait_for_options_and_select(collection_input(index), collection_options(index), collect[PAHMAObjectData::PAHMA_COLLECTION.name]) if collect[PAHMAObjectData::PAHMA_COLLECTION.name] }
     end
 
     tms_source = data_set[PAHMAObjectData::TMS_DATA_SRC.name]
@@ -977,10 +977,10 @@ module PAHMAObjectIdInfoForm
     series = data_set[PAHMAObjectData::AUDIO_SERIES.name]
     series && text_values_match?(series, element_value(series_input), object_data_errors)
 
-    collections = data_set[PAHMAObjectData::COLLECTION_LIST.name]
+    collections = data_set[PAHMAObjectData::PAHMA_COLLECTION_LIST.name]
     collections && collections.each do |collect|
       index = collections.index collect
-      text_values_match?(collect[PAHMAObjectData::COLLECTION.name], element_value(collection_input index), object_data_errors)
+      text_values_match?(collect[PAHMAObjectData::PAHMA_COLLECTION.name], element_value(collection_input index), object_data_errors)
     end
 
     tms_source = data_set[PAHMAObjectData::TMS_DATA_SRC.name]
