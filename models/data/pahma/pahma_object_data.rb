@@ -23,7 +23,6 @@ class PAHMAObjectData < ObjectData
       ETHNO_FILE_CODE_LIST = new('pahmaEthnographicFileCodeList'),
       ETHNO_FILE_CODE = new('pahmaEthnographicFileCode'),
       INVENTORY_COUNT = new('inventoryCount'),
-      IS_COMPONENT_GRP = new('isComponentGroup'),
       IS_COMPONENT = new('isComponent'),
       LEGACY_DEPT_GRP = new('pahmaTmsLegacyDepartmentGrp'),
       LEGACY_DEPT = new('pahmaTmsLegacyDepartment'),
