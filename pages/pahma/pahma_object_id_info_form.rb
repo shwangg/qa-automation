@@ -43,11 +43,11 @@ module PAHMAObjectIdInfoForm
   # OBJECT STATUS
 
   def obj_status_input(index)
-    input_locator([fieldset(PAHMAObjectData::OBJ_STATUS_LIST.name, index)], PAHMAObjectData::OBJ_STATUS.name)
+    input_locator([fieldset(PAHMAObjectData::OBJ_STATUS_LIST.name, index)])
   end
 
   def obj_status_options(index)
-    input_options_locator([fieldset(PAHMAObjectData::OBJ_STATUS_LIST.name, index)], PAHMAObjectData::OBJ_STATUS.name)
+    input_options_locator([fieldset(PAHMAObjectData::OBJ_STATUS_LIST.name, index)])
   end
 
   def obj_status_move_top_btn(index)
@@ -193,23 +193,23 @@ module PAHMAObjectIdInfoForm
   # RESPONSIBLE COLLECTION MGR
 
   def resp_coll_input(index)
-    input_locator([fieldset(PAHMAObjectData::RESPONSIBLE_DEPT.name, index)])
+    input_locator([fieldset(PAHMAObjectData::RESPONSIBLE_DEPTS.name, index)])
   end
 
   def resp_coll_options(index)
-    input_options_locator([fieldset(PAHMAObjectData::RESPONSIBLE_DEPT.name, index)])
+    input_options_locator([fieldset(PAHMAObjectData::RESPONSIBLE_DEPTS.name, index)])
   end
 
   def resp_coll_move_top_btn(index)
-    move_top_button_locator([fieldset(PAHMAObjectData::RESPONSIBLE_DEPT.name, index)])
+    move_top_button_locator([fieldset(PAHMAObjectData::RESPONSIBLE_DEPTS.name, index)])
   end
 
   def resp_coll_delete_btn(index)
-    delete_button_locator([fieldset(PAHMAObjectData::RESPONSIBLE_DEPT.name, index)])
+    delete_button_locator([fieldset(PAHMAObjectData::RESPONSIBLE_DEPTS.name, index)])
   end
 
   def resp_coll_add_btn
-    add_button_locator [fieldset(PAHMAObjectData::RESPONSIBLE_DEPT.name)]
+    add_button_locator [fieldset(PAHMAObjectData::RESPONSIBLE_DEPTS.name)]
   end
 
   # OBJECT TYPE
@@ -357,7 +357,7 @@ module PAHMAObjectIdInfoForm
   end
 
   def measure_unit_input(indices)
-    input_locator([fieldset(PAHMAObjectData::MEASURE_PART_GRP.name, indices[0]), fieldset(PAHMAObjectData::MEASURE_DIMEN_GRP.name, indices[1])], PAHMAObjectData::MEASURE_VALUE.name)
+    input_locator([fieldset(PAHMAObjectData::MEASURE_PART_GRP.name, indices[0]), fieldset(PAHMAObjectData::MEASURE_DIMEN_GRP.name, indices[1])], PAHMAObjectData::MEASURE_UNIT.name)
   end
 
   def measure_unit_options(indices)
@@ -541,21 +541,21 @@ module PAHMAObjectIdInfoForm
   # AUDIO SERIES
 
   def series_input
-    input_locator [fieldset(PAHMAObjectData::AUDIO_SERIES.name)]
+    input_locator([], PAHMAObjectData::AUDIO_SERIES.name)
   end
 
   def series_options
-    input_options_locator [fieldset(PAHMAObjectData::AUDIO_SERIES.name)]
+    input_options_locator([], PAHMAObjectData::AUDIO_SERIES.name)
   end
 
   # COLLECTION
 
   def collection_input(index)
-    input_locator([fieldset(PAHMAObjectData::PAHMA_COLLECTION_LIST.name, index)], PAHMAObjectData::PAHMA_COLLECTION.name)
+    input_locator([fieldset(PAHMAObjectData::PAHMA_COLLECTION_LIST.name, index)])
   end
 
   def collection_options(index)
-    input_options_locator([fieldset(PAHMAObjectData::PAHMA_COLLECTION_LIST.name, index)], PAHMAObjectData::PAHMA_COLLECTION.name)
+    input_options_locator([fieldset(PAHMAObjectData::PAHMA_COLLECTION_LIST.name, index)])
   end
 
   def collection_add_btn
@@ -581,7 +581,7 @@ module PAHMAObjectIdInfoForm
 
     object_num = data_set[ObjectData::OBJECT_NUM.name]
     logger.debug "Entering object number '#{object_num}'"
-    wait_for_options_and_type(object_num_input, object_num_options, object_num)
+    wait_for_element_and_type(object_num_input, object_num)
 
     legacy_dept = data_set[PAHMAObjectData::LEGACY_DEPT.name]
     if legacy_dept
@@ -706,7 +706,10 @@ module PAHMAObjectIdInfoForm
       wait_for_element_and_click annot_add_btn unless index.zero?
       attempt_action(data_input_errors, annot) { wait_for_options_and_select(annot_type_input(index), annot_type_options(index), annot[PAHMAObjectData::ANNOT_TYPE.name]) if annot[PAHMAObjectData::ANNOT_TYPE.name] }
       attempt_action(data_input_errors, annot) { wait_for_element_and_type(annot_note_input(index), annot[PAHMAObjectData::ANNOT_NOTE.name]) if annot[PAHMAObjectData::ANNOT_NOTE.name] }
-      attempt_action(data_input_errors, annot) { wait_for_element_and_type(annot_date_input(index), annot[PAHMAObjectData::ANNOT_DATE.name]) if annot[PAHMAObjectData::ANNOT_DATE.name] }
+      attempt_action(data_input_errors, annot) do
+        wait_for_element_and_type(annot_date_input(index), annot[PAHMAObjectData::ANNOT_DATE.name]) if annot[PAHMAObjectData::ANNOT_DATE.name]
+        hit_enter
+      end
       # TODO - handle creation of input options
       attempt_action(data_input_errors, annot) { wait_for_element_and_type(annot_author_input(index), annot[PAHMAObjectData::ANNOT_AUTHOR.name]) if annot[PAHMAObjectData::ANNOT_AUTHOR.name] }
     end
@@ -730,7 +733,10 @@ module PAHMAObjectIdInfoForm
         attempt_action(data_input_errors, meas) { wait_for_element_and_type(measure_value_input(indices), meas[PAHMAObjectData::MEASURE_VALUE.name]) if meas[PAHMAObjectData::MEASURE_VALUE.name] }
         attempt_action(data_input_errors, meas) { wait_for_options_and_select(measure_unit_input(indices), measure_unit_options(indices), meas[PAHMAObjectData::MEASURE_UNIT.name]) if meas[PAHMAObjectData::MEASURE_UNIT.name] }
         attempt_action(data_input_errors, meas) { wait_for_element_and_type(measure_qualifier_input(indices), meas[PAHMAObjectData::MEASURE_QUALIFIER.name]) if meas[PAHMAObjectData::MEASURE_QUALIFIER.name] }
-        attempt_action(data_input_errors, meas) { wait_for_element_and_type(measure_date_input(indices), meas[PAHMAObjectData::MEASURE_DATE.name]) if meas[PAHMAObjectData::MEASURE_DATE.name] }
+        attempt_action(data_input_errors, meas) do
+          wait_for_element_and_type(measure_date_input(indices), meas[PAHMAObjectData::MEASURE_DATE.name]) if meas[PAHMAObjectData::MEASURE_DATE.name]
+          hit_enter
+        end
         attempt_action(data_input_errors, meas) { wait_for_element_and_type(measure_note_input(indices), meas[PAHMAObjectData::MEASURE_NOTE.name]) if meas[PAHMAObjectData::MEASURE_NOTE.name] }
       end
     end
@@ -776,7 +782,7 @@ module PAHMAObjectIdInfoForm
       attempt_action(data_input_errors, title) { wait_for_options_and_select(title_type_input(index), title_type_options(index), title[PAHMAObjectData::TITLE_TYPE.name]) if title[PAHMAObjectData::TITLE_TYPE.name] }
       attempt_action(data_input_errors, title) { wait_for_options_and_select(title_lang_input(index), title_lang_options(index), title[PAHMAObjectData::TITLE_LANG.name]) if title[PAHMAObjectData::TITLE_LANG.name] }
 
-      translations = title[CoreObjectData::TITLE_TRANSLATION_SUB_GRP.name]
+      translations = title[PAHMAObjectData::TITLE_TRANSLATION_SUB_GRP.name]
       translations && translations.each do |trans|
         sub_index = translations.index trans
         logger.debug "Entering translation data #{trans} at sub-index #{sub_index}"
@@ -819,9 +825,9 @@ module PAHMAObjectIdInfoForm
   end
 
   def verify_object_info_data(data_set)
-    logger.debug "Checking object number #{data_set[CoreObjectData::OBJECT_NUM.name]}"
+    logger.debug "Checking object number #{data_set[PAHMAObjectData::OBJECT_NUM.name]}"
     object_data_errors = []
-    text_values_match?(data_set[CoreObjectData::OBJECT_NUM.name], element_value(object_num_input), object_data_errors)
+    text_values_match?(data_set[PAHMAObjectData::OBJECT_NUM.name], element_value(object_num_input), object_data_errors)
 
     legacy_dept = data_set[PAHMAObjectData::LEGACY_DEPT.name]
     legacy_dept && text_values_match?(legacy_dept, element_value(legacy_dept_input), object_data_errors)
