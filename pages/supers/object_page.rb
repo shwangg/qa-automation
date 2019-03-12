@@ -9,7 +9,7 @@ class ObjectPage
 
   def page_heading; {:xpath => '//h1'} end
 
-  # Enters data in the various forms on the Core new object page
+  # Enters data in the various forms on the new object page
   # @param [Hash] data_set
   # @return [Array<Object>]
   def enter_object_data(data_set)
@@ -26,7 +26,7 @@ class ObjectPage
     data_input_errors
   end
 
-  # Checks data in the various forms on the Core new object page
+  # Checks data in the various forms on the new object page
   # @param [Hash] data_set
   def verify_object_data(data_set)
     verify_object_info_data data_set

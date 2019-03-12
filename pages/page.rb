@@ -189,6 +189,12 @@ module Page
     end
   end
 
+  # Replicates hitting Enter while focused on an element
+  # @param [Hash] locator
+  def hit_enter(locator)
+    element(locator).send_keys :enter
+  end
+
   # Returns true if a clock completes, otherwise false
   # @return [boolean]
   def verify_block(&blk)
