@@ -255,11 +255,11 @@ module PAHMAObjectIdInfoForm
   # ETHNOGRAPHIC FILE CODE
 
   def ethno_file_code_input(index)
-    input_locator([fieldset(PAHMAObjectData::ETHNO_FILE_CODE_LIST.name, index)], PAHMAObjectData::ETHNO_FILE_CODE.name)
+    input_locator([fieldset(PAHMAObjectData::ETHNO_FILE_CODE_LIST.name, index)])
   end
 
   def ethno_file_code_options(index)
-    input_options_locator([fieldset(PAHMAObjectData::ETHNO_FILE_CODE_LIST.name, index)], PAHMAObjectData::ETHNO_FILE_CODE.name)
+    input_options_locator([fieldset(PAHMAObjectData::ETHNO_FILE_CODE_LIST.name, index)])
   end
 
   def ethno_file_code_move_top_btn(index)
@@ -584,35 +584,27 @@ module PAHMAObjectIdInfoForm
     wait_for_element_and_type(object_num_input, object_num)
 
     legacy_dept = data_set[PAHMAObjectData::LEGACY_DEPT.name]
-    if legacy_dept
-      logger.debug "Entering legacy dept '#{legacy_dept}'"
-      attempt_action(data_input_errors, legacy_dept) { wait_for_options_and_select(legacy_dept_input, legacy_dept_options, legacy_dept) }
-    end
+    logger.debug "Entering legacy dept '#{legacy_dept}'"
+    attempt_action(data_input_errors, legacy_dept) { wait_for_options_and_select(legacy_dept_input, legacy_dept_options, legacy_dept) }
 
     num_pieces = data_set[PAHMAObjectData::NUM_OBJECTS.name]
-    if num_pieces
-      logger.debug "Entering number of pieces '#{num_pieces}'"
-      attempt_action(data_input_errors, num_pieces) { wait_for_element_and_type(num_pieces_input, num_pieces) }
-    end
+    logger.debug "Entering number of pieces '#{num_pieces}'"
+    attempt_action(data_input_errors, num_pieces) { wait_for_element_and_type(num_pieces_input, num_pieces) }
 
     count_note = data_set[PAHMAObjectData::INVENTORY_COUNT.name]
-    if count_note
-      logger.debug "Entering count note '#{count_note}'"
-      attempt_action(data_input_errors, count_note) { wait_for_element_and_type(count_note_input, count_note) }
-    end
+    logger.debug "Entering count note '#{count_note}'"
+    attempt_action(data_input_errors, count_note) { wait_for_element_and_type(count_note_input, count_note) }
 
     is_component = data_set[PAHMAObjectData::IS_COMPONENT.name]
-    if is_component
-      logger.debug "Entering is-component '#{is_component}'"
-      attempt_action(data_input_errors, is_component) { wait_for_options_and_select(is_component_input, is_component_options, is_component) }
-    end
+    logger.debug "Entering is-component '#{is_component}'"
+    attempt_action(data_input_errors, is_component) { wait_for_options_and_select(is_component_input, is_component_options, is_component) }
 
-    obj_statuses = data_set[PAHMAObjectData::OBJ_STATUS_LIST.name]
-    obj_statuses && obj_statuses.each do |obj_status|
+    obj_statuses = data_set[PAHMAObjectData::OBJ_STATUS_LIST.name] ? data_set[PAHMAObjectData::OBJ_STATUS_LIST.name] : []
+    obj_statuses.each do |obj_status|
       index = obj_statuses.index obj_status
       logger.debug "Entering object status '#{obj_status}' at index #{index}"
       wait_for_element_and_click obj_class_add_btn unless index.zero?
-      attempt_action(data_input_errors, obj_status) { wait_for_options_and_select(obj_status_input(index), obj_status_options(index), obj_status[PAHMAObjectData::OBJ_STATUS.name]) if obj_status[PAHMAObjectData::OBJ_STATUS.name] }
+      attempt_action(data_input_errors, obj_status) { wait_for_options_and_select(obj_status_input(index), obj_status_options(index), obj_status[PAHMAObjectData::OBJ_STATUS.name]) }
     end
 
     alt_nums = data_set[PAHMAObjectData::ALT_NUM_GRP.name]
@@ -620,9 +612,9 @@ module PAHMAObjectIdInfoForm
       index = alt_nums.index alt_num
       logger.debug "Entering alternate number '#{alt_num}' at index #{index}"
       wait_for_element_and_click alt_num_add_btn unless index.zero?
-      attempt_action(data_input_errors, alt_num) { wait_for_element_and_type(alt_num_input(index), alt_num[PAHMAObjectData::ALT_NUM.name]) if alt_num[PAHMAObjectData::ALT_NUM.name] }
-      attempt_action(data_input_errors, alt_num) { wait_for_options_and_select(alt_num_type_input(index), alt_num_type_options(index), alt_num[PAHMAObjectData::ALT_NUM_TYPE.name]) if alt_num[PAHMAObjectData::ALT_NUM_TYPE.name] }
-      attempt_action(data_input_errors, alt_num) { wait_for_element_and_type(alt_num_note_input(index), alt_num[PAHMAObjectData::ALT_NUM_NOTE.name]) if alt_num[PAHMAObjectData::ALT_NUM_NOTE.name] }
+      attempt_action(data_input_errors, alt_num) { wait_for_element_and_type(alt_num_input(index), alt_num[PAHMAObjectData::ALT_NUM.name]) }
+      attempt_action(data_input_errors, alt_num) { wait_for_options_and_select(alt_num_type_input(index), alt_num_type_options(index), alt_num[PAHMAObjectData::ALT_NUM_TYPE.name]) }
+      attempt_action(data_input_errors, alt_num) { wait_for_element_and_type(alt_num_note_input(index), alt_num[PAHMAObjectData::ALT_NUM_NOTE.name]) }
     end
 
     descrips = data_set[PAHMAObjectData::BRIEF_DESCRIPS.name]
@@ -630,7 +622,7 @@ module PAHMAObjectIdInfoForm
       index = descrips.index descrip
       logger.debug "Entering description '#{descrip}' at index #{index}"
       wait_for_element_and_click desc_add_btn unless index.zero?
-      attempt_action(data_input_errors, descrip) { wait_for_element_and_type(desc_text_area(index), descrip[PAHMAObjectData::BRIEF_DESCRIP.name]) if descrip[PAHMAObjectData::BRIEF_DESCRIP.name] }
+      attempt_action(data_input_errors, descrip) { wait_for_element_and_type(desc_text_area(index), descrip[PAHMAObjectData::BRIEF_DESCRIP.name]) }
     end
 
     obj_classes = data_set[PAHMAObjectData::OBJ_CLASS_GRP.name]
@@ -639,8 +631,8 @@ module PAHMAObjectIdInfoForm
       logger.debug "Entering object class '#{obj_class}' at index #{index}"
       wait_for_element_and_click obj_class_add_btn unless index.zero?
       # TODO - handle creation of input options
-      attempt_action(data_input_errors, obj_class) { wait_for_element_and_type(obj_class_name_input(index), obj_class[PAHMAObjectData::OBJ_CLASS_NAME.name]) if obj_class[PAHMAObjectData::OBJ_CLASS_NAME.name] }
-      attempt_action(data_input_errors, obj_class) { wait_for_element_and_type(obj_class_note_input(index), obj_class[PAHMAObjectData::OBJ_CLASS_NOTE.name]) if obj_class[PAHMAObjectData::OBJ_CLASS_NOTE.name] }
+      attempt_action(data_input_errors, obj_class) { wait_for_element_and_type(obj_class_name_input(index), obj_class[PAHMAObjectData::OBJ_CLASS_NAME.name]) }
+      attempt_action(data_input_errors, obj_class) { wait_for_element_and_type(obj_class_note_input(index), obj_class[PAHMAObjectData::OBJ_CLASS_NOTE.name]) }
     end
 
     obj_names = data_set[PAHMAObjectData::OBJ_NAME_GRP.name]
@@ -648,12 +640,12 @@ module PAHMAObjectIdInfoForm
       index = obj_names.index name
       logger.debug "Entering object name '#{name}' at index #{index}"
       wait_for_element_and_click object_name_add_btn unless index.zero?
-      attempt_action(data_input_errors, name) { wait_for_element_and_type(object_name_input(index), name[PAHMAObjectData::OBJ_NAME_NAME.name]) if name[PAHMAObjectData::OBJ_NAME_NAME.name] }
-      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_level_input(index), object_name_level_options(index), name[PAHMAObjectData::OBJ_NAME_LEVEL.name]) if name[PAHMAObjectData::OBJ_NAME_LEVEL.name] }
-      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_currency_input(index), object_name_currency_options(index), name[PAHMAObjectData::OBJ_NAME_CURRENCY.name]) if name[PAHMAObjectData::OBJ_NAME_CURRENCY.name] }
-      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_system_input(index), object_name_system_options(index), name[PAHMAObjectData::OBJ_NAME_SYSTEM.name]) if name[PAHMAObjectData::OBJ_NAME_SYSTEM.name] }
-      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_type_input(index), object_name_type_options(index), name[PAHMAObjectData::OBJ_NAME_TYPE.name]) if name[PAHMAObjectData::OBJ_NAME_TYPE.name] }
-      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_lang_input(index), object_name_lang_options(index), name[PAHMAObjectData::OBJ_NAME_LANG.name]) if name[PAHMAObjectData::OBJ_NAME_LANG.name] }
+      attempt_action(data_input_errors, name) { wait_for_element_and_type(object_name_input(index), name[PAHMAObjectData::OBJ_NAME_NAME.name]) }
+      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_level_input(index), object_name_level_options(index), name[PAHMAObjectData::OBJ_NAME_LEVEL.name]) }
+      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_currency_input(index), object_name_currency_options(index), name[PAHMAObjectData::OBJ_NAME_CURRENCY.name]) }
+      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_system_input(index), object_name_system_options(index), name[PAHMAObjectData::OBJ_NAME_SYSTEM.name]) }
+      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_type_input(index), object_name_type_options(index), name[PAHMAObjectData::OBJ_NAME_TYPE.name]) }
+      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_lang_input(index), object_name_lang_options(index), name[PAHMAObjectData::OBJ_NAME_LANG.name]) }
       attempt_action(data_input_errors, name) { wait_for_element_and_type(object_name_note_input(index), name[PAHMAObjectData::OBJ_NAME_NOTE.name]) }
     end
 
@@ -662,7 +654,7 @@ module PAHMAObjectIdInfoForm
       index = resp_colls.index resp_coll
       logger.debug "Entering responsible manager '#{resp_coll}' at index #{index}"
       wait_for_element_and_click resp_coll_add_btn unless index.zero?
-      attempt_action(data_input_errors, resp_coll) { wait_for_options_and_select(resp_coll_input(index), resp_coll_options(index), resp_coll[PAHMAObjectData::RESPONSIBLE_DEPT.name]) if resp_coll[PAHMAObjectData::RESPONSIBLE_DEPT.name] }
+      attempt_action(data_input_errors, resp_coll) { wait_for_options_and_select(resp_coll_input(index), resp_coll_options(index), resp_coll[PAHMAObjectData::RESPONSIBLE_DEPT.name]) }
     end
 
     obj_type = data_set[PAHMAObjectData::COLLECTION.name]
@@ -677,9 +669,9 @@ module PAHMAObjectIdInfoForm
       logger.debug "Entering associated cultural group '#{assoc_cult}'"
       wait_for_element_and_click assoc_cult_grp_add_btn unless index.zero?
       # TODO - handle creation of input options
-      attempt_action(data_input_errors, assoc_cult) { wait_for_element_and_type(assoc_cult_grp_input(index), assoc_cult[PAHMAObjectData::ASSOC_PPL.name]) if assoc_cult[PAHMAObjectData::ASSOC_PPL.name] }
-      attempt_action(data_input_errors, assoc_cult) { wait_for_options_and_select(assoc_cult_grp_type_input(index), assoc_cult_grp_type_options(index), assoc_cult[PAHMAObjectData::ASSOC_PPL_TYPE.name]) if assoc_cult[PAHMAObjectData::ASSOC_PPL_TYPE.name] }
-      attempt_action(data_input_errors, assoc_cult) { wait_for_element_and_type(assoc_cult_grp_note_input(index), assoc_cult[PAHMAObjectData::ASSOC_PPL_NOTE.name]) if assoc_cult[PAHMAObjectData::ASSOC_PPL_NOTE.name] }
+      attempt_action(data_input_errors, assoc_cult) { wait_for_element_and_type(assoc_cult_grp_input(index), assoc_cult[PAHMAObjectData::ASSOC_PPL.name]) }
+      attempt_action(data_input_errors, assoc_cult) { wait_for_options_and_select(assoc_cult_grp_type_input(index), assoc_cult_grp_type_options(index), assoc_cult[PAHMAObjectData::ASSOC_PPL_TYPE.name]) }
+      attempt_action(data_input_errors, assoc_cult) { wait_for_element_and_type(assoc_cult_grp_note_input(index), assoc_cult[PAHMAObjectData::ASSOC_PPL_NOTE.name]) }
     end
 
     ethno_file_codes = data_set[PAHMAObjectData::ETHNO_FILE_CODE_LIST.name]
@@ -688,7 +680,7 @@ module PAHMAObjectIdInfoForm
       logger.debug "Entering ethnographic file code '#{code}'"
       wait_for_element_and_click ethno_file_code_add_btn unless index.zero?
       # TODO - handle creation of input options
-      attempt_action(data_input_errors, code) { wait_for_element_and_type(ethno_file_code_input(index), code[PAHMAObjectData::ETHNO_FILE_CODE.name]) if code[PAHMAObjectData::ETHNO_FILE_CODE.name] }
+      attempt_action(data_input_errors, code) { wait_for_element_and_type(ethno_file_code_input(index), code[PAHMAObjectData::ETHNO_FILE_CODE.name]) }
     end
 
     obj_comments = data_set[PAHMAObjectData::COMMENTS.name]
@@ -696,7 +688,7 @@ module PAHMAObjectIdInfoForm
       index = obj_comments.index comment
       logger.debug "Entering object comment '#{comment}' at index #{index}"
       wait_for_element_and_click obj_comment_add_btn unless index.zero?
-      attempt_action(data_input_errors, comment) { wait_for_element_and_type(obj_comment_text_area(index), comment[PAHMAObjectData::COMMENT.name]) if comment[PAHMAObjectData::COMMENT.name] }
+      attempt_action(data_input_errors, comment) { wait_for_element_and_type(obj_comment_text_area(index), comment[PAHMAObjectData::COMMENT.name]) }
     end
 
     annotations = data_set[PAHMAObjectData::ANNOT_GRP.name]
@@ -704,14 +696,14 @@ module PAHMAObjectIdInfoForm
       index = annotations.index annot
       logger.debug "Entering annotation '#{annot}' at index #{index}"
       wait_for_element_and_click annot_add_btn unless index.zero?
-      attempt_action(data_input_errors, annot) { wait_for_options_and_select(annot_type_input(index), annot_type_options(index), annot[PAHMAObjectData::ANNOT_TYPE.name]) if annot[PAHMAObjectData::ANNOT_TYPE.name] }
-      attempt_action(data_input_errors, annot) { wait_for_element_and_type(annot_note_input(index), annot[PAHMAObjectData::ANNOT_NOTE.name]) if annot[PAHMAObjectData::ANNOT_NOTE.name] }
+      attempt_action(data_input_errors, annot) { wait_for_options_and_select(annot_type_input(index), annot_type_options(index), annot[PAHMAObjectData::ANNOT_TYPE.name]) }
+      attempt_action(data_input_errors, annot) { wait_for_element_and_type(annot_note_input(index), annot[PAHMAObjectData::ANNOT_NOTE.name]) }
       attempt_action(data_input_errors, annot) do
-        wait_for_element_and_type(annot_date_input(index), annot[PAHMAObjectData::ANNOT_DATE.name]) if annot[PAHMAObjectData::ANNOT_DATE.name]
+        wait_for_element_and_type(annot_date_input(index), annot[PAHMAObjectData::ANNOT_DATE.name])
         hit_enter
       end
       # TODO - handle creation of input options
-      attempt_action(data_input_errors, annot) { wait_for_element_and_type(annot_author_input(index), annot[PAHMAObjectData::ANNOT_AUTHOR.name]) if annot[PAHMAObjectData::ANNOT_AUTHOR.name] }
+      attempt_action(data_input_errors, annot) { wait_for_element_and_type(annot_author_input(index), annot[PAHMAObjectData::ANNOT_AUTHOR.name]) }
     end
 
     dimensions = data_set[PAHMAObjectData::MEASURE_PART_GRP.name]
@@ -719,7 +711,7 @@ module PAHMAObjectIdInfoForm
       index = dimensions.index dim
       logger.debug "Entering dimension '#{dim}' at index #{index}"
       wait_for_element_and_click dimension_add_btn unless index.zero?
-      attempt_action(data_input_errors, dim) { wait_for_element_and_type(part_measured_input(index), dim[PAHMAObjectData::MEASURE_PART.name]) if dim[PAHMAObjectData::MEASURE_PART.name] }
+      attempt_action(data_input_errors, dim) { wait_for_element_and_type(part_measured_input(index), dim[PAHMAObjectData::MEASURE_PART.name]) }
 
       measures = dim[PAHMAObjectData::MEASURE_DIMEN_GRP.name]
       measures && measures.each do |meas|
@@ -727,17 +719,17 @@ module PAHMAObjectIdInfoForm
         indices = [index, sub_index]
         logger.debug "Entering dimension measurement '#{meas}' at index #{index}"
         wait_for_element_and_click measure_dimen_add_btn(index) unless sub_index.zero?
-        attempt_action(data_input_errors, meas) { wait_for_options_and_select(measure_dimen_input(indices), measure_dimen_options(indices), meas[PAHMAObjectData::MEASURE_DIMENSION.name]) if meas[PAHMAObjectData::MEASURE_DIMENSION.name] }
+        attempt_action(data_input_errors, meas) { wait_for_options_and_select(measure_dimen_input(indices), measure_dimen_options(indices), meas[PAHMAObjectData::MEASURE_DIMENSION.name]) }
         # TODO - handle creation of input options
-        attempt_action(data_input_errors, meas) { wait_for_element_and_type(measure_by_input(indices), meas[PAHMAObjectData::MEASURE_BY.name]) if meas[PAHMAObjectData::MEASURE_BY.name] }
-        attempt_action(data_input_errors, meas) { wait_for_element_and_type(measure_value_input(indices), meas[PAHMAObjectData::MEASURE_VALUE.name]) if meas[PAHMAObjectData::MEASURE_VALUE.name] }
-        attempt_action(data_input_errors, meas) { wait_for_options_and_select(measure_unit_input(indices), measure_unit_options(indices), meas[PAHMAObjectData::MEASURE_UNIT.name]) if meas[PAHMAObjectData::MEASURE_UNIT.name] }
-        attempt_action(data_input_errors, meas) { wait_for_element_and_type(measure_qualifier_input(indices), meas[PAHMAObjectData::MEASURE_QUALIFIER.name]) if meas[PAHMAObjectData::MEASURE_QUALIFIER.name] }
+        attempt_action(data_input_errors, meas) { wait_for_element_and_type(measure_by_input(indices), meas[PAHMAObjectData::MEASURE_BY.name]) }
+        attempt_action(data_input_errors, meas) { wait_for_element_and_type(measure_value_input(indices), meas[PAHMAObjectData::MEASURE_VALUE.name]) }
+        attempt_action(data_input_errors, meas) { wait_for_options_and_select(measure_unit_input(indices), measure_unit_options(indices), meas[PAHMAObjectData::MEASURE_UNIT.name]) }
+        attempt_action(data_input_errors, meas) { wait_for_element_and_type(measure_qualifier_input(indices), meas[PAHMAObjectData::MEASURE_QUALIFIER.name]) }
         attempt_action(data_input_errors, meas) do
-          wait_for_element_and_type(measure_date_input(indices), meas[PAHMAObjectData::MEASURE_DATE.name]) if meas[PAHMAObjectData::MEASURE_DATE.name]
+          wait_for_element_and_type(measure_date_input(indices), meas[PAHMAObjectData::MEASURE_DATE.name])
           hit_enter
         end
-        attempt_action(data_input_errors, meas) { wait_for_element_and_type(measure_note_input(indices), meas[PAHMAObjectData::MEASURE_NOTE.name]) if meas[PAHMAObjectData::MEASURE_NOTE.name] }
+        attempt_action(data_input_errors, meas) { wait_for_element_and_type(measure_note_input(indices), meas[PAHMAObjectData::MEASURE_NOTE.name]) }
       end
     end
 
@@ -747,11 +739,11 @@ module PAHMAObjectIdInfoForm
       logger.debug "Entering material '#{mat}' at index #{index}"
       wait_for_element_and_click material_add_btn unless index.zero?
       # TODO - handle creation of input options
-      attempt_action(data_input_errors, mat) { wait_for_element_and_type(material_input(index), mat[PAHMAObjectData::MATERIAL.name]) if mat[PAHMAObjectData::MATERIAL.name] }
-      attempt_action(data_input_errors, mat) { wait_for_element_and_type(material_component_input(index), mat[PAHMAObjectData::MATERIAL_COMPONENT.name]) if mat[PAHMAObjectData::MATERIAL_COMPONENT.name] }
-      attempt_action(data_input_errors, mat) { wait_for_element_and_type(material_name_input(index), mat[PAHMAObjectData::MATERIAL_NAME.name]) if mat[PAHMAObjectData::MATERIAL_NAME.name] }
-      attempt_action(data_input_errors, mat) { wait_for_element_and_type(material_source_input(index), mat[PAHMAObjectData::MATERIAL_SOURCE.name]) if mat[PAHMAObjectData::MATERIAL_SOURCE.name] }
-      attempt_action(data_input_errors, mat) { wait_for_element_and_type(material_note_input(index), mat[PAHMAObjectData::MATERIAL_NOTE.name]) if mat[PAHMAObjectData::MATERIAL_NOTE.name] }
+      attempt_action(data_input_errors, mat) { wait_for_element_and_type(material_input(index), mat[PAHMAObjectData::MATERIAL.name]) }
+      attempt_action(data_input_errors, mat) { wait_for_element_and_type(material_component_input(index), mat[PAHMAObjectData::MATERIAL_COMPONENT.name]) }
+      attempt_action(data_input_errors, mat) { wait_for_element_and_type(material_name_input(index), mat[PAHMAObjectData::MATERIAL_NAME.name]) }
+      attempt_action(data_input_errors, mat) { wait_for_element_and_type(material_source_input(index), mat[PAHMAObjectData::MATERIAL_SOURCE.name]) }
+      attempt_action(data_input_errors, mat) { wait_for_element_and_type(material_note_input(index), mat[PAHMAObjectData::MATERIAL_NOTE.name]) }
     end
 
     taxonomics = data_set[PAHMAObjectData::TAXON_IDENT_GRP.name]
@@ -759,18 +751,18 @@ module PAHMAObjectIdInfoForm
       index = taxonomics.index tax
       logger.debug "Entering taxonomic information '#{tax}' at index #{index}"
       # TODO - handle creation of input options
-      attempt_action(data_input_errors, tax) { wait_for_element_and_type(taxon_name_input(index), tax[PAHMAObjectData::TAXON_NAME.name]) if tax[PAHMAObjectData::TAXON_NAME.name] }
-      attempt_action(data_input_errors, tax) { wait_for_options_and_select(taxon_qualifier_input(index), taxon_qualifier_options(index), tax[PAHMAObjectData::TAXON_QUALIFIER.name]) if tax[PAHMAObjectData::TAXON_QUALIFIER.name] }
+      attempt_action(data_input_errors, tax) { wait_for_element_and_type(taxon_name_input(index), tax[PAHMAObjectData::TAXON_NAME.name]) }
+      attempt_action(data_input_errors, tax) { wait_for_options_and_select(taxon_qualifier_input(index), taxon_qualifier_options(index), tax[PAHMAObjectData::TAXON_QUALIFIER.name]) }
       # TODO - handle creation of input options
-      attempt_action(data_input_errors, tax) { wait_for_element_and_type(taxon_by_input(index), tax[PAHMAObjectData::TAXON_BY.name]) if tax[PAHMAObjectData::TAXON_BY.name] }
+      attempt_action(data_input_errors, tax) { wait_for_element_and_type(taxon_by_input(index), tax[PAHMAObjectData::TAXON_BY.name]) }
       # TODO - taxon date input
       # TODO - handle creation of input options
-      attempt_action(data_input_errors, tax) { wait_for_element_and_type(taxon_institution_input(index), tax[PAHMAObjectData::TAXON_INSTITUTION.name]) if tax[PAHMAObjectData::TAXON_INSTITUTION.name] }
-      attempt_action(data_input_errors, tax) { wait_for_options_and_select(taxon_kind_input(index), taxon_kind_options(index), tax[PAHMAObjectData::TAXON_KIND.name]) if tax[PAHMAObjectData::TAXON_KIND.name] }
+      attempt_action(data_input_errors, tax) { wait_for_element_and_type(taxon_institution_input(index), tax[PAHMAObjectData::TAXON_INSTITUTION.name]) }
+      attempt_action(data_input_errors, tax) { wait_for_options_and_select(taxon_kind_input(index), taxon_kind_options(index), tax[PAHMAObjectData::TAXON_KIND.name]) }
       # TODO - handle creation of input options
-      attempt_action(data_input_errors, tax) { wait_for_element_and_type(taxon_ref_input(index), tax[PAHMAObjectData::TAXON_REF.name]) if tax[PAHMAObjectData::TAXON_REF.name] }
-      attempt_action(data_input_errors, tax) { wait_for_element_and_type(taxon_page_input(index), tax[PAHMAObjectData::TAXON_PAGE.name]) if tax[PAHMAObjectData::TAXON_PAGE.name] }
-      attempt_action(data_input_errors, tax) { wait_for_element_and_type(taxon_note_input(index), tax[PAHMAObjectData::TAXON_NOTE.name]) if tax[PAHMAObjectData::TAXON_NOTE.name] }
+      attempt_action(data_input_errors, tax) { wait_for_element_and_type(taxon_ref_input(index), tax[PAHMAObjectData::TAXON_REF.name]) }
+      attempt_action(data_input_errors, tax) { wait_for_element_and_type(taxon_page_input(index), tax[PAHMAObjectData::TAXON_PAGE.name]) }
+      attempt_action(data_input_errors, tax) { wait_for_element_and_type(taxon_note_input(index), tax[PAHMAObjectData::TAXON_NOTE.name]) }
     end
 
     titles = data_set[PAHMAObjectData::TITLE_GRP.name]
@@ -778,17 +770,17 @@ module PAHMAObjectIdInfoForm
       index = titles.index title
       logger.debug "Entering title data #{title} at index #{index}"
       wait_for_element_and_click title_add_btn unless index.zero?
-      attempt_action(data_input_errors, title) { wait_for_element_and_type(title_input(index), title[PAHMAObjectData::TITLE.name]) if title[PAHMAObjectData::TITLE.name] }
-      attempt_action(data_input_errors, title) { wait_for_options_and_select(title_type_input(index), title_type_options(index), title[PAHMAObjectData::TITLE_TYPE.name]) if title[PAHMAObjectData::TITLE_TYPE.name] }
-      attempt_action(data_input_errors, title) { wait_for_options_and_select(title_lang_input(index), title_lang_options(index), title[PAHMAObjectData::TITLE_LANG.name]) if title[PAHMAObjectData::TITLE_LANG.name] }
+      attempt_action(data_input_errors, title) { wait_for_element_and_type(title_input(index), title[PAHMAObjectData::TITLE.name]) }
+      attempt_action(data_input_errors, title) { wait_for_options_and_select(title_type_input(index), title_type_options(index), title[PAHMAObjectData::TITLE_TYPE.name]) }
+      attempt_action(data_input_errors, title) { wait_for_options_and_select(title_lang_input(index), title_lang_options(index), title[PAHMAObjectData::TITLE_LANG.name]) }
 
       translations = title[PAHMAObjectData::TITLE_TRANSLATION_SUB_GRP.name]
       translations && translations.each do |trans|
         sub_index = translations.index trans
         logger.debug "Entering translation data #{trans} at sub-index #{sub_index}"
         wait_for_element_and_click title_translation_add_btn(sub_index) unless sub_index.zero?
-        attempt_action(data_input_errors, trans) { wait_for_element_and_type(title_translation_input([index, sub_index]), trans[PAHMAObjectData::TITLE_TRANSLATION.name]) if trans[PAHMAObjectData::TITLE_TRANSLATION.name] }
-        attempt_action(data_input_errors, trans) { wait_for_options_and_select(title_translation_lang_input([index, sub_index]), title_translation_lang_options([index, sub_index]), trans[PAHMAObjectData::TITLE_TRANSLATION_LANG.name]) if trans[PAHMAObjectData::TITLE_TRANSLATION_LANG.name] }
+        attempt_action(data_input_errors, trans) { wait_for_element_and_type(title_translation_input([index, sub_index]), trans[PAHMAObjectData::TITLE_TRANSLATION.name]) }
+        attempt_action(data_input_errors, trans) { wait_for_options_and_select(title_translation_lang_input([index, sub_index]), title_translation_lang_options([index, sub_index]), trans[PAHMAObjectData::TITLE_TRANSLATION_LANG.name]) }
       end
     end
 
@@ -797,29 +789,25 @@ module PAHMAObjectIdInfoForm
       index = usages.index usage
       logger.debug "Entering usage '#{usage}' at index #{index}"
       wait_for_element_and_click usage_add_btn unless index.zero?
-      attempt_action(data_input_errors, usage) { wait_for_element_and_type(usage_input(index), usage[PAHMAObjectData::USAGE.name]) if usage[PAHMAObjectData::USAGE.name] }
-      attempt_action(data_input_errors, usage) { wait_for_element_and_type(usage_note_input(index), usage[PAHMAObjectData::USAGE_NOTE.name]) if usage[PAHMAObjectData::USAGE_NOTE.name] }
+      attempt_action(data_input_errors, usage) { wait_for_element_and_type(usage_input(index), usage[PAHMAObjectData::USAGE.name]) }
+      attempt_action(data_input_errors, usage) { wait_for_element_and_type(usage_note_input(index), usage[PAHMAObjectData::USAGE_NOTE.name]) }
     end
 
     series = data_set[PAHMAObjectData::AUDIO_SERIES.name]
-    if series
-      logger.debug "Selecting series '#{series}'"
-      attempt_action(data_input_errors, series) { wait_for_options_and_select(series_input, series_options, series) }
-    end
+    logger.debug "Selecting series '#{series}'"
+    attempt_action(data_input_errors, series) { wait_for_options_and_select(series_input, series_options, series) }
 
     collections = data_set[PAHMAObjectData::PAHMA_COLLECTION_LIST.name]
     collections && collections.each do |collect|
       index = collections.index collect
       logger.debug "Entering collection '#{collect}' at index #{index}"
       wait_for_element_and_click collection_add_btn unless index.zero?
-      attempt_action(data_input_errors, collect) { wait_for_options_and_select(collection_input(index), collection_options(index), collect[PAHMAObjectData::PAHMA_COLLECTION.name]) if collect[PAHMAObjectData::PAHMA_COLLECTION.name] }
+      attempt_action(data_input_errors, collect) { wait_for_options_and_select(collection_input(index), collection_options(index), collect[PAHMAObjectData::PAHMA_COLLECTION.name]) }
     end
 
     tms_source = data_set[PAHMAObjectData::TMS_DATA_SRC.name]
-    if tms_source
-      logger.debug "Selecting TMS data source '#{tms_source}'"
-      wait_for_options_and_select(tms_data_source_input, tms_data_source_options, tms_source)
-    end
+    logger.debug "Selecting TMS data source '#{tms_source}'"
+    wait_for_options_and_select(tms_data_source_input, tms_data_source_options, tms_source)
 
     data_input_errors
   end
@@ -850,21 +838,21 @@ module PAHMAObjectIdInfoForm
     alt_nums = data_set[PAHMAObjectData::ALT_NUM_GRP.name]
     alt_nums && alt_nums.each do |alt_num|
       index = alt_nums.index alt_num
-      text_values_match?(alt_num[PAHMAObjectData::ALT_NUM.name], alt_num_input(index), object_data_errors)
-      text_values_match?(alt_num[PAHMAObjectData::ALT_NUM_TYPE.name], alt_num_type_input(index), object_data_errors)
-      text_values_match?(alt_num[PAHMAObjectData::ALT_NUM_NOTE.name], alt_num_note_input(index), object_data_errors)
+      text_values_match?(alt_num[PAHMAObjectData::ALT_NUM.name], element_value(alt_num_input(index)), object_data_errors)
+      text_values_match?(alt_num[PAHMAObjectData::ALT_NUM_TYPE.name], element_value(alt_num_type_input(index)), object_data_errors)
+      text_values_match?(alt_num[PAHMAObjectData::ALT_NUM_NOTE.name], element_value(alt_num_note_input(index)), object_data_errors)
     end
 
     descrips = data_set[PAHMAObjectData::BRIEF_DESCRIPS.name]
     descrips && descrips.each do |descrip|
       index = descrips.index descrip
-      text_values_match?(descrip[PAHMAObjectData::BRIEF_DESCRIP.name], desc_text_area(index), object_data_errors)
+      text_values_match?(descrip[PAHMAObjectData::BRIEF_DESCRIP.name], element_value(desc_text_area(index)), object_data_errors)
     end
 
     obj_classes = data_set[PAHMAObjectData::OBJ_CLASS_GRP.name]
     obj_classes && obj_classes.each do |obj_class|
       index = obj_classes.index obj_class
-      text_values_match?(obj_class[PAHMAObjectData::OBJ_CLASS_NAME.name], obj_class_name_input(index), object_data_errors)
+      text_values_match?(obj_class[PAHMAObjectData::OBJ_CLASS_NAME.name], element_value(obj_class_name_input(index)), object_data_errors)
     end
 
     obj_names = data_set[PAHMAObjectData::OBJ_NAME_GRP.name]
@@ -886,7 +874,7 @@ module PAHMAObjectIdInfoForm
     end
 
     obj_type = data_set[PAHMAObjectData::COLLECTION.name]
-    obj_type && text_values_match?(obj_type, obj_type_input, object_data_errors)
+    obj_type && text_values_match?(obj_type, element_value(obj_type_input), object_data_errors)
 
     assoc_cult_grps = data_set[PAHMAObjectData::ASSOC_PPL_GRP.name]
     assoc_cult_grps && assoc_cult_grps.each do |assoc_cult|
@@ -992,6 +980,7 @@ module PAHMAObjectIdInfoForm
     tms_source = data_set[PAHMAObjectData::TMS_DATA_SRC.name]
     tms_source && text_values_match?(tms_source, element_value(tms_data_source_input), object_data_errors)
 
+    logger.warn "Object data errors: #{object_data_errors}"
     object_data_errors
   end
 

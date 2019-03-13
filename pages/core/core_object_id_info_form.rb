@@ -288,21 +288,17 @@ module CoreObjectIdInfoForm
       index = other_nums.index num
       logger.debug "Entering other number data #{num} at index #{index}"
       wait_for_element_and_click other_num_add_btn unless index.zero?
-      attempt_action(data_input_errors, num) { wait_for_element_and_type(other_num_num_input(index), num[CoreObjectData::NUM_VALUE.name]) if num[CoreObjectData::NUM_VALUE.name] }
-      attempt_action(data_input_errors, num) { wait_for_options_and_select(other_num_type_input(index), other_num_type_options(index), num[CoreObjectData::NUM_TYPE.name]) if num[CoreObjectData::NUM_TYPE.name] }
+      attempt_action(data_input_errors, num) { wait_for_element_and_type(other_num_num_input(index), num[CoreObjectData::NUM_VALUE.name]) }
+      attempt_action(data_input_errors, num) { wait_for_options_and_select(other_num_type_input(index), other_num_type_options(index), num[CoreObjectData::NUM_TYPE.name]) }
     end
 
     num_objects = data_set[CoreObjectData::NUM_OBJECTS.name]
-    if num_objects
-      logger.debug "Entering number of objects #{num_objects}"
-      attempt_action(data_input_errors, num_objects) { wait_for_element_and_type(num_objects_input, num_objects) }
-    end
+    logger.debug "Entering number of objects #{num_objects}"
+    attempt_action(data_input_errors, num_objects) { wait_for_element_and_type(num_objects_input, num_objects) }
 
     collection = data_set[CoreObjectData::COLLECTION.name]
-    if collection
-      logger.debug "Selecting collection #{collection}"
-      attempt_action(data_input_errors, collection) { wait_for_options_and_select(collection_input, collection_options, collection) }
-    end
+    logger.debug "Selecting collection #{collection}"
+    attempt_action(data_input_errors, collection) { wait_for_options_and_select(collection_input, collection_options, collection) }
 
     resp_depts = data_set[CoreObjectData::RESPONSIBLE_DEPTS.name]
     resp_depts && resp_depts.each do |dept|
@@ -323,10 +319,8 @@ module CoreObjectIdInfoForm
     end
 
     status = data_set[CoreObjectData::RECORD_STATUS.name]
-    if status
-      logger.debug "Selecting record status #{status}"
-      attempt_action(data_input_errors, status) { wait_for_options_and_select(record_status_input, record_status_options, status) }
-    end
+    logger.debug "Selecting record status #{status}"
+    attempt_action(data_input_errors, status) { wait_for_options_and_select(record_status_input, record_status_options, status) }
 
     inv_statuses = data_set[CoreObjectData::INVENTORY_STATUS_LIST.name]
     inv_statuses && inv_statuses.each do |stat|
@@ -370,17 +364,17 @@ module CoreObjectIdInfoForm
       index = titles.index title
       logger.debug "Entering title data #{title} at index #{index}"
       wait_for_element_and_click title_add_btn unless index.zero?
-      attempt_action(data_input_errors, title) { wait_for_element_and_type(title_input(index), title[CoreObjectData::TITLE.name]) if title[CoreObjectData::TITLE.name] }
-      attempt_action(data_input_errors, title) { wait_for_options_and_select(title_type_input(index), title_type_options(index), title[CoreObjectData::TITLE_TYPE.name]) if title[CoreObjectData::TITLE_TYPE.name] }
-      attempt_action(data_input_errors, title) { wait_for_options_and_select(title_lang_input(index), title_lang_options(index), title[CoreObjectData::TITLE_LANG.name]) if title[CoreObjectData::TITLE_LANG.name] }
+      attempt_action(data_input_errors, title) { wait_for_element_and_type(title_input(index), title[CoreObjectData::TITLE.name]) }
+      attempt_action(data_input_errors, title) { wait_for_options_and_select(title_type_input(index), title_type_options(index), title[CoreObjectData::TITLE_TYPE.name]) }
+      attempt_action(data_input_errors, title) { wait_for_options_and_select(title_lang_input(index), title_lang_options(index), title[CoreObjectData::TITLE_LANG.name]) }
 
       translations = title[CoreObjectData::TITLE_TRANSLATION_SUB_GRP.name]
       translations && translations.each do |trans|
         sub_index = translations.index trans
         logger.debug "Entering translation data #{trans} at sub-index #{sub_index}"
         wait_for_element_and_click title_translation_add_btn(sub_index) unless sub_index.zero?
-        attempt_action(data_input_errors, trans) { wait_for_element_and_type(title_translation_input([index, sub_index]), trans[CoreObjectData::TITLE_TRANSLATION.name]) if trans[CoreObjectData::TITLE_TRANSLATION.name] }
-        attempt_action(data_input_errors, trans) { wait_for_options_and_select(title_translation_lang_input([index, sub_index]), title_translation_lang_options([index, sub_index]), trans[CoreObjectData::TITLE_TRANSLATION_LANG.name]) if trans[CoreObjectData::TITLE_TRANSLATION_LANG.name] }
+        attempt_action(data_input_errors, trans) { wait_for_element_and_type(title_translation_input([index, sub_index]), trans[CoreObjectData::TITLE_TRANSLATION.name]) }
+        attempt_action(data_input_errors, trans) { wait_for_options_and_select(title_translation_lang_input([index, sub_index]), title_translation_lang_options([index, sub_index]), trans[CoreObjectData::TITLE_TRANSLATION_LANG.name]) }
       end
     end
 
@@ -389,12 +383,12 @@ module CoreObjectIdInfoForm
       index = obj_names.index name
       logger.debug "Entering object name data #{name} at index #{index}"
       wait_for_element_and_click object_name_add_btn unless index.zero?
-      attempt_action(data_input_errors, name) { wait_for_element_and_type(object_name_input(index), name[CoreObjectData::OBJ_NAME_NAME.name]) if name[CoreObjectData::OBJ_NAME_NAME.name] }
-      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_currency_input(index), object_name_currency_options(index), name[CoreObjectData::OBJ_NAME_CURRENCY.name]) if name[CoreObjectData::OBJ_NAME_CURRENCY.name] }
-      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_level_input(index), object_name_level_options(index), name[CoreObjectData::OBJ_NAME_LEVEL.name]) if name[CoreObjectData::OBJ_NAME_LEVEL.name] }
-      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_system_input(index), object_name_system_options(index), name[CoreObjectData::OBJ_NAME_SYSTEM.name]) if name[CoreObjectData::OBJ_NAME_SYSTEM.name] }
-      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_type_input(index), object_name_type_options(index), name[CoreObjectData::OBJ_NAME_TYPE.name]) if name[CoreObjectData::OBJ_NAME_TYPE.name] }
-      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_lang_input(index), object_name_lang_options(index), name[CoreObjectData::OBJ_NAME_LANG.name]) if name[CoreObjectData::OBJ_NAME_LANG.name] }
+      attempt_action(data_input_errors, name) { wait_for_element_and_type(object_name_input(index), name[CoreObjectData::OBJ_NAME_NAME.name]) }
+      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_currency_input(index), object_name_currency_options(index), name[CoreObjectData::OBJ_NAME_CURRENCY.name]) }
+      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_level_input(index), object_name_level_options(index), name[CoreObjectData::OBJ_NAME_LEVEL.name]) }
+      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_system_input(index), object_name_system_options(index), name[CoreObjectData::OBJ_NAME_SYSTEM.name]) }
+      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_type_input(index), object_name_type_options(index), name[CoreObjectData::OBJ_NAME_TYPE.name]) }
+      attempt_action(data_input_errors, name) { wait_for_options_and_select(object_name_lang_input(index), object_name_lang_options(index), name[CoreObjectData::OBJ_NAME_LANG.name]) }
       attempt_action(data_input_errors, name) { wait_for_element_and_type(object_name_note_input(index), name[CoreObjectData::OBJ_NAME_NOTE.name]) }
     end
     data_input_errors
