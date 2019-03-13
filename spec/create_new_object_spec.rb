@@ -25,7 +25,7 @@ describe 'CollectionSpace' do
 
   test_data.each do |test|
     it "allows an admin to create a new collection object with #{test}" do
-      test_run.set_unique_test_id(test, CoreObjectData::OBJECT_NUM.name)
+      test_run.set_unique_test_id(test, ObjectData::OBJECT_NUM.name)
       @search_page.click_create_new_link
       @create_new_page.click_create_new_object
       data_input_errors = @object_page.create_new_object test
