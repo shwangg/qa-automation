@@ -188,6 +188,12 @@ class PAHMASearchPage < SearchPage
     search_input_errors = []
     hide_notifications_bar
 
+    # The first input on the form occasionally vanishes when leaving the field, so click through several fields before entering
+    # any values.
+    wait_for_element_and_click(object_num_input 0)
+    wait_for_element_and_click(alt_num_input 0)
+    wait_for_element_and_click(is_component_input 0)
+
     object_nums = data_set[PAHMAObjectData::OBJECT_NUM.name]
     if object_nums
       when_exists(object_num_input(0), Config.short_wait)

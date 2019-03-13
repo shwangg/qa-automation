@@ -35,4 +35,12 @@ class SearchPage
     wait_for_element_and_click clear_button
   end
 
+  # Enters a keyword search term and clicks search
+  # @param [String] string
+  def full_text_search(string)
+    logger.info "Searching for '#{string}'"
+    wait_for_element_and_type(keywords_input, string)
+    click_search_button
+  end
+
 end

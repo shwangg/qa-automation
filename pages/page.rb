@@ -163,7 +163,7 @@ module Page
   def wait_for_element_and_type(locator, string)
     wait_for_element_and_click locator
     element(locator).clear
-    element(locator).send_keys string
+    element(locator).send_keys string if string
   end
 
   # Clicks an input, waits for options to appear, and enters a given string
@@ -174,7 +174,7 @@ module Page
     wait_for_element_and_click input_locator
     wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
     element(input_locator).clear
-    element(input_locator).send_keys string
+    element(input_locator).send_keys string if string
   end
 
   # Clicks an input, waits for options to appear, and selects a given option
@@ -182,17 +182,16 @@ module Page
   # @param [Hash] options_locator
   # @param [String] option
   def wait_for_options_and_select(input_locator, options_locator, option)
-    if option
-      wait_for_element_and_click input_locator
-      wait_until(Config.short_wait) { elements(options_locator).map(&:text).include? option }
-      (elements(options_locator).find { |el| el.text == option}).click
-    end
+    wait_for_element_and_click input_locator
+    wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
+    option ?
+        (elements(options_locator).find { |el| el.text == option }).click :
+        (elements(options_locator).find { |el| el.text.strip.empty? }).click
   end
 
-  # Replicates hitting Enter while focused on an element
-  # @param [Hash] locator
-  def hit_enter(locator)
-    element(locator).send_keys :enter
+  # Hits the Enter key
+  def hit_enter
+    @driver.action.send_keys(:enter).perform
   end
 
   # Returns true if a clock completes, otherwise false
@@ -214,7 +213,7 @@ module Page
     yield
   rescue => e
     logger.error "Action failed: #{action}"
-    logger.error "#{e.message}\n#{e.backtrace}"
+    logger.error "#{e.message + "\n"}#{e.backtrace.join("\n ")}"
     errors << action
 
     # Hit ESC key in case the action has left open an element that obscures other elements (e.g., a drop-down, an alert)

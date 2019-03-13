@@ -34,10 +34,9 @@ describe 'CollectionSpace' do
 
     it "allows an admin to search Objects for a new collection object with #{test}" do
       @object_page.click_search_link
-      search_input_errors = @search_page.perform_adv_search_for_all test
+      @search_page.full_text_search test[ObjectData::OBJECT_NUM.name]
       @search_results_page.wait_for_results
       expect(@search_results_page.object_row_exists? test).to be true
-      expect(search_input_errors).to be_empty
     end
 
     it "search results allow a user to view object metadata for a new collection object with #{test}" do
