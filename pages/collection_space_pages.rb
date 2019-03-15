@@ -64,6 +64,13 @@ module CollectionSpacePages
     {:xpath => "#{fieldset_xpath fieldset}//input#{'[@data-name="' + options_data_name + '"]' if options_data_name}/following-sibling::div//li"}
   end
 
+  # Returns a has containing the XPath to a structured date input
+  # @param [Hash] fieldset
+  # @return [Hash]
+  def structured_date_input_locator(fieldset)
+    {:xpath => "#{fieldset_xpath fieldset}//div[contains(@class, 'StructuredDateInput')]/input"}
+  end
+
   # Returns a hash containing the XPath to a 'move top' button for a row
   # @param [Hash] fieldset
   # @return [Hash]
@@ -127,5 +134,27 @@ module CollectionSpacePages
     when_exists(header_bar, Config.short_wait)
     @driver.execute_script("arguments[0].style.visibility='hidden';", element(header_bar))
   end
+
+  # STRUCTURED DATES
+
+  def date_period; input_locator([], ObjectData::DATE_PERIOD.name) end
+  def date_assoc; input_locator([], ObjectData::DATE_ASSOC.name) end
+  def date_note; input_locator([], ObjectData::DATE_NOTE.name) end
+  def date_earliest_year; input_locator([], ObjectData::DATE_EARLIEST_YEAR.name) end
+  def date_earliest_month; input_locator([], ObjectData::DATE_EARLIEST_MONTH.name) end
+  def date_earliest_day; input_locator([], ObjectData::DATE_EARLIEST_DAY.name) end
+  def date_earliest_era; input_locator([], ObjectData::DATE_EARLIEST_ERA.name) end
+  def date_earliest_certainty; input_locator([], ObjectData::DATE_EARLIEST_CERTAINTY.name) end
+  def date_earliest_qualif; input_locator([], ObjectData::DATE_EARLIEST_QUALIF.name) end
+  def date_earliest_qualif_value; input_locator([], ObjectData::DATE_EARLIEST_QUALIF_VALUE.name) end
+  def date_earliest_qualif_unit; input_locator([], ObjectData::DATE_EARLIEST_QUALIF_UNIT.name) end
+  def date_latest_year; input_locator([], ObjectData::DATE_LATEST_YEAR.name) end
+  def date_latest_month; input_locator([], ObjectData::DATE_LATEST_MONTH.name) end
+  def date_latest_day; input_locator([], ObjectData::DATE_LATEST_DAY.name) end
+  def date_latest_era; input_locator([], ObjectData::DATE_LATEST_ERA.name) end
+  def date_latest_certainty; input_locator([], ObjectData::DATE_LATEST_CERTAINTY.name) end
+  def date_latest_qualif; input_locator([], ObjectData::DATE_LATEST_QUALIF.name) end
+  def date_latest_qualif_value; input_locator([], ObjectData::DATE_LATEST_QUALIF_VALUE.name) end
+  def date_latest_qualif_unit; input_locator([], ObjectData::DATE_LATEST_QUALIF_UNIT.name) end
 
 end
