@@ -8,7 +8,6 @@ begin
 
   task default: :cspace
   RSpec::Core::RakeTask.new(:cspace) do |t|
-    t.pattern = 'spec/*'
     t.rspec_opts = opts
   end
 
