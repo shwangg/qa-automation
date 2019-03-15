@@ -428,7 +428,9 @@ module PAHMAObjectIdInfoForm
     input_locator([fieldset(PAHMAObjectData::TAXON_IDENT_GRP.name, index)], PAHMAObjectData::TAXON_BY.name)
   end
 
-  # TODO - taxon_date_input
+  def taxon_date_input(index)
+    structured_date_input_locator([fieldset(PAHMAObjectData::TAXON_IDENT_GRP.name, index)])
+  end
 
   def taxon_institution_input(index)
     input_locator([fieldset(PAHMAObjectData::TAXON_IDENT_GRP.name, index)], PAHMAObjectData::TAXON_INSTITUTION.name)

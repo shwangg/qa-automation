@@ -51,7 +51,6 @@ class PAHMAObjectData < ObjectData
       TAXON_NAME = new('taxon'),
       TAXON_QUALIFIER = new('qualifier'),
       TAXON_BY = new('identBy'),
-      # TODO - TAXON_DATE structured date
       TAXON_INSTITUTION = new('institution'),
       TAXON_KIND = new('identKind'),
       TAXON_REF = new('reference'),
