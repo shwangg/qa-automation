@@ -157,13 +157,22 @@ module Page
     click_element locator
   end
 
-  # Waits a short time for an input to be present and enters a given string
+  # Waits a short time for an input to be present, enters a given string, and waits for the element's value to match
+  # what was sent to the element. Some elements load input prompts with some latency, which can truncate the text entered.
+  # Retry once if the initially entered value is not updated as expected.
   # @param [Hash] locator
   # @param [String] string
   def wait_for_element_and_type(locator, string)
     wait_for_element_and_click locator
-    element(locator).clear
-    element(locator).send_keys string if string
+    tries = 2
+    begin
+      tries -= 1
+      element(locator).clear
+      element(locator).send_keys string if string
+      wait_until(2, 'Element value not updated, retrying') { element(locator).attribute('value') == string.to_s }
+    rescue
+      tries.zero? ? fail : retry
+    end
   end
 
   # Clicks an input, waits for options to appear, and enters a given string
