@@ -157,33 +157,45 @@ module Page
     click_element locator
   end
 
-  # Waits a short time for an input to be present, enters a given string, and waits for the element's value to match
-  # what was sent to the element. Some elements load input prompts with some latency, which can truncate the text entered.
-  # Retry once if the initially entered value is not updated as expected.
+  # Waits a short time for an input to be present and enters a given string
   # @param [Hash] locator
   # @param [String] string
   def wait_for_element_and_type(locator, string)
     wait_for_element_and_click locator
-    tries = 2
-    begin
-      tries -= 1
-      element(locator).clear
-      element(locator).send_keys string if string
-      wait_until(2, 'Element value not updated, retrying') { element(locator).attribute('value') == string.to_s }
-    rescue
-      tries.zero? ? fail : retry
-    end
+    element(locator).clear
+    element(locator).send_keys string if string
   end
 
-  # Clicks an input, waits for options to appear, and enters a given string
+  # Waits a short time for an input to be present and enters a given string, then waits for and select an option matching the string
+  # @param [Hash] input_locator
+  # @param [Hash] options_locator
+  # @param [String] string
+  def wait_for_autocomplete_and_select(input_locator, options_locator, string)
+    wait_for_element_and_type(input_locator, string)
+    wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
+    wait_until(Config.short_wait) { (elements(options_locator).select { |el| el.text == string }).any? }
+    (elements(options_locator).find { |el| el.text == string }).click
+  end
+
+  # Clicks an input, waits for options to appear, enters a given string, and waits for the element's value to match
+  # what was sent to the element. Retries if the value has not been updated.
   # @param [Hash] input_locator
   # @param [Hash] options_locator
   # @param [String] string
   def wait_for_options_and_type(input_locator, options_locator, string)
     wait_for_element_and_click input_locator
     wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
-    element(input_locator).clear
-    element(input_locator).send_keys string if string
+    tries = 2
+    begin
+      tries -= 1
+      element(input_locator).clear
+      element(input_locator).send_keys string if string
+      sleep Config.click_wait
+      @driver.action.send_keys(:tab).perform
+      wait_until(1, 'Element value not updated, retrying') { element(input_locator).attribute('value') == string.to_s }
+    rescue
+      tries.zero? ? fail : retry
+    end
   end
 
   # Clicks an input, waits for options to appear, and selects a given option
@@ -201,6 +213,19 @@ module Page
   # Hits the Enter key
   def hit_enter
     @driver.action.send_keys(:enter).perform
+    sleep Config.click_wait
+  end
+
+  # Hits the Tab key
+  def hit_tab
+    @driver.action.send_keys(:tab).perform
+    sleep Config.click_wait
+  end
+
+  # Hits the Escape key
+  def hit_escape
+    @driver.action.send_keys(:escape).perform
+    sleep Config.click_wait
   end
 
   # Returns true if a clock completes, otherwise false

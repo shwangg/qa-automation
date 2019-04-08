@@ -1,12 +1,6 @@
 require_relative '../../spec_helper'
 
-class ObjectData
-
-  attr_reader :name
-
-  def initialize(name)
-    @name = name
-  end
+class ObjectData < CollectionSpaceData
 
   DATA = [
       BRIEF_DESCRIPS = new('briefDescriptions'),

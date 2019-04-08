@@ -5,15 +5,22 @@ class SearchPage
   include Logging
   include Page
   include CollectionSpacePages
+  include SearchAcquisitionsForm
+  include SearchObjectsForm
 
   def search_button; {:name => 'search'} end
   def clear_button; {:name => 'clear'} end
 
   def record_type_input; {:xpath => '//label[text()="Find"]/following-sibling::div/input'} end
-  def keywords_input; {:xpath => '//label[text()="Keywords"]/following-sibling::input'} end
+  def record_type_options; {:xpath => '//label[text()="Find"]/following-sibling::div//li'} end
 
   def adv_search_boolean_input; input_locator([], 'booleanSearchOp') end
   def adv_search_boolean_options; input_options_locator([], 'booleanSearchOp') end
+
+  def select_record_type_option(option)
+    logger.info "Selecting record type '#{option}'"
+    wait_for_options_and_select(record_type_input, record_type_options, option)
+  end
 
   # Selects the advanced search 'All' option for applying conditionals
   def select_adv_search_all_option
@@ -35,12 +42,68 @@ class SearchPage
     wait_for_element_and_click clear_button
   end
 
+  # KEYWORD
+
+  def keywords_input_locator; {:xpath => '//label[text()="Keywords"]/following-sibling::input'} end
+
+  # Enters a keyword string
+  # @param [String] string
+  def enter_keyword(string)
+    logger.info "Searching for keyword '#{string}'"
+    wait_for_element_and_type(keywords_input_locator, string)
+  end
+
   # Enters a keyword search term and clicks search
   # @param [String] string
   def full_text_search(string)
-    logger.info "Searching for '#{string}'"
-    wait_for_element_and_type(keywords_input, string)
+    enter_keyword string
     click_search_button
+  end
+
+  # LAST UPDATED BY
+
+  def last_updated_by_input_locator(index)
+    input_locator([fieldset(CollectionSpaceData::UPDATED_BY.name, index)])
+  end
+
+  # Enters a set of usernames in last-updated-by fields
+  # @param [Array<String>] usernames
+  def enter_last_updated_by(usernames)
+    usernames.each do |username|
+      index = usernames.index username
+      logger.info "Entering last updated by '#{username}' at index #{index}"
+      add_button_locator = add_button_locator([fieldset(CollectionSpaceData::UPDATED_BY.name)])
+      wait_for_element_and_click add_button_locator unless index.zero?
+      wait_for_element_and_type(last_updated_by_input_locator(index), username)
+    end
+  end
+
+  # LAST UPDATED TIME
+
+  def last_updated_time_input_locator
+    input_locator([], CollectionSpaceData::UPDATED_AT.name)
+  end
+
+  # Enters a pair of dates in the last-updated-time fields
+  # @param [String] after_date_str
+  # @param [String] before_date_str
+  def enter_last_updated_times(after_date_str, before_date_str)
+    logger.info "Entering last updated on-or-after '#{after_date_str}' and on-or-before '#{before_date_str}'"
+    inputs = elements(last_updated_time_input_locator)
+    if after_date_str
+      inputs[0].clear
+      sleep Config.click_wait
+      inputs[0].send_keys after_date_str
+      hit_enter
+      hit_tab
+    end
+    if before_date_str
+      inputs[1].clear
+      sleep Config.click_wait
+      inputs[1].send_keys before_date_str
+      hit_enter
+      hit_tab
+    end
   end
 
 end

@@ -52,7 +52,7 @@ class TestConfig < Config
   # @param [String] file_name
   # @return [String]
   def default_test_data(deployment, file_name)
-    File.join(ENV['HOME'], "/qa-automation/test-data/#{deployment.code}/#{file_name}")
+    File.join(File.dirname(File.absolute_path(__FILE__)), "/test-data/#{deployment.code}/#{file_name}")
   end
 
   # Returns the file path to override test data maintained outside the code
