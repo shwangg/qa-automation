@@ -36,11 +36,11 @@ describe 'CollectionSpace' do
       @object_page.click_search_link
       @search_page.full_text_search test[ObjectData::OBJECT_NUM.name]
       @search_results_page.wait_for_results
-      expect(@search_results_page.object_row_exists? test).to be true
+      expect(@search_results_page.row_exists? test[ObjectData::OBJECT_NUM.name]).to be true
     end
 
     it "search results allow a user to view object metadata for a new collection object with #{test}" do
-      @search_results_page.click_result test
+      @search_results_page.click_result test[ObjectData::OBJECT_NUM.name]
       object_data_errors = @object_page.verify_object_data test
       expect(object_data_errors).to be_empty
     end

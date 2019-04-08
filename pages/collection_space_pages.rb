@@ -41,11 +41,11 @@ module CollectionSpacePages
   end
 
   # Returns a hash containing the XPath to an input element, with a data-name attribute if given
-  # @param [Hash] fieldset
+  # @param [Array<Hash>] fieldsets
   # @param [String] input_data_name
   # @return [Hash]
-  def input_locator(fieldset, input_data_name=nil)
-    {:xpath => "#{fieldset_xpath fieldset}//input#{'[@data-name="' + input_data_name + '"]' if input_data_name}"}
+  def input_locator(fieldsets, input_data_name=nil)
+    {:xpath => "#{fieldset_xpath fieldsets}//input#{'[@data-name="' + input_data_name + '"]' if input_data_name}"}
   end
 
   # Returns a hash containing the XPath to a text_area element, with a data-name attribute if given
