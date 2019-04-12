@@ -1,4 +1,4 @@
-require_relative '../../spec_helper'
+require_relative '../../../spec_helper'
 
 class SearchResultsPage
 
@@ -41,6 +41,7 @@ class SearchResultsPage
   # Clicks a search results row containing a given string
   # @param [String] unique_identifier
   def click_result(unique_identifier)
+    wait_for_results
     wait_for_page_and_click result_row(unique_identifier)
   end
 

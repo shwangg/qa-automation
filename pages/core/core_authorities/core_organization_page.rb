@@ -1,6 +1,6 @@
-require_relative '../../spec_helper'
+require_relative '../../../spec_helper'
 
-class CoreSearchResultsPage < SearchResultsPage
+class CoreOrganizationPage < OrganizationPage
 
   include Logging
   include Page

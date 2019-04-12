@@ -63,7 +63,7 @@ module Page
   # @return [boolean]
   def text_values_match?(expected, actual, errors=nil)
     logger.debug "Checking for '#{expected}'"
-    wait_until(0.5) { expected.to_s == actual.to_s }
+    wait_until(0.5, "Expected '#{expected.to_s}', got '#{actual.to_s}'") { expected.to_s == actual.to_s }
     true
   rescue
     errors << "Expected '#{expected}', got '#{actual}'" if errors
@@ -96,6 +96,13 @@ module Page
     false
   end
 
+  # Returns true if a given element is visible
+  # @param [Hash] locator
+  # @return [boolean]
+  def visible?(locator)
+    @driver.find_element(locator).displayed?
+  end
+
   # Returns the value attribute of an element with a given locator
   # @param [Hash] locator
   # @return [String]
@@ -103,9 +110,28 @@ module Page
     element(locator).attribute('value') if exists?(locator)
   end
 
+  # Returns the text of an element if it exists
+  # @param [Hash] locator
+  # @return [String]
+  def element_text(locator)
+    element(locator).text if exists?(locator)
+  end
+
   # Uses JavaScript to scroll to the top of the page
   def scroll_to_top
     @driver.execute_script('window.scrollTo(0, 0);')
+  end
+
+  # Uses JavaScript to scroll to the bottom of the page
+  def scroll_to_bottom
+    @driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
+  end
+
+  # Hovers over an element
+  # @param [Hash] locator
+  def mouseover(locator)
+    @driver.action.move_to(element locator).perform
+    sleep Config.click_wait
   end
 
   # Waits a configurable time and then clicks an element with a given locator
@@ -170,11 +196,28 @@ module Page
   # @param [Hash] input_locator
   # @param [Hash] options_locator
   # @param [String] string
-  def wait_for_autocomplete_and_select(input_locator, options_locator, string)
+  def autocomplete_select(input_locator, options_locator, string)
     wait_for_element_and_type(input_locator, string)
-    wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
-    wait_until(Config.short_wait) { (elements(options_locator).select { |el| el.text == string }).any? }
+    wait_until(2) { elements(options_locator).any? &:displayed? }
+    wait_until(1) { (elements(options_locator).select { |el| el.text == string }).any? }
     (elements(options_locator).find { |el| el.text == string }).click
+  end
+
+  def autocomplete_create(input_locator, options_locator, string)
+    wait_for_element_and_type(input_locator, string)
+    wait_until(2) { elements(options_locator).any? &:displayed? }
+    wait_until(1) { (elements(options_locator).select { |el| el.text == 'Create new record' }).any? }
+    (elements(options_locator).find { |el| el.text == 'Create new record' }).click
+  end
+
+  def autocomplete_select_or_create(input_locator, options_locator, string)
+    autocomplete_select(input_locator, options_locator, string)
+  rescue
+    logger.debug "Unable to select '#{string}', creating and selecting new record instead"
+    sleep 1
+    wait_until(1) { (elements(options_locator).select { |el| el.text == 'Create new record' }).any? }
+    (elements(options_locator).find { |el| el.text == 'Create new record' }).click
+    sleep Config.click_wait
   end
 
   # Clicks an input, waits for options to appear, enters a given string, and waits for the element's value to match
