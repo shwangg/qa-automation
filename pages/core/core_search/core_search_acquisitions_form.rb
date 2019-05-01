@@ -1,4 +1,4 @@
-require_relative '../../spec_helper'
+require_relative '../../../spec_helper'
 
 module CoreSearchAcquisitionsForm
 
@@ -89,7 +89,7 @@ module CoreSearchAcquisitionsForm
       add_button_locator = add_button_locator([fieldset(AcquisitionData::ACQUIS_SOURCE.name)])
       source_options_locator = input_options_locator([fieldset(AcquisitionData::ACQUIS_SOURCE.name, index)])
       wait_for_element_and_click add_button_locator unless index.zero?
-      wait_for_autocomplete_and_select(acquis_source_input_locator(index), source_options_locator, source[AcquisitionData::ACQUIS_SOURCE.name])
+      autocomplete_select(acquis_source_input_locator(index), source_options_locator, source[AcquisitionData::ACQUIS_SOURCE.name])
     end
   end
 
@@ -109,7 +109,7 @@ module CoreSearchAcquisitionsForm
       add_button_locator = add_button_locator([fieldset(AcquisitionData::ACQUIS_FUNDING_SOURCE.name)])
       source_options_locator = input_options_locator([fieldset(AcquisitionData::ACQUIS_FUNDING_SOURCE.name, index)])
       wait_for_element_and_click add_button_locator unless index.zero?
-      wait_for_autocomplete_and_select(funding_source_input_locator(index), source_options_locator, source[AcquisitionData::ACQUIS_FUNDING_SOURCE.name])
+      autocomplete_select(funding_source_input_locator(index), source_options_locator, source[AcquisitionData::ACQUIS_FUNDING_SOURCE.name])
     end
   end
 

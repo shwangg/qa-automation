@@ -1,11 +1,11 @@
-require_relative '../../spec_helper'
+require_relative '../../../spec_helper'
 
 class CoreSearchPage < SearchPage
 
   include Page
   include CollectionSpacePages
-  include CoreSearchObjectsForm
   include CoreSearchAcquisitionsForm
+  include CoreSearchObjectsForm
 
   DEPLOYMENT = Deployment::CORE
 
