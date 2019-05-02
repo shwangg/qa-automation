@@ -21,13 +21,17 @@ require_relative 'models/data/collection_space_data'
 require_relative 'models/data/supers/objects/object_data'
 require_relative "models/data/#{deployment}/#{deployment}_objects/#{deployment}_object_data"
 require_relative 'models/data/supers/procedures/acquisition_data'
+require_relative 'models/data/supers/procedures/exhibition_data'
 require_relative 'models/data/supers/authorities/authority_data'
+require_relative "models/data/#{deployment}/#{deployment}_authorities/#{deployment}_authority_data"
 require_relative 'models/data/supers/authorities/org_data'
+require_relative "models/data/#{deployment}/#{deployment}_authorities/#{deployment}_org_data"
 require_relative 'models/user_role'
 require_relative 'models/user'
 
 require_relative 'pages/page'
 require_relative 'pages/collection_space_pages'
+require_relative 'pages/supers/sidebar_pages'
 
 require_relative 'pages/supers/login_page'
 require_relative "pages/#{deployment}/#{deployment}_login_page"
@@ -54,8 +58,14 @@ require_relative 'pages/supers/procedures/acquisition_info_form'
 require_relative 'pages/supers/procedures/acquisition_page'
 require_relative "pages/#{deployment}/#{deployment}_procedures/#{deployment}_acquisition_info_form"
 require_relative "pages/#{deployment}/#{deployment}_procedures/#{deployment}_acquisition_page"
+require_relative 'pages/supers/procedures/exhibition_info_form'
+require_relative 'pages/supers/procedures/exhibition_page'
+require_relative "pages/#{deployment}/#{deployment}_procedures/#{deployment}_exhibition_info_form"
+require_relative "pages/#{deployment}/#{deployment}_procedures/#{deployment}_exhibition_page"
 
 require_relative 'pages/supers/authorities/authority_page'
+require_relative 'pages/supers/authorities/organization_info_form'
 require_relative 'pages/supers/authorities/organization_page'
 require_relative "pages/#{deployment}/#{deployment}_authorities/#{deployment}_authority_page"
+require_relative "pages/#{deployment}/#{deployment}_authorities/#{deployment}_organization_info_form"
 require_relative "pages/#{deployment}/#{deployment}_authorities/#{deployment}_organization_page"

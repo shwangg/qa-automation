@@ -2,7 +2,7 @@ require_relative '../../../spec_helper'
 
 class OrganizationPage < AuthorityPage
 
-  def display_name_input(index); input_locator([fieldset(OrgData::ORG_TERM_GRP.name, index)], OrgData::DISPLAY_NAME.name) end
+  def display_name_input(index); input_locator([fieldset(OrgData::ORG_TERM_GRP.name, index)], OrgData::TERM_DISPLAY_NAME.name) end
   def display_name_add_btn; add_button_locator([fieldset(OrgData::ORG_TERM_GRP.name, index)]) end
 
   # Enters a display name in the org info term fieldset at a given index

@@ -1,0 +1,169 @@
+{
+    "organizations": [
+        {
+            "orgTermGroup": [
+                {
+                    "termDisplayName": "Organization 0 - Local - Name 0"
+                }
+            ]
+        },
+        {
+            "orgTermGroup": [
+                {
+                    "termDisplayName": "Organization 1 - ULAN - Name 0"
+                }
+            ]
+        },
+        {
+            "orgTermGroup": [
+                {
+                    "termDisplayName": "Organization 2 - Local - Name 0"
+                },
+                {
+                    "termDisplayName": "Organization 2 - Local - Name 1"
+                }
+            ]
+        },
+        {
+            "orgTermGroup": [
+                {
+                    "termDisplayName": "Organization 3 Display Name",
+                    "termName": "Org 3 Term Name 0",
+                    "termQualifier": "Org Term Qualifier 0",
+                    "termStatus": "accepted",
+                    "termType": "descriptor",
+                    "termFlag": "official name",
+                    "termLanguage": "French",
+                    "termPrefForLang": false,
+                    "mainBodyName": "Main Body Name 0",
+                    "additionsToName": "Name Additions 0",
+                    "termSource": "Term Source 0",
+                    "termSourceDetail": "Term Source Detail 0",
+                    "termSourceID": "Term Source ID 0",
+                    "termSourceNote": "Term Source Note 0"
+                }
+            ],
+            "contactNames": [
+                {
+                    "contactName": "Contact Name 0"
+                }
+            ],
+            "dissolutionDate": "12/31/2017",
+            "foundingDate": "01/01/1999",
+            "foundingPlace": "Berkeley, CA",
+            "functions": [
+                {
+                    "function": "Function 0"
+                }
+            ],
+            "groups": [
+                {
+                    "group": "Group 0"
+                }
+            ],
+            "historyNotes": [
+                {
+                    "historyNote": "History Note 0"
+                }
+            ],
+            "organizationRecordTypes": [
+                {
+                    "organizationRecordType": "studio"
+                }
+            ]
+        },
+        {
+            "orgTermGroup": [
+                {
+                    "termDisplayName": "Organization 3 Name Edited",
+                    "termName": "Org 3 Term Name 0 Edited",
+                    "termQualifier": "Org Term Qualifier 0 Edited",
+                    "termStatus": "rejected",
+                    "termType": "used for term",
+                    "termFlag": "popular name",
+                    "termLanguage": "Ancient Greek",
+                    "termPrefForLang": true,
+                    "mainBodyName": "Main Body Name 0 Edited",
+                    "additionsToName": "Name Additions 0 Edited",
+                    "termSource": "Term Source 0 Edited",
+                    "termSourceDetail": "Term Source Detail 0 Edited",
+                    "termSourceID": "Term Source ID 0 Edited",
+                    "termSourceNote": "Term Source Note 0 Edited"
+                },
+                {
+                    "termDisplayName": "Organization 3 Name 1",
+                    "termName": "Org 3 Term Name 1",
+                    "termQualifier": "Org Term Qualifier 1",
+                    "termStatus": "accepted",
+                    "termType": "alternate descriptor",
+                    "termFlag": "official name",
+                    "termLanguage": "Spanish",
+                    "termPrefForLang": false,
+                    "mainBodyName": "Main Body Name 1",
+                    "additionsToName": "Name Additions 1",
+                    "termSource": "Term Source 1",
+                    "termSourceDetail": "Term Source Detail 1",
+                    "termSourceID": "Term Source ID 1",
+                    "termSourceNote": "Term Source Note 1"
+                }
+            ],
+            "contactNames": [
+                {
+                    "contactName": "Contact Name 0 Edited"
+                },
+                {
+                    "contactName": "Contact Name 1"
+                }
+            ],
+            "dissolutionDate": "01/09/2016",
+            "foundingDate": "06/30/1998",
+            "foundingPlace": "Oakland, CA",
+            "functions": [
+                {
+                    "function": "Function 0 Edited"
+                },
+                {
+                    "function": "Function 1"
+                }
+            ],
+            "groups": [
+                {
+                    "group": "Group 0 Edited"
+                },
+                {
+                    "group": "Group 1"
+                }
+            ],
+            "historyNotes": [
+                {
+                    "historyNote": "History Note 0 Edited"
+                },
+                {
+                    "historyNote": "History Note 1"
+                }
+            ],
+            "organizationRecordTypes": [
+                {
+                    "organizationRecordType": "family"
+                },
+                {
+                    "organizationRecordType": "corporate body"
+                }
+            ]
+        },
+        {
+            "orgTermGroup": [
+                {
+                    "termDisplayName": "Organization 3 Display Name Data Removed"
+                }
+            ]
+        },
+        {
+            "orgTermGroup": [
+                {
+                    "termDisplayName": "Organization 6 Name"
+                }
+            ]
+        }
+    ]
+}

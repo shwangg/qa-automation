@@ -122,7 +122,7 @@ module CoreAcquisitionInfoForm
       add_button_locator = add_button_locator([fieldset(AcquisitionData::ACQUIS_SOURCES.name)])
       source_options_locator = input_options_locator([fieldset(AcquisitionData::ACQUIS_SOURCES.name, index)])
       wait_for_element_and_click add_button_locator unless index.zero?
-      autocomplete_select(acquis_source_input_locator(index), source_options_locator, source[AcquisitionData::ACQUIS_SOURCE.name])
+      enter_auto_complete(acquis_source_input_locator(index), source_options_locator, source[AcquisitionData::ACQUIS_SOURCE.name], nil)
     end
   end
 
@@ -156,7 +156,7 @@ module CoreAcquisitionInfoForm
       add_button_locator = add_button_locator([fieldset(AcquisitionData::ACQUIS_FUNDING_LIST.name)])
       funding_source_options_locator = input_options_locator([fieldset(AcquisitionData::ACQUIS_FUNDING_LIST.name, index)], AcquisitionData::ACQUIS_FUNDING_SOURCE.name)
       wait_for_element_and_click add_button_locator unless index.zero?
-      autocomplete_select(funding_source_input_locator(index), funding_source_options_locator, funding[AcquisitionData::ACQUIS_FUNDING_SOURCE.name])
+      enter_auto_complete(funding_source_input_locator(index), funding_source_options_locator, funding[AcquisitionData::ACQUIS_FUNDING_SOURCE.name], nil)
     end
   end
 

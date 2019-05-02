@@ -9,6 +9,8 @@ module CollectionSpacePages
 
   def quick_search_type_select; {:xpath => '//div[contains(@class,"QuickSearchInput")]//div[contains(@class,"DropdownMenuInput")]/input'} end
   def quick_search_type_options; {:xpath => '//div[contains(@class,"QuickSearchInput")]//li'} end
+  def quick_search_sub_type_select; {:xpath => '(//div[contains(@class,"QuickSearchInput")]//div[contains(@class,"DropdownMenuInput")])[2]/input'} end
+  def quick_search_sub_type_options; {:xpath => '(//div[contains(@class,"QuickSearchInput")]//div[contains(@class,"DropdownMenuInput")])[2]//li'} end
   def quick_search_input; {:xpath => '//div[contains(@class,"QuickSearchInput")]//input[@placeholder="Search"]'} end
   def quick_search_button; {:xpath => '//div[contains(@class,"QuickSearchInput")]//button'} end
   def my_collection_space_link; {:xpath => '//a[contains(.,"My CollectionSpace")]'} end
@@ -18,13 +20,21 @@ module CollectionSpacePages
   def sign_out_link; {:xpath => '//a[contains(.,"Sign out")]'} end
   def save_button; {:name => 'save'} end
   def delete_button; {:name => 'delete'} end
+  def revert_button; {:name => 'revert'} end
+  def close_button; {:name => 'close'} end
   def header_bar; {:xpath => '//header/div'} end
-  def page_heading; {:xpath => '//h1'} end
+  def page_h1; {:xpath => '//h1'} end
+  def page_h2; {:xpath => '//h2'} end
 
   def notifications_bar; {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]'} end
   def notifications_close_button; {:name => 'close'} end
 
-  def confirm_delete_msg_span; {:xpath => '//div[contains(@class,"ConfirmRecordDeleteModal")]//div/span'} end
+  def do_not_leave_button; {:xpath => '//button[contains(., "Don\'t leave")]'} end
+  def save_and_continue_button; {:xpath => '//button[contains(., "Save and continue")]'} end
+  def revert_and_continue_button; {:xpath => '//button[contains(., "Revert and continue")]'} end
+
+  def confirm_delete_msg_span; {:xpath => '//div[contains(@class,"ConfirmRecordDeleteModal")]//header/following-sibling::div/span'} end
+  def confirm_delete_button; {:xpath => '//div[contains(@class,"ConfirmRecordDeleteModal")]//button[@name="delete"]'} end
   def confirm_delete_cancel_button; {:xpath => '//div[contains(@class,"ConfirmRecordDeleteModal")]//button[@name="cancel"]'} end
 
   # Returns a hash containing both the data name used to locate a set of data fields on the page and also the index of the data (i.e., which row)
@@ -50,6 +60,50 @@ module CollectionSpacePages
     xpath
   end
 
+  def fieldset_siblings_xpath(fieldsets)
+    xpath = '('
+    fieldsets.each do |pair|
+      xpath << "//fieldset[@data-name=\"#{pair[:data_name]}\"]" if pair[:data_name]
+      if pair == fieldsets.last
+        xpath << "//div[@data-instancename=\"0\"]"
+      else
+        xpath << "//div[@data-instancename=\"#{pair[:index]}\"]" if pair[:index]
+      end
+    end
+    xpath << ')[1]/following-sibling::div'
+  end
+
+  def fieldset_move_top_btn_xpath(fieldsets, row_index)
+    xpath = '('
+    fieldsets.each do |pair|
+      xpath << "//fieldset[@data-name=\"#{pair[:data_name]}\"]" if pair[:data_name]
+      if pair == fieldsets.last
+        xpath << "//div[@data-instancename=\"#{row_index}\"]"
+      else
+        xpath << "//div[@data-instancename=\"#{pair[:index]}\"]" if pair[:index]
+      end
+    end
+    xpath << '//button[@data-name="moveToTop"])'
+  end
+
+  def fieldset_remove_btn_xpath(fieldsets, row_index)
+    xpath = '('
+    fieldsets.each do |pair|
+      xpath << "//fieldset[@data-name=\"#{pair[:data_name]}\"]" if pair[:data_name]
+      if pair == fieldsets.last
+        xpath << "//div[@data-instancename=\"#{row_index}\"]"
+      else
+        xpath << "//div[@data-instancename=\"#{pair[:index]}\"]" if pair[:index]
+      end
+    end
+    xpath << '//button[@data-name="remove"])[last()]'
+  end
+
+  def fieldset_data_instance_count(fieldsets)
+    ui_sibling_fieldsets = elements({:xpath => fieldset_siblings_xpath(fieldsets)})
+    ui_sibling_fieldsets.length + 1
+  end
+
   # Returns a hash containing the XPath to an input element, with a data-name attribute if given
   # @param [Array<Hash>] fieldsets
   # @param [String] input_data_name
@@ -58,6 +112,9 @@ module CollectionSpacePages
     {:xpath => "#{fieldset_xpath fieldsets}//input#{'[@data-name="' + input_data_name + '"]' if input_data_name}"}
   end
 
+  # Returns a hash containing the XPath to an input element, based on the label text of the input
+  # @param [String] label
+  # @return [Hash]
   def input_locator_by_label(label)
     {:xpath => "//label[contains(., \"#{label}\")]/following-sibling::div//input"}
   end
@@ -90,24 +147,26 @@ module CollectionSpacePages
   end
 
   # Returns a hash containing the XPath to a 'move top' button for a row
-  # @param [Hash] fieldset
+  # @param [Array<Hash>] fieldsets
+  # @param [Integer] row_index
   # @return [Hash]
-  def move_top_button_locator(fieldset)
-    {:xpath => "(#{fieldset_xpath fieldset}//button)[1]"}
+  def move_top_button_locator(fieldsets, row_index)
+    {:xpath => fieldset_move_top_btn_xpath(fieldsets, row_index)}
   end
 
   # Returns a hash containing the XPath to a 'delete' button for a row
-  # @param [Hash] fieldset
+  # @param [Array<Hash>] fieldsets
+  # @param [Integer] row_index
   # @return [Hash]
-  def delete_button_locator(fieldset)
-    {:xpath => "(#{fieldset_xpath fieldset}//button)[2]"}
+  def delete_button_locator(fieldsets, row_index)
+    {:xpath => fieldset_remove_btn_xpath(fieldsets, row_index)}
   end
 
   # Returns a hash containing the XPath to an 'add' button for adding a row to a fieldset
-  # @param [Hash] fieldset
+  # @param [Array<Hash>] fieldsets
   # @return [Hash]
-  def add_button_locator(fieldset)
-    {:xpath => "(#{fieldset_xpath fieldset}//button[@data-name=\"add\"])[last()]"}
+  def add_button_locator(fieldsets)
+    {:xpath => "(#{fieldset_xpath fieldsets}//button[@data-name=\"add\"])[last()]"}
   end
 
   # PAGE INTERACTIONS
@@ -120,11 +179,15 @@ module CollectionSpacePages
 
   # Performs a search in the header bar, selecting a type and entering a search string
   # @param [String] type_string
+  # @param [String] sub_type_string
   # @param [String] term_string
-  def quick_search(type_string, term_string)
-    logger.info "Performing quick search for '#{term_string}' in '#{type_string}'"
-    wait_for_options_and_select(quick_search_type_select, quick_search_type_options, type_string)
-    wait_for_element_and_type(quick_search_input, term_string)
+  def quick_search(type_string, sub_type_string, term_string)
+    type_option = type_string || 'All Records'
+    sub_type_option = sub_type_string || 'All'
+    logger.info "Performing quick search for '#{term_string}' in '#{type_option}, #{sub_type_option}'"
+    wait_for_options_and_select(quick_search_type_select, quick_search_type_options, type_option)
+    wait_for_options_and_select(quick_search_sub_type_select, quick_search_sub_type_options, sub_type_option)
+    wait_for_element_and_type(quick_search_input, term_string) if term_string
     wait_for_element_and_click quick_search_button
   end
 
@@ -140,6 +203,8 @@ module CollectionSpacePages
     wait_for_element_and_click search_link
   end
 
+  # SAVE, DELETE, REVERT, CANCEL
+
   # Clicks the save button
   def click_save_button
     wait_for_element_and_click save_button
@@ -147,6 +212,7 @@ module CollectionSpacePages
 
   # Clicks save and waits for confirmation the record has been saved
   def save_record
+    logger.info 'Saving the record'
     click_save_button
     wait_for_notification 'Saved'
   end
@@ -158,9 +224,9 @@ module CollectionSpacePages
 
   # Clicks delete, confirms the deletion, and waits for confirmation the record has been deleted
   def delete_record
+    logger.info 'Deleting the record'
     click_delete_button
-    wait_for_element_and_click confirm_delete_msg_span
-    wait_for_notification 'Deleted'
+    wait_for_element_and_click confirm_delete_button
   end
 
   # Returns the delete confirmation message text
@@ -172,8 +238,45 @@ module CollectionSpacePages
 
   # Clicks the cancel button on a delete confirmation pop-up
   def cancel_deletion
+    logger.info 'Clicking the cancel button'
     wait_for_element_and_click confirm_delete_cancel_button
   end
+
+  # Clicks the close button on a modal. The button sometimes does not respond to a click() right away or it is replaced
+  # by a DOM update, so rescues stale element errors and retries the click if needed
+  def click_close_button
+    logger.info 'Clicking the close button'
+    wait_for_element_and_click close_button rescue Selenium::WebDriver::Error::StaleElementReferenceError
+    sleep Config.click_wait
+    wait_for_element_and_click close_button if exists? close_button
+  end
+
+  # Clicks the Don't leave button in a modal
+  def do_not_leave_record
+    logger.info 'Clicking the Don\'t leave button'
+    wait_for_element_and_click do_not_leave_button
+  end
+
+  # Clicks the Revert and continue button in a modal
+  def revert_and_continue
+    logger.info 'Clicking the Revert and continue button'
+    wait_for_element_and_click revert_and_continue_button
+  end
+
+  # Clicks the Save and continue button in a modal
+  def save_and_continue
+    logger.info 'Clicking the Save and continue button'
+    wait_for_element_and_click save_and_continue_button
+  end
+
+  # Reverts changes to a record
+  def revert_record
+    logger.info 'Reverting the record'
+    wait_for_element_and_click revert_button
+    when_not_enabled(revert_button, Config.short_wait)
+  end
+
+  # LOG OUT
 
   # Logs out using the sign out link in the header
   def log_out
@@ -182,9 +285,12 @@ module CollectionSpacePages
     wait_until(Config.short_wait) { url.include? '/login' }
   end
 
+  # FLOATING HEADER AND NOTIFICATIONS BARS
+
   # Waits for the notifications bar to contain a given string
   # @param [String] string
   def wait_for_notification(string)
+    unhide_notifications_bar
     when_displayed(notifications_bar, Config.short_wait)
     wait_until(Config.short_wait) { element_text(notifications_bar).include? string }
   end
@@ -200,6 +306,11 @@ module CollectionSpacePages
     @driver.execute_script("arguments[0].style.visibility='hidden';", element(notifications_bar))
   end
 
+  def unhide_notifications_bar
+    when_exists(notifications_bar, Config.short_wait)
+    @driver.execute_script("arguments[0].style.visibility='visible';", element(notifications_bar))
+  end
+
   # Hides the header bar to ensure it does not obscure elements on the page
   def hide_header_bar
     when_exists(header_bar, Config.short_wait)
@@ -207,6 +318,12 @@ module CollectionSpacePages
   end
 
   # STRUCTURED DATES
+
+  def enter_simple_date(input, string)
+    wait_for_element_and_type(input, string)
+    hit_enter
+    hit_shift_tab
+  end
 
   def date_period; input_locator([], ObjectData::DATE_PERIOD.name) end
   def date_assoc; input_locator([], ObjectData::DATE_ASSOC.name) end
@@ -236,6 +353,51 @@ module CollectionSpacePages
   # @param [String] term_string
   def click_term_popup_link(term_string)
     wait_for_element_and_click term_popup_link(term_string)
+  end
+
+  # ADDING AND DELETING ROWS OF DATA
+
+  # Compares the number of fieldsets in the UI with the number of corresponding data sets in test data. Adds or removes
+  # fieldsets as necessary so that the right number are present for subsequent data entry.
+  #
+  # @param [Array<Hash>] fieldsets
+  # @param [Array<Hash>] data_set
+  def prep_fieldsets_for_test_data(fieldsets, data_set)
+
+    # Get the count of data sets in the test data, the count of data sets in the UI, and the difference
+    test_data_set_count = data_set ? data_set.length : 0
+    ui_data_set_count = fieldset_data_instance_count fieldsets
+    data_set_diff = ui_data_set_count - test_data_set_count
+    logger.debug "The number of data sets required by the test data is #{test_data_set_count}, and the UI currently has #{ui_data_set_count} visible"
+
+    # Remove excess rows in the UI
+    if data_set_diff > 0
+      row_index = test_data_set_count
+      data_set_diff.times do
+        logger.debug "Removing a data set at XPath '#{fieldset_remove_btn_xpath(fieldsets, row_index)}'"
+        if ui_data_set_count == 1
+          wait_until(Config.short_wait) { elements(input_locator fieldsets).any?(&:displayed?) || elements(text_area_locator fieldsets).any?(&:displayed?) }
+          elements(input_locator fieldsets ).each &:clear
+          elements(text_area_locator fieldsets).each &:clear
+        else
+          wait_for_element_and_click({:xpath => fieldset_remove_btn_xpath(fieldsets, row_index)})
+          wait_until(Config.short_wait) { fieldset_data_instance_count(fieldsets) < ui_data_set_count }
+          ui_data_set_count -= 1
+        end
+      end
+
+    # Add missing rows in the UI
+    elsif data_set_diff < 0
+      data_set_diff.abs.times do
+        logger.debug "Adding a data set at XPath '#{add_button_locator(fieldsets)}'"
+        wait_for_element_and_click add_button_locator(fieldsets)
+        wait_until(Config.short_wait) { fieldset_data_instance_count(fieldsets) > ui_data_set_count }
+        ui_data_set_count += 1
+      end
+
+    else
+      logger.debug 'No need to add or remove rows'
+    end
   end
 
 end

@@ -8,6 +8,7 @@ class CreateNewPage
 
   def object_link; {:id => 'collectionobject'} end
   def acquisition_link; {:id => 'acquisition'} end
+  def exhibition_link; {:id => 'exhibition'} end
   def authority_org_local_link; {:id => 'organization/local'} end
 
   # Loads the Create New page with a given base URL
@@ -27,6 +28,12 @@ class CreateNewPage
     wait_for_page_and_click acquisition_link
   end
 
+  # Clicks the link to create a new exhibition record
+  def click_create_new_exhibition
+    wait_for_page_and_click exhibition_link
+  end
+
+  # Clicks the link to create a new Local organization
   def click_create_new_org_local
     wait_for_page_and_click authority_org_local_link
   end

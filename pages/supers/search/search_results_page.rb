@@ -7,6 +7,7 @@ class SearchResultsPage
   include CollectionSpacePages
 
   def result_rows; {:xpath => '//div[@class="cspace-ui-SearchResultTable--common"]//a[contains(@class,"TableRow")]'} end
+  def no_results_msg; {:xpath => '//span[text()="No records found"]'} end
 
   def result_row(id)
     {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//a[contains(@class,\"TableRow\")][contains(.,\"#{id}\")]"}
