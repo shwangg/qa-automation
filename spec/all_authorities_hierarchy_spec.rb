@@ -53,7 +53,7 @@ describe 'Authority hierarchy', order: :defined do
     end
 
     it 'allows a user to modify an org authority by adding narrower contexts' do
-      @org_authority_page.quick_search('Organizations', @foo_3a)
+      @org_authority_page.quick_search('Organizations', nil, @foo_3a)
       @search_results_page.click_result @foo_3a
       @org_authority_page.expand_hierarchy
       @org_authority_page.add_narrower_auths [@foo_4aa, @foo_4ab]
@@ -71,7 +71,7 @@ describe 'Authority hierarchy', order: :defined do
     end
 
     it 'allows a user to view a an org hierarchy with a broader context and sibling contexts but no narrower contexts' do
-      @org_authority_page.quick_search('Organizations', @foo_4aa)
+      @org_authority_page.quick_search('Organizations', nil, @foo_4aa)
       @search_results_page.click_result @foo_4aa
       @org_authority_page.expand_hierarchy
       errors = @org_authority_page.verify_hierarchy(@foo_3a, [@foo_4ab, @foo_4ac], [])
@@ -79,7 +79,7 @@ describe 'Authority hierarchy', order: :defined do
     end
 
     it 'allows a user to view an org hierarchy with a broader context and sibling context but no narrower contexts' do
-      @org_authority_page.quick_search('Organizations', @foo_3b)
+      @org_authority_page.quick_search('Organizations', nil, @foo_3b)
       @search_results_page.click_result @foo_3b
       @org_authority_page.expand_hierarchy
       errors = @org_authority_page.verify_hierarchy(@foo_2, [@foo_3a], [])
@@ -94,17 +94,17 @@ describe 'Authority hierarchy', order: :defined do
     end
 
     it 'allows a user to search for all members of a org authority hierarchy' do
-      @org_authority_page.quick_search('Organizations', test_id)
+      @org_authority_page.quick_search('Organizations', nil, test_id)
       @search_results_page.wait_for_results
-      expect(@search_results_page.exists? @search_results_page.result_row(@foo_1)).to be true
-      expect(@search_results_page.exists? @search_results_page.result_row(@foo_2)).to be true
-      expect(@search_results_page.exists? @search_results_page.result_row(@foo_3a)).to be true
-      expect(@search_results_page.exists? @search_results_page.result_row(@foo_3b)).to be true
-      expect(@search_results_page.exists? @search_results_page.result_row(@foo_4aa)).to be true
-      expect(@search_results_page.exists? @search_results_page.result_row(@foo_4ab)).to be true
-      expect(@search_results_page.exists? @search_results_page.result_row(@foo_4ac)).to be true
-      expect(@search_results_page.exists? @search_results_page.result_row(@foo_4ba)).to be true
-      expect(@search_results_page.exists? @search_results_page.result_row(@foo_4bb)).to be true
+      expect(@search_results_page.row_exists? @foo_1).to be true
+      expect(@search_results_page.row_exists? @foo_2).to be true
+      expect(@search_results_page.row_exists? @foo_3a).to be true
+      expect(@search_results_page.row_exists? @foo_3b).to be true
+      expect(@search_results_page.row_exists? @foo_4aa).to be true
+      expect(@search_results_page.row_exists? @foo_4ab).to be true
+      expect(@search_results_page.row_exists? @foo_4ac).to be true
+      expect(@search_results_page.row_exists? @foo_4ba).to be true
+      expect(@search_results_page.row_exists? @foo_4bb).to be true
     end
 
     it 'allows a user to view an org authority hierarchy from the broadest context' do
@@ -115,7 +115,7 @@ describe 'Authority hierarchy', order: :defined do
     end
 
     it 'allows a user to view an org authority hierarchy from the narrowest context' do
-      @org_authority_page.quick_search('Organizations', test_id)
+      @org_authority_page.quick_search('Organizations', nil, test_id)
       @search_results_page.click_result @foo_4bb
       @org_authority_page.expand_hierarchy
       errors = @org_authority_page.verify_hierarchy(@foo_3b, [@foo_4ba], [])
@@ -151,7 +151,7 @@ describe 'Authority hierarchy', order: :defined do
     end
 
     it 'prevents a user from deleting a hierarchy member with both broader and narrower contexts' do
-      @org_authority_page.quick_search('Organizations', @foo_3a)
+      @org_authority_page.quick_search('Organizations', nil, @foo_3a)
       @search_results_page.click_result @foo_3a
       @org_authority_page.click_delete_button
       expect(@org_authority_page.confirm_delete_msg).to include("#{@foo_3a} cannot be deleted because it belongs to a hierarchy. To delete this record, first remove its broader and narrower records.")

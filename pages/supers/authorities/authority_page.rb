@@ -5,6 +5,28 @@ class AuthorityPage
   include Logging
   include Page
   include CollectionSpacePages
+  include SidebarPages
+
+  # TERM
+
+  def term_display_name_input(fieldsets); input_locator(fieldsets, AuthorityData::TERM_DISPLAY_NAME.name) end
+  def term_name_input(fieldsets); input_locator(fieldsets, AuthorityData::TERM_NAME.name) end
+  def term_qualifier_input(fieldsets); input_locator(fieldsets, AuthorityData::TERM_QUALIFIER.name) end
+  def term_status_input(fieldsets); input_locator(fieldsets, AuthorityData::TERM_STATUS.name) end
+  def term_status_options(fieldsets); input_options_locator(fieldsets, AuthorityData::TERM_STATUS.name) end
+  def term_type_input(fieldsets); input_locator(fieldsets, AuthorityData::TERM_TYPE.name) end
+  def term_type_options(fieldsets); input_options_locator(fieldsets, AuthorityData::TERM_TYPE.name) end
+  def term_flag_input(fieldsets); input_locator(fieldsets, AuthorityData::TERM_FLAG.name) end
+  def term_flag_options(fieldsets); input_options_locator(fieldsets, AuthorityData::TERM_FLAG.name) end
+  def term_language_input(fieldsets); input_locator(fieldsets, AuthorityData::TERM_LANGUAGE.name) end
+  def term_language_options(fieldsets); input_options_locator(fieldsets, AuthorityData::TERM_LANGUAGE.name) end
+  def term_pref_for_lang_input(fieldsets); input_locator(fieldsets, AuthorityData::TERM_PREF_FOR_LANGUAGE.name) end
+
+  def term_source_name_input(fieldsets); input_locator(fieldsets, AuthorityData::TERM_SOURCE.name) end
+  def term_source_name_options(fieldsets); input_options_locator(fieldsets, AuthorityData::TERM_SOURCE.name) end
+  def term_source_detail_input(fieldsets); input_locator(fieldsets, AuthorityData::TERM_SOURCE_DETAIL.name) end
+  def term_source_id_input(fieldsets); input_locator(fieldsets, AuthorityData::TERM_SOURCE_ID.name) end
+  def term_source_note_input(fieldsets); input_locator(fieldsets, AuthorityData::TERM_SOURCE_NOTE.name) end
 
   # HIERARCHY SECTION
 
@@ -21,12 +43,12 @@ class AuthorityPage
   def broader_input; input_locator_by_label('Broader') end
   def broader_input_options; input_options_locator_by_label('Broader') end
 
-  # Selects or creates a broader authority context
+  # Creates a broader authority context
   # @param [String] authority
   def add_broader_auth(authority)
     logger.info "Broader context is '#{authority}'"
     close_notifications_bar
-    autocomplete_select_or_create(broader_input, broader_input_options, authority)
+    enter_auto_complete(broader_input, broader_input_options, authority, 'Create new record')
   end
 
   # Removes the contents of the broader authority input
@@ -43,7 +65,7 @@ class AuthorityPage
   def narrower_delete_btn(index); delete_button_locator([fieldset(CollectionSpaceData::REF_NAMES_CHILDREN.name, index)]) end
   def narrower_add_btn; add_button_locator([fieldset(CollectionSpaceData::REF_NAMES_CHILDREN.name)]) end
 
-  # Selects or creates a set of narrower authority contexts
+  # Creates a set of narrower authority contexts
   # @param [Array<String>]
   def add_narrower_auths(authorities)
     close_notifications_bar
@@ -54,7 +76,7 @@ class AuthorityPage
       logger.debug "Narrower context is '#{authority}' at index #{input_index}"
       input_locator = input_locator([fieldset(CollectionSpaceData::REF_NAMES_CHILDREN.name, input_index)])
       input_options_locator = input_options_locator([fieldset(CollectionSpaceData::REF_NAMES_CHILDREN.name, input_index)])
-      autocomplete_select_or_create(input_locator, input_options_locator, authority)
+      enter_auto_complete(input_locator, input_options_locator, authority, 'Create new record')
     end
   end
 

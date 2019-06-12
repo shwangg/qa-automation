@@ -1,9 +1,10 @@
 class CollectionSpaceData
 
-  attr_reader :name
+  attr_reader :name, :label
 
-  def initialize(name)
+  def initialize(name, label=nil)
     @name = name
+    @label = label
   end
 
   DATA = [
