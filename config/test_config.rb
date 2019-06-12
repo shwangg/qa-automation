@@ -80,7 +80,9 @@ class TestConfig < Config
     parse_test_data(@deployment, 'test-data-create-new-object.json')['objects']
   end
 
-  def all_hierarchies_test_data
+  # Returns the test data for the 'all authorities' tests
+  # @return [Array<Hash>]
+  def all_authorities_test_data
     parse_test_data(@deployment, 'test-data-all-authorities.json')['organizations']
   end
 

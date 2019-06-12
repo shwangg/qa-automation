@@ -5,7 +5,6 @@ class CollectionSpaceData
   def initialize(name, label=nil)
     @name = name
     @label = label
-    @label ||= nil
   end
 
   DATA = [

@@ -10,7 +10,7 @@ if test_run.deployment == Deployment::CORE
     include WebDriverManager
 
     test_id = Time.now.to_i
-    test_data = test_run.all_hierarchies_test_data
+    test_data = test_run.all_authorities_test_data
 
     before(:all) do
       test_run.set_driver launch_browser

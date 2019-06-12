@@ -23,7 +23,6 @@ require_relative "models/data/#{deployment}/#{deployment}_objects/#{deployment}_
 require_relative 'models/data/supers/procedures/acquisition_data'
 require_relative 'models/data/supers/procedures/exhibition_data'
 require_relative 'models/data/supers/authorities/authority_data'
-require_relative "models/data/#{deployment}/#{deployment}_authorities/#{deployment}_authority_data"
 require_relative 'models/data/supers/authorities/org_data'
 require_relative "models/data/#{deployment}/#{deployment}_authorities/#{deployment}_org_data"
 require_relative 'models/user_role'

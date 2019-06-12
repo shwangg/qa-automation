@@ -15,7 +15,7 @@ module CoreExhibitionInfoForm
   # @param [String] name
   # @param [Integer] index
   def select_sponsor(name, index)
-    enter_auto_complete(sponsor_input_locator(index), sponsor_options_locator(index), name, nil)
+    enter_auto_complete(sponsor_input_locator(index), sponsor_options_locator(index), name)
   end
 
 end

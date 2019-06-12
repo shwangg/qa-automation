@@ -319,6 +319,10 @@ module CollectionSpacePages
 
   # STRUCTURED DATES
 
+  # Enters a date string in a structured date input and then reverse tabs from the field to collapse the structured date pop-up,
+  # preventing subsequent input entries failing because the inputs are obscured by the pop-up.
+  # @param [Hash] input
+  # @param [String] string
   def enter_simple_date(input, string)
     wait_for_element_and_type(input, string)
     hit_enter
