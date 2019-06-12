@@ -38,13 +38,13 @@ brew update
 
 ### RVM and Ruby
 
-If you do not have RVM installed, visit the [RVM documentation](https://rvm.io/) and follow the instructions to install. The test suite currently requires ruby-2.3.4.  If you do not have that version
+If you do not have RVM installed, visit the [RVM documentation](https://rvm.io/) and follow the instructions to install. The test suite currently requires ruby-2.6.3.  If you do not have that version
 ```
-rvm install 2.3.4
+rvm install 2.6.3
 ```
 Once installed
 ```
-rvm use 2.3.4
+rvm use 2.6.3
 ```
 
 ### Dependencies
