@@ -6,11 +6,12 @@ class SearchResultsPage
   include Page
   include CollectionSpacePages
 
-  def result_rows; {:xpath => '//div[@class="cspace-ui-SearchResultTable--common"]//a[contains(@class,"TableRow")]'} end
+  def result_rows; {:xpath => '//div[@class="cspace-ui-SearchResultTable--common"]//*[@aria-label="row"]'} end
   def no_results_msg; {:xpath => '//span[text()="No records found"]'} end
+  def related_selected_button; {:name => 'relate'} end
 
   def result_row(id)
-    {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//a[contains(@class,\"TableRow\")][contains(.,\"#{id}\")]"}
+    {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][contains(.,\"#{id}\")]"}
   end
 
   # Checks whether the page header contains the keyword searched
@@ -46,4 +47,19 @@ class SearchResultsPage
     wait_for_page_and_click result_row(unique_identifier)
   end
 
+  # Clicks the checkbox for a search result row
+  # @param [String] identifier
+  def select_result_row(identifier)
+    wait_for_element_and_click({:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,\"#{identifier}\")]//input"})
+  end
+
+  # Selects search result rows and clicks the 'Relate' button
+  # @param [Array<String>] identifiers
+  def relate_records(identifiers)
+    identifiers.each do |identifier|
+      wait_for_element_and_click({:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,\"#{identifier}\")]//input"})
+    end
+    wait_for_element_and_click related_selected_button
+    wait_for_notification 'related to'
+  end
 end

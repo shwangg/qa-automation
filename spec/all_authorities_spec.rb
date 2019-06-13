@@ -375,7 +375,7 @@ if test_run.deployment == Deployment::CORE
 
       it 'offer revert buttons that reverse the changes' do
         @org_authority_page.revert_record
-        @org_authority_page.verify_foundation_date({CoreOrgData::FOUNDING_DATE.name => ''})
+        expect(@org_authority_page.verify_foundation_date({CoreOrgData::FOUNDING_DATE.name => ''})).to be_empty
       end
     end
 
@@ -398,32 +398,32 @@ if test_run.deployment == Deployment::CORE
         @org_authority_page.enter_foundation_date({CoreOrgData::FOUNDING_DATE.name => '01/01/2000'})
         @org_authority_page.click_search_link
         @org_authority_page.do_not_leave_record
-        @org_authority_page.verify_foundation_date({CoreOrgData::FOUNDING_DATE.name => '01/01/2000'})
+        expect(@org_authority_page.verify_foundation_date({CoreOrgData::FOUNDING_DATE.name => '01/01/2000'})).to be_empty
       end
 
       it 'offer a Close button' do
         @org_authority_page.click_search_link
         @org_authority_page.click_close_button
-        @org_authority_page.verify_foundation_date({CoreOrgData::FOUNDING_DATE.name => '01/01/2000'})
+        expect(@org_authority_page.verify_foundation_date({CoreOrgData::FOUNDING_DATE.name => '01/01/2000'})).to be_empty
       end
 
       it 'offer a Revert and Continue button' do
         @org_authority_page.click_search_link
         @org_authority_page.revert_and_continue
-        @search_page.when_exists(@search_page.search_button, Config.short_wait)
-        @org_authority_page.quick_search('Organizations', nil, "#{test_id}")
+        @search_page.when_exists(@search_page.search_button_two, Config.short_wait)
+        @search_page.quick_search('Organizations', nil, "#{test_id}")
         @search_results_page.click_result @org_1_display_name
-        @org_authority_page.verify_foundation_date({CoreOrgData::FOUNDING_DATE.name => ''})
+        expect(@org_authority_page.verify_foundation_date({CoreOrgData::FOUNDING_DATE.name => ''})).to be_empty
       end
 
       it 'offer a Save and Continue button' do
         @org_authority_page.enter_foundation_date({CoreOrgData::FOUNDING_DATE.name => '01/01/2000'})
         @org_authority_page.click_search_link
         @org_authority_page.save_and_continue
-        @search_page.when_exists(@search_page.search_button, Config.short_wait)
-        @org_authority_page.quick_search('Organizations', nil, "#{test_id}")
+        @search_page.when_exists(@search_page.search_button_two, Config.short_wait)
+        @search_page.quick_search('Organizations', nil, "#{test_id}")
         @search_results_page.click_result @org_1_display_name
-        @org_authority_page.verify_foundation_date({CoreOrgData::FOUNDING_DATE.name => '01/01/2000'})
+        expect(@org_authority_page.verify_foundation_date({CoreOrgData::FOUNDING_DATE.name => '01/01/2000'})).to be_empty
       end
     end
   end

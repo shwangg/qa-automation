@@ -25,6 +25,7 @@ module CollectionSpacePages
   def header_bar; {:xpath => '//header/div'} end
   def page_h1; {:xpath => '//h1'} end
   def page_h2; {:xpath => '//h2'} end
+  def form_show_hide_button(heading_text); {:xpath => "//button[contains(.,\"#{heading_text}\")]"} end
 
   def notifications_bar; {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]'} end
   def notifications_close_button; {:name => 'close'} end
@@ -185,8 +186,9 @@ module CollectionSpacePages
     type_option = type_string || 'All Records'
     sub_type_option = sub_type_string || 'All'
     logger.info "Performing quick search for '#{term_string}' in '#{type_option}, #{sub_type_option}'"
+    scroll_to_top
     wait_for_options_and_select(quick_search_type_select, quick_search_type_options, type_option)
-    wait_for_options_and_select(quick_search_sub_type_select, quick_search_sub_type_options, sub_type_option)
+    wait_for_options_and_select(quick_search_sub_type_select, quick_search_sub_type_options, sub_type_option) if exists?(quick_search_sub_type_select)
     wait_for_element_and_type(quick_search_input, term_string) if term_string
     wait_for_element_and_click quick_search_button
   end
@@ -194,12 +196,14 @@ module CollectionSpacePages
   # Clicks the 'Create New' link in the navigation menu
   def click_create_new_link
     logger.info 'Clicking link to Create New'
+    scroll_to_top
     wait_for_element_and_click create_new_link
   end
 
   # Clicks the 'Search' link in the navigation menu
   def click_search_link
     logger.info 'Clicking link to Search'
+    scroll_to_top
     wait_for_element_and_click search_link
   end
 
@@ -227,6 +231,7 @@ module CollectionSpacePages
     logger.info 'Deleting the record'
     click_delete_button
     wait_for_element_and_click confirm_delete_button
+    when_not_exists(confirm_delete_button, Config.short_wait)
   end
 
   # Returns the delete confirmation message text
@@ -357,6 +362,19 @@ module CollectionSpacePages
   # @param [String] term_string
   def click_term_popup_link(term_string)
     wait_for_element_and_click term_popup_link(term_string)
+  end
+
+  # For inputs that offer auto-generated identifiers, selects the auto-generated option and returns its value
+  # @param [Hash] input_locator
+  # @param [Hash] options_locator
+  # @return [String]
+  def select_id_generator_option(input_locator, options_locator)
+    wait_for_element_and_click input_locator
+    wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
+    elements(options_locator).first.click
+    sleep Config.click_wait
+    wait_until(2) { !element_value(input_locator).empty? }
+    element_value input_locator
   end
 
   # ADDING AND DELETING ROWS OF DATA

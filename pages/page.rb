@@ -256,9 +256,9 @@ module Page
         if value
           value.length.times do
             hit_backspace
-            sleep 0.5
             hit_delete
           end
+          sleep 1
         end
         hit_tab
         sleep 0.5
@@ -369,6 +369,14 @@ module Page
   rescue => e
     logger.debug e.message
     false
+  end
+
+  # Waits for an actual value to match an expected value. Logs the mismatch if a failure occurs.
+  # @param [Object] expected
+  # @param [Object] actual
+  def verify_values_match(expected, actual)
+    logger.debug "Checking for '#{expected}'"
+    wait_until(0.5, "Expected #{expected}, got #{actual}") { actual == expected.to_s }
   end
 
   # Attempts to perform an action. If the action fails, adds an action object to an array. Useful for catching errors with
