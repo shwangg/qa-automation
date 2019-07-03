@@ -6,6 +6,7 @@ describe 'Acquisition' do
   include WebDriverManager
 
   test_run = TestConfig.new
+  test_id = Time.now.to_i
 
   before(:all) do
     test_run.set_driver launch_browser
@@ -20,8 +21,8 @@ describe 'Acquisition' do
         AcquisitionData::ACCESSION_DATE_GRP.name => (Date.today - 1).to_s,
         AcquisitionData::ACQUIS_DATE_GRP.name => [{AcquisitionData::ACQUIS_DATE.name => (Date.today - 2).to_s}],
         AcquisitionData::ACQUIS_METHOD.name => 'gift',
-        AcquisitionData::ACQUIS_SOURCES.name => [{AcquisitionData::ACQUIS_SOURCE.name => 'test'}],
-        AcquisitionData::ACQUIS_FUNDING_LIST.name => [{AcquisitionData::ACQUIS_FUNDING_SOURCE.name => 'test'}],
+        AcquisitionData::ACQUIS_SOURCES.name => [{AcquisitionData::ACQUIS_SOURCE.name => "Test Acquisition Source #{test_id}"}],
+        AcquisitionData::ACQUIS_FUNDING_LIST.name => [{AcquisitionData::ACQUIS_FUNDING_SOURCE.name => "Test Funding Source #{test_id}"}],
         AcquisitionData::CREDIT_LINE.name => 'textbook',
         AcquisitionData::FIELD_COLLECT_EVENT_NAMES.name => [{AcquisitionData::FIELD_COLLECT_EVENT_NAME.name => 'test field collection event name'}]
     }
@@ -59,7 +60,7 @@ describe 'Acquisition' do
     it 'allow a search by reference number' do
       @search_page.load_search_acquisitions_form
       @search_page.enter_ref_num @test_0
-      @search_page.click_search_button
+      @search_page.hit_enter
       @search_results_page.wait_for_results
       expect(@search_results_page.field_condition_present? @test_0[AcquisitionData::ACQUIS_REF_NUM.name]).to be true
       expect(@search_results_page.row_exists? @test_0[AcquisitionData::ACQUIS_REF_NUM.name]).to be true
@@ -113,7 +114,7 @@ describe 'Acquisition' do
     it 'allow a search by credit line' do
       @search_page.load_search_acquisitions_form
       @search_page.enter_credit_line @test_0
-      @search_page.click_search_button
+      @search_page.hit_enter
       @search_results_page.wait_for_results
       expect(@search_results_page.field_condition_present? @test_0[AcquisitionData::CREDIT_LINE.name]).to be true
       expect(@search_results_page.row_exists? @test_0[AcquisitionData::ACQUIS_REF_NUM.name]).to be true

@@ -8,7 +8,8 @@ class SearchPage
   include SearchAcquisitionsForm
   include SearchObjectsForm
 
-  def search_button; {:name => 'search'} end
+  def search_button_one; {:xpath => '(//button[@name="search"])[1]'} end
+  def search_button_two; {:xpath => '(//button[@name="search"])[2]'} end
   def clear_button; {:name => 'clear'} end
 
   def record_type_input; {:xpath => '//label[text()="Find"]/following-sibling::div/input'} end
@@ -32,9 +33,16 @@ class SearchPage
     wait_for_options_and_select(adv_search_boolean_input, adv_search_boolean_options, 'Any')
   end
 
-  # Clicks the 'Search' button
+  # Clicks the second 'Search' button. If the button is not clickable because an element is obscuring it, tries to click
+  # the first button instead.
   def click_search_button
-    wait_for_element_and_click search_button
+    tries = 2
+    begin
+      tries -= 1
+      wait_for_element_and_click search_button_two
+    rescue Selenium::WebDriver::Error::WebDriverError
+      tries.zero? ? fail : (wait_for_element_and_click search_button_one)
+    end
   end
 
   # Clicks the 'Clear' button
@@ -75,6 +83,7 @@ class SearchPage
       add_button_locator = add_button_locator([fieldset(CollectionSpaceData::UPDATED_BY.name)])
       wait_for_element_and_click add_button_locator unless index.zero?
       wait_for_element_and_type(last_updated_by_input_locator(index), username)
+      hit_tab
     end
   end
 
@@ -89,18 +98,17 @@ class SearchPage
   # @param [String] before_date_str
   def enter_last_updated_times(after_date_str, before_date_str)
     logger.info "Entering last updated on-or-after '#{after_date_str}' and on-or-before '#{before_date_str}'"
-    inputs = elements(last_updated_time_input_locator)
     if after_date_str
-      inputs[0].clear
+      elements(last_updated_time_input_locator)[0].clear
       sleep Config.click_wait
-      inputs[0].send_keys after_date_str
+      elements(last_updated_time_input_locator)[0].send_keys after_date_str
       hit_enter
       hit_tab
     end
     if before_date_str
-      inputs[1].clear
+      elements(last_updated_time_input_locator)[1].clear
       sleep Config.click_wait
-      inputs[1].send_keys before_date_str
+      elements(last_updated_time_input_locator)[1].send_keys before_date_str
       hit_enter
       hit_tab
     end

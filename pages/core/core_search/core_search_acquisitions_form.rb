@@ -143,6 +143,7 @@ module CoreSearchAcquisitionsForm
       add_button_locator = add_button_locator([fieldset(AcquisitionData::FIELD_COLLECT_EVENT_NAME.name)])
       wait_for_element_and_click add_button_locator unless index.zero?
       wait_for_element_and_type(event_name_input_locator(index), name[AcquisitionData::FIELD_COLLECT_EVENT_NAME.name])
+      hit_tab
     end
   end
 

@@ -8,7 +8,7 @@ class CoreLoginPage < LoginPage
 
   DEPLOYMENT = Deployment::CORE
 
-  def page_heading; {:xpath => '//h2[contains(.,"Welcome to the CollectionSpace Demo")]'} end
+  def page_heading; {:xpath => '//h2[contains(.,"CollectionSpace")]'} end
 
   # Loads the Core homepage
   def load_page

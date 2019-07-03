@@ -1,0 +1,55 @@
+{
+    "useOfCollections": [
+        {
+            "referenceNumber": ""
+        },
+        {
+            "referenceNumber": "UoC add test",
+            "methodList": [
+                {
+                    "method": "exhibition"
+                },
+                {
+                    "method": "publication"
+                },
+                {
+                    "method": "research"
+                }
+            ],
+            "title": "UoC Title",
+            "authorizedBy": "UoC Authorized By",
+            "authorizationDate": "2019-07-01",
+            "authorizationNote": "UoC Authorization Note",
+            "startSingleDate": "2019-07-04",
+            "endDate": "2019-07-14",
+            "userGroup": [
+                {
+                    "user": "UoC User 1",
+                    "userType": "presenter"
+                },
+                {
+                    "user": "UoC User 2"
+                }
+            ],
+            "location": "UoC Location",
+            "note": "UoC Note",
+            "provisos": "UoC Provisos",
+            "result": "UoC Result"
+        },
+        {
+            "referenceNumber": "UoC edit test"
+        },
+        {
+            "referenceNumber": "UoC delete test"
+        },
+        {
+            "referenceNumber": "UoC related procedure test 1.1"
+        },
+        {
+            "referenceNumber": "UoC related procedure test 1.2"
+        },
+        {
+            "referenceNumber": "UoC buttons test"
+        }
+    ]
+}
