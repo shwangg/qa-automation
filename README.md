@@ -11,7 +11,7 @@ Automated, UI-driven functional testing for CollectionSpace, supporting multiple
 
 Pages in the UI are treated as objects in the tests. The objects contain methods for finding elements in the UI and methods for interacting with them.
 
-The tests can support multiple deployments, each with a different version of the CollectionSpace UI. A new deployment can be defined in the deployment model. Page objects representing the distinct UI should be added in the same way as the default Core pages, as subclasses of the generic parent class (see supers in the pages directory). Page elements and interactions that are common to all deployments should be kept in the respective superclass, making them available to all versions of the same page. Dedicated test data files should be added to support the data elements applicable to the deployment. At runtime, the tests will use the deployment configuration in the settings YAML file to determine which UI is under test.
+The tests can support multiple deployments, each with a different version of the CollectionSpace UI. A new deployment can be defined in the deployment model. Page objects representing the distinct UI should be added as subclasses of the default Core pages. Dedicated test data files should be added to support the data elements applicable to the deployment. At runtime, the tests will use the deployment configuration in the settings YAML file to determine which UI is under test.
 
 ## Setup
 

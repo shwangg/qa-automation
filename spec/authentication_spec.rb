@@ -11,7 +11,7 @@ describe 'CollectionSpace' do
     test_run = TestConfig.new
     test_run.set_driver launch_browser
     @admin = test_run.get_admin_user
-    @login_page = test_run.get_page LoginPage
+    @login_page = test_run.get_page CoreLoginPage
     @login_page.load_page
   end
 

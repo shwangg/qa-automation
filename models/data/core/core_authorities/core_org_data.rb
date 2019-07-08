@@ -1,6 +1,6 @@
 require_relative '../../../../spec_helper'
 
-class CoreOrgData < OrgData
+class CoreOrgData < CoreAuthorityData
 
   DATA = [
       ADDITIONS_TO_NAME = new('additionsToName'),
@@ -17,7 +17,8 @@ class CoreOrgData < OrgData
       HISTORY_NOTES = new('historyNotes'),
       MAIN_BODY_NAME = new('mainBodyName'),
       ORG_RECORD_TYPE = new('organizationRecordType'),
-      ORG_RECORD_TYPES = new('organizationRecordTypes')
+      ORG_RECORD_TYPES = new('organizationRecordTypes'),
+      ORG_TERM_GRP = new('orgTermGroup')
   ]
 
 end

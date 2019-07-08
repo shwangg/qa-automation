@@ -1,10 +1,11 @@
 require_relative '../../../spec_helper'
 
-class CoreExhibitionPage < ExhibitionPage
+class CoreExhibitionPage
 
   include Logging
   include Page
   include CollectionSpacePages
+  include SidebarPages
   include CoreExhibitionInfoForm
 
   DEPLOYMENT = Deployment::CORE

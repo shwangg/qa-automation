@@ -7,13 +7,13 @@
             "referenceNumber": "UoC add test",
             "methodList": [
                 {
-                    "method": "exhibition"
+                    "method": "Exhibition"
                 },
                 {
-                    "method": "publication"
+                    "method": "Publication"
                 },
                 {
-                    "method": "research"
+                    "method": "Research"
                 }
             ],
             "title": "UoC Title",
@@ -25,7 +25,7 @@
             "userGroup": [
                 {
                     "user": "UoC User 1",
-                    "userType": "presenter"
+                    "userType": "Presenter"
                 },
                 {
                     "user": "UoC User 2"

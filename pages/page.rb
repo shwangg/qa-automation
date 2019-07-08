@@ -215,6 +215,7 @@ module Page
   def wait_for_options_and_select(input_locator, options_locator, option)
     wait_for_element_and_click input_locator
     wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
+    sleep 0.5
     (option && !option.empty?) ?
         (elements(options_locator).find { |el| el.text == option }).click :
         (elements(options_locator).find { |el| el.text.gsub(/[[:space:]]+/, '').empty? }).click

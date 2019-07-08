@@ -190,7 +190,7 @@ module CollectionSpacePages
     wait_for_options_and_select(quick_search_type_select, quick_search_type_options, type_option)
     wait_for_options_and_select(quick_search_sub_type_select, quick_search_sub_type_options, sub_type_option) if exists?(quick_search_sub_type_select)
     wait_for_element_and_type(quick_search_input, term_string) if term_string
-    wait_for_element_and_click quick_search_button
+    hit_enter
   end
 
   # Clicks the 'Create New' link in the navigation menu
@@ -334,25 +334,25 @@ module CollectionSpacePages
     hit_shift_tab
   end
 
-  def date_period; input_locator([], ObjectData::DATE_PERIOD.name) end
-  def date_assoc; input_locator([], ObjectData::DATE_ASSOC.name) end
-  def date_note; input_locator([], ObjectData::DATE_NOTE.name) end
-  def date_earliest_year; input_locator([], ObjectData::DATE_EARLIEST_YEAR.name) end
-  def date_earliest_month; input_locator([], ObjectData::DATE_EARLIEST_MONTH.name) end
-  def date_earliest_day; input_locator([], ObjectData::DATE_EARLIEST_DAY.name) end
-  def date_earliest_era; input_locator([], ObjectData::DATE_EARLIEST_ERA.name) end
-  def date_earliest_certainty; input_locator([], ObjectData::DATE_EARLIEST_CERTAINTY.name) end
-  def date_earliest_qualif; input_locator([], ObjectData::DATE_EARLIEST_QUALIF.name) end
-  def date_earliest_qualif_value; input_locator([], ObjectData::DATE_EARLIEST_QUALIF_VALUE.name) end
-  def date_earliest_qualif_unit; input_locator([], ObjectData::DATE_EARLIEST_QUALIF_UNIT.name) end
-  def date_latest_year; input_locator([], ObjectData::DATE_LATEST_YEAR.name) end
-  def date_latest_month; input_locator([], ObjectData::DATE_LATEST_MONTH.name) end
-  def date_latest_day; input_locator([], ObjectData::DATE_LATEST_DAY.name) end
-  def date_latest_era; input_locator([], ObjectData::DATE_LATEST_ERA.name) end
-  def date_latest_certainty; input_locator([], ObjectData::DATE_LATEST_CERTAINTY.name) end
-  def date_latest_qualif; input_locator([], ObjectData::DATE_LATEST_QUALIF.name) end
-  def date_latest_qualif_value; input_locator([], ObjectData::DATE_LATEST_QUALIF_VALUE.name) end
-  def date_latest_qualif_unit; input_locator([], ObjectData::DATE_LATEST_QUALIF_UNIT.name) end
+  def date_period; input_locator([], CoreObjectData::DATE_PERIOD.name) end
+  def date_assoc; input_locator([], CoreObjectData::DATE_ASSOC.name) end
+  def date_note; input_locator([], CoreObjectData::DATE_NOTE.name) end
+  def date_earliest_year; input_locator([], CoreObjectData::DATE_EARLIEST_YEAR.name) end
+  def date_earliest_month; input_locator([], CoreObjectData::DATE_EARLIEST_MONTH.name) end
+  def date_earliest_day; input_locator([], CoreObjectData::DATE_EARLIEST_DAY.name) end
+  def date_earliest_era; input_locator([], CoreObjectData::DATE_EARLIEST_ERA.name) end
+  def date_earliest_certainty; input_locator([], CoreObjectData::DATE_EARLIEST_CERTAINTY.name) end
+  def date_earliest_qualif; input_locator([], CoreObjectData::DATE_EARLIEST_QUALIF.name) end
+  def date_earliest_qualif_value; input_locator([], CoreObjectData::DATE_EARLIEST_QUALIF_VALUE.name) end
+  def date_earliest_qualif_unit; input_locator([], CoreObjectData::DATE_EARLIEST_QUALIF_UNIT.name) end
+  def date_latest_year; input_locator([], CoreObjectData::DATE_LATEST_YEAR.name) end
+  def date_latest_month; input_locator([], CoreObjectData::DATE_LATEST_MONTH.name) end
+  def date_latest_day; input_locator([], CoreObjectData::DATE_LATEST_DAY.name) end
+  def date_latest_era; input_locator([], CoreObjectData::DATE_LATEST_ERA.name) end
+  def date_latest_certainty; input_locator([], CoreObjectData::DATE_LATEST_CERTAINTY.name) end
+  def date_latest_qualif; input_locator([], CoreObjectData::DATE_LATEST_QUALIF.name) end
+  def date_latest_qualif_value; input_locator([], CoreObjectData::DATE_LATEST_QUALIF_VALUE.name) end
+  def date_latest_qualif_unit; input_locator([], CoreObjectData::DATE_LATEST_QUALIF_UNIT.name) end
 
   # TERM POP-UPS
 

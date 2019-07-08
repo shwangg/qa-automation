@@ -1,6 +1,6 @@
 require_relative '../../../../spec_helper'
 
-class AuthorityData < CollectionSpaceData
+class CoreAuthorityData < CollectionSpaceData
 
   DATA = [
       TERM_DISPLAY_NAME = new('termDisplayName'),
