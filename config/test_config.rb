@@ -14,15 +14,20 @@ class TestConfig < Config
     @driver = driver
   end
 
-  # Returns the page object associated with the deployment configured for testing. For example, if testing the Core create new object
-  # page, returns an object of the Core sub-class of the create new object page. This allows the same set of tests to interact with
-  # different versions of the same UI.
-  # @param [Class] super_klass
+  # Returns the page object associated with the deployment configured for testing. If testing the Core create new object
+  # page, returns an object of the Core class of the create new object page. If another deployment is to be tested, then
+  # a sub-class of the Core class should exist with its customized UI references. This allows the same set of tests to
+  # interact with different versions of the same UI.
+  # @param [Class] core_klass
   # @return [Object]
-  def get_page(super_klass)
-    subs = ObjectSpace.each_object(Class).select { |klass| klass < super_klass }
-    sub = subs.find { |p| p::DEPLOYMENT == @deployment }
-    sub.new @driver
+  def get_page(core_klass)
+    if @deployment == Deployment::CORE
+      core_klass.new @driver
+    else
+      subs = ObjectSpace.each_object(Class).select { |klass| klass < core_klass }
+      sub = subs.find { |p| p::DEPLOYMENT == @deployment }
+      sub.new @driver
+    end
   end
 
   # Returns an array of test users associated with the deployment configured for testing

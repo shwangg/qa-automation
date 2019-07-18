@@ -1,6 +1,8 @@
 require_relative '../spec_helper'
 
 test_run = TestConfig.new
+test_id = Time.now.to_i
+test_data = test_run.all_authorities_test_data
 
 if test_run.deployment == Deployment::CORE
 
@@ -9,18 +11,15 @@ if test_run.deployment == Deployment::CORE
     include Logging
     include WebDriverManager
 
-    test_id = Time.now.to_i
-    test_data = test_run.all_authorities_test_data
-
     before(:all) do
       test_run.set_driver launch_browser
       @admin = test_run.get_admin_user
-      @login_page = test_run.get_page LoginPage
-      @create_new_page = test_run.get_page CreateNewPage
-      @exhibition_page = test_run.get_page ExhibitionPage
-      @org_authority_page = test_run.get_page OrganizationPage
-      @search_page = test_run.get_page SearchPage
-      @search_results_page = test_run.get_page SearchResultsPage
+      @login_page = test_run.get_page CoreLoginPage
+      @create_new_page = test_run.get_page CoreCreateNewPage
+      @exhibition_page = test_run.get_page CoreExhibitionPage
+      @org_authority_page = test_run.get_page CoreOrganizationPage
+      @search_page = test_run.get_page CoreSearchPage
+      @search_results_page = test_run.get_page CoreSearchResultsPage
 
       @org_0 = test_data[0]
       @org_1 = test_data[1]

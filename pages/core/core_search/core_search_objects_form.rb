@@ -6,87 +6,44 @@ module CoreSearchObjectsForm
   include Page
   include CollectionSpacePages
 
+  # OBJECT NUMBER
+
+  def object_num_input(index); input_locator([fieldset(CoreObjectData::OBJECT_NUM.name, index)]) end
+  def object_num_delete_btn(index); delete_button_locator([fieldset(CoreObjectData::OBJECT_NUM.name, index)]) end
+  def object_num_add_btn; add_button_locator([fieldset(CoreObjectData::OBJECT_NUM.name)]) end
+
   # RESPONSIBLE DEPARTMENT
 
-  def resp_dept_input(index)
-    input_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name, index)])
-  end
-
-  def resp_dept_options(index)
-    input_options_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name, index)])
-  end
-
-  def resp_dept_delete_btn(index)
-    delete_button_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name, index)])
-  end
-
-  def resp_dept_add_btn
-    add_button_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name)])
-  end
+  def resp_dept_input(index); input_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name, index)]) end
+  def resp_dept_options(index); input_options_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name, index)]) end
+  def resp_dept_delete_btn(index); delete_button_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name, index)]) end
+  def resp_dept_add_btn; add_button_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name)]) end
 
   # COLLECTION
 
-  def collection_input(index)
-    input_locator([fieldset(CoreObjectData::COLLECTION.name, index)])
-  end
-
-  def collection_options(index)
-    input_options_locator([fieldset(CoreObjectData::COLLECTION.name, index)])
-  end
-
-  def collection_delete_btn(index)
-    delete_button_locator([fieldset(CoreObjectData::COLLECTION.name, index)])
-  end
-
-  def collection_add_btn
-    add_button_locator([fieldset(CoreObjectData::COLLECTION.name)])
-  end
+  def collection_input(index); input_locator([fieldset(CoreObjectData::COLLECTION.name, index)]) end
+  def collection_options(index); input_options_locator([fieldset(CoreObjectData::COLLECTION.name, index)]) end
+  def collection_delete_btn(index); delete_button_locator([fieldset(CoreObjectData::COLLECTION.name, index)]) end
+  def collection_add_btn; add_button_locator([fieldset(CoreObjectData::COLLECTION.name)]) end
 
   # RECORD STATUS
 
-  def record_status_input(index)
-    input_locator([fieldset(CoreObjectData::RECORD_STATUS.name, index)])
-  end
-
-  def record_status_options(index)
-    input_options_locator([fieldset(CoreObjectData::RECORD_STATUS.name, index)])
-  end
-
-  def record_status_delete_btn(index)
-    delete_button_locator([fieldset(CoreObjectData::RECORD_STATUS.name, index)])
-  end
-
-  def record_status_add_btn
-    add_button_locator([fieldset(CoreObjectData::RECORD_STATUS.name)])
-  end
+  def record_status_input(index); input_locator([fieldset(CoreObjectData::RECORD_STATUS.name, index)]) end
+  def record_status_options(index); input_options_locator([fieldset(CoreObjectData::RECORD_STATUS.name, index)]) end
+  def record_status_delete_btn(index); delete_button_locator([fieldset(CoreObjectData::RECORD_STATUS.name, index)]) end
+  def record_status_add_btn; add_button_locator([fieldset(CoreObjectData::RECORD_STATUS.name)]) end
 
   # TITLE
 
-  def title_input(index)
-    input_locator([fieldset(CoreObjectData::TITLE.name, index)])
-  end
-
-  def title_delete_btn(index)
-    delete_button_locator([fieldset(CoreObjectData::TITLE.name, index)])
-  end
-
-  def title_add_btn
-    add_button_locator([fieldset(CoreObjectData::TITLE.name)])
-  end
+  def title_input(index); input_locator([fieldset(CoreObjectData::TITLE.name, index)]) end
+  def title_delete_btn(index); delete_button_locator([fieldset(CoreObjectData::TITLE.name, index)]) end
+  def title_add_btn; add_button_locator([fieldset(CoreObjectData::TITLE.name)]) end
 
   # OBJECT NAME
 
-  def object_name_input(index)
-    input_locator([fieldset(CoreObjectData::OBJ_NAME_NAME.name, index)])
-  end
-
-  def object_name_delete_btn(index)
-    delete_button_locator([fieldset(CoreObjectData::OBJ_NAME_NAME.name, index)])
-  end
-
-  def object_name_add_btn
-    add_button_locator([fieldset(CoreObjectData::OBJ_NAME_NAME.name)])
-  end
+  def object_name_input(index); input_locator([fieldset(CoreObjectData::OBJ_NAME_NAME.name, index)]) end
+  def object_name_delete_btn(index); delete_button_locator([fieldset(CoreObjectData::OBJ_NAME_NAME.name, index)]) end
+  def object_name_add_btn; add_button_locator([fieldset(CoreObjectData::OBJ_NAME_NAME.name)]) end
 
   # PAGE INTERACTIONS
 

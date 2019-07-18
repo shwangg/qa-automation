@@ -8,267 +8,102 @@ module CoreObjectIdInfoForm
 
   DEPLOYMENT = Deployment::CORE
 
-  def num_objects_input
-    input_locator([], CoreObjectData::NUM_OBJECTS.name)
-  end
+
+  def object_num_input; input_locator([], CoreObjectData::OBJECT_NUM.name) end
+  def object_num_options; input_options_locator([], CoreObjectData::OBJECT_NUM.name) end
+  def num_objects_input; input_locator([], CoreObjectData::NUM_OBJECTS.name) end
 
   # OTHER NUMBER
 
-  def other_num_num_input(index)
-    input_locator([fieldset(CoreObjectData::OTHER_NUM.name, index)], CoreObjectData::NUM_VALUE.name)
-  end
-
-  def other_num_type_input(index)
-    input_locator([fieldset(CoreObjectData::OTHER_NUM.name, index)], CoreObjectData::NUM_TYPE.name)
-  end
-
-  def other_num_type_options(index)
-    input_options_locator([fieldset(CoreObjectData::OTHER_NUM.name, index)], CoreObjectData::NUM_TYPE.name)
-  end
-
-  def other_num_move_top_btn(index)
-    move_top_button_locator [fieldset(CoreObjectData::OTHER_NUM.name, index)]
-  end
-
-  def other_num_delete_btn(index)
-    delete_button_locator [fieldset(CoreObjectData::OTHER_NUM.name, index)]
-  end
-
-  def other_num_add_btn
-    add_button_locator [fieldset(CoreObjectData::OTHER_NUM.name)]
-  end
+  def other_num_num_input(index); input_locator([fieldset(CoreObjectData::OTHER_NUM.name, index)], CoreObjectData::NUM_VALUE.name) end
+  def other_num_type_input(index); input_locator([fieldset(CoreObjectData::OTHER_NUM.name, index)], CoreObjectData::NUM_TYPE.name) end
+  def other_num_type_options(index); input_options_locator([fieldset(CoreObjectData::OTHER_NUM.name, index)], CoreObjectData::NUM_TYPE.name) end
+  def other_num_move_top_btn(index); move_top_button_locator [fieldset(CoreObjectData::OTHER_NUM.name, index)] end
+  def other_num_delete_btn(index); delete_button_locator [fieldset(CoreObjectData::OTHER_NUM.name, index)] end
+  def other_num_add_btn; add_button_locator [fieldset(CoreObjectData::OTHER_NUM.name)] end
 
   # RESPONSIBLE DEPARTMENT
 
-  def resp_dept_input(index)
-    input_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name, index)])
-  end
-
-  def resp_dept_options(index)
-    input_options_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name, index)])
-  end
-
-  def resp_dept_move_top_btn(index)
-    move_top_button_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name, index)])
-  end
-
-  def resp_dept_delete_btn(index)
-    delete_button_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name, index)])
-  end
-
-  def resp_dept_add_btn
-    add_button_locator [fieldset(CoreObjectData::RESPONSIBLE_DEPT.name)]
-  end
+  def resp_dept_input(index); input_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name, index)]) end
+  def resp_dept_options(index); input_options_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name, index)]) end
+  def resp_dept_move_top_btn(index); move_top_button_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name, index)]) end
+  def resp_dept_delete_btn(index); delete_button_locator([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name, index)]) end
+  def resp_dept_add_btn; add_button_locator [fieldset(CoreObjectData::RESPONSIBLE_DEPT.name)] end
 
   # COLLECTION
 
-  def collection_input
-    input_locator([], CoreObjectData::COLLECTION.name)
-  end
-
-  def collection_options
-    input_options_locator([], CoreObjectData::COLLECTION.name)
-  end
+  def collection_input; input_locator([], CoreObjectData::COLLECTION.name) end
+  def collection_options; input_options_locator([], CoreObjectData::COLLECTION.name) end
 
   # RECORD STATUS
 
-  def record_status_input
-    input_locator([], CoreObjectData::RECORD_STATUS.name)
-  end
-
-  def record_status_options
-    input_options_locator([], CoreObjectData::RECORD_STATUS.name)
-  end
+  def record_status_input; input_locator([], CoreObjectData::RECORD_STATUS.name) end
+  def record_status_options; input_options_locator([], CoreObjectData::RECORD_STATUS.name) end
 
   # PUBLISH TO
 
-  def publish_to_input(index)
-    input_locator([fieldset(CoreObjectData::PUBLISH_TO.name, index)])
-  end
-
-  def publish_to_options(index)
-    input_options_locator([fieldset(CoreObjectData::PUBLISH_TO.name, index)])
-  end
-
-  def publish_to_move_top_btn(index)
-    move_top_button_locator([fieldset(CoreObjectData::PUBLISH_TO.name, index)])
-  end
-
-  def publish_to_delete_btn(index)
-    delete_button_locator([fieldset(CoreObjectData::PUBLISH_TO.name, index)])
-  end
-
-  def publish_to_add_btn
-    add_button_locator [fieldset(CoreObjectData::PUBLISH_TO.name)]
-  end
+  def publish_to_input(index); input_locator([fieldset(CoreObjectData::PUBLISH_TO.name, index)]) end
+  def publish_to_options(index); input_options_locator([fieldset(CoreObjectData::PUBLISH_TO.name, index)]) end
+  def publish_to_move_top_btn(index); move_top_button_locator([fieldset(CoreObjectData::PUBLISH_TO.name, index)]) end
+  def publish_to_delete_btn(index); delete_button_locator([fieldset(CoreObjectData::PUBLISH_TO.name, index)]) end
+  def publish_to_add_btn; add_button_locator [fieldset(CoreObjectData::PUBLISH_TO.name)] end
 
   # INVENTORY STATUS
 
-  def inventory_status_input(index)
-    input_locator([fieldset(CoreObjectData::INVENTORY_STATUS.name, index)])
-  end
-
-  def inventory_status_options(index)
-    input_options_locator([fieldset(CoreObjectData::INVENTORY_STATUS.name, index)])
-  end
-
-  def inventory_status_move_top_btn(index)
-    move_top_button_locator([fieldset(CoreObjectData::INVENTORY_STATUS.name, index)])
-  end
-
-  def inventory_status_delete_btn(index)
-    delete_button_locator([fieldset(CoreObjectData::INVENTORY_STATUS.name, index)])
-  end
-
-  def inventory_status_add_btn
-    add_button_locator [fieldset(CoreObjectData::INVENTORY_STATUS.name)]
-  end
+  def inventory_status_input(index); input_locator([fieldset(CoreObjectData::INVENTORY_STATUS.name, index)]) end
+  def inventory_status_options(index); input_options_locator([fieldset(CoreObjectData::INVENTORY_STATUS.name, index)]) end
+  def inventory_status_move_top_btn(index); move_top_button_locator([fieldset(CoreObjectData::INVENTORY_STATUS.name, index)]) end
+  def inventory_status_delete_btn(index); delete_button_locator([fieldset(CoreObjectData::INVENTORY_STATUS.name, index)]) end
+  def inventory_status_add_btn; add_button_locator [fieldset(CoreObjectData::INVENTORY_STATUS.name)] end
 
   # BRIEF DESCRIPTION
 
-  def brief_desc_text_area(index)
-    text_area_locator([fieldset(CoreObjectData::BRIEF_DESCRIP.name, index)])
-  end
-
-  def brief_desc_move_top_btn(index)
-    move_top_button_locator([fieldset(CoreObjectData::BRIEF_DESCRIP.name, index)])
-  end
-
-  def brief_desc_delete_btn(index)
-    delete_button_locator([fieldset(CoreObjectData::BRIEF_DESCRIP.name, index)])
-  end
-
-  def brief_desc_add_btn
-    add_button_locator [fieldset(CoreObjectData::BRIEF_DESCRIP.name)]
-  end
+  def brief_desc_text_area(index); text_area_locator([fieldset(CoreObjectData::BRIEF_DESCRIP.name, index)]) end
+  def brief_desc_move_top_btn(index); move_top_button_locator([fieldset(CoreObjectData::BRIEF_DESCRIP.name, index)]) end
+  def brief_desc_delete_btn(index); delete_button_locator([fieldset(CoreObjectData::BRIEF_DESCRIP.name, index)]) end
+  def brief_desc_add_btn; add_button_locator [fieldset(CoreObjectData::BRIEF_DESCRIP.name)] end
 
   # DISTINGUISHING FEATURES
 
-  def dist_features_text_area
-    text_area_locator([], CoreObjectData::DISTINGUISHING_FEATURES.name)
-  end
+  def dist_features_text_area; text_area_locator([], CoreObjectData::DISTINGUISHING_FEATURES.name) end
 
   # COMMENT
 
-  def comment_text_area(index)
-    text_area_locator([fieldset(CoreObjectData::COMMENT.name, index)])
-  end
-
-  def comment_move_top_btn(index)
-    move_top_button_locator([fieldset(CoreObjectData::COMMENT.name, index)])
-  end
-
-  def comment_delete_btn(index)
-    delete_button_locator([fieldset(CoreObjectData::COMMENT.name, index)])
-  end
-
-  def comment_add_btn
-    add_button_locator([fieldset(CoreObjectData::COMMENT.name)])
-  end
+  def comment_text_area(index); text_area_locator([fieldset(CoreObjectData::COMMENT.name, index)]) end
+  def comment_move_top_btn(index); move_top_button_locator([fieldset(CoreObjectData::COMMENT.name, index)]) end
+  def comment_delete_btn(index); delete_button_locator([fieldset(CoreObjectData::COMMENT.name, index)]) end
+  def comment_add_btn; add_button_locator([fieldset(CoreObjectData::COMMENT.name)]) end
 
   # TITLE
 
-  def title_input(index)
-    input_locator([fieldset(CoreObjectData::TITLE_GRP.name, index)], CoreObjectData::TITLE.name)
-  end
-
-  def title_type_input(index)
-    input_locator([fieldset(CoreObjectData::TITLE_GRP.name, index)], CoreObjectData::TITLE_TYPE.name)
-  end
-
-  def title_type_options(index)
-    input_options_locator([fieldset(CoreObjectData::TITLE_GRP.name, index)], CoreObjectData::TITLE_TYPE.name)
-  end
-
-  def title_lang_input(index)
-    input_locator([fieldset(CoreObjectData::TITLE_GRP.name, index)], CoreObjectData::TITLE_LANG.name)
-  end
-
-  def title_lang_options(index)
-    input_options_locator([fieldset(CoreObjectData::TITLE_GRP.name, index)], CoreObjectData::TITLE_LANG.name)
-  end
-
-  def title_translation_input(indices)
-    input_locator([fieldset(CoreObjectData::TITLE_GRP.name, indices[0]), fieldset(CoreObjectData::TITLE_TRANSLATION_SUB_GRP.name, indices[1])], CoreObjectData::TITLE_TRANSLATION.name)
-  end
-
-  def title_translation_lang_input(indices)
-    input_locator([fieldset(CoreObjectData::TITLE_GRP.name, indices[0]), fieldset(CoreObjectData::TITLE_TRANSLATION_SUB_GRP.name, indices[1])], CoreObjectData::TITLE_TRANSLATION_LANG.name)
-  end
-
-  def title_translation_lang_options(indices)
-    input_options_locator([fieldset(CoreObjectData::TITLE_GRP.name, indices[0]), fieldset(CoreObjectData::TITLE_TRANSLATION_SUB_GRP.name, indices[1])], CoreObjectData::TITLE_TRANSLATION_LANG.name)
-  end
-
-  def title_translation_move_top_btn(indices)
-    move_top_button_locator([fieldset(CoreObjectData::TITLE_GRP.name, indices[0]), fieldset(CoreObjectData::TITLE_TRANSLATION.name, indices[1])])
-  end
-
-  def title_translation_delete_btn(indices)
-    move_top_button_locator([fieldset(CoreObjectData::TITLE_GRP.name, indices[0]), fieldset(CoreObjectData::TITLE_TRANSLATION.name, indices[1])])
-  end
-
-  def title_translation_add_btn(index)
-    add_button_locator([fieldset(CoreObjectData::TITLE_GRP.name, index), fieldset(CoreObjectData::TITLE_TRANSLATION_SUB_GRP.name)])
-  end
-
-  def title_add_btn
-    add_button_locator([fieldset(CoreObjectData::TITLE_GRP.name)])
-  end
+  def title_input(index); input_locator([fieldset(CoreObjectData::TITLE_GRP.name, index)], CoreObjectData::TITLE.name) end
+  def title_type_input(index); input_locator([fieldset(CoreObjectData::TITLE_GRP.name, index)], CoreObjectData::TITLE_TYPE.name) end
+  def title_type_options(index); input_options_locator([fieldset(CoreObjectData::TITLE_GRP.name, index)], CoreObjectData::TITLE_TYPE.name) end
+  def title_lang_input(index); input_locator([fieldset(CoreObjectData::TITLE_GRP.name, index)], CoreObjectData::TITLE_LANG.name) end
+  def title_lang_options(index); input_options_locator([fieldset(CoreObjectData::TITLE_GRP.name, index)], CoreObjectData::TITLE_LANG.name) end
+  def title_translation_input(indices); input_locator([fieldset(CoreObjectData::TITLE_GRP.name, indices[0]), fieldset(CoreObjectData::TITLE_TRANSLATION_SUB_GRP.name, indices[1])], CoreObjectData::TITLE_TRANSLATION.name) end
+  def title_translation_lang_input(indices); input_locator([fieldset(CoreObjectData::TITLE_GRP.name, indices[0]), fieldset(CoreObjectData::TITLE_TRANSLATION_SUB_GRP.name, indices[1])], CoreObjectData::TITLE_TRANSLATION_LANG.name) end
+  def title_translation_lang_options(indices); input_options_locator([fieldset(CoreObjectData::TITLE_GRP.name, indices[0]), fieldset(CoreObjectData::TITLE_TRANSLATION_SUB_GRP.name, indices[1])], CoreObjectData::TITLE_TRANSLATION_LANG.name) end
+  def title_translation_move_top_btn(indices); move_top_button_locator([fieldset(CoreObjectData::TITLE_GRP.name, indices[0]), fieldset(CoreObjectData::TITLE_TRANSLATION.name, indices[1])]) end
+  def title_translation_delete_btn(indices); move_top_button_locator([fieldset(CoreObjectData::TITLE_GRP.name, indices[0]), fieldset(CoreObjectData::TITLE_TRANSLATION.name, indices[1])]) end
+  def title_translation_add_btn(index); add_button_locator([fieldset(CoreObjectData::TITLE_GRP.name, index), fieldset(CoreObjectData::TITLE_TRANSLATION_SUB_GRP.name)]) end
+  def title_add_btn; add_button_locator([fieldset(CoreObjectData::TITLE_GRP.name)]) end
 
   # OBJECT NAME
 
-  def object_name_input(index)
-    input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_NAME.name)
-  end
-
-  def object_name_currency_input(index)
-    input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_CURRENCY.name)
-  end
-
-  def object_name_currency_options(index)
-    input_options_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_CURRENCY.name)
-  end
-
-  def object_name_level_input(index)
-    input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_LEVEL.name)
-  end
-
-  def object_name_level_options(index)
-    input_options_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_LEVEL.name)
-  end
-
-  def object_name_system_input(index)
-    input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_SYSTEM.name)
-  end
-
-  def object_name_system_options(index)
-    input_options_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_SYSTEM.name)
-  end
-
-  def object_name_type_input(index)
-    input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_TYPE.name)
-  end
-
-  def object_name_type_options(index)
-    input_options_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_TYPE.name)
-  end
-
-  def object_name_lang_input(index)
-    input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_LANG.name)
-  end
-
-  def object_name_lang_options(index)
-    input_options_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_LANG.name)
-  end
-
-  def object_name_note_input(index)
-    input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_NOTE.name)
-  end
-
-  def object_name_add_btn
-    add_button_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name)])
-  end
+  def object_name_input(index); input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_NAME.name) end
+  def object_name_currency_input(index); input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_CURRENCY.name) end
+  def object_name_currency_options(index); input_options_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_CURRENCY.name) end
+  def object_name_level_input(index); input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_LEVEL.name) end
+  def object_name_level_options(index); input_options_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_LEVEL.name) end
+  def object_name_system_input(index); input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_SYSTEM.name) end
+  def object_name_system_options(index); input_options_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_SYSTEM.name) end
+  def object_name_type_input(index); input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_TYPE.name) end
+  def object_name_type_options(index); input_options_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_TYPE.name) end
+  def object_name_lang_input(index); input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_LANG.name) end
+  def object_name_lang_options(index); input_options_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_LANG.name) end
+  def object_name_note_input(index); input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_NOTE.name) end
+  def object_name_add_btn; add_button_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name)]) end
 
   # PAGE INTERACTIONS
 
@@ -279,7 +114,7 @@ module CoreObjectIdInfoForm
     data_input_errors = []
     hide_notifications_bar
 
-    object_num = data_set[ObjectData::OBJECT_NUM.name]
+    object_num = data_set[CoreObjectData::OBJECT_NUM.name]
     logger.debug "Entering object number #{object_num}"
     wait_for_options_and_type(object_num_input, object_num_options, object_num)
 

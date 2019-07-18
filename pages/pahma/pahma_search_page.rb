@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 
-class PAHMASearchPage < SearchPage
+class PAHMASearchPage < CoreSearchPage
 
   include Page
   include CollectionSpacePages

@@ -1,4 +1,4 @@
-class AcquisitionData < CollectionSpaceData
+class CoreAcquisitionData < CollectionSpaceData
 
   DATA = [
       ACCESSION_DATE = new('accessionDate'),

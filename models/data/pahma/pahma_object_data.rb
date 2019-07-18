@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-class PAHMAObjectData < ObjectData
+class PAHMAObjectData < CoreObjectData
 
   DATA = [
       ALT_NUM_GRP = new('pahmaAltNumGroup'),

@@ -1,4 +1,4 @@
-class UseOfCollectionsData < CollectionSpaceData
+class CoreUseOfCollectionsData < CollectionSpaceData
 
   DATA = [
       AUTHORIZATION_DATE = new('authorizationDate'),
