@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 
-class PAHMACreateNewPage < CreateNewPage
+class PAHMACreateNewPage < CoreCreateNewPage
 
   include Logging
   include Page

@@ -581,7 +581,7 @@ module PAHMAObjectIdInfoForm
     data_input_errors = []
     hide_notifications_bar
 
-    object_num = data_set[ObjectData::OBJECT_NUM.name]
+    object_num = data_set[PAHMAObjectData::OBJECT_NUM.name]
     logger.debug "Entering object number '#{object_num}'"
     wait_for_element_and_type(object_num_input, object_num)
 

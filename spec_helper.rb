@@ -45,3 +45,27 @@ require_relative 'pages/core/core_procedures/core_exhibition_info_form'
 require_relative 'pages/core/core_procedures/core_exhibition_page'
 require_relative 'pages/core/core_procedures/core_use_of_collections_info_form'
 require_relative 'pages/core/core_procedures/core_use_of_collections_page'
+
+deployment = Config.deployment.code
+
+unless deployment == 'core'
+  require_relative "config/config_#{deployment}"
+  require_relative "models/data/#{deployment}/#{deployment}_authorities/#{deployment}_org_data"
+  require_relative "models/data/#{deployment}/#{deployment}_objects/#{deployment}_object_data"
+  require_relative "pages/#{deployment}/#{deployment}_login_page"
+  require_relative "pages/#{deployment}/#{deployment}_search/#{deployment}_search_acquisitions_form"
+  require_relative "pages/#{deployment}/#{deployment}_search/#{deployment}_search_objects_form"
+  require_relative "pages/#{deployment}/#{deployment}_search/#{deployment}_search_page"
+  require_relative "pages/#{deployment}/#{deployment}_search/#{deployment}_search_results_page"
+  require_relative "pages/#{deployment}/#{deployment}_create_new_page"
+  require_relative "pages/#{deployment}/#{deployment}_objects/#{deployment}_object_id_info_form"
+  require_relative "pages/#{deployment}/#{deployment}_objects/#{deployment}_object_page"
+  require_relative "pages/#{deployment}/#{deployment}_procedures/#{deployment}_acquisition_info_form"
+  require_relative "pages/#{deployment}/#{deployment}_procedures/#{deployment}_acquisition_page"
+  require_relative "pages/#{deployment}/#{deployment}_procedures/#{deployment}_exhibition_info_form"
+  require_relative "pages/#{deployment}/#{deployment}_procedures/#{deployment}_exhibition_page"
+  require_relative "pages/#{deployment}/#{deployment}_procedures/#{deployment}_use_of_collections_page"
+  require_relative "pages/#{deployment}/#{deployment}_authorities/#{deployment}_authority_page"
+  require_relative "pages/#{deployment}/#{deployment}_authorities/#{deployment}_organization_info_form"
+  require_relative "pages/#{deployment}/#{deployment}_authorities/#{deployment}_organization_page"
+end

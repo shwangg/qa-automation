@@ -12,7 +12,7 @@ describe 'Structured dates' do
     before(:all) do
       test_run.set_driver launch_browser
       @test_data = {}
-      test_run.set_unique_test_id(@test_data, ObjectData::OBJECT_NUM.name)
+      test_run.set_unique_test_id(@test_data, PAHMAObjectData::OBJECT_NUM.name)
 
       @admin = test_run.get_admin_user
       @login_page = test_run.get_page LoginPage
@@ -24,7 +24,7 @@ describe 'Structured dates' do
       @login_page.log_in(@admin.username, @admin.password)
       @search_page.click_create_new_link
       @create_new_page.click_create_new_object
-      @object_page.wait_for_element_and_type(@object_page.object_num_input, @test_data[ObjectData::OBJECT_NUM.name])
+      @object_page.wait_for_element_and_type(@object_page.object_num_input, @test_data[PAHMAObjectData::OBJECT_NUM.name])
     end
 
     after(:all) { quit_browser test_run.driver }
