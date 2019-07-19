@@ -52,6 +52,7 @@ unless deployment == 'core'
   require_relative "config/config_#{deployment}"
   require_relative "models/data/#{deployment}/#{deployment}_authorities/#{deployment}_org_data"
   require_relative "models/data/#{deployment}/#{deployment}_objects/#{deployment}_object_data"
+  require_relative "models/data/#{deployment}/#{deployment}_procedures/#{deployment}_use_of_collections_data"
   require_relative "pages/#{deployment}/#{deployment}_login_page"
   require_relative "pages/#{deployment}/#{deployment}_search/#{deployment}_search_acquisitions_form"
   require_relative "pages/#{deployment}/#{deployment}_search/#{deployment}_search_objects_form"
