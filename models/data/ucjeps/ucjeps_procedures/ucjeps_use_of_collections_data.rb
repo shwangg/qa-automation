@@ -1,6 +1,6 @@
 require_relative '../../../../spec_helper'
 
-class UCJEPSUseOfCollectionsData < CoreUseofCollectionsData
+class UCJEPSUseOfCollectionsData < CoreUseOfCollectionsData
 
   DATA = [
       AUTHORIZATION_GRP = new('authorizationGroup'),
@@ -9,10 +9,13 @@ class UCJEPSUseOfCollectionsData < CoreUseofCollectionsData
       COLLECTION_TYPE_LIST = new('collectionTypeList'),
       DATE_COMPLETED = new('dateCompleted'),
       DATE_REQUESTED = new('dateRequested'),
-      FEE_AMOUNT = new('feeAmount'),
+      FEE_CURRENCY = new('feeCurrency'),
+      FEE_GRP = new('feeGroup'),
       FEE_NOTE = new('feeNote'),
       FEE_PAID = new('feePaid'),
+      FEE_VALUE = new('feeValue'),
       LINK_TO_CONTRACT = new('linkToContract'),
+      LINK_TO_CONTRACT_LIST = new('linkToContractList'),
       LOCATION = new('location'),
       LOCATION_LIST = new('locationList'),
       MATERIAL_TYPE = new('materialType'),
@@ -36,7 +39,7 @@ class UCJEPSUseOfCollectionsData < CoreUseofCollectionsData
       USER_ROLE = new('userRole')
   ]
 
-  def empty_authorization
+  def self.empty_authorization
     {
         AUTHORIZED_BY.name => '',
         AUTHORIZATION_NOTE.name => '',
@@ -45,7 +48,7 @@ class UCJEPSUseOfCollectionsData < CoreUseofCollectionsData
     }
   end
 
-  def empty_user
+  def self.empty_user
     {
         USER.name => '',
         USER_TYPE.name => '',
@@ -54,12 +57,29 @@ class UCJEPSUseOfCollectionsData < CoreUseofCollectionsData
     }
   end
 
-  def empty_staff
+  def self.empty_use_date
+    {
+        USE_DATE.name => '',
+        USE_DATE_NUM_VISITORS.name => '',
+        USE_DATE_HOURS_SPENT.name => '',
+        USE_DATE_VISITOR_NOTE.name => ''
+    }
+  end
+
+  def self.empty_staff
     {
         STAFF_NAME.name => '',
         STAFF_ROLE.name => '',
         STAFF_HOURS_SPENT.name => '',
         STAFF_NOTE.name => ''
+    }
+  end
+
+  def self.empty_fee
+    {
+        FEE_CURRENCY.name => '',
+        FEE_VALUE.name => '',
+        FEE_NOTE.name => ''
     }
   end
 
