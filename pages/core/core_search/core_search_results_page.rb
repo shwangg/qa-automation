@@ -10,7 +10,7 @@ class CoreSearchResultsPage
 
   def result_rows; {:xpath => '//div[@class="cspace-ui-SearchResultTable--common"]//*[@aria-label="row"]'} end
   def no_results_msg; {:xpath => '//span[text()="No records found"]'} end
-  def relate_selected_button; {:name => 'accept'} end
+  def relate_selected_button; {:xpath => '//button[contains(.,"Relate selected")]'} end
 
   def result_row(id)
     {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][contains(.,\"#{id}\")]"}

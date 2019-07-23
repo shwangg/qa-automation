@@ -9,6 +9,8 @@ module SidebarPages
   def terms_used_expanded_div_locator; {:xpath => '//section[contains(.,"Terms Used:")]/div'} end
   def terms_used_term_links_locator; {:xpath => '//section[contains(.,"Terms Used:")]//a[@role="row"]'} end
   def terms_used_term_link_locator(term); {:xpath => "//section[contains(.,\"Terms Used:\")]//a[contains(.,'#{term}')]"} end
+  def terms_used_num_per_page_input; {:xpath => '//section[contains(.,"Terms Used:")]//input'} end
+  def terms_used_num_per_page_option; {:xpath => '//section[contains(.,"Terms Used:")]//input/following-sibling::div//li'} end
 
   def used_by_button_locator; {:xpath => '//button[contains(.,"Used By:")]'} end
   def used_by_expanded_div_locator; {:xpath => '//section[contains(.,"Used By:")]/div'} end
@@ -24,6 +26,12 @@ module SidebarPages
     scroll_to_top
     sleep Config.click_wait
     wait_for_element_and_click terms_used_button_locator unless exists?(terms_used_expanded_div_locator)
+  end
+
+  # Selects the show '20' option for Terms Used
+  def show_twenty_terms
+    expand_sidebar_terms_used
+    wait_for_options_and_select(terms_used_num_per_page_input, terms_used_num_per_page_option, '20')
   end
 
   # Clicks the link for a Term in the sidebar
