@@ -13,8 +13,9 @@ module WebDriverManager
     logger.warn "Launching #{browser.capitalize}"
     driver = case browser
 
-               when 'chrome'
-                 options = Selenium::WebDriver::Chrome::Options.new
+              when 'chrome'
+                 options = {w3c: false}
+                 options = Selenium::WebDriver::Chrome::Options.new(:options => options)
                  options.add_argument 'headless' if driver_config[:headless]
                  Selenium::WebDriver.for :chrome, :options => options
 
