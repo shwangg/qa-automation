@@ -26,10 +26,9 @@ module UCJEPSUseOfCollectionsInfoForm
   def date_completed_input; input_locator([], UCJEPSUseOfCollectionsData::DATE_COMPLETED.name) end
 
   def occasion_input(index); input_locator([fieldset(UCJEPSUseOfCollectionsData::OCCASION.name, index)]) end
+  def occasion_options(index); input_options_locator([fieldset(UCJEPSUseOfCollectionsData::OCCASION.name, index)]) end
 
   def project_desc_text_area; text_area_locator([], UCJEPSUseOfCollectionsData::PROJECT_DESC.name) end
-
-  def link_to_contract_input(index); input_locator([fieldset(UCJEPSUseOfCollectionsData::LINK_TO_CONTRACT_LIST.name, index)]) end
 
   def authorized_by_input(index); input_locator([fieldset(UCJEPSUseOfCollectionsData::AUTHORIZATION_GRP.name, index)], UCJEPSUseOfCollectionsData::AUTHORIZED_BY.name) end
   def authorized_by_options(index); input_options_locator([fieldset(UCJEPSUseOfCollectionsData::AUTHORIZATION_GRP.name, index)], UCJEPSUseOfCollectionsData::AUTHORIZED_BY.name) end
@@ -147,7 +146,7 @@ module UCJEPSUseOfCollectionsInfoForm
       enter_auto_complete(user_name_input(index), user_name_options(index), user[UCJEPSUseOfCollectionsData::USER.name], 'Default Persons')
       wait_for_options_and_select(user_type_input(index), user_type_options(index), user[UCJEPSUseOfCollectionsData::USER_TYPE.name])
       wait_for_options_and_select(user_role_input(index), user_role_options(index), user[UCJEPSUseOfCollectionsData::USER_ROLE.name])
-      enter_auto_complete(user_institution_input(index), user_institution_options(index), user[UCJEPSUseOfCollectionsData::USER_INSTITUTION.name], 'All Organizations')
+      enter_auto_complete(user_institution_input(index), user_institution_options(index), user[UCJEPSUseOfCollectionsData::USER_INSTITUTION.name], 'Institution Organizations')
     end
   end
 
@@ -207,7 +206,7 @@ module UCJEPSUseOfCollectionsInfoForm
     prep_fieldsets_for_test_data([fieldset(UCJEPSUseOfCollectionsData::OCCASION_LIST.name)], occasions)
     occasions.each_with_index do |occasion, index|
       logger.info "Entering occasion data set at index #{index}: #{occasion}"
-      wait_for_element_and_type(occasion_input(index), occasion[UCJEPSUseOfCollectionsData::OCCASION.name])
+      enter_auto_complete(occasion_input(index), occasion_options(index), occasion[UCJEPSUseOfCollectionsData::OCCASION.name], 'Label Texts')
     end
   end
 
@@ -232,29 +231,6 @@ module UCJEPSUseOfCollectionsInfoForm
   # @param [Hash] test_data
   def verify_project_desc(test_data)
     verify_values_match(test_data[UCJEPSUseOfCollectionsData::PROJECT_DESC.name], element_value(project_desc_text_area))
-  end
-
-  # LINK TO CONTRACT
-
-  # Enters a link to contract per a given set of test data
-  # @param [Hash] test_data
-  def enter_link_to_contract(test_data)
-    links = test_data[UCJEPSUseOfCollectionsData::LINK_TO_CONTRACT_LIST.name] || [{UCJEPSUseOfCollectionsData::LINK_TO_CONTRACT.name => ''}]
-    hide_notifications_bar
-    prep_fieldsets_for_test_data([fieldset(UCJEPSUseOfCollectionsData::LINK_TO_CONTRACT_LIST.name)], links)
-    links.each_with_index do |link, index|
-      logger.info "Entering link to contract '#{link[UCJEPSUseOfCollectionsData::LINK_TO_CONTRACT.name]}'"
-      wait_for_element_and_type(link_to_contract_input(index), link[UCJEPSUseOfCollectionsData::LINK_TO_CONTRACT.name])
-    end
-  end
-
-  # Verifies a link to contract matches test data
-  # @param [Hash] test_data
-  def verify_link_to_contract(test_data)
-    links = test_data[UCJEPSUseOfCollectionsData::LINK_TO_CONTRACT_LIST.name] || [{UCJEPSUseOfCollectionsData::LINK_TO_CONTRACT.name => ''}]
-    links.each_with_index do |link, index|
-      verify_values_match(link[UCJEPSUseOfCollectionsData::LINK_TO_CONTRACT.name], element_value(link_to_contract_input index))
-    end
   end
 
   # AUTHORIZATIONS
