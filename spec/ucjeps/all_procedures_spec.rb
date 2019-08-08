@@ -109,7 +109,6 @@ if test_run.deployment == Deployment::UCJEPS
       it('allow a Date Completed to be added') { @use_of_collections_page.enter_date_completed @uoc_1 }
       it('allow Occasions to be added') { @use_of_collections_page.enter_occasions @uoc_1 }
       it('allow a Project Description to be added') { @use_of_collections_page.enter_project_desc @uoc_1 }
-      it('allow a Link to Contract to be added') { @use_of_collections_page.enter_link_to_contract @uoc_1 }
       it('allow Authorizations to be added') { @use_of_collections_page.enter_authorizations @uoc_1 }
       it('allow Use Dates to be added') { @use_of_collections_page.enter_use_dates @uoc_1 }
       it('allow an End Date to be added') { @use_of_collections_page.enter_end_date @uoc_1 }
@@ -137,7 +136,6 @@ if test_run.deployment == Deployment::UCJEPS
       it('show the right Date Completed') { @use_of_collections_page.verify_date_completed @uoc_1 }
       it('show the right Occasions') { @use_of_collections_page.verify_occasions @uoc_1 }
       it('show the right Project Description') { @use_of_collections_page.verify_project_desc @uoc_1 }
-      it('show the right Link to Contract') { @use_of_collections_page.verify_link_to_contract @uoc_1 }
       it('show the right Authorizations') { @use_of_collections_page.verify_authorizations @uoc_1 }
       it('show the right Use Dates') { @use_of_collections_page.verify_use_dates @uoc_1 }
       it('show the right End Date') { @use_of_collections_page.verify_end_date @uoc_1 }
@@ -160,6 +158,7 @@ if test_run.deployment == Deployment::UCJEPS
         end
         @uoc_1[UCJEPSUseOfCollectionsData::AUTHORIZATION_GRP.name].each { |auth| @terms_used << auth[UCJEPSUseOfCollectionsData::AUTHORIZED_BY.name] }
         @uoc_1[UCJEPSUseOfCollectionsData::STAFF_GRP.name].each { |staff| @terms_used << staff[UCJEPSUseOfCollectionsData::STAFF_NAME.name] }
+        @uoc_1[UCJEPSUseOfCollectionsData::OCCASION_LIST.name].each { |occ| @terms_used << occ[UCJEPSUseOfCollectionsData::OCCASION.name] }
         @uoc_1[UCJEPSUseOfCollectionsData::LOCATION_LIST.name].each { |loc| @terms_used << loc[UCJEPSUseOfCollectionsData::LOCATION.name] }
         @terms_used.compact!
 
@@ -203,7 +202,6 @@ if test_run.deployment == Deployment::UCJEPS
       it('allow a Date Completed to be removed') { @use_of_collections_page.enter_date_completed @uoc_2 }
       it('allow Occasions to be removed') { @use_of_collections_page.enter_occasions @uoc_2 }
       it('allow a Project Description to be removed') { @use_of_collections_page.enter_project_desc @uoc_2 }
-      it('allow a Link to Contract to be removed') { @use_of_collections_page.enter_link_to_contract @uoc_2 }
       it('allow Authorizations to be removed') { @use_of_collections_page.enter_authorizations @uoc_2 }
       it('allow Use Dates to be removed') { @use_of_collections_page.enter_use_dates @uoc_2 }
       it('allow an End Date to be removed') { @use_of_collections_page.enter_end_date @uoc_2 }
@@ -226,7 +224,6 @@ if test_run.deployment == Deployment::UCJEPS
       it('show the right Date Completed') { @use_of_collections_page.verify_date_completed @uoc_2 }
       it('show the right Occasions') { @use_of_collections_page.verify_occasions @uoc_2 }
       it('show the right Project Description') { @use_of_collections_page.verify_project_desc @uoc_2 }
-      it('show the right Link to Contract') { @use_of_collections_page.verify_link_to_contract @uoc_2 }
       it('show the right Authorizations') { @use_of_collections_page.verify_authorizations @uoc_2 }
       it('show the right Use Dates') { @use_of_collections_page.verify_use_dates @uoc_2 }
       it('show the right End Date') { @use_of_collections_page.verify_end_date @uoc_2 }
