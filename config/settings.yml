@@ -17,3 +17,33 @@ core:
   admin:
     username: admin@core.collectionspace.org
     password: Administrator
+
+bampfa:
+  base_url: https://bampfa-qa.cspace.berkeley.edu
+  admin:
+    username: secret
+    password: secret
+
+botgarden:
+  base_url: https://botgarden-qa.cspace.berkeley.edu
+  admin:
+    username: secret
+    password: secret
+
+cinefiles:
+  base_url: https://cinefiles-qa.cpace.berkeley.edu
+  admin:
+    username: secret
+    password: secret
+
+pahma:
+  base_url: https://pahma-qa.cspace.berkeley.edu
+  admin:
+    username: secret
+    password: secret
+
+ucjeps:
+  base_url: https://ucjeps-qa.cspace.berkeley.edu
+  admin:
+    username: secret
+    password: secret
