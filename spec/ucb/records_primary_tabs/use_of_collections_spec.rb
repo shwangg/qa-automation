@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-test_run = TestConfig.new Deployment::UCJEPS
+test_run = TestConfig.new
 test_id = Time.now.to_i
 test_data = test_run.all_procedures_test_data
 
@@ -29,8 +29,8 @@ describe 'Use of Collection records' do
 
     # Insert the unique test ID in the test data reference numbers and project IDs
     [@uoc_1, @uoc_2, @uoc_3, @uoc_4, @uoc_5, @uoc_6].each do |uoc|
-      uoc[UCJEPSUseOfCollectionsData::REFERENCE_NBR.name] = "#{uoc[UCJEPSUseOfCollectionsData::REFERENCE_NBR.name]} #{test_id}"
-      uoc[UCJEPSUseOfCollectionsData::PROJECT_ID.name] = "#{uoc[UCJEPSUseOfCollectionsData::PROJECT_ID.name]} #{test_id}"
+      uoc[CoreUseOfCollectionsData::REFERENCE_NBR.name] = "#{uoc[CoreUseOfCollectionsData::REFERENCE_NBR.name]} #{test_id}"
+      uoc[CoreUseOfCollectionsData::PROJECT_ID.name] = "#{uoc[CoreUseOfCollectionsData::PROJECT_ID.name]} #{test_id}"
     end
 
     @terms_used = []
@@ -52,7 +52,7 @@ describe 'Use of Collection records' do
 
     it 'allow the user to choose a generated reference number of a selected pattern' do
       ref_num = @use_of_collections_page.select_id_generator_option(@use_of_collections_page.reference_nbr_input, @use_of_collections_page.reference_nbr_options)
-      @uoc_0.merge!({UCJEPSUseOfCollectionsData::REFERENCE_NBR.name => ref_num})
+      @uoc_0.merge!({CoreUseOfCollectionsData::REFERENCE_NBR.name => ref_num})
       expect(ref_num).not_to be_empty
     end
 
@@ -64,7 +64,7 @@ describe 'Use of Collection records' do
       @use_of_collections_page.wait_for_element_and_click @use_of_collections_page.reference_nbr_input
       @use_of_collections_page.wait_until(Config.short_wait) { @use_of_collections_page.elements(@use_of_collections_page.reference_nbr_options).any? &:displayed? }
       sleep 2
-      expect(@use_of_collections_page.elements(@use_of_collections_page.reference_nbr_options).first.text).to include(@uoc_0[UCJEPSUseOfCollectionsData::REFERENCE_NBR.name])
+      expect(@use_of_collections_page.elements(@use_of_collections_page.reference_nbr_options).first.text).to include(@uoc_0[CoreUseOfCollectionsData::REFERENCE_NBR.name])
     end
 
     it 'show the user the "last generated value" for a project ID' do
@@ -72,12 +72,12 @@ describe 'Use of Collection records' do
       @use_of_collections_page.wait_for_element_and_click @use_of_collections_page.project_id_input
       @use_of_collections_page.wait_until(Config.short_wait) { @use_of_collections_page.elements(@use_of_collections_page.project_id_options).any? &:displayed? }
       sleep 2
-      expect(@use_of_collections_page.elements(@use_of_collections_page.project_id_options).first.text).to include(@uoc_0[UCJEPSUseOfCollectionsData::PROJECT_ID.name])
+      expect(@use_of_collections_page.elements(@use_of_collections_page.project_id_options).first.text).to include(@uoc_0[CoreUseOfCollectionsData::PROJECT_ID.name])
     end
 
     it 'allow the user to choose an incremented reference number of a selected pattern' do
       @use_of_collections_page.hit_tab
-      prev_ref_num = @uoc_0[UCJEPSUseOfCollectionsData::REFERENCE_NBR.name].split(//).last.to_i
+      prev_ref_num = @uoc_0[CoreUseOfCollectionsData::REFERENCE_NBR.name].split(//).last.to_i
       new_ref_num = @use_of_collections_page.select_id_generator_option(@use_of_collections_page.reference_nbr_input, @use_of_collections_page.reference_nbr_options)
       last_digit = new_ref_num.split(//).last.to_i
       (prev_ref_num == 9) ? (expect(last_digit).to be_zero) : (expect(last_digit).to eql(prev_ref_num + 1))
@@ -85,7 +85,7 @@ describe 'Use of Collection records' do
 
     it 'allow the user to choose an incremented project ID of a selected pattern' do
       @use_of_collections_page.hit_tab
-      prev_proj_id = @uoc_0[UCJEPSUseOfCollectionsData::PROJECT_ID.name].split(//).last.to_i
+      prev_proj_id = @uoc_0[CoreUseOfCollectionsData::PROJECT_ID.name].split(//).last.to_i
       new_proj_id = @use_of_collections_page.select_auto_project_id
       last_digit = new_proj_id.split(//).last.to_i
       (prev_proj_id == 9) ? (expect(last_digit).to be_zero) : (expect(last_digit).to eql(prev_proj_id + 1))
@@ -145,19 +145,19 @@ describe 'Use of Collection records' do
     it('show the right Result') { @use_of_collections_page.verify_result @uoc_1 }
 
     it 'shows the Reference Number and the Title in the procedure header' do
-      expected_heading = "#{@uoc_1[UCJEPSUseOfCollectionsData::REFERENCE_NBR.name]} – #{@uoc_1[UCJEPSUseOfCollectionsData::TITLE.name]}"
+      expected_heading = "#{@uoc_1[CoreUseOfCollectionsData::REFERENCE_NBR.name]} – #{@uoc_1[CoreUseOfCollectionsData::TITLE.name]}"
       expect(@use_of_collections_page.element_text @use_of_collections_page.page_h1).to eql(expected_heading)
     end
 
     it 'show the right Terms used in the sidebar' do
-      @uoc_1[UCJEPSUseOfCollectionsData::USER_GRP.name].each do |user|
-        @terms_used << user[UCJEPSUseOfCollectionsData::USER.name]
-        @terms_used << user[UCJEPSUseOfCollectionsData::USER_INSTITUTION.name]
+      @uoc_1[CoreUseOfCollectionsData::USER_GRP.name].each do |user|
+        @terms_used << user[CoreUseOfCollectionsData::USER.name]
+        @terms_used << user[CoreUseOfCollectionsData::USER_INSTITUTION.name]
       end
-      @uoc_1[UCJEPSUseOfCollectionsData::AUTHORIZATION_GRP.name].each { |auth| @terms_used << auth[UCJEPSUseOfCollectionsData::AUTHORIZED_BY.name] }
-      @uoc_1[UCJEPSUseOfCollectionsData::STAFF_GRP.name].each { |staff| @terms_used << staff[UCJEPSUseOfCollectionsData::STAFF_NAME.name] }
-      @uoc_1[UCJEPSUseOfCollectionsData::OCCASION_LIST.name].each { |occ| @terms_used << occ[UCJEPSUseOfCollectionsData::OCCASION.name] }
-      @uoc_1[UCJEPSUseOfCollectionsData::LOCATION_LIST.name].each { |loc| @terms_used << loc[UCJEPSUseOfCollectionsData::LOCATION.name] }
+      @uoc_1[CoreUseOfCollectionsData::AUTHORIZATION_GRP.name].each { |auth| @terms_used << auth[CoreUseOfCollectionsData::AUTHORIZED_BY.name] }
+      @uoc_1[CoreUseOfCollectionsData::STAFF_GRP.name].each { |staff| @terms_used << staff[CoreUseOfCollectionsData::STAFF_NAME.name] }
+      @uoc_1[CoreUseOfCollectionsData::OCCASION_LIST.name].each { |occ| @terms_used << occ[CoreUseOfCollectionsData::OCCASION.name] }
+      @uoc_1[CoreUseOfCollectionsData::LOCATION_LIST.name].each { |loc| @terms_used << loc[CoreUseOfCollectionsData::LOCATION.name] }
       @terms_used.compact!
 
       @use_of_collections_page.show_twenty_terms
@@ -179,8 +179,8 @@ describe 'Use of Collection records' do
           @use_of_collections_page.click_sidebar_term term
           @authority_page.wait_until(Config.short_wait) { @authority_page.page_title.include? term }
           @authority_page.expand_sidebar_used_by
-          @authority_page.click_sidebar_used_by @uoc_1[UCJEPSUseOfCollectionsData::REFERENCE_NBR.name]
-          @use_of_collections_page.wait_until(Config.short_wait) { @use_of_collections_page.page_title.include? @uoc_1[UCJEPSUseOfCollectionsData::REFERENCE_NBR.name] }
+          @authority_page.click_sidebar_used_by @uoc_1[CoreUseOfCollectionsData::REFERENCE_NBR.name]
+          @use_of_collections_page.wait_until(Config.short_wait) { @use_of_collections_page.page_title.include? @uoc_1[CoreUseOfCollectionsData::REFERENCE_NBR.name] }
         end
       end
       @use_of_collections_page.wait_until(1, "Expected errors #{errors} to be empty") { errors.empty? }
@@ -233,7 +233,7 @@ describe 'Use of Collection records' do
     it('show the right Result') { @use_of_collections_page.verify_result @uoc_2 }
 
     it 'shows the Reference Number and the Title in the procedure header' do
-      expected_heading = "#{@uoc_2[UCJEPSUseOfCollectionsData::REFERENCE_NBR.name]}"
+      expected_heading = "#{@uoc_2[CoreUseOfCollectionsData::REFERENCE_NBR.name]}"
       expect(@use_of_collections_page.element_text @use_of_collections_page.page_h1).to eql(expected_heading)
     end
 
@@ -243,7 +243,7 @@ describe 'Use of Collection records' do
     end
 
     it 'do not allow the reference number to be removed' do
-      @use_of_collections_page.enter_reference_nbr({UCJEPSUseOfCollectionsData::REFERENCE_NBR.name => ''})
+      @use_of_collections_page.enter_reference_nbr({CoreUseOfCollectionsData::REFERENCE_NBR.name => ''})
       @use_of_collections_page.hit_tab
       @use_of_collections_page.wait_for_notification 'Reference number is required. Please enter a value.'
       expect(@use_of_collections_page.enabled? @use_of_collections_page.save_button).to be false
@@ -283,7 +283,7 @@ describe 'Use of Collection records' do
 
       it 'prevents the procedure being returned in search results' do
         @search_results_page.click_search_link
-        @search_page.quick_search('Use of Collections', nil, @uoc_3[UCJEPSUseOfCollectionsData::REFERENCE_NBR.name])
+        @search_page.quick_search('Use of Collections', nil, @uoc_3[CoreUseOfCollectionsData::REFERENCE_NBR.name])
         @search_results_page.when_displayed(@search_results_page.no_results_msg, Config.short_wait)
       end
     end
@@ -302,9 +302,9 @@ describe 'Use of Collection records' do
         @use_of_collections_page.save_record
 
         @use_of_collections_page.click_add_related_procedure
-        @search_page.full_text_search @uoc_4[UCJEPSUseOfCollectionsData::REFERENCE_NBR.name]
+        @search_page.full_text_search @uoc_4[CoreUseOfCollectionsData::REFERENCE_NBR.name]
         @search_results_page.wait_for_results
-        @search_results_page.relate_records [@uoc_4[UCJEPSUseOfCollectionsData::REFERENCE_NBR.name]]
+        @search_results_page.relate_records [@uoc_4[CoreUseOfCollectionsData::REFERENCE_NBR.name]]
         @use_of_collections_page.save_record
       end
 
@@ -328,22 +328,22 @@ describe 'Use of Collection records' do
   context 'when unsaved changes have been made' do
 
     before(:all) do
-      @use_of_collections_page.enter_title({UCJEPSUseOfCollectionsData::TITLE.name => 'Unsaved change'})
+      @use_of_collections_page.enter_title({CoreUseOfCollectionsData::TITLE.name => 'Unsaved change'})
       @use_of_collections_page.hit_tab
     end
 
     it 'offer revert buttons that reverse the changes' do
       @use_of_collections_page.revert_record
-      @use_of_collections_page.verify_title({UCJEPSUseOfCollectionsData::TITLE.name => ''})
+      @use_of_collections_page.verify_title({CoreUseOfCollectionsData::TITLE.name => ''})
     end
   end
 
   context 'when saved changes have been made' do
 
     before(:all) do
-      @use_of_collections_page.enter_title({UCJEPSUseOfCollectionsData::TITLE.name => 'Saved change'})
+      @use_of_collections_page.enter_title({CoreUseOfCollectionsData::TITLE.name => 'Saved change'})
       @use_of_collections_page.save_record
-      @uoc_6.merge!({UCJEPSUseOfCollectionsData::TITLE.name => 'Saved change'})
+      @uoc_6.merge!({CoreUseOfCollectionsData::TITLE.name => 'Saved change'})
     end
 
     it 'show disabled revert buttons' do
@@ -355,35 +355,35 @@ describe 'Use of Collection records' do
   context 'with unsaved changes' do
 
     it 'offer a Don\'t Leave button' do
-      @use_of_collections_page.enter_title({UCJEPSUseOfCollectionsData::TITLE.name => 'Unsaved change'})
+      @use_of_collections_page.enter_title({CoreUseOfCollectionsData::TITLE.name => 'Unsaved change'})
       @use_of_collections_page.click_search_link
       @use_of_collections_page.do_not_leave_record
-      @use_of_collections_page.verify_title({UCJEPSUseOfCollectionsData::TITLE.name => 'Unsaved change'})
+      @use_of_collections_page.verify_title({CoreUseOfCollectionsData::TITLE.name => 'Unsaved change'})
     end
 
     it 'offer a Close button' do
       @use_of_collections_page.click_search_link
       @use_of_collections_page.click_close_button
-      @use_of_collections_page.verify_title({UCJEPSUseOfCollectionsData::TITLE.name => 'Unsaved change'})
+      @use_of_collections_page.verify_title({CoreUseOfCollectionsData::TITLE.name => 'Unsaved change'})
     end
 
     it 'offer a Revert and Continue button' do
       @use_of_collections_page.click_search_link
       @use_of_collections_page.revert_and_continue
       @search_page.when_exists(@search_page.search_button_two, Config.short_wait)
-      @search_page.quick_search('Use of Collections', nil, @uoc_6[UCJEPSUseOfCollectionsData::REFERENCE_NBR.name])
-      @search_results_page.click_result @uoc_6[UCJEPSUseOfCollectionsData::REFERENCE_NBR.name]
+      @search_page.quick_search('Use of Collections', nil, @uoc_6[CoreUseOfCollectionsData::REFERENCE_NBR.name])
+      @search_results_page.click_result @uoc_6[CoreUseOfCollectionsData::REFERENCE_NBR.name]
       @use_of_collections_page.verify_title @uoc_6
     end
 
     it 'offer a Save and Continue button' do
-      @use_of_collections_page.enter_title({UCJEPSUseOfCollectionsData::TITLE.name => 'Saved title'})
+      @use_of_collections_page.enter_title({CoreUseOfCollectionsData::TITLE.name => 'Saved title'})
       @use_of_collections_page.click_search_link
       @use_of_collections_page.save_and_continue
-      @uoc_6.merge!({UCJEPSUseOfCollectionsData::TITLE.name => 'Saved title'})
+      @uoc_6.merge!({CoreUseOfCollectionsData::TITLE.name => 'Saved title'})
       @search_page.when_exists(@search_page.search_button_two, Config.short_wait)
-      @search_page.quick_search('Use of Collections', nil, @uoc_6[UCJEPSUseOfCollectionsData::REFERENCE_NBR.name])
-      @search_results_page.click_result @uoc_6[UCJEPSUseOfCollectionsData::TITLE.name]
+      @search_page.quick_search('Use of Collections', nil, @uoc_6[CoreUseOfCollectionsData::REFERENCE_NBR.name])
+      @search_results_page.click_result @uoc_6[CoreUseOfCollectionsData::TITLE.name]
       @use_of_collections_page.verify_title @uoc_6
     end
   end
