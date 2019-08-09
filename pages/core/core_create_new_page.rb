@@ -12,8 +12,8 @@ class CoreCreateNewPage
   def acquisition_link; {:id => 'acquisition'} end
   def exhibition_link; {:id => 'exhibition'} end
   def use_of_collections_link; {:id => 'uoc'} end
-  def authority_org_local_link; {:id => 'organization/local'} end
-  def authority_org_ulan_link; {:id => 'organization/ulan'} end
+  def authority_org_local_link; {:xpath => '//a[@id="organization/local"]'} end
+  def authority_org_ulan_link; {:xpath => '//a[@id="organization/ulan"]'} end
 
   # Loads the Create New page with a given base URL
   # @param [String] base_url
