@@ -11,4 +11,10 @@ begin
     t.rspec_opts = opts
   end
 
+  task default: :cspace_ucb
+  RSpec::Core::RakeTask.new(:cspace_ucb) do |t|
+    t.pattern = ENV['SCRIPTS'] ? "spec/ucb/*#{ENV['SCRIPTS']}*" : 'spec/ucb/*/*.rb'
+    t.rspec_opts = opts
+  end
+
 end

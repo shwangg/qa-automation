@@ -6,8 +6,8 @@ class TestConfig < Config
 
   attr_reader :deployment, :driver
 
-  def initialize
-    @deployment = Config.deployment
+  def initialize(deployment=nil)
+    @deployment = deployment || Config.deployment
   end
 
   def set_driver(driver)
