@@ -1,5 +1,3 @@
-require_relative '../../../spec_helper'
-
 class PAHMAObjectData < CoreObjectData
 
   DATA = [
@@ -20,6 +18,8 @@ class PAHMAObjectData < CoreObjectData
       AUDIO_SERIES = new('portfolioSeries'),
       PAHMA_COLLECTION_LIST = new('pahmaCollectionList'),
       PAHMA_COLLECTION = new('pahmaCollection'),
+      CURRENT_STORAGE_LOCATION = new(nil, 'Current storage location'),
+      CURRENT_CRATE = new(nil, 'Current box or container'),
       ETHNO_FILE_CODE_LIST = new('pahmaEthnographicFileCodeList'),
       ETHNO_FILE_CODE = new('pahmaEthnographicFileCode'),
       INVENTORY_COUNT = new('inventoryCount'),

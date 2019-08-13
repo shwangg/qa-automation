@@ -5,7 +5,7 @@ class CoreUseOfCollectionsPage
   include Logging
   include Page
   include CollectionSpacePages
-  include SidebarPages
+  include CoreSidebar
   include CoreUseOfCollectionsInfoForm
 
   DEPLOYMENT = Deployment::CORE

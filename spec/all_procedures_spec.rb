@@ -124,8 +124,8 @@ if test_run.deployment == Deployment::CORE
         @uoc_1[CoreUseOfCollectionsData::USER_GRP.name].each { |name| @terms_used << name[CoreUseOfCollectionsData::USER.name] }
 
         @use_of_collections_page.expand_sidebar_terms_used
-        @terms_used.each { |term| @use_of_collections_page.when_exists(@use_of_collections_page.terms_used_term_link_locator(term), 1) }
-        expect(@use_of_collections_page.elements(@use_of_collections_page.terms_used_term_links_locator).length).to eql(@terms_used.length)
+        @terms_used.each { |term| @use_of_collections_page.when_exists(@use_of_collections_page.terms_used_term_link(term), 1) }
+        expect(@use_of_collections_page.elements(@use_of_collections_page.terms_used_links).length).to eql(@terms_used.length)
       end
 
       it 'provide links to Terms used records' do
@@ -179,7 +179,7 @@ if test_run.deployment == Deployment::CORE
 
       it 'show the right Terms used in the sidebar' do
         @use_of_collections_page.expand_sidebar_terms_used
-        expect(@use_of_collections_page.elements @use_of_collections_page.terms_used_term_links_locator).to be_empty
+        expect(@use_of_collections_page.elements @use_of_collections_page.terms_used_links).to be_empty
       end
 
       it 'do not allow the reference number to be removed' do

@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-test_run = TestConfig.new
+test_run = TestConfig.new Deployment::CORE
 test_id = Time.now.to_i
 test_data = test_run.all_procedures_test_data
 
@@ -164,7 +164,7 @@ describe 'Use of Collection records' do
       errors = []
       @terms_used.each do |term|
         @use_of_collections_page.attempt_action(errors, "Term #{term} not found") do
-          @use_of_collections_page.when_exists(@use_of_collections_page.terms_used_term_link_locator(term), 1)
+          @use_of_collections_page.when_exists(@use_of_collections_page.terms_used_term_link(term), 1)
         end
       end
       @use_of_collections_page.wait_until(1, "Expected errors #{errors} to be empty") { errors.empty? }
@@ -239,7 +239,7 @@ describe 'Use of Collection records' do
 
     it 'show the right Terms used in the sidebar' do
       @use_of_collections_page.expand_sidebar_terms_used
-      expect(@use_of_collections_page.elements @use_of_collections_page.terms_used_term_links_locator).to be_empty
+      expect(@use_of_collections_page.elements @use_of_collections_page.terms_used_links).to be_empty
     end
 
     it 'do not allow the reference number to be removed' do

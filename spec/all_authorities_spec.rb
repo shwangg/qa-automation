@@ -205,8 +205,8 @@ if test_run.deployment == Deployment::CORE
         @org_3[CoreOrgData::CONTACT_NAMES.name].each { |name| terms_used << name[CoreOrgData::CONTACT_NAME.name] }
 
         @org_authority_page.expand_sidebar_terms_used
-        terms_used.each { |term| @org_authority_page.when_exists(@org_authority_page.terms_used_term_link_locator(term), 1) }
-        expect(@org_authority_page.elements(@org_authority_page.terms_used_term_links_locator).length).to eql(terms_used.length)
+        terms_used.each { |term| @org_authority_page.when_exists(@org_authority_page.terms_used_term_link(term), 1) }
+        expect(@org_authority_page.elements(@org_authority_page.terms_used_links).length).to eql(terms_used.length)
       end
     end
 
@@ -241,8 +241,8 @@ if test_run.deployment == Deployment::CORE
         @org_3[CoreOrgData::CONTACT_NAMES.name].each { |name| terms_used << name[CoreOrgData::CONTACT_NAME.name] }
 
         @org_authority_page.expand_sidebar_terms_used
-        terms_used.each { |term| @org_authority_page.when_exists(@org_authority_page.terms_used_term_link_locator(term), 1) }
-        expect(@org_authority_page.elements(@org_authority_page.terms_used_term_links_locator).length).to eql(terms_used.length)
+        terms_used.each { |term| @org_authority_page.when_exists(@org_authority_page.terms_used_term_link(term), 1) }
+        expect(@org_authority_page.elements(@org_authority_page.terms_used_links).length).to eql(terms_used.length)
       end
     end
 
@@ -273,7 +273,7 @@ if test_run.deployment == Deployment::CORE
 
       it 'display the right Terms Used in the sidebar' do
         @org_authority_page.expand_sidebar_terms_used
-        expect(@org_authority_page.elements(@org_authority_page.terms_used_term_links_locator)).to be_empty
+        expect(@org_authority_page.elements(@org_authority_page.terms_used_links)).to be_empty
       end
     end
 

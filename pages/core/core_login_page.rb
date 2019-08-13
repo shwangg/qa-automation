@@ -28,7 +28,7 @@ class CoreLoginPage
     wait_for_element_and_type(username_input, username)
     wait_for_element_and_type(password_input, password)
     wait_for_element_and_click sign_in_button
-    when_exists(sign_out_link, Config.short_wait)
+    when_exists(sign_out_link, Config.medium_wait)
   end
 
 end
