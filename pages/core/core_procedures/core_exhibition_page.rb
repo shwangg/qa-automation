@@ -5,7 +5,7 @@ class CoreExhibitionPage
   include Logging
   include Page
   include CollectionSpacePages
-  include SidebarPages
+  include CoreSidebar
   include CoreExhibitionInfoForm
 
   DEPLOYMENT = Deployment::CORE

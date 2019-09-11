@@ -224,10 +224,10 @@ module CoreUseOfCollectionsInfoForm
 
     users.each_with_index do |user, index|
       logger.info "Entering user data set at index #{index}: #{user}"
-      enter_auto_complete(user_name_input(index), user_name_options(index), user[CoreUseOfCollectionsData::USER.name], 'Default Persons')
+      enter_auto_complete(user_name_input(index), user_name_options(index), user[CoreUseOfCollectionsData::USER.name], 'Local Persons')
       wait_for_options_and_select(user_type_input(index), user_type_options(index), user[CoreUseOfCollectionsData::USER_TYPE.name])
       wait_for_options_and_select(user_role_input(index), user_role_options(index), user[CoreUseOfCollectionsData::USER_ROLE.name])
-      enter_auto_complete(user_institution_input(index), user_institution_options(index), user[CoreUseOfCollectionsData::USER_INSTITUTION.name], 'Institution Organizations')
+      enter_auto_complete(user_institution_input(index), user_institution_options(index), user[CoreUseOfCollectionsData::USER_INSTITUTION.name], 'Local Organizations')
     end
   end
 
@@ -303,7 +303,7 @@ module CoreUseOfCollectionsInfoForm
     prep_fieldsets_for_test_data([fieldset(CoreUseOfCollectionsData::OCCASION_LIST.name)], occasions)
     occasions.each_with_index do |occasion, index|
       logger.info "Entering occasion data set at index #{index}: #{occasion}"
-      enter_auto_complete(occasion_input(index), occasion_options(index), occasion[CoreUseOfCollectionsData::OCCASION.name], 'Label Texts')
+      enter_auto_complete(occasion_input(index), occasion_options(index), occasion[CoreUseOfCollectionsData::OCCASION.name], 'Associated Concepts')
     end
   end
 
@@ -340,7 +340,7 @@ module CoreUseOfCollectionsInfoForm
     prep_fieldsets_for_test_data([fieldset(CoreUseOfCollectionsData::AUTHORIZATION_GRP.name)], authorizations)
     authorizations.each_with_index do |auth, index|
       logger.info "Entering authorization data set at index #{index}: #{auth}"
-      enter_auto_complete(authorized_by_input(index), authorized_by_options(index), auth[CoreUseOfCollectionsData::AUTHORIZED_BY.name], 'Default Persons')
+      enter_auto_complete(authorized_by_input(index), authorized_by_options(index), auth[CoreUseOfCollectionsData::AUTHORIZED_BY.name], 'Local Persons')
       wait_for_element_and_type(authorization_date_input(index), auth[CoreUseOfCollectionsData::AUTHORIZATION_DATE.name])
       hit_enter
       wait_for_element_and_type(authorization_note_input(index), auth[CoreUseOfCollectionsData::AUTHORIZATION_NOTE.name])
@@ -417,7 +417,7 @@ module CoreUseOfCollectionsInfoForm
     prep_fieldsets_for_test_data([fieldset(CoreUseOfCollectionsData::STAFF_GRP.name)], staff)
     staff.each_with_index do |staf, index|
       logger.info "Entering staff data set at index #{index}: #{staf}"
-      enter_auto_complete(staff_name_input(index), staff_name_options(index), staf[CoreUseOfCollectionsData::STAFF_NAME.name], 'Default Persons')
+      enter_auto_complete(staff_name_input(index), staff_name_options(index), staf[CoreUseOfCollectionsData::STAFF_NAME.name], 'Local Persons')
       wait_for_options_and_select(staff_role_input(index), staff_role_options(index), staf[CoreUseOfCollectionsData::STAFF_ROLE.name])
       wait_for_element_and_type(staff_hours_spent_input(index), staf[CoreUseOfCollectionsData::STAFF_HOURS_SPENT.name])
       wait_for_element_and_type(staff_note_input(index), staf[CoreUseOfCollectionsData::STAFF_NOTE.name])
@@ -446,7 +446,7 @@ module CoreUseOfCollectionsInfoForm
     prep_fieldsets_for_test_data([fieldset(CoreUseOfCollectionsData::LOCATION_LIST.name)], locations)
     locations.each_with_index do |location, index|
       logger.info "Entering location data set at index #{index}: #{location}"
-      enter_auto_complete(location_input(index), location_options(index), location[CoreUseOfCollectionsData::LOCATION.name], 'Default Places')
+      enter_auto_complete(location_input(index), location_options(index), location[CoreUseOfCollectionsData::LOCATION.name], 'Local Places')
     end
   end
 

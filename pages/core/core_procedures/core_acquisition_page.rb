@@ -5,7 +5,7 @@ class CoreAcquisitionPage
   include Logging
   include Page
   include CollectionSpacePages
-  include SidebarPages
+  include CoreSidebar
   include CoreAcquisitionInfoForm
 
   DEPLOYMENT = Deployment::CORE

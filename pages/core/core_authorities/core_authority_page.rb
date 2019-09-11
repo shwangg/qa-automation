@@ -5,7 +5,7 @@ class CoreAuthorityPage
   include Logging
   include Page
   include CollectionSpacePages
-  include SidebarPages
+  include CoreSidebar
 
   DEPLOYMENT = Deployment::CORE
 

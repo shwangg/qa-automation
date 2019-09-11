@@ -19,13 +19,22 @@ module CollectionSpacePages
   def admin_link; {:xpath => '//a[contains(.,"Administration")]'} end
   def sign_out_link; {:xpath => '//a[contains(.,"Sign out")]'} end
   def save_button; {:name => 'save'} end
+  def save_only_button; {:xpath => '//button[contains(.,"Save only")]'} end
+  def save_and_lock_button; {:xpath => '//button[contains(.,"Save and lock")]'} end
   def delete_button; {:name => 'delete'} end
   def revert_button; {:name => 'revert'} end
   def close_button; {:name => 'close'} end
+  def create_new_button; {:name => 'create'} end
+  def clone_button; {:name => 'clone'} end
   def header_bar; {:xpath => '//header/div'} end
   def page_h1; {:xpath => '//h1'} end
   def page_h2; {:xpath => '//h2'} end
   def form_show_hide_button(heading_text); {:xpath => "//button[contains(.,\"#{heading_text}\")]"} end
+  def open_link; {:xpath => '//a[contains(@href,"/record")][contains(.,"Open")]'} end
+
+  def related_tab; {:xpath => '//input[@placeholder="+ Related"]'} end
+  def related_option; {:xpath => "//input[@placeholder='+ Related']/following-sibling::div//li"} end
+  def relate_button; {:name => 'relate'} end
 
   def notifications_bar; {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]'} end
   def notifications_close_button; {:name => 'close'} end
@@ -129,11 +138,11 @@ module CollectionSpacePages
   end
 
   # Returns a hash containing the XPath to a set of options for an input, with a data-name attribute if given
-  # @param [Hash] fieldset
+  # @param [Array<Hash>] fieldsets
   # @param [String] options_data_name
   # @return [Hash]
-  def input_options_locator(fieldset, options_data_name=nil)
-    {:xpath => "#{fieldset_xpath fieldset}//input#{'[@data-name="' + options_data_name + '"]' if options_data_name}/following-sibling::div//li"}
+  def input_options_locator(fieldsets, options_data_name=nil)
+    {:xpath => "#{fieldset_xpath fieldsets}//input#{'[@data-name="' + options_data_name + '"]' if options_data_name}/following-sibling::div//li"}
   end
 
   def input_options_locator_by_label(label)
@@ -221,6 +230,22 @@ module CollectionSpacePages
     wait_for_notification 'Saved'
   end
 
+  # Clicks the save-only option for a record
+  def save_record_only
+    logger.info 'Saving but not locking the record'
+    click_save_button
+    wait_for_element_and_click save_only_button
+    wait_for_notification 'Saved'
+  end
+
+  # Clicks the save-and-lock option for a record
+  def save_and_lock_record
+    logger.info 'Saving and locking the record'
+    click_save_button
+    wait_for_element_and_click save_and_lock_button
+    wait_for_notification 'Saved'
+  end
+
   # Clicks the delete button
   def click_delete_button
     wait_for_element_and_click delete_button
@@ -281,6 +306,18 @@ module CollectionSpacePages
     when_not_enabled(revert_button, Config.short_wait)
   end
 
+  # Clicks the create-new button for a record
+  def click_create_new_button
+    logger.info 'Clicking the Create button'
+    wait_for_element_and_click create_new_button
+  end
+
+  # Clicks the clone button for a record
+  def click_clone_button
+    logger.info 'Clicking the Clone button'
+    wait_for_element_and_click clone_button
+  end
+
   # LOG OUT
 
   # Logs out using the sign out link in the header
@@ -311,6 +348,7 @@ module CollectionSpacePages
     @driver.execute_script("arguments[0].style.visibility='hidden';", element(notifications_bar))
   end
 
+  # Un-hides the notifications bar
   def unhide_notifications_bar
     when_exists(notifications_bar, Config.short_wait)
     @driver.execute_script("arguments[0].style.visibility='visible';", element(notifications_bar))
@@ -320,6 +358,27 @@ module CollectionSpacePages
   def hide_header_bar
     when_exists(header_bar, Config.short_wait)
     @driver.execute_script("arguments[0].style.visibility='hidden';", element(header_bar))
+  end
+
+  # SECONDARY TAB
+
+  # Clicks the relate button
+  def click_relate_button
+    logger.info 'Clicking the Relate button'
+    wait_for_element_and_click relate_button
+  end
+
+  # Selects the secondary tab of a given record type
+  # @param [String] option
+  def select_related_type(option)
+    logger.info "Clicking related record type '#{option}'"
+    wait_for_options_and_select(related_tab, related_option, option)
+  end
+
+  # Clicks the 'Open' link for a record on another record's secondary tab
+  def click_open_link
+    logger.info 'Clicking Open link'
+    wait_for_element_and_click open_link
   end
 
   # STRUCTURED DATES
@@ -419,6 +478,20 @@ module CollectionSpacePages
 
     else
       logger.debug 'No need to add or remove rows'
+    end
+  end
+
+  # Executes a given block a configurable number of times until the block completes; intended for data updates made by
+  # an event listener
+  def wait_for_event_listener(&blk)
+    tries = Config.short_wait
+    begin
+      sleep 3
+      refresh_page
+      yield
+    rescue => e
+      logger.error e.message
+      (tries -= 1).zero? ? fail : (sleep 3; retry)
     end
   end
 

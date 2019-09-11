@@ -11,6 +11,7 @@ class CoreCreateNewPage
   def object_link; {:id => 'collectionobject'} end
   def acquisition_link; {:id => 'acquisition'} end
   def exhibition_link; {:id => 'exhibition'} end
+  def movement_link; {:id => 'movement'} end
   def use_of_collections_link; {:id => 'uoc'} end
   def authority_org_local_link; {:xpath => '//a[@id="organization/local"]'} end
   def authority_org_ulan_link; {:xpath => '//a[@id="organization/ulan"]'} end
@@ -30,6 +31,11 @@ class CoreCreateNewPage
   # Clicks the link to create a new acquisition record
   def click_create_new_acquisition
     wait_for_page_and_click acquisition_link
+  end
+
+  # Clicks the link to create a new inventory/movement record
+  def click_create_new_movement
+    wait_for_page_and_click movement_link
   end
 
   # Clicks the link to create a new use of collections procedure

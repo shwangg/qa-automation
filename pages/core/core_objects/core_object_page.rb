@@ -5,12 +5,29 @@ class CoreObjectPage
   include Logging
   include Page
   include CollectionSpacePages
-  include SidebarPages
+  include CoreSidebar
+  include CorePages
   include CoreObjectIdInfoForm
 
   DEPLOYMENT = Deployment::CORE
 
   def page_heading; {:xpath => '//h1'} end
+
+  def enter_object_id_data(data)
+    enter_object_number data
+    enter_num_objects data
+    enter_other_numbers data
+    enter_resp_depts data
+    select_collection data
+    select_status data
+    enter_publish_to data
+    select_inventory_status data
+    enter_brief_description data
+    enter_dist_features data
+    enter_comments data
+    enter_titles data
+    enter_object_names data
+  end
 
   # Enters data in the various forms on the new object page
   # @param [Hash] data_set

@@ -13,10 +13,10 @@ describe 'Structured dates' do
     test_run.set_unique_test_id(@test_data, PAHMAObjectData::OBJECT_NUM.name)
 
     @admin = test_run.get_admin_user
-    @login_page = test_run.get_page LoginPage
-    @search_page = test_run.get_page SearchPage
-    @create_new_page = test_run.get_page CreateNewPage
-    @object_page = test_run.get_page ObjectPage
+    @login_page = test_run.get_page CoreLoginPage
+    @search_page = test_run.get_page CoreSearchPage
+    @create_new_page = test_run.get_page CoreCreateNewPage
+    @object_page = test_run.get_page CoreObjectPage
 
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)

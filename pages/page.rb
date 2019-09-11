@@ -13,12 +13,19 @@ module Page
   # Navigates to a URL
   # @param [String] url
   def get(url)
+    logger.info "Loading URL '#{url}'"
     @driver.get url
   end
 
   # Goes back one page
   def go_back
     @driver.navigate.back
+  end
+
+  # Reloads the current page
+  def refresh_page
+    logger.debug 'Refreshing the page'
+    @driver.navigate.refresh
   end
 
   # Hovers over an element
@@ -166,8 +173,9 @@ module Page
 
   # Waits a short time for an element to be present and clicks it. Intended for Ajax updates.
   # @param [Hash] locator
-  def wait_for_element_and_click(locator)
-    when_exists(locator, Config.short_wait)
+  # @param [Integer] timeout
+  def wait_for_element_and_click(locator, timeout = nil)
+    when_exists(locator, (timeout || Config.short_wait))
     click_element locator
   end
 
@@ -377,7 +385,7 @@ module Page
   # @param [Object] actual
   def verify_values_match(expected, actual)
     logger.debug "Checking for '#{expected}'"
-    wait_until(0.5, "Expected #{expected}, got #{actual}") { actual == expected.to_s }
+    wait_until(1, "Expected #{expected}, got #{actual}") { actual == expected.to_s }
   end
 
   # Attempts to perform an action. If the action fails, adds an action object to an array. Useful for catching errors with

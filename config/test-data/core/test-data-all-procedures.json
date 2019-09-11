@@ -99,7 +99,7 @@
             "staffGroup": [
                 {
                     "staffName": "UoC Staff 1",
-                    "staffRole": "requester",
+                    "staffRole": "greeter",
                     "staffHours": "0.75",
                     "staffNote": "Staff number 1 note"
                 },
