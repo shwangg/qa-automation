@@ -23,10 +23,10 @@ module CoreUseOfCollectionsInfoForm
 
   def user_name_input(index); input_locator([fieldset(CoreUseOfCollectionsData::USER_GRP.name, index)], CoreUseOfCollectionsData::USER.name) end
   def user_name_options(index); input_options_locator([fieldset(CoreUseOfCollectionsData::USER_GRP.name, index)], CoreUseOfCollectionsData::USER.name) end
-  def user_type_input(index); input_locator([fieldset(CoreUseOfCollectionsData::USER_GRP.name, index)], CoreUseOfCollectionsData::USER_TYPE.name) end
-  def user_type_options(index); input_options_locator([fieldset(CoreUseOfCollectionsData::USER_GRP.name, index)], CoreUseOfCollectionsData::USER_TYPE.name) end
-  def user_role_input(index); input_locator([fieldset(CoreUseOfCollectionsData::USER_GRP.name, index)], CoreUseOfCollectionsData::USER_ROLE.name) end
-  def user_role_options(index); input_options_locator([fieldset(CoreUseOfCollectionsData::USER_GRP.name, index)], CoreUseOfCollectionsData::USER_ROLE.name) end
+  def user_type_input(index); input_locator([fieldset(CoreUseOfCollectionsData::USER_GRP.name, index)], CoreUseOfCollectionsData::USER_INSTITUTION_ROLE.name) end
+  def user_type_options(index); input_options_locator([fieldset(CoreUseOfCollectionsData::USER_GRP.name, index)], CoreUseOfCollectionsData::USER_INSTITUTION_ROLE.name) end
+  def user_role_input(index); input_locator([fieldset(CoreUseOfCollectionsData::USER_GRP.name, index)], CoreUseOfCollectionsData::USER_UOC_ROLE.name) end
+  def user_role_options(index); input_options_locator([fieldset(CoreUseOfCollectionsData::USER_GRP.name, index)], CoreUseOfCollectionsData::USER_UOC_ROLE.name) end
   def user_institution_input(index); input_locator([fieldset(CoreUseOfCollectionsData::USER_GRP.name, index)], CoreUseOfCollectionsData::USER_INSTITUTION.name) end
   def user_institution_options(index); input_options_locator([fieldset(CoreUseOfCollectionsData::USER_GRP.name, index)], CoreUseOfCollectionsData::USER_INSTITUTION.name) end
 
@@ -48,6 +48,7 @@ module CoreUseOfCollectionsInfoForm
   def authorization_status_options(index); input_options_locator([fieldset(CoreUseOfCollectionsData::AUTHORIZATION_GRP.name, index)], CoreUseOfCollectionsData::AUTHORIZATION_STATUS.name) end
 
   def use_date_input(index); input_locator([fieldset(CoreUseOfCollectionsData::USE_DATE_GRP.name, index)], CoreUseOfCollectionsData::USE_DATE.name) end
+  def use_date_time_note(index); input_locator([fieldset(CoreUseOfCollectionsData::USE_DATE_GRP.name, index)], CoreUseOfCollectionsData::USE_DATE_TIME_NOTE.name) end
   def use_num_visitors_input(index); input_locator([fieldset(CoreUseOfCollectionsData::USE_DATE_GRP.name, index)], CoreUseOfCollectionsData::USE_DATE_NUM_VISITORS.name) end
   def use_hours_spent_input(index); input_locator([fieldset(CoreUseOfCollectionsData::USE_DATE_GRP.name, index)], CoreUseOfCollectionsData::USE_DATE_HOURS_SPENT.name) end
   def use_note_input(index); input_locator([fieldset(CoreUseOfCollectionsData::USE_DATE_GRP.name, index)], CoreUseOfCollectionsData::USE_DATE_VISITOR_NOTE.name) end
@@ -132,10 +133,10 @@ module CoreUseOfCollectionsInfoForm
 
   # Enters a project ID per a given set of test data
   # @param [Hash] test_data
-  def enter_project_id(test_data)
+  def select_project_id(test_data)
     hide_notifications_bar
     logger.info "Entering project ID '#{test_data[CoreUseOfCollectionsData::PROJECT_ID.name]}'"
-    wait_for_options_and_type(project_id_input, project_id_options, test_data[CoreUseOfCollectionsData::PROJECT_ID.name])
+    wait_for_options_and_select(project_id_input, project_id_options, test_data[CoreUseOfCollectionsData::PROJECT_ID.name])
   end
 
   # Verifies a project ID matches test data
@@ -225,8 +226,8 @@ module CoreUseOfCollectionsInfoForm
     users.each_with_index do |user, index|
       logger.info "Entering user data set at index #{index}: #{user}"
       enter_auto_complete(user_name_input(index), user_name_options(index), user[CoreUseOfCollectionsData::USER.name], 'Local Persons')
-      wait_for_options_and_select(user_type_input(index), user_type_options(index), user[CoreUseOfCollectionsData::USER_TYPE.name])
-      wait_for_options_and_select(user_role_input(index), user_role_options(index), user[CoreUseOfCollectionsData::USER_ROLE.name])
+      wait_for_options_and_select(user_type_input(index), user_type_options(index), user[CoreUseOfCollectionsData::USER_INSTITUTION_ROLE.name])
+      wait_for_options_and_select(user_role_input(index), user_role_options(index), user[CoreUseOfCollectionsData::USER_UOC_ROLE.name])
       enter_auto_complete(user_institution_input(index), user_institution_options(index), user[CoreUseOfCollectionsData::USER_INSTITUTION.name], 'Local Organizations')
     end
   end
@@ -237,8 +238,8 @@ module CoreUseOfCollectionsInfoForm
     users = test_data[CoreUseOfCollectionsData::USER_GRP.name] || [CoreUseOfCollectionsData.empty_user]
     users.each_with_index do |user, index|
       verify_values_match(user[CoreUseOfCollectionsData::USER.name], element_value(user_name_input index))
-      verify_values_match(user[CoreUseOfCollectionsData::USER_TYPE.name], element_value(user_type_input index))
-      verify_values_match(user[CoreUseOfCollectionsData::USER_ROLE.name], element_value(user_role_input index))
+      verify_values_match(user[CoreUseOfCollectionsData::USER_INSTITUTION_ROLE.name], element_value(user_type_input index))
+      verify_values_match(user[CoreUseOfCollectionsData::USER_UOC_ROLE.name], element_value(user_role_input index))
       verify_values_match(user[CoreUseOfCollectionsData::USER_INSTITUTION.name], element_value(user_institution_input index))
     end
   end
@@ -372,6 +373,7 @@ module CoreUseOfCollectionsInfoForm
       logger.info "Entering use date data set at index #{index}: #{date}"
       wait_for_element_and_type(use_date_input(index), date[CoreUseOfCollectionsData::USE_DATE.name])
       hit_enter
+      wait_for_element_and_type(use_date_time_note(index), date[CoreUseOfCollectionsData::USE_DATE_TIME_NOTE.name])
       wait_for_element_and_type(use_num_visitors_input(index), date[CoreUseOfCollectionsData::USE_DATE_NUM_VISITORS.name])
       wait_for_element_and_type(use_hours_spent_input(index), date[CoreUseOfCollectionsData::USE_DATE_HOURS_SPENT.name])
       wait_for_element_and_type(use_note_input(index), date[CoreUseOfCollectionsData::USE_DATE_VISITOR_NOTE.name])
@@ -384,6 +386,7 @@ module CoreUseOfCollectionsInfoForm
     dates = test_data[CoreUseOfCollectionsData::USE_DATE_GRP.name] || [CoreUseOfCollectionsData.empty_use_date]
     dates.each_with_index do |date, index|
       verify_values_match(date[CoreUseOfCollectionsData::USE_DATE.name], element_value(use_date_input index))
+      verify_values_match(date[CoreUseOfCollectionsData::USE_DATE_TIME_NOTE.name], element_value(use_date_time_note(index)))
       verify_values_match(date[CoreUseOfCollectionsData::USE_DATE_NUM_VISITORS.name], element_value(use_num_visitors_input index))
       verify_values_match(date[CoreUseOfCollectionsData::USE_DATE_HOURS_SPENT.name], element_value(use_hours_spent_input index))
       verify_values_match(date[CoreUseOfCollectionsData::USE_DATE_VISITOR_NOTE.name], element_value(use_note_input index))

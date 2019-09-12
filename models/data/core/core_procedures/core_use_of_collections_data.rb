@@ -43,12 +43,13 @@ class CoreUseOfCollectionsData < CollectionSpaceData
       USE_DATE_GRP = new('useDateGroup'),
       USE_DATE_HOURS_SPENT = new('useDateHoursSpent'),
       USE_DATE_NUM_VISITORS = new('useDateNumberOfVisitors'),
+      USE_DATE_TIME_NOTE = new('useDateTimeNote'),
       USE_DATE_VISITOR_NOTE = new('useDateVisitorNote'),
       USER = new('user'),
       USER_GRP = new('userGroup'),
-      USER_TYPE = new('userType'),
+      USER_INSTITUTION_ROLE = new('userInstitutionRole'),
       USER_INSTITUTION = new('userInstitution'),
-      USER_ROLE = new('userRole')
+      USER_UOC_ROLE = new('userUocRole')
   ]
 
   def self.empty_authorization
@@ -63,8 +64,8 @@ class CoreUseOfCollectionsData < CollectionSpaceData
   def self.empty_user
     {
         USER.name => '',
-        USER_TYPE.name => '',
-        USER_ROLE.name => '',
+        USER_INSTITUTION_ROLE.name => '',
+        USER_UOC_ROLE.name => '',
         USER_INSTITUTION.name => ''
     }
   end
@@ -74,6 +75,7 @@ class CoreUseOfCollectionsData < CollectionSpaceData
         USE_DATE.name => '',
         USE_DATE_NUM_VISITORS.name => '',
         USE_DATE_HOURS_SPENT.name => '',
+        USE_DATE_TIME_NOTE.name => '',
         USE_DATE_VISITOR_NOTE.name => ''
     }
   end

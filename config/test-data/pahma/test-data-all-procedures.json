@@ -121,13 +121,13 @@
             "provisos": "UoC Provisos",
             "feeGroup": [
                 {
-                    "feeCurrency": "Pound Sterling",
+                    "feeCurrency": "Pound Sterling (£)",
                     "feeValue": "1030.5",
                     "feeNote": "Just a fee note",
                     "feePaid": true
                 },
                 {
-                    "feeCurrency": "Danish Krone",
+                    "feeCurrency": "Danish Krone (kr)",
                     "feeValue": "9056",
                     "feeNote": "Bare et gebyrnotat",
                     "feePaid": false

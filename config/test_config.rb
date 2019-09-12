@@ -93,8 +93,8 @@ class TestConfig < Config
 
   # Returns the test data for the 'all procedures' tests
   # @return [Array<Hash>]
-  def all_procedures_test_data
-    parse_test_data(Deployment::CORE, 'test-data-all-procedures.json')['useOfCollections']
+  def all_procedures_test_data(deployment)
+    parse_test_data(deployment, 'test-data-all-procedures.json')['useOfCollections']
   end
 
   # Returns the test data for the 'inventory movement' tests

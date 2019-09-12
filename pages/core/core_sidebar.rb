@@ -45,7 +45,12 @@ module CoreSidebar
   # Makes sure a sidebar section is expanded, given a button and input that locate the section
   def expand_sidebar_section(button_locator, num_per_page_locator)
     sleep 1
-    wait_for_element_and_click button_locator
+    begin
+      wait_for_element_and_click button_locator
+    rescue Selenium::WebDriver::Error::WebDriverError
+      scroll_to_top
+      wait_for_element_and_click button_locator
+    end
     when_displayed(num_per_page_locator, 1)
   rescue
     wait_for_element_and_click button_locator
