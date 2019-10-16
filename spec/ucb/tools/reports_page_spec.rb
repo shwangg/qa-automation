@@ -20,12 +20,10 @@ describe 'Reports' do
 
     @test_0 = {
         CoreReportsData::REPORT_NAME.name => 'Use of Collections Approval Status Report',
-        CoreReportsData::REPORT_DESC.name => 'This is a report description with some characters å√ç∂´´©',
     }
 
     @test_1 = {
         CoreReportsData::REPORT_NAME.name => 'Use of Collections by Requester and/or Object Report',
-        CoreReportsData::REPORT_DESC.name => 'This is another report name'
     }
 
     @login_page.load_page
@@ -33,14 +31,6 @@ describe 'Reports' do
     @search_page.click_tools_link
     @tools_page.click_reports_link
 
-
-
-    # [@test_0, @test_1].each do |test|
-      # test_run.set_unique_test_id(test, CoreReportsData::REPORT_NAME.name)
-      # go to the tools page
-      #
-      # @reports_page.select_report CoreReportsData::REPORT_NAME.name
-    # end
   end
 
   after(:all) { quit_browser test_run.driver}
@@ -54,9 +44,7 @@ describe 'Reports' do
       @temp_name = "Testing Report Name"
 
       @reports_page.edit_report_name @temp_name
-
-      # expect(@object_page.element_value @object_page.date_latest_year).to eql('64')
-
+      
       expect(@reports_page.element_value @reports_page.report_name_locator).to eql(@temp_name) # The name should be "ReportsTest"
       expect(@reports_page.enabled? @reports_page.revert_button).to be true
       expect(@reports_page.enabled? @reports_page.run_button).to be false
@@ -108,7 +96,6 @@ describe 'Reports' do
     end
 
     it 'should be able to filter based on a search' do
-      # @reports_page.click_search_bar
       @tools_page.fill_filter_bar("Approval")
       expect(@search_results_page.row_exists? "Use of Collections Approval Status Report").to be true
       expect(@search_results_page.row_exists? "Use of Collections by Requester and/or Object Report").to be false
@@ -145,21 +132,6 @@ describe 'Reports' do
         @reports_page.click_close_button
         expect(@reports_page.exists? @reports_page.report_modal).to be false
     end
-
-
   end
-  # describe 'batch job fields' do
-  #
-  #   it 'should be able to change the name of the report' do
-  #   end
-  #
-  #   it 'should be able to change the description of the report' do
-  #
-  #   end
-  #
-  #   it 'should be able to run Merge Authority Items batch job successfully' do
-  #
-  #   end
-  # end
 end
 
