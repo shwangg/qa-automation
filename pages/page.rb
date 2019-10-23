@@ -3,6 +3,7 @@ require_relative '../spec_helper'
 module Page
 
   include Logging
+  include WebDriverManager
 
   def initialize(driver)
     @driver = driver
@@ -152,6 +153,7 @@ module Page
   # @param [Integer] timeout
   def when_enabled(locator, timeout)
     wait_until(timeout) { element(locator).enabled? }
+    log_js_errors @driver
   end
 
   # Waits a given number of seconds for an existing element to be disabled

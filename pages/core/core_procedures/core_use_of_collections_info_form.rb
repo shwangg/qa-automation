@@ -304,7 +304,7 @@ module CoreUseOfCollectionsInfoForm
     prep_fieldsets_for_test_data([fieldset(CoreUseOfCollectionsData::OCCASION_LIST.name)], occasions)
     occasions.each_with_index do |occasion, index|
       logger.info "Entering occasion data set at index #{index}: #{occasion}"
-      enter_auto_complete(occasion_input(index), occasion_options(index), occasion[CoreUseOfCollectionsData::OCCASION.name], 'Associated Concepts')
+      enter_auto_complete(occasion_input(index), occasion_options(index), occasion[CoreUseOfCollectionsData::OCCASION.name], 'Occasion Concepts')
     end
   end
 

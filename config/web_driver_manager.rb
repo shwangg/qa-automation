@@ -39,7 +39,18 @@ module WebDriverManager
   # @param [Selenium::WebDriver] driver
   def quit_browser(driver)
     logger.warn "Quitting #{driver.browser.capitalize}"
+    log_js_errors driver
     driver.quit
+  end
+
+  # Prints errors in the browser console to the log file
+  # @param [Selenium::WebDriver] driver
+  def log_js_errors(driver)
+    if "#{driver.browser}" == 'chrome'
+      js_log = driver.manage.logs.get(:browser)
+      messages = js_log.map &:message
+      messages.each { |msg| logger.error "Possible JS error: #{msg}" }
+    end
   end
 
 end
