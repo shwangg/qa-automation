@@ -11,9 +11,18 @@ class CoreReportsPage
   # Select report
   def report_description_locator; text_area_locator([], CoreReportsData::REPORT_DESC.name) end
   def report_name_locator; input_locator([], CoreReportsData::REPORT_NAME.name) end
+  def report_filename_locator; input_locator([], CoreReportsData::REPORT_FILENAME.name) end
+  def report_no_ctx_locator; input_locator([], CoreReportsData::REPORT_NO_CONTEXT.name) end
+  def report_single_ctx_locator; input_locator([], CoreReportsData::REPORT_SINGLE_CONTEXT.name) end
+  def report_group_ctx_locator; input_locator([], CoreReportsData::REPORT_GROUP_CONTEXT.name) end
+  def report_list_ctx_locator; input_locator([], CoreReportsData::REPORT_LIST_CONTEXT.name) end
+  def report_doctypes_locator; disabled_input_locator_by_label(CoreReportsData::REPORT_DOC_TYPES_GROUP.label) end
+  def report_mimetype_locator; disabled_input_locator_by_label(CoreReportsData::REPORT_OUTPUT_MIME.label) end
+  # //fieldset[@data-name='forDocTypes']//input
+  # def display_name_input(index); input_locator([fieldset(CoreOrgData::ORG_TERM_GRP.name, index)], CoreOrgData::TERM_DISPLAY_NAME.name) end
+
   def report_modal; {:xpath => '//div[@class="cspace-ui-InvocationModal--common"]'} end
 
-  # {:xpath => '//div[contains(@class,"ConfirmRecordDeleteModal")]//header/following-sibling::div/span'} end
 
   def select_report(report_name)
     {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][contains(.,\"#{report_name}\")]"}

@@ -20,10 +20,13 @@ describe 'Reports' do
 
     @test_0 = {
         CoreReportsData::REPORT_NAME.name => 'Use of Collections Approval Status Report',
+        CoreReportsData::REPORT_DESC.name=>  'Lists Use of Collections requests with a value in the \'Authorization\' field group, filtered by authorized by, authorization status, and/or date requested range. Displays the record number, title, requested date, completed date, authorization date, authorizer and authorization status. Available output formats: PDF, CSV, MS Word.',
     }
 
     @test_1 = {
         CoreReportsData::REPORT_NAME.name => 'Use of Collections by Requester and/or Object Report',
+        CoreReportsData::REPORT_RUNS_ON_PANEL.label => 'Runs on',
+        CoreReportsData::REPORT_REPORT_LIST_PANEL.label => 'Reports'
     }
 
     @login_page.load_page
@@ -37,100 +40,133 @@ describe 'Reports' do
 
   describe 'interacting with the reports page tab' do
 
-    it 'should be able to change the name of the report and revert it' do
-      @reports_page.click_report @test_0[CoreReportsData::REPORT_NAME.name]
-      # @original_name = @reports_page.element_value @reports_page.report_name_locator
-      @original_name = 'Use of Collections Approval Status Report'
-      @temp_name = "Testing Report Name"
+    context 'checking ability to click buttons and fill fields' do
 
-      @reports_page.edit_report_name @temp_name
-      
-      expect(@reports_page.element_value @reports_page.report_name_locator).to eql(@temp_name) # The name should be "ReportsTest"
-      expect(@reports_page.enabled? @reports_page.revert_button).to be true
-      expect(@reports_page.enabled? @reports_page.run_button).to be false
+      it 'should not be able to change the name of a report' do
+        @reports_page.click_report @test_0[CoreReportsData::REPORT_NAME.name]
+        sleep 1
+        expect(@reports_page.element_value @reports_page.report_name_locator).to eql(@test_0[CoreReportsData::REPORT_NAME.name])
+        expect(@reports_page.enabled? @reports_page.report_name_locator).to be false
+        expect(@reports_page.enabled? @reports_page.revert_button).to be false
+        expect(@reports_page.enabled? @reports_page.run_button).to be true
+      end
 
-      @reports_page.revert_record
-      expect(@reports_page.element_value @reports_page.report_name_locator).to eql(@original_name)
-      expect(@reports_page.enabled? @reports_page.revert_button).to be false
-      expect(@reports_page.enabled? @reports_page.run_button).to be true
+      it 'should not be able to change the description of a report' do
+        @reports_page.click_report @test_0[CoreReportsData::REPORT_NAME.name]
+        sleep 1
+        expect(@reports_page.element_value @reports_page.report_description_locator).to eql(@test_0[CoreReportsData::REPORT_DESC.name])
+        expect(@reports_page.enabled? @reports_page.report_description_locator).to be false
+        expect(@reports_page.enabled? @reports_page.revert_button).to be false
+        expect(@reports_page.enabled? @reports_page.run_button).to be true
+      end
+
+      it 'should not be able to alter the Jasper file associated with the report' do
+        @reports_page.click_report @test_0[CoreReportsData::REPORT_NAME.name]
+        @reports_page.uncollapse_panel_if_collapsed CoreReportsData::REPORT_RUNS_ON_PANEL.label
+
+        expect(@reports_page.enabled? @reports_page.report_filename_locator).to be false
+        expect(@reports_page.enabled? @reports_page.revert_button).to be false
+        expect(@reports_page.enabled? @reports_page.run_button).to be true
+      end
+
+      it 'should not be able to alter the report contexts' do
+        @reports_page.click_report @test_0[CoreReportsData::REPORT_NAME.name]
+        @reports_page.uncollapse_panel_if_collapsed CoreReportsData::REPORT_RUNS_ON_PANEL.label
+        expect(@reports_page.enabled? @reports_page.report_no_ctx_locator).to be false
+        expect(@reports_page.enabled? @reports_page.report_single_ctx_locator).to be false
+        expect(@reports_page.enabled? @reports_page.report_group_ctx_locator).to be false
+        expect(@reports_page.enabled? @reports_page.report_list_ctx_locator).to be false
+        expect(@reports_page.enabled? @reports_page.revert_button).to be false
+        expect(@reports_page.enabled? @reports_page.run_button).to be true
+      end
+
+      it 'should not be able to alter the record types or default MIME type' do
+        @reports_page.click_report @test_0[CoreReportsData::REPORT_NAME.name]
+        @reports_page.uncollapse_panel_if_collapsed CoreReportsData::REPORT_RUNS_ON_PANEL.label
+        expect(@reports_page.enabled? @reports_page.report_doctypes_locator).to be false
+        expect(@reports_page.enabled? @reports_page.report_mimetype_locator).to be false
+        expect(@reports_page.enabled? @reports_page.revert_button).to be false
+        expect(@reports_page.enabled? @reports_page.run_button).to be true
+      end
     end
 
-    it 'should be able to edit the name of the report' do
-      @reports_page.click_report @test_0[CoreReportsData::REPORT_NAME.name]
-      @original_name = 'Use of Collections Approval Status Report'
-      @temp_name = "Testing Report Name"
+    context 'report UI interactions' do
 
-      @reports_page.edit_report_name @temp_name
+      it 'should be able to filter based on a search' do
+        @tools_page.fill_filter_bar(@test_0[CoreReportsData::REPORT_NAME.name])
+        expect(@search_results_page.row_exists? @test_0[CoreReportsData::REPORT_NAME.name]).to be true
+        expect(@search_results_page.row_exists? @test_1[CoreReportsData::REPORT_NAME.name]).to be false
+      end
 
-      expect(@reports_page.element_value @reports_page.report_name_locator).to eql(@temp_name) # The name should be "ReportsTest"
-      expect(@reports_page.enabled? @reports_page.revert_button).to be true
-      expect(@reports_page.enabled? @reports_page.run_button).to be false
+      it 'should show all results when the clear button is clicked' do
+        @tools_page.fill_filter_bar(@test_0[CoreReportsData::REPORT_NAME.name])
+        expect(@search_results_page.row_exists? @test_0[CoreReportsData::REPORT_NAME.name]).to be true
+        expect(@search_results_page.row_exists? @test_1[CoreReportsData::REPORT_NAME.name]).to be false
 
-      @reports_page.save_record
-      expect(@reports_page.element_value @reports_page.report_name_locator).to eql(@temp_name)
-      expect(@reports_page.enabled? @reports_page.revert_button).to be false
-      expect(@reports_page.enabled? @reports_page.run_button).to be true
+        @tools_page.click_clear_button
+        expect(@search_results_page.row_exists? @test_0[CoreReportsData::REPORT_NAME.name]).to be true
+        expect(@search_results_page.row_exists? @test_1[CoreReportsData::REPORT_NAME.name]).to be true
+      end
 
-      # Change the report name back to what it used to be
-      @reports_page.edit_report_name @original_name
-      @reports_page.save_record
-      expect(@reports_page.element_value @reports_page.report_name_locator).to eql(@original_name)
-    end
+      it 'should be able to bring up a modal and dismiss it in various ways' do
+          @reports_page.click_report @test_0[CoreReportsData::REPORT_NAME.name]
 
-    it 'should be able to change the description of the report and revert it' do
-      @reports_page.click_report @test_0[CoreReportsData::REPORT_NAME.name]
-      @new_description =  @test_0[CoreReportsData::REPORT_DESC.name] # Bogus
-      # @prev_description = @reports_page.element_text @reports_page.report_description_locator # Actual description not working for some reason. Hard coding for now
-      @prev_description = "Lists Use of Collections requests with a value in the 'Authorization' field group, filtered by authorized by, authorization status, and/or date requested range. Displays the record number, title, requested date, completed date, authorization date, authorizer and authorization status. Available output formats: PDF, CSV, MS Word."
+          # Dismiss modal using ESC
+          @tools_page.click_run_button
+          expect(@reports_page.exists? @reports_page.report_modal).to be true # for the modal to exist
+          @reports_page.hit_escape
+          expect(@reports_page.exists? @reports_page.report_modal).to be false
 
-      @reports_page.edit_description @test_0[CoreReportsData::REPORT_DESC.name]
+          #Dismiss modal using Cancel
+          @tools_page.click_run_button
+          expect(@reports_page.exists? @reports_page.report_modal).to be true # for the modal to exist
+          @tools_page.click_cancel_modal_button
+          expect(@reports_page.exists? @reports_page.report_modal).to be false
 
-      expect(@reports_page.element_value @reports_page.report_description_locator).to eql(@new_description) # The name should be "ReportsTest"
-      expect(@reports_page.enabled? @reports_page.revert_button).to be true
-      expect(@reports_page.enabled? @reports_page.run_button).to be false
+          #Dismiss modal using X
+          @tools_page.click_run_button
+          expect(@reports_page.exists? @reports_page.report_modal).to be true # for the modal to exist
+          @reports_page.click_close_button
+          expect(@reports_page.exists? @reports_page.report_modal).to be false
+      end
 
-      @reports_page.revert_record
-      expect(@reports_page.element_value @reports_page.report_description_locator).to eql(@prev_description) # should be "Actual"
-      expect(@reports_page.enabled? @reports_page.revert_button).to be false
-      expect(@reports_page.enabled? @reports_page.run_button).to be true
-    end
-
-    it 'should be able to filter based on a search' do
-      @tools_page.fill_filter_bar("Approval")
-      expect(@search_results_page.row_exists? "Use of Collections Approval Status Report").to be true
-      expect(@search_results_page.row_exists? "Use of Collections by Requester and/or Object Report").to be false
-    end
-
-    it 'should show all results when the clear button is clicked' do
-      @tools_page.fill_filter_bar("Approval")
-      expect(@search_results_page.row_exists? "Use of Collections Approval Status Report").to be true
-      expect(@search_results_page.row_exists? "Use of Collections by Requester and/or Object Report").to be false
-
-      @tools_page.click_clear_button
-      expect(@search_results_page.row_exists? "Use of Collections Approval Status Report").to be true
-      expect(@search_results_page.row_exists? "Use of Collections by Requester and/or Object Report").to be true
-    end
-
-    it 'should be able to bring up a modal and dismiss it in various ways' do
+      it 'should be able to collapse and uncollapse the Reports and Runs on panels' do
         @reports_page.click_report @test_0[CoreReportsData::REPORT_NAME.name]
 
-        # Dismiss modal using ESC
-        @tools_page.click_run_button
-        expect(@reports_page.exists? @reports_page.report_modal).to be true # for the modal to exist
-        @reports_page.hit_escape
-        expect(@reports_page.exists? @reports_page.report_modal).to be false
+        #runs on
+        # uncollapse it
+        @reports_page.uncollapse_panel_if_collapsed CoreReportsData::REPORT_RUNS_ON_PANEL.label
+        expect(@reports_page.is_collapsed CoreReportsData::REPORT_RUNS_ON_PANEL.label).to be false
 
-        #Dismiss modal using Cancel
-        @tools_page.click_run_button
-        expect(@reports_page.exists? @reports_page.report_modal).to be true # for the modal to exist
-        @tools_page.click_cancel_modal_button
-        expect(@reports_page.exists? @reports_page.report_modal).to be false
+        # collapse it
+        @reports_page.toggle_panel CoreReportsData::REPORT_RUNS_ON_PANEL.label
+        expect(@reports_page.is_collapsed CoreReportsData::REPORT_RUNS_ON_PANEL.label).to be true
 
-        #Dismiss modal using X
-        @tools_page.click_run_button
-        expect(@reports_page.exists? @reports_page.report_modal).to be true # for the modal to exist
-        @reports_page.click_close_button
-        expect(@reports_page.exists? @reports_page.report_modal).to be false
+
+        # uncollapse it
+        @reports_page.toggle_panel CoreReportsData::REPORT_RUNS_ON_PANEL.label
+        expect(@reports_page.is_collapsed CoreReportsData::REPORT_RUNS_ON_PANEL.label).to be false
+
+
+        #Reports
+        @reports_page.uncollapse_panel_if_collapsed CoreReportsData::REPORT_REPORT_LIST_PANEL.label
+        expect(@reports_page.is_collapsed CoreReportsData::REPORT_REPORT_LIST_PANEL.label).to be false
+
+        # collapse it
+        @reports_page.toggle_panel CoreReportsData::REPORT_REPORT_LIST_PANEL.label
+        expect(@reports_page.is_collapsed CoreReportsData::REPORT_REPORT_LIST_PANEL.label).to be true
+
+
+        # recollapse it
+        @reports_page.toggle_panel CoreReportsData::REPORT_REPORT_LIST_PANEL.label
+        expect(@reports_page.is_collapsed CoreReportsData::REPORT_REPORT_LIST_PANEL.label).to be false
+
+
+
+
+
+      end
+
     end
   end
 end

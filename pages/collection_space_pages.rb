@@ -49,6 +49,14 @@ module CollectionSpacePages
   def confirm_delete_button; {:xpath => '//div[contains(@class,"ConfirmRecordDeleteModal")]//button[@name="delete"]'} end
   def confirm_delete_cancel_button; {:xpath => '//div[contains(@class,"ConfirmRecordDeleteModal")]//button[@name="cancel"]'} end
 
+  def toggle_panel_button (label); {:xpath => "//section[contains(@class, \"Panel\")][contains(., \"#{label}\")]//button"} end
+  def collapsed_panel_locator(label); {:xpath => "//section[contains(@class, 'collapsed')][contains(., \"#{label}\")]"} end
+
+  # //section[contains(@class, 'Panel')][contains(@class, 'collapsed')]
+  # def collapsed_panel; {:xpath => '//section[contains(@class, "collapsed")]'} end
+  #
+  # def collapsed_panel(; {:xpath => '//section[contains(@class, "collapsed")][contains'} end
+
   # Returns a hash containing both the data name used to locate a set of data fields on the page and also the index of the data (i.e., which row)
   # @param [String] data_name
   # @param [Integer] index
@@ -124,12 +132,17 @@ module CollectionSpacePages
     {:xpath => "#{fieldset_xpath fieldsets}//input#{'[@data-name="' + input_data_name + '"]' if input_data_name}"}
   end
 
+  def disabled_input_locator_by_label(label)
+    {:xpath => "//label[contains(., \"#{label}\")]/following-sibling::input"}
+  end
+
   # Returns a hash containing the XPath to an input element, based on the label text of the input
   # @param [String] label
   # @return [Hash]
   def input_locator_by_label(label)
     {:xpath => "//label[contains(., \"#{label}\")]/following-sibling::div//input"}
   end
+
 
   # Returns a hash containing the XPath to a text_area element, with a data-name attribute if given
   # @param [Hash] fieldset
@@ -150,6 +163,10 @@ module CollectionSpacePages
   def input_options_locator_by_label(label)
     {:xpath => "//label[contains(., \"#{label}\")]/following-sibling::div//li"}
   end
+
+  # def disabled_line_input_locator_by_label(label)
+  #   {:xpath => "//label[contains(., \"#{label}\")]/"}
+  # end
 
   # Returns a has containing the XPath to a structured date input
   # @param [Hash] fieldset
@@ -502,5 +519,31 @@ module CollectionSpacePages
       (tries -= 1).zero? ? fail : (sleep 3; retry)
     end
   end
+
+  # PANELS
+  #
+  def is_collapsed(panel_label)
+    return exists? collapsed_panel_locator panel_label
+  end
+
+  def toggle_panel(panel_label)
+    # if action == 'uncollapse'
+      # collapse it
+      click_element toggle_panel_button panel_label
+    # elsif action == 'collapse'
+    #   click_element toggle_panel_button panel_label
+    # end
+  end
+
+  def uncollapse_panel_if_collapsed(label)
+    if is_collapsed label
+      toggle_panel label
+    end
+  end
+  #
+  # def collapse_panel_if_uncollapsed(label)
+  #   if not exists? is_collapsed_panel(label)
+  #     wait_for_element_and_click()
+  #   end
 
 end
