@@ -18,6 +18,7 @@ module CollectionSpacePages
   def search_link; {:xpath => '//a[contains(.,"Search")]'} end
   def admin_link; {:xpath => '//a[contains(.,"Administration")]'} end
   def sign_out_link; {:xpath => '//a[contains(.,"Sign out")]'} end
+  def tools_link; {:xpath => '//a[contains(.,"Tools")]'} end
   def save_button; {:name => 'save'} end
   def save_only_button; {:xpath => '//button[contains(.,"Save only")]'} end
   def save_and_lock_button; {:xpath => '//button[contains(.,"Save and lock")]'} end
@@ -25,6 +26,7 @@ module CollectionSpacePages
   def revert_button; {:name => 'revert'} end
   def close_button; {:name => 'close'} end
   def create_new_button; {:name => 'create'} end
+  def run_button; {:name => 'run'} end
   def clone_button; {:name => 'clone'} end
   def header_bar; {:xpath => '//header/div'} end
   def page_h1; {:xpath => '//h1'} end
@@ -46,6 +48,9 @@ module CollectionSpacePages
   def confirm_delete_msg_span; {:xpath => '//div[contains(@class,"ConfirmRecordDeleteModal")]//header/following-sibling::div/span'} end
   def confirm_delete_button; {:xpath => '//div[contains(@class,"ConfirmRecordDeleteModal")]//button[@name="delete"]'} end
   def confirm_delete_cancel_button; {:xpath => '//div[contains(@class,"ConfirmRecordDeleteModal")]//button[@name="cancel"]'} end
+
+  def toggle_panel_button (label); {:xpath => "//section[contains(@class, \"Panel\")][contains(., \"#{label}\")]//button"} end
+  def collapsed_panel_locator(label); {:xpath => "//section[contains(@class, 'collapsed')][contains(., \"#{label}\")]"} end
 
   # Returns a hash containing both the data name used to locate a set of data fields on the page and also the index of the data (i.e., which row)
   # @param [String] data_name
@@ -122,12 +127,17 @@ module CollectionSpacePages
     {:xpath => "#{fieldset_xpath fieldsets}//input#{'[@data-name="' + input_data_name + '"]' if input_data_name}"}
   end
 
+  def disabled_input_locator_by_label(label)
+    {:xpath => "//label[contains(., \"#{label}\")]/following-sibling::input"}
+  end
+
   # Returns a hash containing the XPath to an input element, based on the label text of the input
   # @param [String] label
   # @return [Hash]
   def input_locator_by_label(label)
     {:xpath => "//label[contains(., \"#{label}\")]/following-sibling::div//input"}
   end
+
 
   # Returns a hash containing the XPath to a text_area element, with a data-name attribute if given
   # @param [Hash] fieldset
@@ -214,6 +224,12 @@ module CollectionSpacePages
     logger.info 'Clicking link to Search'
     scroll_to_top
     wait_for_element_and_click search_link
+  end
+
+  def click_tools_link
+    logger.info 'Clicking link to Tools'
+    scroll_to_top
+    wait_for_element_and_click tools_link
   end
 
   # SAVE, DELETE, REVERT, CANCEL
@@ -494,5 +510,31 @@ module CollectionSpacePages
       (tries -= 1).zero? ? fail : (sleep 3; retry)
     end
   end
+
+  # PANELS
+  #
+  def is_collapsed(panel_label)
+    return exists? collapsed_panel_locator panel_label
+  end
+
+  def toggle_panel(panel_label)
+    # if action == 'uncollapse'
+      # collapse it
+      click_element toggle_panel_button panel_label
+    # elsif action == 'collapse'
+    #   click_element toggle_panel_button panel_label
+    # end
+  end
+
+  def uncollapse_panel_if_collapsed(label)
+    if is_collapsed label
+      toggle_panel label
+    end
+  end
+  #
+  # def collapse_panel_if_uncollapsed(label)
+  #   if not exists? is_collapsed_panel(label)
+  #     wait_for_element_and_click()
+  #   end
 
 end
