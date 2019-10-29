@@ -52,11 +52,6 @@ module CollectionSpacePages
   def toggle_panel_button (label); {:xpath => "//section[contains(@class, \"Panel\")][contains(., \"#{label}\")]//button"} end
   def collapsed_panel_locator(label); {:xpath => "//section[contains(@class, 'collapsed')][contains(., \"#{label}\")]"} end
 
-  # //section[contains(@class, 'Panel')][contains(@class, 'collapsed')]
-  # def collapsed_panel; {:xpath => '//section[contains(@class, "collapsed")]'} end
-  #
-  # def collapsed_panel(; {:xpath => '//section[contains(@class, "collapsed")][contains'} end
-
   # Returns a hash containing both the data name used to locate a set of data fields on the page and also the index of the data (i.e., which row)
   # @param [String] data_name
   # @param [Integer] index
@@ -163,10 +158,6 @@ module CollectionSpacePages
   def input_options_locator_by_label(label)
     {:xpath => "//label[contains(., \"#{label}\")]/following-sibling::div//li"}
   end
-
-  # def disabled_line_input_locator_by_label(label)
-  #   {:xpath => "//label[contains(., \"#{label}\")]/"}
-  # end
 
   # Returns a has containing the XPath to a structured date input
   # @param [Hash] fieldset
