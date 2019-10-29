@@ -10,12 +10,13 @@ class CoreToolsPage
 
   def term_lists_link; {:xpath => '//a[contains(.,"Term Lists")]'} end
   def reports_link; {:xpath => '//a[contains(.,"Reports")]'} end
-  def batch_link; {:xpath => '//a[contains(.,"Batch")]'} end
+  def batch_link; {:xpath => '//a[contains(.,"Data Updates")]'} end
   def run_button; {:name => 'run'} end
   def filter_bar; {:xpath => '//div[contains(@class, "AdminSearchBar")]//input[contains(@class,"LineInput")]'} end
   def cancel_modal_button; {:xpath => '//button[@name="cancel"]'} end
   def clear_button; {:xpath => '//button[contains(.,"Clear")]'} end
   def reports_header; {:xpath => '//div[contains(@class,"AdminTab")]//header[contains(.,"Reports")]'} end
+  def batch_header; {:xpath => '//div[contains(@class,"AdminTab")]//header[contains(.,"Data Updates")]'} end
 
   # Clicks the Term Lists tab in the Tools page
   def click_term_list_link
