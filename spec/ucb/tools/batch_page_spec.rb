@@ -114,28 +114,33 @@ describe 'Batch' do
         expect(@search_results_page.row_exists? @test_1[CoreInvocablesData::INVOCABLE_NAME.name]).to be false
       end
 
-      it 'should be able to bring up a modal and dismiss it in various ways' do
+      it 'should be able to bring up a modal and dismiss it with the escape key' do
           @batch_page.click_invocable @test_0[CoreInvocablesData::INVOCABLE_NAME.name]
 
-          # Dismiss modal using ESC
           @tools_page.click_run_button
           expect(@batch_page.exists? @batch_page.invocable_modal).to be true # for the modal to exist
           @batch_page.hit_escape
           expect(@batch_page.exists? @batch_page.invocable_modal).to be false
-
-          #Dismiss modal using Cancel
-          @tools_page.click_run_button
-          expect(@batch_page.exists? @batch_page.invocable_modal).to be true # for the modal to exist
-          @tools_page.click_cancel_modal_button
-          expect(@batch_page.exists? @batch_page.invocable_modal).to be false
-
-          #Dismiss modal using X
-          @tools_page.click_run_button
-          expect(@batch_page.exists? @batch_page.invocable_modal).to be true # for the modal to exist
-          @batch_page.click_close_button
-          expect(@batch_page.exists? @batch_page.invocable_modal).to be false
       end
 
+      it 'should be able to bring up a modal and dismiss it with the cancel button' do 
+        @batch_page.click_invocable @test_0[CoreInvocablesData::INVOCABLE_NAME.name]
+
+        @tools_page.click_run_button
+        expect(@batch_page.exists? @batch_page.invocable_modal).to be true # for the modal to exist
+        @tools_page.click_cancel_modal_button
+        expect(@batch_page.exists? @batch_page.invocable_modal).to be false
+      end 
+
+      it 'should be able to bring up a modal and dismiss it with the close button' do 
+        @batch_page.click_invocable @test_0[CoreInvocablesData::INVOCABLE_NAME.name]
+
+        @tools_page.click_run_button
+        expect(@batch_page.exists? @batch_page.invocable_modal).to be true # for the modal to exist
+        @batch_page.click_close_button
+        expect(@batch_page.exists? @batch_page.invocable_modal).to be false
+      end
+      
       it 'should be able to collapse and uncollapse the Data Updates and Runs on panels' do
         @batch_page.click_invocable @test_0[CoreInvocablesData::INVOCABLE_NAME.name]
 

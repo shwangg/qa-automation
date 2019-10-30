@@ -83,7 +83,7 @@ describe 'Reports' do
       it 'should not be able to alter the record types or default MIME type' do
         @reports_page.click_invocable @test_0[CoreInvocablesData::INVOCABLE_NAME.name]
         @reports_page.uncollapse_panel_if_collapsed CoreInvocablesData::INVOCABLE_RUNS_ON_PANEL.label
-        expect(@reports_page.enabled? @reports_page.invocable_doctypes_locator).to be false
+        expect(@reports_page.enabled? @reports_page.invocable_report_doctypes_locator).to be false
         expect(@reports_page.enabled? @reports_page.invocable_mimetype_locator).to be false
         expect(@reports_page.enabled? @reports_page.revert_button).to be false
         expect(@reports_page.enabled? @reports_page.run_button).to be true
@@ -108,27 +108,33 @@ describe 'Reports' do
         expect(@search_results_page.row_exists? @test_1[CoreInvocablesData::INVOCABLE_NAME.name]).to be true
       end
 
-      it 'should be able to bring up a modal and dismiss it in various ways' do
+      it 'should be able to bring up a modal and dismiss it using the escape key' do
           @reports_page.click_invocable @test_0[CoreInvocablesData::INVOCABLE_NAME.name]
 
-          # Dismiss modal using ESC
           @tools_page.click_run_button
           expect(@reports_page.exists? @reports_page.invocable_modal).to be true # for the modal to exist
           @reports_page.hit_escape
           expect(@reports_page.exists? @reports_page.invocable_modal).to be false
-
-          #Dismiss modal using Cancel
-          @tools_page.click_run_button
-          expect(@reports_page.exists? @reports_page.invocable_modal).to be true # for the modal to exist
-          @tools_page.click_cancel_modal_button
-          expect(@reports_page.exists? @reports_page.invocable_modal).to be false
-
-          #Dismiss modal using X
-          @tools_page.click_run_button
-          expect(@reports_page.exists? @reports_page.invocable_modal).to be true # for the modal to exist
-          @reports_page.click_close_button
-          expect(@reports_page.exists? @reports_page.invocable_modal).to be false
       end
+
+      it 'should be able to bring up a modal and dismiss it using the cancel button' do
+        @reports_page.click_invocable @test_0[CoreInvocablesData::INVOCABLE_NAME.name]
+
+        @tools_page.click_run_button
+        expect(@reports_page.exists? @reports_page.invocable_modal).to be true # for the modal to exist
+        @tools_page.click_cancel_modal_button
+        expect(@reports_page.exists? @reports_page.invocable_modal).to be false
+      end
+
+      it 'should be able to bring up a modal and dismiss it using the close button' do
+        @reports_page.click_invocable @test_0[CoreInvocablesData::INVOCABLE_NAME.name]
+
+        @tools_page.click_run_button
+        expect(@reports_page.exists? @reports_page.invocable_modal).to be true # for the modal to exist
+        @reports_page.click_close_button
+        expect(@reports_page.exists? @reports_page.invocable_modal).to be false
+      end
+
 
       it 'should be able to collapse and uncollapse the Reports and Runs on panels' do
         @reports_page.click_invocable @test_0[CoreInvocablesData::INVOCABLE_NAME.name]

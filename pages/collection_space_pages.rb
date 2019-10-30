@@ -49,7 +49,7 @@ module CollectionSpacePages
   def confirm_delete_button; {:xpath => '//div[contains(@class,"ConfirmRecordDeleteModal")]//button[@name="delete"]'} end
   def confirm_delete_cancel_button; {:xpath => '//div[contains(@class,"ConfirmRecordDeleteModal")]//button[@name="cancel"]'} end
 
-  def toggle_panel_button (label); {:xpath => "//section[contains(@class, \"Panel\")][contains(., \"#{label}\")]//button"} end
+  def toggle_panel_button(label); {:xpath => "//section[contains(@class, \"Panel\")][contains(., \"#{label}\")]//button"} end
   def collapsed_panel_locator(label); {:xpath => "//section[contains(@class, 'collapsed')][contains(., \"#{label}\")]"} end
 
   # Returns a hash containing both the data name used to locate a set of data fields on the page and also the index of the data (i.e., which row)
@@ -512,18 +512,13 @@ module CollectionSpacePages
   end
 
   # PANELS
-  #
+
   def is_collapsed(panel_label)
     return exists? collapsed_panel_locator panel_label
   end
 
   def toggle_panel(panel_label)
-    # if action == 'uncollapse'
-      # collapse it
       click_element toggle_panel_button panel_label
-    # elsif action == 'collapse'
-    #   click_element toggle_panel_button panel_label
-    # end
   end
 
   def uncollapse_panel_if_collapsed(label)
@@ -531,10 +526,4 @@ module CollectionSpacePages
       toggle_panel label
     end
   end
-  #
-  # def collapse_panel_if_uncollapsed(label)
-  #   if not exists? is_collapsed_panel(label)
-  #     wait_for_element_and_click()
-  #   end
-
 end
