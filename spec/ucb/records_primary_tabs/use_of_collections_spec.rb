@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-[Deployment::CORE, Deployment::PAHMA].each do |deploy|
+[Deployment::CORE_UCB, Deployment::PAHMA].each do |deploy|
 
   describe 'Use of Collection records' do
 

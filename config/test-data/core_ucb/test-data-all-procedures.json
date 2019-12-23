@@ -1,0 +1,154 @@
+{
+    "useOfCollections": [
+        {
+            "referenceNumber": ""
+        },
+        {
+            "referenceNumber": "UoC add test",
+            "projectID": "",
+            "methodList": [
+                {
+                    "method": "exhibition"
+                },
+                {
+                    "method": "publication"
+                },
+                {
+                    "method": "research"
+                }
+            ],
+            "collectionTypeList": [
+                {
+                    "collectionType": "osteology"
+                },
+                {
+                    "collectionType": "documentation"
+                }
+            ],
+            "materialTypeList": [
+                {
+                    "materialType": "fruit"
+                },
+                {
+                    "materialType": "seed"
+                },
+                {
+                    "materialType": "bulb"
+                }
+            ],
+            "userGroup": [
+                {
+                    "user": "UoC User 1",
+                    "userType": "presenter"
+                },
+                {
+                    "user": "UoC User 2"
+                },
+                {
+                    "user": "UoC User 3",
+                    "userInstitutionRole": "publisher",
+                    "userUocRole": "Undergraduate student",
+                    "userInstitution": "UoC Institution"
+                }
+            ],
+            "title": "UoC Title",
+            "dateRequested": "2019-07-04",
+            "dateCompleted": "2019-07-14",
+            "occasionList": [
+                {
+                    "occasion": "Flower show"
+                },
+                {
+                    "occasion": "Important research project"
+                }
+            ],
+            "projectDescription": "A project description A project description A project description A project description A project description A project description A project description A project description ",
+            "linkToContractList": [
+                {
+                    "linkToContract": "https://docs.google.com/document/d/11StjZUb_hAwchYg5m0ufy2-yEt6b_0sYYsxEPQ87d20/edit"
+                },
+                {
+                    "linkToContract": "www.google.com"
+                }
+            ],
+            "authorizationGroup": [
+                {
+                    "authorizedBy": "UoC Authorizer 1",
+                    "authorizationStatus": "Pending"
+                },
+                {
+                    "authorizedBy": "UoC Authorizer 2",
+                    "authorizationDate": "2019-06-22",
+                    "authorizationNote": "This has been authorized",
+                    "authorizationStatus": "Approved"
+                }
+            ],
+            "useDateGroup": [
+                {
+                    "useDate": "2019-06-13",
+                    "useDateTimeNote": "16:35h - 17:00h",
+                    "useDateNumberOfVisitors": "12",
+                    "useDateHoursSpent": "3.25",
+                    "useDateVisitorNote": "Visitors had a great time"
+                },
+                {
+                    "useDateHoursSpent": "19",
+                    "useDateVisitorNote": "No date, hours tracking only"
+                }
+            ],
+            "endDate": "2019-07-14",
+            "staffGroup": [
+                {
+                    "staffName": "UoC Staff 1",
+                    "staffRole": "greeter",
+                    "staffHours": "0.75",
+                    "staffNote": "Staff number 1 note"
+                },
+                {
+                    "staffName": "UoC Staff 2",
+                    "staffHours": "8.5"
+                }
+            ],
+            "locationList": [
+                {
+                    "location": "UoC Location 1"
+                },
+                {
+                    "location": "UoC Location 2"
+                }
+            ],
+            "note": "UoC Note",
+            "provisos": "UoC Provisos",
+            "feeGroup": [
+                {
+                    "feeCurrency": "Pound Sterling",
+                    "feeValue": "1030.5",
+                    "feeNote": "Just a fee note",
+                    "feePaid": true
+                },
+                {
+                    "feeCurrency": "Danish Krone",
+                    "feeValue": "9056",
+                    "feeNote": "Bare et gebyrnotat",
+                    "feePaid": false
+                }
+            ],
+            "result": "UoC Result"
+        },
+        {
+            "referenceNumber": "UoC edit test"
+        },
+        {
+            "referenceNumber": "UoC delete test"
+        },
+        {
+            "referenceNumber": "UoC relate 1.1"
+        },
+        {
+            "referenceNumber": "UoC relate 1.2"
+        },
+        {
+            "referenceNumber": "UoC buttons test"
+        }
+    ]
+}

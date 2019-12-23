@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 
-class PAHMALoginPage < CoreLoginPage
+class PAHMALoginPage < CoreUCBLoginPage
 
   include Logging
   include Page

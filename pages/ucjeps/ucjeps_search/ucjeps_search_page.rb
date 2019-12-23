@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-class UCJEPSSearchPage < CoreSearchPage
+class UCJEPSSearchPage < CoreUCBSearchPage
 
   DEPLOYMENT = Deployment::UCJEPS
 

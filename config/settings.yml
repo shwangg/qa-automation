@@ -18,6 +18,12 @@ core:
     username: admin@core.collectionspace.org
     password: Administrator
 
+core_ucb:
+  base_url: https://core-qa.cspace.berkeley.edu
+  admin:
+    username: secret
+    password: secret
+
 bampfa:
   base_url: https://bampfa-qa.cspace.berkeley.edu
   admin:

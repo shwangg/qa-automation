@@ -5,7 +5,7 @@ describe 'Reports' do
   include Logging
   include WebDriverManager
 
-  test_run = TestConfig.new Deployment::CORE
+  test_run = TestConfig.new Deployment::CORE_UCB
   test_id = Time.now.to_i
 
   before(:all) do

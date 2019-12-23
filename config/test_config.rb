@@ -81,26 +81,26 @@ class TestConfig < Config
 
   # Returns the test data for the 'create object' tests
   # @return [Array<Hash>]
-  def create_object_test_data
-    parse_test_data(@deployment, 'test-data-create-new-object.json')['objects']
+  def create_object_test_data(deployment = nil)
+    parse_test_data((deployment || @deployment), 'test-data-create-new-object.json')['objects']
   end
 
   # Returns the test data for the 'all authorities' tests
   # @return [Array<Hash>]
-  def all_authorities_test_data
-    parse_test_data(@deployment, 'test-data-all-authorities.json')['organizations']
+  def all_authorities_test_data(deployment = nil)
+    parse_test_data((deployment || @deployment), 'test-data-all-authorities.json')['organizations']
   end
 
   # Returns the test data for the 'all procedures' tests
   # @return [Array<Hash>]
-  def all_procedures_test_data(deployment)
-    parse_test_data(deployment, 'test-data-all-procedures.json')['useOfCollections']
+  def all_procedures_test_data(deployment = nil)
+    parse_test_data((deployment || @deployment), 'test-data-all-procedures.json')['useOfCollections']
   end
 
   # Returns the test data for the 'inventory movement' tests
   # @return [Array<Hash>]
-  def inventory_movement_test_data(deployment)
-    parse_test_data(deployment, 'test-data-inventory-movement.json')['movements']
+  def inventory_movement_test_data(deployment = nil)
+    parse_test_data((deployment || @deployment), 'test-data-inventory-movement.json')['movements']
   end
 
 end

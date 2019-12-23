@@ -1,4 +1,4 @@
-class PAHMAUseOfCollectionsData < CoreUseOfCollectionsData
+class PAHMAUseOfCollectionsData < CoreUCBUseOfCollectionsData
 
   DEPLOYMENT = Deployment::PAHMA
 

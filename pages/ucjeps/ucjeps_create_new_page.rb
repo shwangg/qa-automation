@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 
-class UCJEPSCreateNewPage < CoreCreateNewPage
+class UCJEPSCreateNewPage < CoreUCBCreateNewPage
 
   DEPLOYMENT = Deployment::UCJEPS
 
