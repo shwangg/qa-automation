@@ -1,4 +1,4 @@
-class PAHMAInventoryMovementData < CoreInventoryMovementData
+class PAHMAInventoryMovementData < CoreUCBInventoryMovementData
 
   DATA = [
       CRATE = new('crate'),

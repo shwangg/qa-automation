@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-test_run = TestConfig.new Deployment::CORE
+test_run = TestConfig.new Deployment::CORE_UCB
 test_id = Time.now.to_i
 
 describe 'Authority hierarchy', order: :defined do

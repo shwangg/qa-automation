@@ -1,6 +1,6 @@
 module PAHMAUseOfCollectionsInfoForm
 
-  include CoreUseOfCollectionsInfoForm
+  include CoreUCBUseOfCollectionsInfoForm
 
   DEPLOYMENT = Deployment::PAHMA
 

@@ -1,4 +1,4 @@
-class PAHMAObjectData < CoreObjectData
+class PAHMAObjectData < CoreUCBObjectData
 
   DATA = [
       ALT_NUM_GRP = new('pahmaAltNumGroup'),

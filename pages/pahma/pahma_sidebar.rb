@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 
 module PAHMASidebar
 
-  include CoreSidebar
+  include CoreUCBSidebar
 
   def related_proc_button; button_locator('Actions') end
   def related_proc_expanded_div; expanded_div_locator('Actions') end

@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-class PAHMASearchResultsPage < CoreSearchResultsPage
+class PAHMASearchResultsPage < CoreUCBSearchResultsPage
 
   include Logging
   include Page

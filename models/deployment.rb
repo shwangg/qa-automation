@@ -11,6 +11,7 @@ class Deployment
 
   DEPLOYMENTS = [
       CORE = new('Core', 'core'),
+      CORE_UCB = new('Core', 'core_ucb'),
       PAHMA = new('PAHMA', 'pahma'),
       UCJEPS = new('UCJEPS', 'ucjeps')
   ]

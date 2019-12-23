@@ -1,8 +1,8 @@
 require_relative '../../../spec_helper'
 
-test_run = TestConfig.new Deployment::CORE
+test_run = TestConfig.new Deployment::CORE_UCB
 test_id = Time.now.to_i
-test_data = test_run.all_authorities_test_data
+test_data = test_run.all_authorities_test_data Deployment::CORE
 
 describe 'Organization Authority records', order: :defined do
 

@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-class PAHMAInventoryMovementPage < CoreInventoryMovementPage
+class PAHMAInventoryMovementPage < CoreUCBInventoryMovementPage
 
   include PAHMAPages
   include PAHMASidebar

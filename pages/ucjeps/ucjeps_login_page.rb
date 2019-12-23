@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 
-class UCJEPSLoginPage < CoreLoginPage
+class UCJEPSLoginPage < CoreUCBLoginPage
 
   DEPLOYMENT = Deployment::UCJEPS
 

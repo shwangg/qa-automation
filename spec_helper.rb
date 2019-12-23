@@ -50,21 +50,22 @@ require_relative 'pages/core/core_procedures/core_inventory_movement_info_form'
 require_relative 'pages/core/core_procedures/core_inventory_movement_page'
 require_relative 'pages/core/core_procedures/core_use_of_collections_info_form'
 require_relative 'pages/core/core_procedures/core_use_of_collections_page'
-require_relative 'pages/core/core_tools/core_tools'
-require_relative 'pages/core/core_tools/core_invocables'
+require_relative 'pages/core/core_tools/core_tools_page'
+require_relative 'pages/core/core_tools/core_invocables_page'
 
-deployment = Config.deployment.code
+Dir.glob("config/config_*").each { |file| require_relative file if file.include? '.rb' }
 
-unless deployment == 'core'
-  require_relative "config/config_#{deployment}"
+%w(bampfa botgarden cinefiles core_ucb pahma ucjeps).each do |deployment|
   Dir.glob("models/data/#{deployment}/*").each { |file| require_relative file if file.include? '.rb' }
   Dir.glob("models/data/#{deployment}/#{deployment}_authorities/*").each { |file| require_relative file if file.include? '.rb' }
   Dir.glob("models/data/#{deployment}/#{deployment}_objects/*").each { |file| require_relative file if file.include? '.rb' }
   Dir.glob("models/data/#{deployment}/#{deployment}_procedures/*").each { |file| require_relative file if file.include? '.rb' }
+  Dir.glob("models/data/#{deployment}/#{deployment}_tools/*").each { |file| require_relative file if file.include? '.rb' }
 
   Dir.glob("pages/#{deployment}/*").each { |file| require_relative file if file.include? '.rb' }
   Dir.glob("pages/#{deployment}/#{deployment}_authorities/*").each { |file| require_relative file if file.include? '.rb' }
   Dir.glob("pages/#{deployment}/#{deployment}_objects/*").each { |file| require_relative file if file.include? '.rb' }
   Dir.glob("pages/#{deployment}/#{deployment}_procedures/*").each { |file| require_relative file if file.include? '.rb' }
   Dir.glob("pages/#{deployment}/#{deployment}_search/*").each { |file| require_relative file if file.include? '.rb' }
+  Dir.glob("pages/#{deployment}/#{deployment}_tools/*").each { |file| require_relative file if file.include? '.rb' }
 end

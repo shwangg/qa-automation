@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-class PAHMAObjectPage < CoreObjectPage
+class PAHMAObjectPage < CoreUCBObjectPage
 
   include Logging
   include Page

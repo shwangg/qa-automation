@@ -1,4 +1,4 @@
-class PAHMAUseOfCollectionsPage < CoreUseOfCollectionsPage
+class PAHMAUseOfCollectionsPage < CoreUCBUseOfCollectionsPage
 
   include PAHMAUseOfCollectionsInfoForm
 

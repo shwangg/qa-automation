@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-class UCJEPSAuthorityPage < CoreAuthorityPage
+class UCJEPSAuthorityPage < CoreUCBAuthorityPage
 
   DEPLOYMENT = Deployment::UCJEPS
 

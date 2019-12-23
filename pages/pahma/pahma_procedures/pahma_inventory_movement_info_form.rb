@@ -5,7 +5,7 @@ module PAHMAInventoryMovementInfoForm
   include Logging
   include Page
   include CollectionSpacePages
-  include CoreInventoryMovementInfoForm
+  include CoreUCBInventoryMovementForm
 
   def crate_input; input_locator([], PAHMAInventoryMovementData::CRATE.name) end
   def crate_options; input_options_locator([], PAHMAInventoryMovementData::CRATE.name) end
