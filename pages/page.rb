@@ -238,6 +238,9 @@ module Page
   # @param [String] desired_option
   # @param [String] create_type
   def enter_auto_complete(input_locator, options_locator, desired_option, create_type=nil)
+    # Force the current browser window into focus
+    @driver.switch_to.window @driver.window_handle
+
     # User enters a value in the input
     if desired_option && !desired_option.empty?
       wait_for_element_and_type(input_locator, desired_option)
