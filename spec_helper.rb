@@ -51,8 +51,8 @@ require_relative 'pages/core/core_procedures/core_inventory_movement_info_form'
 require_relative 'pages/core/core_procedures/core_inventory_movement_page'
 require_relative 'pages/core/core_procedures/core_use_of_collections_info_form'
 require_relative 'pages/core/core_procedures/core_use_of_collections_page'
-require_relative 'pages/core/core_tools/core_tools'
-require_relative 'pages/core/core_tools/core_invocables'
+require_relative 'pages/core/core_tools/core_invocables_page'
+require_relative 'pages/core/core_tools/core_tools_page'
 require_relative 'pages/core/core_admin/core_admin_page'
 
 Dir.glob("config/config_*").each { |file| require_relative file if file.include? '.rb' }
