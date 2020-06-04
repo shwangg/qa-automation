@@ -30,6 +30,15 @@ describe 'Reports' do
         CoreInvocablesData::INVOCABLE_REPORT_LIST_PANEL.label => 'Reports'
     }
 
+
+    @NO_PERMISSIONS = 'NO_REPORT_PERMISSIONS'
+    @FULL_PERMISSIONS = 'CAN_EDIT_CAN_RUN'
+    @INVOKE_PERMISSIONS = 'CANT_EDIT_CAN_RUN'
+    @EDIT_PERMISSIONS = 'CAN_EDIT_CANT_RUN'
+    @REPORT_USER = 'Reporter'
+    @REPORT_PW = 'Reporter'
+    @REPORT_EMAIL = 'report-test@email.edu'
+
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)
 
@@ -38,33 +47,32 @@ describe 'Reports' do
 
     # Initial Setup of Roles
     @admin_page.click_roles_link
-    if not @admin_page.role_exists("NO_REPORT_PERMISSIONS")
-      @admin_page.create_user_role("NO_REPORT_PERMISSIONS", "No Permissions to run or invoke reports", {"Users" => "D", "Roles" => "W"})
+    if not @admin_page.role_exists(@NO_PERMISSIONS)
+      @admin_page.create_user_role(@NO_PERMISSIONS, "No Permissions to run or invoke reports", {"Users" => "D", "Roles" => "W"})
     end
 
-    if not @admin_page.role_exists("CAN_EDIT_CAN_RUN")
-      @admin_page.create_user_role("CAN_EDIT_CAN_RUN", "A role with CRUDL permissions", {"Report Invocations" => "D", "Reports" => "D", "Users" => "D", "Roles" => "W"})
+    if not @admin_page.role_exists(@FULL_PERMISSIONS)
+      @admin_page.create_user_role(@FULL_PERMISSIONS, "A role with CRUDL permissions", {"Report Invocations" => "D", "Reports" => "D", "Users" => "D", "Roles" => "W"})
       # @admin_page.save_record
     end
 
-    if not @admin_page.role_exists("CANT_EDIT_CAN_RUN")
-      @admin_page.create_user_role("CANT_EDIT_CAN_RUN", "A role with only Invocation permissions", {"Report Invocations" => "D", "Reports" => "R", "Users" => "D", "Roles" => "W"})
+    if not @admin_page.role_exists(@INVOKE_PERMISSIONS)
+      @admin_page.create_user_role(@INVOKE_PERMISSIONS, "A role with only Invocation permissions", {"Report Invocations" => "D", "Reports" => "R", "Users" => "D", "Roles" => "W"})
 
     end
 
-    if not @admin_page.role_exists("CAN_EDIT_CANT_RUN")
-      @admin_page.create_user_role("CAN_EDIT_CANT_RUN", "A role with only Edit permissions permissions", {"Reports" => "D", "Users" => "D", "Roles" => "W"})
+    if not @admin_page.role_exists(@EDIT_PERMISSIONS)
+      @admin_page.create_user_role(@EDIT_PERMISSIONS, "A role with only Edit permissions permissions", {"Reports" => "D", "Users" => "D", "Roles" => "W"})
     end
 
     # Account Setup
     @admin_page.click_users_link
-    if not @admin_page.user_exists("Reporter")
-      @admin_page.create_new_user("report-test@email.edu", "Reporter", "Reporter", "CAN_EDIT_CAN_RUN")
+    if not @admin_page.user_exists(@REPORT_USER)
+      @admin_page.create_new_user(@REPORT_EMAIL, @REPORT_USER, @REPORT_USER, @FULL_PERMISSIONS)
     end
 
     @search_page.log_out
-    @login_page.log_in("report-test@email.edu", "Reporter")
-
+    @login_page.log_in(@REPORT_EMAIL, @REPORT_PW)
     # @search_page.click_tools_link
     # @tools_page.click_reports_link
   end
@@ -79,12 +87,11 @@ describe 'Reports' do
         @search_page.click_admin_link
         @admin_page.click_users_link
 
-        @admin_page.change_user_role("Reporter", "NO_REPORT_PERMISSIONS", "CAN_EDIT_CAN_RUN")
+        @admin_page.change_user_role(@REPORT_USER, @NO_PERMISSIONS, @FULL_PERMISSIONS)
         # currently the UI doesn't allow us to check which role is selected...
-        # expect(@admin_page.role_locator("CAN_EDIT_CAN_RUN")).to be true
+        # expect(@admin_page.role_locator(@FULL_PERMISSIONS)).to be true
         @search_page.log_out
-        @login_page.log_in("report-test@email.edu", "Reporter")
-
+        @login_page.log_in(@REPORT_EMAIL, @REPORT_PW)
         @search_page.click_tools_link
         @tools_page.click_reports_link
       end
@@ -233,12 +240,11 @@ describe 'Reports' do
       @search_page.click_admin_link
       @admin_page.click_users_link
 
-      @admin_page.change_user_role("Reporter", "CAN_EDIT_CAN_RUN", "CAN_EDIT_CANT_RUN")
+      @admin_page.change_user_role(@REPORT_USER, @FULL_PERMISSIONS, @EDIT_PERMISSIONS)
       # currently the UI doesn't allow us to check which role is selected...
-      # expect(@admin_page.role_locator("CAN_EDIT_CAN_RUN")).to be true
+      # expect(@admin_page.role_locator(@FULL_PERMISSIONS)).to be true
       @search_page.log_out
-      @login_page.log_in("report-test@email.edu", "Reporter")
-
+      @login_page.log_in(@REPORT_EMAIL, @REPORT_PW)
       @search_page.click_tools_link
       @tools_page.click_reports_link
     end
@@ -317,12 +323,11 @@ describe 'Reports' do
       @search_page.click_admin_link
       @admin_page.click_users_link
 
-      @admin_page.change_user_role("Reporter", "CAN_EDIT_CANT_RUN", "CANT_EDIT_CAN_RUN")
+      @admin_page.change_user_role(@REPORT_USER, @EDIT_PERMISSIONS, @INVOKE_PERMISSIONS)
       # currently the UI doesn't allow us to check which role is selected...
-      # expect(@admin_page.role_locator("CAN_EDIT_CAN_RUN")).to be true
+      # expect(@admin_page.role_locator(@FULL_PERMISSIONS)).to be true
       @search_page.log_out
-      @login_page.log_in("report-test@email.edu", "Reporter")
-
+      @login_page.log_in(@REPORT_EMAIL, @REPORT_PW)
       @search_page.click_tools_link
       @tools_page.click_reports_link
     end
@@ -416,11 +421,11 @@ describe 'Reports' do
       @search_page.click_admin_link
       @admin_page.click_users_link
 
-      @admin_page.change_user_role("Reporter", "CANT_EDIT_CAN_RUN", "NO_REPORT_PERMISSIONS")
+      @admin_page.change_user_role(@REPORT_USER, @INVOKE_PERMISSIONS, @NO_PERMISSIONS)
       # currently the UI doesn't allow us to check which role is selected...
-      # expect(@admin_page.role_locator("CAN_EDIT_CAN_RUN")).to be true
+      # expect(@admin_page.role_locator(@FULL_PERMISSIONS)).to be true
       @search_page.log_out
-      @login_page.log_in("report-test@email.edu", "Reporter")
+      @login_page.log_in(@REPORT_EMAIL, @REPORT_PW)    
     end
 
     it 'should not be able to see the reports toolbar' do

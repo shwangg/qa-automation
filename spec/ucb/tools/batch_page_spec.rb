@@ -2,69 +2,77 @@ require_relative '../../../spec_helper'
 
 describe 'Batch' do
 
-include Logging
-include WebDriverManager
+  include Logging
+  include WebDriverManager
 
-test_run = TestConfig.new Deployment::CORE
-test_id = Time.now.to_i
+  test_run = TestConfig.new Deployment::CORE
+  test_id = Time.now.to_i
 
-before(:all) do
-  test_run.set_driver launch_browser
-  @admin = test_run.get_admin_user
-  @login_page = test_run.get_page CoreLoginPage
-  @create_new_page = test_run.get_page CoreCreateNewPage
-  @batch_page = test_run.get_page CoreInvocablesPage
-  @search_page = test_run.get_page CoreSearchPage
-  @tools_page = test_run.get_page CoreToolsPage
-  @admin_page = test_run.get_page CoreAdminPage
-  @search_results_page = test_run.get_page CoreSearchResultsPage
+  before(:all) do
+    test_run.set_driver launch_browser
+    @admin = test_run.get_admin_user
+    @login_page = test_run.get_page CoreLoginPage
+    @create_new_page = test_run.get_page CoreCreateNewPage
+    @batch_page = test_run.get_page CoreInvocablesPage
+    @search_page = test_run.get_page CoreSearchPage
+    @tools_page = test_run.get_page CoreToolsPage
+    @admin_page = test_run.get_page CoreAdminPage
+    @search_results_page = test_run.get_page CoreSearchResultsPage
 
-  @test_0 = {
-    CoreInvocablesData::INVOCABLE_NAME.name => 'Merge Authority Items',
-    CoreInvocablesData::INVOCABLE_DESC.name =>  'Merges two or more authority items. The "Target" record is the record that the rest of the records will be merged into.',
-    CoreInvocablesData::INVOCABLE_RUNS_ON_PANEL.label => 'Runs on',
-    CoreInvocablesData::INVOCABLE_BATCH_LIST_PANEL.label => 'Data Updates'
-  }
-
-  @test_1 = {
-      CoreInvocablesData::INVOCABLE_NAME.name => 'A batch that doesn\'t exist',
+    @test_0 = {
+      CoreInvocablesData::INVOCABLE_NAME.name => 'Merge Authority Items',
+      CoreInvocablesData::INVOCABLE_DESC.name =>  'Merges two or more authority items. The "Target" record is the record that the rest of the records will be merged into.',
       CoreInvocablesData::INVOCABLE_RUNS_ON_PANEL.label => 'Runs on',
-  }
+      CoreInvocablesData::INVOCABLE_BATCH_LIST_PANEL.label => 'Data Updates'
+    }
+
+    @test_1 = {
+        CoreInvocablesData::INVOCABLE_NAME.name => 'A batch that doesn\'t exist',
+        CoreInvocablesData::INVOCABLE_RUNS_ON_PANEL.label => 'Runs on',
+    }
+
+    @NO_PERMISSIONS = 'NO_BATCH_PERMISSIONS'
+    @FULL_PERMISSIONS = 'CAN_EDIT_CAN_RUN_UPDATES'
+    @INVOKE_PERMISSIONS = 'CANT_EDIT_CAN_RUN_UPDATES'
+    @EDIT_PERMISSIONS = 'CAN_EDIT_CANT_RUN_UPDATES'
+    @UPDATES_USER = 'DataUpdater'
+    @UPDATES_EMAIL = 'batch-test@email.edu'
+    @UPDATES_PW = 'DataUpdates'
+
 
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)
 
     @search_page.click_admin_link
 
-
     # Initial Setup of Roles
     @admin_page.click_roles_link
-    if not @admin_page.role_exists("NO_BATCH_PERMISSIONS")
-      @admin_page.create_user_role("NO_BATCH_PERMISSIONS", "No Permissions to run or invoke data updates", {"Users" => "D", "Roles" => "W", "Term Lists" => "R"})
+    if not @admin_page.role_exists(@NO_PERMISSIONS)
+      @admin_page.create_user_role(@NO_PERMISSIONS, "No Permissions to run or invoke data updates", {"Users" => "D", "Roles" => "W", "Term Lists" => "R"})
     end
 
-    if not @admin_page.role_exists("CAN_EDIT_CAN_RUN_UPDATES")
-      @admin_page.create_user_role("CAN_EDIT_CAN_RUN_UPDATES", "A role with CRUDL permissions", {"Data Update Invocations" => "D", "Data Updates" => "D", "Users" => "D", "Roles" => "W"})
+    if not @admin_page.role_exists(@FULL_PERMISSIONS)
+      @admin_page.create_user_role(@FULL_PERMISSIONS, "A role with CRUDL permissions", {"Data Update Invocations" => "D", "Data Updates" => "D", "Users" => "D", "Roles" => "W"})
       # @admin_page.save_record
     end
 
-    if not @admin_page.role_exists("CANT_EDIT_CAN_RUN_UPDATES")
-      @admin_page.create_user_role("CANT_EDIT_CAN_RUN_UPDATES", "A role with only Invocation permissions", {"Data Update Invocations" => "D", "Data Updates" => "R", "Users" => "D", "Roles" => "W"})
+    if not @admin_page.role_exists(@INVOKE_PERMISSIONS)
+      @admin_page.create_user_role(@INVOKE_PERMISSIONS, "A role with only Invocation permissions", {"Data Update Invocations" => "D", "Data Updates" => "R", "Users" => "D", "Roles" => "W"})
 
     end
 
-    if not @admin_page.role_exists("CAN_EDIT_CANT_RUN_UPDATES")
-      @admin_page.create_user_role("CAN_EDIT_CANT_RUN_UPDATES", "A role with only Edit permissions permissions", {"Data Updates" => "D", "Users" => "D", "Roles" => "W"})
+    if not @admin_page.role_exists(@EDIT_PERMISSIONS)
+      @admin_page.create_user_role(@EDIT_PERMISSIONS, "A role with only Edit permissions permissions", {"Data Updates" => "D", "Users" => "D", "Roles" => "W"})
     end
 
     # Account Setup
     @admin_page.click_users_link
-    if not @admin_page.user_exists("DataUpdater")
-      @admin_page.create_new_user("batch-test@email.edu", "DataUpdater", "DataUpdates", "CAN_EDIT_CAN_RUN_UPDATES")
+    if not @admin_page.user_exists(@UPDATES_USER)
+      @admin_page.create_new_user(@UPDATES_EMAIL, @UPDATES_USER, @UPDATES_PW, @FULL_PERMISSIONS)
     end
 
     @search_page.log_out
-    @login_page.log_in("batch-test@email.edu", "DataUpdates")
+    @login_page.log_in(@UPDATES_EMAIL, @UPDATES_PW)
   end
 
   after(:all) { quit_browser test_run.driver}
@@ -77,11 +85,11 @@ before(:all) do
         @search_page.click_admin_link
         @admin_page.click_users_link
 
-        @admin_page.change_user_role("DataUpdater", "NO_BATCH_PERMISSIONS", "CAN_EDIT_CAN_RUN_UPDATES")
+        @admin_page.change_user_role(@UPDATES_USER, @NO_PERMISSIONS, @FULL_PERMISSIONS)
         # currently the UI doesn't allow us to check which role is selected...
         # expect(@admin_page.role_locator("CAN_EDIT_CAN_RUN")).to be true
         @search_page.log_out
-        @login_page.log_in("batch-test@email.edu", "DataUpdates")
+        @login_page.log_in(@UPDATES_EMAIL, @UPDATES_PW)
 
         @search_page.click_tools_link
         @tools_page.click_batch_link
@@ -230,11 +238,11 @@ before(:all) do
       @search_page.click_admin_link
       @admin_page.click_users_link
 
-      @admin_page.change_user_role("DataUpdater", "CAN_EDIT_CAN_RUN_UPDATES", "CAN_EDIT_CANT_RUN_UPDATES")
+      @admin_page.change_user_role(@UPDATES_USER, @FULL_PERMISSIONS, @EDIT_PERMISSIONS)
       # currently the UI doesn't allow us to check which role is selected...
       # expect(@admin_page.role_locator("CAN_EDIT_CAN_RUN")).to be true
       @search_page.log_out
-      @login_page.log_in("batch-test@email.edu", "DataUpdates")
+      @login_page.log_in(@UPDATES_EMAIL, @UPDATES_PW)
 
       @search_page.click_tools_link
       @tools_page.click_batch_link
@@ -313,11 +321,11 @@ before(:all) do
       @search_page.click_admin_link
       @admin_page.click_users_link
 
-      @admin_page.change_user_role("DataUpdater", "CAN_EDIT_CANT_RUN_UPDATES", "CANT_EDIT_CAN_RUN_UPDATES")
+      @admin_page.change_user_role(@UPDATES_USER, @EDIT_PERMISSIONS, @INVOKE_PERMISSIONS)
       # currently the UI doesn't allow us to check which role is selected...
       # expect(@admin_page.role_locator("CAN_EDIT_CAN_RUN")).to be true
       @search_page.log_out
-      @login_page.log_in("batch-test@email.edu", "DataUpdates")
+      @login_page.log_in(@UPDATES_EMAIL, @UPDATES_PW)
 
       @search_page.click_tools_link
       @tools_page.click_batch_link
@@ -411,11 +419,11 @@ before(:all) do
       @search_page.click_admin_link
       @admin_page.click_users_link
 
-      @admin_page.change_user_role("DataUpdater", "CANT_EDIT_CAN_RUN_UPDATES", "NO_BATCH_PERMISSIONS")
+      @admin_page.change_user_role(@UPDATES_USER, @INVOKE_PERMISSIONS, @NO_PERMISSIONS)
       # currently the UI doesn't allow us to check which role is selected...
-      # expect(@admin_page.role_locator("NO_BATCH_PERMISSIONS")).to be true
+      # expect(@admin_page.role_locator(@NO_PERMISSIONS)).to be true
       @search_page.log_out
-      @login_page.log_in("batch-test@email.edu", "DataUpdates")
+      @login_page.log_in(@UPDATES_EMAIL, @UPDATES_PW)
     end
 
     it 'should not be able to see the data updates toolbar' do
