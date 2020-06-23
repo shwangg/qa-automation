@@ -63,9 +63,14 @@ Dir.glob("config/config_*").each { |file| require_relative file if file.include?
   Dir.glob("models/data/#{deployment}/#{deployment}_tools/*").each { |file| require_relative file if file.include? '.rb' }
 
   Dir.glob("pages/#{deployment}/*").each { |file| require_relative file if file.include? '.rb' }
-  Dir.glob("pages/#{deployment}/#{deployment}_authorities/*").each { |file| require_relative file if file.include? '.rb' }
-  Dir.glob("pages/#{deployment}/#{deployment}_objects/*").each { |file| require_relative file if file.include? '.rb' }
-  Dir.glob("pages/#{deployment}/#{deployment}_procedures/*").each { |file| require_relative file if file.include? '.rb' }
-  Dir.glob("pages/#{deployment}/#{deployment}_search/*").each { |file| require_relative file if file.include? '.rb' }
-  Dir.glob("pages/#{deployment}/#{deployment}_tools/*").each { |file| require_relative file if file.include? '.rb' }
+  Dir.glob("pages/#{deployment}/#{deployment}_authorities/*form.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_authorities/*page.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_objects/*form.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_objects/*page.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_procedures/*form.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_procedures/*page.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_search/*form.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_search/*page.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_tools/*form.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_tools/*page.rb").each { |file| require_relative file }
 end
