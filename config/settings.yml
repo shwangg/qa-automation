@@ -17,12 +17,25 @@ core:
   admin:
     username: admin@core.collectionspace.org
     password: Administrator
+  batch_user:
+    username: batch-test@core.collectionspace.org
+    password: DataUpdates
+  report_user:
+    username: report-test@core.collectionspace.org
+    password: Reporter
+
 
 core_ucb:
   base_url: https://core-qa.cspace.berkeley.edu
   admin:
     username: secret
     password: secret
+  batch_user:
+    username: batch-test@core.collectionspace.org
+    password: DataUpdates
+  report_user:
+    username: report-test@core.collectionspace.org
+    password: Reporter
 
 bampfa:
   base_url: https://bampfa-qa.cspace.berkeley.edu
