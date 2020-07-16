@@ -7,7 +7,7 @@ class PAHMAObjectPage < CoreUCBObjectPage
   include CollectionSpacePages
   include PAHMAPages
   include PAHMASidebar
-  include PAHMAObjectIdInfoForm
+  # include PAHMAObjectIdInfoForm
 
   DEPLOYMENT = Deployment::PAHMA
 

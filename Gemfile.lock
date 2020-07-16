@@ -25,6 +25,7 @@ GEM
 
 PLATFORMS
   ruby
+  x64-mingw32
 
 DEPENDENCIES
   hash-deep-merge (= 0.1.1)
@@ -33,4 +34,4 @@ DEPENDENCIES
   selenium-webdriver (= 3.142.6)
 
 BUNDLED WITH
-   1.17.2
+   2.1.4
