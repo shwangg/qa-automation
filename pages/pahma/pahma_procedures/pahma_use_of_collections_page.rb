@@ -1,6 +1,6 @@
 class PAHMAUseOfCollectionsPage < CoreUCBUseOfCollectionsPage
 
-  include PAHMAUseOfCollectionsInfoForm
+#  include PAHMAUseOfCollectionsInfoForm
 
   DEPLOYMENT = Deployment::PAHMA
 
