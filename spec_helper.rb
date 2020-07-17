@@ -26,7 +26,7 @@ require_relative 'models/data/core/core_procedures/core_inventory_movement_data'
 require_relative 'models/data/core/core_procedures/core_use_of_collections_data'
 require_relative 'models/user_role'
 require_relative 'models/user'
-require_relative 'models/data/core/core_tools/core_invocables_data.rb'
+require_relative 'models/data/core/core_tools/core_invocables_data'
 
 require_relative 'pages/page'
 require_relative 'pages/collection_space_pages'
@@ -53,8 +53,9 @@ require_relative 'pages/core/core_procedures/core_inventory_movement_info_form'
 require_relative 'pages/core/core_procedures/core_inventory_movement_page'
 require_relative 'pages/core/core_procedures/core_use_of_collections_info_form'
 require_relative 'pages/core/core_procedures/core_use_of_collections_page'
-require_relative 'pages/core/core_tools/core_tools_page'
 require_relative 'pages/core/core_tools/core_invocables_page'
+require_relative 'pages/core/core_tools/core_tools_page'
+require_relative 'pages/core/core_admin/core_admin_page'
 
 Dir.glob("config/config_*").each { |file| require_relative file if file.include? '.rb' }
 
@@ -66,9 +67,14 @@ Dir.glob("config/config_*").each { |file| require_relative file if file.include?
   Dir.glob("models/data/#{deployment}/#{deployment}_tools/*").each { |file| require_relative file if file.include? '.rb' }
 
   Dir.glob("pages/#{deployment}/*").each { |file| require_relative file if file.include? '.rb' }
-  Dir.glob("pages/#{deployment}/#{deployment}_authorities/*").each { |file| require_relative file if file.include? '.rb' }
-  Dir.glob("pages/#{deployment}/#{deployment}_objects/*").each { |file| require_relative file if file.include? '.rb' }
-  Dir.glob("pages/#{deployment}/#{deployment}_procedures/*").each { |file| require_relative file if file.include? '.rb' }
-  Dir.glob("pages/#{deployment}/#{deployment}_search/*").each { |file| require_relative file if file.include? '.rb' }
-  Dir.glob("pages/#{deployment}/#{deployment}_tools/*").each { |file| require_relative file if file.include? '.rb' }
+  Dir.glob("pages/#{deployment}/#{deployment}_authorities/*form.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_authorities/*page.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_objects/*form.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_objects/*page.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_procedures/*form.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_procedures/*page.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_search/*form.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_search/*page.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_tools/*form.rb").each { |file| require_relative file }
+  Dir.glob("pages/#{deployment}/#{deployment}_tools/*page.rb").each { |file| require_relative file }
 end
