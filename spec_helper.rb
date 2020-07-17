@@ -19,6 +19,7 @@ require_relative 'models/data/collection_space_data'
 require_relative 'models/data/core/core_authorities/core_authority_data'
 require_relative 'models/data/core/core_authorities/core_org_data'
 require_relative 'models/data/core/core_objects/core_object_data'
+require_relative 'models/data/core/core_procedures/core_loan_in_data'#new
 require_relative 'models/data/core/core_procedures/core_acquisition_data'
 require_relative 'models/data/core/core_procedures/core_exhibition_data'
 require_relative 'models/data/core/core_procedures/core_inventory_movement_data'
@@ -42,6 +43,8 @@ require_relative 'pages/core/core_authorities/core_organization_info_form'
 require_relative 'pages/core/core_authorities/core_organization_page'
 require_relative 'pages/core/core_objects/core_object_id_info_form'
 require_relative 'pages/core/core_objects/core_object_page'
+require_relative 'pages/core/core_procedures/core_loan_in_info_form'#new
+require_relative 'pages/core/core_procedures/core_loan_in_page'#new
 require_relative 'pages/core/core_procedures/core_acquisition_info_form'
 require_relative 'pages/core/core_procedures/core_acquisition_page'
 require_relative 'pages/core/core_procedures/core_exhibition_info_form'

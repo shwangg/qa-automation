@@ -9,6 +9,7 @@ class CoreCreateNewPage
   DEPLOYMENT = Deployment::CORE
 
   def object_link; {:id => 'collectionobject'} end
+  def loan_in_link; {:id => 'loanin'} end # added
   def acquisition_link; {:id => 'acquisition'} end
   def exhibition_link; {:id => 'exhibition'} end
   def movement_link; {:id => 'movement'} end
@@ -26,6 +27,11 @@ class CoreCreateNewPage
   # Clicks the link to create a new collection object
   def click_create_new_object
     wait_for_page_and_click object_link
+  end
+
+  #added
+  def click_create_new_loan_in
+    wait_for_page_and_click loan_in_link
   end
 
   # Clicks the link to create a new acquisition record
