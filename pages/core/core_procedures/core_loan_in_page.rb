@@ -7,12 +7,15 @@ class CoreLoanInPage
   include CollectionSpacePages
   include CoreSidebar
 <<<<<<< HEAD
+<<<<<<< HEAD
   include CoreExhibitionInfoForm
 
   DEPLOYMENT = Deployment::CORE
 
 end
 =======
+=======
+>>>>>>> 04ee7d97cc5e0a786fa7c2aa24f059c9ad1ab6f7
   include CorePages
   include CoreLoanInInfoForm
 
@@ -40,4 +43,7 @@ end
   end
 
 end
+<<<<<<< HEAD
 >>>>>>> 38e746f... completed test
+=======
+>>>>>>> 04ee7d97cc5e0a786fa7c2aa24f059c9ad1ab6f7
