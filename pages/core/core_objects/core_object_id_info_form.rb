@@ -80,6 +80,7 @@ module CoreObjectIdInfoForm
 
   def enter_other_numbers(data)
     other_nums = data[CoreObjectData::OTHER_NUM.name]
+    prep_fieldsets_for_test_data([fieldset(CoreObjectData::OTHER_NUM.name)], other_nums)
     other_nums && other_nums.each_with_index do |num, index|
       logger.debug "Entering other number data #{num} at index #{index}"
       wait_for_element_and_type(other_num_num_input(index), num[CoreObjectData::NUM_VALUE.name])
@@ -91,7 +92,7 @@ module CoreObjectIdInfoForm
 
   def enter_resp_depts(data)
     resp_depts = data[CoreObjectData::RESPONSIBLE_DEPTS.name]
-    prep_fieldsets_for_test_data([fieldset(CoreObjectData)], resp_depts)
+    prep_fieldsets_for_test_data([fieldset(CoreObjectData::RESPONSIBLE_DEPT.name)], resp_depts)
     resp_depts && resp_depts.each_with_index do |dept, index|
       logger.debug "Selecting responsible department #{dept[CoreObjectData::RESPONSIBLE_DEPT.name]} at index #{index}"
       wait_for_options_and_select(resp_dept_input(index), resp_dept_options(index), dept[CoreObjectData::RESPONSIBLE_DEPT.name])
