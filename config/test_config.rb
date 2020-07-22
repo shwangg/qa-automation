@@ -32,11 +32,17 @@ class TestConfig < Config
 
 ##NEW -- calls get_page method with catagory string
 def find_page_class(string)
-    if string == "Acquisitions"
-       get_page CoreAcquisitionPage
-    elsif string == "Objects"
-       get_page CoreObjectPage
-    end
+  if string == "Acquisitions"
+    get_page CoreAcquisitionPage
+  elsif string == "Objects"
+    get_page CoreObjectPage
+  elsif string == "Media Handling"
+    get_page CoreMediaHandlingPage
+  elsif string == "Object Exits"
+    get_page CoreObjectExitPage
+  elsif string == "Valuation Controls"
+    get_page CoreValuationControlPage
+  end
 end
 
   # Returns an array of test users associated with the deployment configured for testing

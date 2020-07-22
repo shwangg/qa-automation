@@ -1,5 +1,3 @@
-require_relative '../spec_helper'
-
 module Page
 
   include Logging
