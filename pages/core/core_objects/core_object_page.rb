@@ -41,8 +41,8 @@ class CoreObjectPage
   # @return [Array<Object>]
   def create_new_object(data_set)
     data_input_errors = enter_object_data data_set
-    click_save_button
-    when_exists(delete_button, Config.short_wait)
+    wait_for_element_and_click top_save_button
+    when_exists(delete_button, Config.medium_wait)
     data_input_errors
   end
 
