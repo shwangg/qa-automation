@@ -7,10 +7,6 @@
      "originalObjectPurchasePriceValue",
      "acquisitionFundingValue"
   ],
-  "Objects": [
-     "value",
-     "ownershipExchangePriceValue"
-  ],
   "Media Handling": [
      "value"
   ],
@@ -20,5 +16,9 @@
   ],
   "Valuation Controls": [
     "valueAmount"
+  ],
+  "Objects": [
+     "value",
+     "ownershipExchangePriceValue"
   ]
 }
