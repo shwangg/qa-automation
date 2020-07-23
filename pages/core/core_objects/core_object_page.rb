@@ -17,9 +17,9 @@ class CoreObjectPage
     enter_object_number data
     enter_num_objects data
     enter_other_numbers data
-    enter_resp_depts data
+  #  enter_resp_depts data # TO DO: FIX ME
     select_collection data
-    select_status data
+#    select_status data # TO DO: FIX ME 
     enter_publish_to data
     select_inventory_status data
     enter_brief_description data
@@ -42,7 +42,7 @@ class CoreObjectPage
   def create_new_object(data_set)
     data_input_errors = enter_object_data data_set
     wait_for_element_and_click top_save_button
-    when_exists(delete_button, Config.medium_wait)
+    when_exists(delete_button, Config.short_wait)
     data_input_errors
   end
 
