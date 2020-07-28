@@ -17,13 +17,13 @@ class CoreObjectPage
     enter_object_number data
     enter_num_objects data
     enter_other_numbers data
-  #  enter_resp_depts data # TO DO: FIX ME
+    enter_resp_depts data
     select_collection data
-#    select_status data # TO DO: FIX ME 
+    select_status data
     enter_publish_to data
     select_inventory_status data
     enter_brief_description data
-    #enter_dist_features data #TO DO: FIX ME
+    enter_dist_features data
     enter_comments data
     enter_titles data
     enter_object_names data
