@@ -16,7 +16,7 @@ class CoreMediaHandlingPage
   def create_new_media(data_set)
     enter_media_info_data data_set
     click_save_button
-  #  when_exists(delete_button, Config.short_wait)
+    when_exists(delete_button, Config.short_wait)
   end
 
 end
