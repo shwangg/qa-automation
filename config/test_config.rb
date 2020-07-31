@@ -30,6 +30,21 @@ class TestConfig < Config
     end
   end
 
+##NEW -- calls get_page method with catagory string
+def find_page_class(string)
+  if string == "Acquisitions"
+    get_page CoreAcquisitionPage
+  elsif string == "Objects"
+    get_page CoreObjectPage
+  elsif string == "Media Handling"
+    get_page CoreMediaHandlingPage
+  elsif string == "Object Exits"
+    get_page CoreObjectExitPage
+  elsif string == "Valuation Controls"
+    get_page CoreValuationControlPage
+  end
+end
+
   # Returns an array of test users associated with the deployment configured for testing
   # @return [Array<User>]
   def get_users
@@ -103,4 +118,9 @@ class TestConfig < Config
     parse_test_data((deployment || @deployment), 'test-data-inventory-movement.json')['movements']
   end
 
+  # Returns the test data for the 'numeric fields' tests
+  # @return [Array<Hash>]
+  def numeric_fields_test_data(deployment = nil)
+    parse_test_data((deployment || @deployment), 'test-data-numeric-fields.json')
+  end
 end
