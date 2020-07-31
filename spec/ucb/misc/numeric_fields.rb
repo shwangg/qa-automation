@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require_relative '../../../spec_helper'
 
 test_run = TestConfig.new
 test_data = test_run.numeric_fields_test_data
