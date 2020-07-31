@@ -26,26 +26,9 @@ module CoreLoanInInfoForm
     users = data[CoreLoanInData::LENDER_GROUP.name] || [CoreLoanInData.empty_user]
     hide_notifications_bar
     prep_fieldsets_for_test_data([fieldset(CoreLoanInData::LENDER_GROUP.name)], users)
-
     users.each_with_index do |user, index|
       logger.info "Entering user data set at index #{index}: #{user}"
-      begin
-        enter_auto_complete(lender_input(index), lender_options(index), user[CoreLoanInData::LENDER.name])
-      rescue Selenium::WebDriver::Error::TimeoutError
-        sleep 1
-        if exists? found_0
-          return 0
-        elsif exists? found_1
-          return 1
-        elsif exists? found_2
-          return 2
-        elsif exists? found_3
-          return 3
-        else
-          return -1
-        end
-      end
-      return -1
+      enter_auto_complete(lender_input(index), lender_options(index), user[CoreLoanInData::LENDER.name])
     end
   end
 end
