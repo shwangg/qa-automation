@@ -1,0 +1,77 @@
+{
+    "objects": [
+        {
+            "lenderGroup": [
+                {
+                    "lender": "James*"
+                }
+            ]
+        },
+        {
+            "lenderGroup": [
+                {
+                    "lender": "james*company"
+                }
+            ]
+        },
+        {
+            "lenderGroup": [
+                {
+                    "lender": "company*james"
+                }
+            ]
+        },
+        {
+            "lenderGroup": [
+                {
+                    "lender": "Thermos*"
+                }
+            ]
+
+        },
+        {
+            "lenderGroup": [
+                {
+                    "lender": "^Thermos*"
+                }
+            ]
+        },
+        {
+            "lenderGroup": [
+                {
+                    "lender": "Asta*"
+                }
+            ]
+            
+        },
+        {
+            "lenderGroup": [
+                {
+                    "lender": "*Asta^"
+                }
+            ]
+        },
+        {
+            "lenderGroup": [
+                {
+                    "lender": "^Asta^"
+                }
+            ]
+        },
+        {
+            "lenderGroup": [
+                {
+                    "lender": "James*s"
+                }
+            ]
+            
+        },
+        {
+            "lenderGroup": [
+                {
+                    "lender": "James*s^"
+                }
+            ]
+        }
+    ]
+}
