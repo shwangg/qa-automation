@@ -19,7 +19,7 @@ if test_run.deployment == Deployment::CORE
       @object_page = test_run.get_page CoreObjectPage
       @inventory_movement_page = test_run.get_page CoreInventoryMovementPage
       @login_page.load_page
-      @login_page.log_in('students@cspace.berkeley.edu', 'cspacestudents')
+      @login_page.log_in(@admin.username, @admin.password)
     end
 
     after(:all) { quit_browser test_run.driver }
