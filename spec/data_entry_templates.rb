@@ -1,9 +1,6 @@
 require_relative '../spec_helper'
 
 
-# skipping test for inventory movement
-
-
 test_run = TestConfig.new
 test_data = test_run.create_data_entry_templates_test_data
 index = 0;
