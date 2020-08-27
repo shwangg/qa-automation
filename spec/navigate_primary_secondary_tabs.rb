@@ -20,8 +20,7 @@ if test_run.deployment == Deployment::CORE
       @acquisition_page = test_run.get_page CoreAcquisitionPage
 
       @login_page.load_page
-      @login_page.log_in("students@cspace.berkeley.edu", "cspacestudents")
-      #@admin.username, @admin.password)
+      @login_page.log_in(@admin.username, @admin.password)
 
       @test_proc = {
         CoreAcquisitionData::ACQUIS_METHOD.name => 'gift',
@@ -71,6 +70,7 @@ if test_run.deployment == Deployment::CORE
       @acquisition_page.wait_for_element_and_click(:xpath => '//button[@aria-label = "close"]')
       @acquisition_page.wait_for_element_and_type(@acquisition_page.structured_date_input_locator([]),  (Date.today - i).to_s)
       @acquisition_page.hit_enter
+      current_date = (Date.today - i).to_s
 
       exhibition_tab = {:xpath => '//button[@data-recordtype = "exhibition"]'}
       @acquisition_page.wait_for_element_and_click(exhibition_tab)
@@ -82,8 +82,8 @@ if test_run.deployment == Deployment::CORE
 
       @acquisition_page.wait_for_element_and_click(primary_tab)
       ad_text = test_run.driver.find_element(:xpath => '//label[contains(., "Accession date")]/following-sibling::div//input').attribute('value')
-      expect(ad_text == ((Date.today - i).to_s))
-      current_date = (Date.today - i).to_s
+      expect(ad_text == current_date)
+
       @acquisition_page.wait_for_element_and_click(:xpath => '//button[@aria-label = "close"]')
     end
 
@@ -119,6 +119,7 @@ if test_run.deployment == Deployment::CORE
         expect(ad_text == current_date).to be true
         @acquisition_page.wait_for_element_and_type(@acquisition_page.structured_date_input_locator([]),  (Date.today - i).to_s)
         @acquisition_page.hit_enter
+        current_date = (Date.today - i).to_s
 
         @acquisition_page.wait_for_element_and_click(secondary_tab)
         dialog_popup = @acquisition_page.element_text(:xpath => '//div[@role = "dialog"]//div')
@@ -126,7 +127,6 @@ if test_run.deployment == Deployment::CORE
 
         @acquisition_page.save_and_continue
         expect(@acquisition_page.enabled? secondary_tab).to be false
-        current_date = (Date.today - i).to_s
 
         @acquisition_page.wait_for_element_and_click(primary_tab)
         ad_text = test_run.driver.find_element(:xpath => '//label[contains(., "Accession date")]/following-sibling::div//input').attribute('value')
