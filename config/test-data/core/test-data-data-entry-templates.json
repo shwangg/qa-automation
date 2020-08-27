@@ -1,0 +1,102 @@
+{
+    "objects": [
+        {
+            "briefDescriptions": [
+                {
+                    "briefDescription": "duplicate"
+                }
+            ]
+        },
+        {
+            "acquisitionNote": "duplicate"
+        },
+        {
+            "conditionCheckNote": "duplicate"
+        },
+        {
+            "fabricationNote": "duplicate"
+        },
+        {
+            "planningNote": "duplicate"
+        },
+        {
+            "scopeNote": "duplicate"
+        },
+        {
+            "entryNote": "duplicate"
+        },
+        {
+            "currentLocation": "sean test",
+            "currentLocationNote": "duplicate"
+        },
+        {
+            "loanInNote": "duplicate"
+        },
+        {
+            "loanOutNote": "duplicate"
+        },
+        {
+            "description": "duplicate"
+        },
+        {
+            "exitNote": "duplicate"
+        },
+        {
+            "note": "duplicate"
+        },
+        {
+            "valueNote": "duplicate"
+        },
+        {
+            "termTitle": "duplicate"
+        },
+        {
+            "termTitle": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        },
+        {
+            "termName": "duplicate"
+        } 
+    ]
+}

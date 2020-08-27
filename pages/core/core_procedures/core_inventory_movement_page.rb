@@ -25,4 +25,14 @@ class CoreInventoryMovementPage
     data.merge!({:url => url})
   end
 
+  def enter_number_and_text(data)
+    enter_current_location_preset data
+    save_record_only
+  end
+  
+  def enter_number(data)
+    enter_current_location_preset data
+    save_record_only
+  end
+
 end

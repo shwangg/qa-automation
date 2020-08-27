@@ -90,6 +90,14 @@ class TestConfig < Config
     parse_test_data((deployment || @deployment), 'test-data-autocomplete-term-matching-search.json')['objects']
   end
 
+  def create_data_entry_templates_test_data(deployment = nil)
+    parse_test_data((deployment || @deployment), 'test-data-data-entry-templates.json')['objects']
+  end
+
+  def create_temporary_test_data(deployment = nil)
+    parse_test_data((deployment || @deployment), 'test-data-temporary.json')['objects']
+  end
+
   # Returns the test data for the 'all authorities' tests
   # @return [Array<Hash>]
   def all_authorities_test_data(deployment = nil)

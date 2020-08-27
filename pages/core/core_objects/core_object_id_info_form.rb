@@ -62,6 +62,14 @@ module CoreObjectIdInfoForm
   def object_name_lang_options(index); input_options_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_LANG.name) end
   def object_name_note_input(index); input_locator([fieldset(CoreObjectData::OBJ_NAME_GRP.name, index)], CoreObjectData::OBJ_NAME_NOTE.name) end
 
+  def object_template_input; {:xpath => '//div[contains(@class,"RecordHeader")]//div[contains(@class,"DropdownMenuInput")]/input'} end
+  def object_template_options; {:xpath => '//div[contains(@class,"RecordHeader")]//li'} end
+
+  def select_object_template(template)
+    logger.info "Selecting template '#{template}'"
+    wait_for_options_and_select(object_template_input, object_template_options, template)
+  end
+
   # OBJECT NUMBER
 
   def enter_object_number(data)

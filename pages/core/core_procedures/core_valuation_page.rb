@@ -6,8 +6,17 @@ class CoreValuationPage
   include Page
   include CollectionSpacePages
   include CoreSidebar
-  include CoreExhibitionInfoForm
+  include CoreValuationInfoForm
 
   DEPLOYMENT = Deployment::CORE
 
+
+  def enter_number_and_text(data)
+    enter_value_number data
+    enter_value_note data
+  end
+  
+  def enter_number(data)
+    enter_value_number data
+  end
 end

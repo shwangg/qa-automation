@@ -44,6 +44,16 @@ module CoreInventoryMovementInfoForm
     wait_for_element_and_type(current_location_note_input, data[CoreInventoryMovementData::CURRENT_LOCATION_NOTE.name])
   end
 
+  def enter_current_location_preset(data)
+    hide_notifications_bar
+    logger.info "Entering current location '#{data[CoreInventoryMovementData::CURRENT_LOCATION.name]}'"
+    enter_auto_complete(current_location_input, current_location_options, data[CoreInventoryMovementData::CURRENT_LOCATION.name])
+    logger.info "Selecting current location fitness '#{data[CoreInventoryMovementData::CURRENT_LOCATION_FITNESS.name]}'"
+    wait_for_options_and_select(current_location_fitness_input, current_location_fitness_options, data[CoreInventoryMovementData::CURRENT_LOCATION_FITNESS.name])
+    logger.info "Entering current location note '#{data[CoreInventoryMovementData::CURRENT_LOCATION_NOTE.name]}'"
+    wait_for_element_and_type(current_location_note_input, data[CoreInventoryMovementData::CURRENT_LOCATION_NOTE.name])
+  end
+
   # LOCATION DATE
 
   def enter_location_date(data)

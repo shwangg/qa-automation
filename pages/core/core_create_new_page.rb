@@ -9,7 +9,6 @@ class CoreCreateNewPage
   DEPLOYMENT = Deployment::CORE
 
   def object_link; {:id => 'collectionobject'} end
-  def loan_in_link; {:id => 'loanin'} end # added
   def acquisition_link; {:id => 'acquisition'} end
   def exhibition_link; {:id => 'exhibition'} end
   def movement_link; {:id => 'movement'} end
@@ -53,11 +52,6 @@ class CoreCreateNewPage
     wait_for_page_and_click object_link
   end
 
-  #added
-  def click_create_new_loan_in
-    wait_for_page_and_click loan_in_link
-  end
-
   # Clicks the link to create a new acquisition record
   def click_create_new_acquisition
     wait_for_page_and_click acquisition_link
@@ -93,8 +87,8 @@ class CoreCreateNewPage
     wait_for_element_and_click condition_check_link
   end
 
-  # Clicks the link to create a new conservation check
-  def click_create_new_conservation_check
+  # Clicks the link to create a new conservation
+  def click_create_new_conservation
     wait_for_element_and_click conservation_link
   end
 
@@ -144,7 +138,7 @@ class CoreCreateNewPage
   end
 
   # Clicks the link to create a new activity record
-  def click_create_new_authority_activity
+  def click_create_new_authority_concept_activity
     wait_for_element_and_click authority_concept_activity_link
   end
 
@@ -179,7 +173,7 @@ class CoreCreateNewPage
   end
 
   # Clicks the link to create a new local place record
-  def click_create_new_place_local
+  def click_create_new_authority_place_local
     wait_for_element_and_click authority_place_local_link
   end
 

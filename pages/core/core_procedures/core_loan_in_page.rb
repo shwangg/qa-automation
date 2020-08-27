@@ -26,6 +26,15 @@ class CoreLoanInPage
     enter_lender_group data
   end
 
+  def enter_number_and_text(data)
+    enter_loan_in_number data
+    enter_loan_in_note data
+  end
+  
+  def enter_number(data)
+    enter_loan_in_number data
+  end
+
   # Enters data in the various forms on the new object page
   # @param [Hash] data_set
   # @return [Array<Object>]
