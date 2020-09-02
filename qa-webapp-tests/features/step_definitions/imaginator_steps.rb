@@ -1,6 +1,5 @@
-Then(/^I will enter "(.*?)" "(.*?)" in the "(.*?)" field$/) do |type, query, button|
-    fill_in type, :with => query
-    find(:link_or_button, button).click
+Then(/^I will enter "(.*?)" and click "(.*?)"$/) do |query, button|
+  @img_browser_page.search_imaginator(query, button)
 end
 
 Then(/^I verify a page only listing images$/) do

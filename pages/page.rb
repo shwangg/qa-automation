@@ -171,6 +171,11 @@ module Page
     element(locator).click
   end
 
+  def click_element_js(locator)
+    sleep Config.click_wait
+    @driver.execute_script('arguments[0].click();', element(locator))
+  end
+
   # Waits a short time for an element to be present and clicks it. Intended for Ajax updates.
   # @param [Hash] locator
   # @param [Integer] timeout
@@ -214,6 +219,11 @@ module Page
     rescue
       tries.zero? ? fail : retry
     end
+  end
+
+  def wait_for_element_and_select(select_locator, option_locator)
+    wait_for_page_and_click select_locator
+    wait_for_element_and_click option_locator
   end
 
   # Clicks an input, waits for options to appear, and selects a given option
@@ -407,4 +417,27 @@ module Page
     hit_escape
   end
 
+  def switch_to_new_window
+    @driver.switch_to.window @driver.window_handles.last
+  end
+
+  def new_window_opens?(expected_string)
+    begin
+      sleep 0.5
+      windows = @driver.window_handles
+      if windows.length > 1
+        @driver.switch_to.window windows.last
+        wait_until(Config.short_wait) { page_title.include?(expected_string) || url.include?(expected_string) }
+        true
+      else
+        false
+      end
+    rescue => e
+      logger.error "#{e.message}\n#{e.backtrace}"
+      false
+    ensure
+      @driver.close if windows.length > 1
+      @driver.switch_to.window windows.first
+    end
+  end
 end

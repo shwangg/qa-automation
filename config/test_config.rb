@@ -4,7 +4,7 @@ class TestConfig < Config
 
   include Logging
 
-  attr_reader :deployment, :driver
+  attr_accessor :deployment, :driver
 
   def initialize(deployment=nil)
     @deployment = deployment || Config.deployment

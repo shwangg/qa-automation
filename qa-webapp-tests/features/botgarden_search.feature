@@ -2,17 +2,16 @@ Feature: the Botgarden Public Portal (Search) application
 
 Scenario: Test the search form and tab features
     Given I am on the "botgarden" homepage
-    Then I will sign in
-    Then I click app "search"
-    Then I verify the search fields "Accession Number, Scientific Name, Family, Collector Number, Collection Date, Field Collection Place, County, State, Country, Flower Color, Flowering (months), Fruiting (months), Keyword, Garden Location, Geographic Place Name, Rare?, Conservation Organization, Has Vouchers?, Dead?" in "div#searchfieldsTarget"
+    When I log in to "botgarden"
+    When I click the app "search"
+    Then I verify the search fields "Accession Number, Scientific Name, Family, Collector Number, Collection Date, Field Collection Place, County, State, Country, Flower Color, Flowering (months), Fruiting (months), Keyword, Garden Location, Geographic Place Name, Rare?, Conservation Organization, Has Vouchers?, Dead?"
 
     When I enter "Az" in the "fcpverbatim" field
     Then I click on "Azores, Pico, Santa Luzia" in the dropdown menu and search
-    Then I find the content "Azores, Pico" in "input#fcpverbatim"
+    Then I find the value "Azores, Pico" in "fcpverbatim"
     Then I will click "Reset" and the "fcpverbatim" field should have ""
 
     When I enter "arabica" in "keyword" and click "List"
-    #Then I find the content "Searching..." in "div#waitingImage"
     Then I verify the table headers "Accession Number, Scientific Name, Collector, Collector Number, Family, Garden Location, Rare?, Dead?, Flower Color"
     Then I will click the arrows to toggle between pages
     Then I click the button "download selected as csv" and download the csv file
@@ -22,12 +21,12 @@ Scenario: Test the search form and tab features
     When I click the button "map selected with Google staticmaps API"
     Then I find the content "selected objects in result set examined." in "div#maps"
     When I click the button "map selected with Berkeley Mapper"
-    #Then the url contains "http://berkeleymapper.berkeley.edu"
+    Then "BerkeleyMapper" opens in a new window
 
     When I click "Statistics"
     Then I will select "Accession Number" under Select field to summarize on
     Then I find the content "Accession Number, Count" in "div#statsresults"
-    Then I click the button "downloadstats" and download the csv file
+    Then I click the button "Download Summary as CSV" and download the csv file
 
     When I click "Facets"
     Then I find the content "Collector Number, County, State, Country, Family, Garden Location, Rare?, Dead?, Flower Color" in "div#tabs"
@@ -40,4 +39,4 @@ Scenario: Test the search form and tab features
     Then I click the button "download selected as csv" and download the csv file
     And I verify the contents of the page
     Then I find the content "Current time:" in "div#container"
-    When I find the content "About, Help, Credits, Terms" in "div#branding"
+    Then I find the content "About, Help, Credits, Terms" in "div#branding"

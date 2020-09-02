@@ -8,18 +8,18 @@ require_relative '../../../spec_helper'
     include WebDriverManager
 
     before(:all) do
-      @test_run = TestConfig.new deploy
+      @config = TestConfig.new deploy
       @test_id = Time.now.to_i
-      @test_data = @test_run.all_procedures_test_data deploy
+      @test_data = @config.all_procedures_test_data deploy
 
-      @test_run.set_driver launch_browser
-      @admin = @test_run.get_admin_user
-      @login_page = @test_run.get_page CoreLoginPage
-      @create_new_page = @test_run.get_page CoreCreateNewPage
-      @search_page = @test_run.get_page CoreSearchPage
-      @search_results_page = @test_run.get_page CoreSearchResultsPage
-      @use_of_collections_page = @test_run.get_page CoreUseOfCollectionsPage
-      @authority_page = CoreAuthorityPage.new @test_run.driver
+      @config.set_driver launch_browser
+      @admin = @config.get_admin_user
+      @login_page = @config.get_page CoreLoginPage
+      @create_new_page = @config.get_page CoreCreateNewPage
+      @search_page = @config.get_page CoreSearchPage
+      @search_results_page = @config.get_page CoreSearchResultsPage
+      @use_of_collections_page = @config.get_page CoreUseOfCollectionsPage
+      @authority_page = CoreAuthorityPage.new @config.driver
 
       @uoc_0 = @test_data[0]
       @uoc_1 = @test_data[1]
@@ -40,7 +40,7 @@ require_relative '../../../spec_helper'
       @login_page.log_in(@admin.username, @admin.password)
     end
 
-    after(:all) { quit_browser @test_run.driver }
+    after(:all) { quit_browser @config.driver }
 
     context 'when created' do
 

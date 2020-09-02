@@ -2,8 +2,8 @@ Feature: the UCJEPS Portal (Search) application
 
 Scenario: Find and use the keyword search feature
     Given I am on the "ucjeps" homepage
-    Then I will sign in
-    Then I click app "search"
+    When I log in to "ucjeps"
+    Then I click "search"
     Then I verify the search fields "Scientific Name, Collector(s), Locality (verbatim), County, Cultivated?, Major Group, Date Collected, Associated Taxa, Type Assertions?, Collection Number, Specimen ID, Country" in "div#searchfieldsTarget"
 
     When I enter "cubensis" in "keyword" and click "List"
@@ -17,7 +17,7 @@ Scenario: Find and use the keyword search feature
     When I click the button "map selected with Google staticmaps API"
     Then I find the content "selected objects in result set examined." in "div#maps"
     When I click the button "map selected with Berkeley Mapper"
-    #Then the url contains "http://berkeleymapper.berkeley.edu"
+    Then "BerkeleyMapper" opens in a new window
 
     When I click "Statistics"
     Then I will select "Specimen ID" under Select field to summarize on
@@ -37,4 +37,4 @@ Scenario: Find and use the keyword search feature
     Then I find the content "Current time:" in "div#container"
     When I find the content "About, Help, Credits" in "div#branding"
     When I click "Sign out"
-    Then I see "eloan, publicsearch, search" in "div#content-main"
+    Then I find the content "eloan, publicsearch, search" in "div#content-main"

@@ -2,9 +2,8 @@ Feature: The BAMPFA imageserver application.
 
 Scenario: Find and use the keyword search feature to test the imageserver application.
     Given I am on the "bampfa" homepage
-    Then I will sign in
-    Then I click app "internal"
+    When I log in to "bampfa"
+    Then I click "internal"
     When I enter "glass" in "materials" and click "Grid"
-    #Then I will click Grid and see a page of images.
     Then I will click the arrows to toggle between pages
-    Then I will click an image with id "e5477fd9-61a1-4474-a9af/derivatives/Medium/content" and observe url contains imageserver
+    Then I will click an image with id "e5477fd9-61a1-4474-a9af" and observe url contains imageserver
