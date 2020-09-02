@@ -26,7 +26,7 @@ if test_run.deployment == Deployment::CORE
 
       #set up a record for each record type to ensure presence of existing file
       @login_page.load_page
-      @login_page.log_in('students@cspace.berkeley.edu', 'cspacestudents')
+      @login_page.log_in(@admin.username, @admin.password)
 
       #all records will have ref/id num = @test_rec_num
       @test_rec_num = "0000000"
