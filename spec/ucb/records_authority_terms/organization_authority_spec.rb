@@ -2,7 +2,7 @@ require_relative '../../../spec_helper'
 
 test_run = TestConfig.new Deployment::CORE_UCB
 test_id = Time.now.to_i
-test_data = test_run.all_authorities_test_data Deployment::CORE
+test_data = test_run.all_authorities_test_data Deployment::CORE_UCB
 
 describe 'Organization Authority records', order: :defined do
 
@@ -147,7 +147,7 @@ describe 'Organization Authority records', order: :defined do
       @org_authority_page.click_create_new_link
       @create_new_page.click_create_new_org_local
       @org_authority_page.click_save_button
-      @org_authority_page.wait_for_notification 'Display name is required. Please enter a value.'
+      @org_authority_page.wait_for_notification 'Term display name is required. Please enter a value.'
     end
 
     it 'show display name as the h1 page heading' do
@@ -281,7 +281,7 @@ describe 'Organization Authority records', order: :defined do
       @org_authority_page.enter_display_name('', 0)
       @org_authority_page.hit_tab
       @org_authority_page.wait_until(1) { !@org_authority_page.enabled?(@org_authority_page.save_button) }
-      @org_authority_page.wait_for_notification 'Display name is required. Please enter a value.'
+      @org_authority_page.wait_for_notification 'Term display name is required. Please enter a value.'
     end
   end
 
