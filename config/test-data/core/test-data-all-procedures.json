@@ -8,13 +8,13 @@
             "projectID": "",
             "methodList": [
                 {
-                    "method": "exhibition"
+                    "method": "Exhibition"
                 },
                 {
-                    "method": "publication"
+                    "method": "Publication"
                 },
                 {
-                    "method": "research"
+                    "method": "Research"
                 }
             ],
             "collectionTypeList": [
@@ -38,16 +38,15 @@
             ],
             "userGroup": [
                 {
-                    "user": "UoC User 1",
-                    "userType": "presenter"
+                    "user": "UoC User 1"
                 },
                 {
                     "user": "UoC User 2"
                 },
                 {
                     "user": "UoC User 3",
-                    "userInstitutionRole": "publisher",
-                    "userUocRole": "Undergraduate student",
+                    "userInstitutionRole": "Publisher",
+                    "userUocRole": "undergraduate student",
                     "userInstitution": "UoC Institution"
                 }
             ],
@@ -74,13 +73,13 @@
             "authorizationGroup": [
                 {
                     "authorizedBy": "UoC Authorizer 1",
-                    "authorizationStatus": "Pending"
+                    "authorizationStatus": "pending"
                 },
                 {
                     "authorizedBy": "UoC Authorizer 2",
                     "authorizationDate": "2019-06-22",
                     "authorizationNote": "This has been authorized",
-                    "authorizationStatus": "Approved"
+                    "authorizationStatus": "approved"
                 }
             ],
             "useDateGroup": [

@@ -69,11 +69,20 @@ module CoreObjectIdInfoForm
     wait_for_options_and_type(object_num_input, object_num_options, data[CoreObjectData::OBJECT_NUM.name])
   end
 
+  def verify_object_num(data)
+    verify_values_match(data[CoreObjectData::OBJECT_NUM.name], element_value(object_num_input))
+  end
+
   # NUMBER OF OBJECTS
 
   def enter_num_objects(data)
     logger.debug "Entering number of objects #{data[CoreObjectData::NUM_OBJECTS.name]}"
     wait_for_element_and_type(num_objects_input, data[CoreObjectData::NUM_OBJECTS.name])
+  end
+
+  def verify_num_objects(data)
+    num_objects = data[CoreObjectData::NUM_OBJECTS.name]
+    num_objects && verify_values_match(num_objects.to_s, element_value(num_objects_input))
   end
 
   # OTHER NUMBER
@@ -88,6 +97,14 @@ module CoreObjectIdInfoForm
     end
   end
 
+  def verify_other_num(data)
+    other_nums = data[CoreObjectData::OTHER_NUM.name]
+    other_nums && other_nums.each_with_index do |num, index|
+      verify_values_match(num[CoreObjectData::NUM_VALUE.name], element_value(other_num_num_input index))
+      verify_values_match(num[CoreObjectData::NUM_TYPE.name], element_value(other_num_type_input index))
+    end
+  end
+
   # RESPONSIBLE DEPARTMENT
 
   def enter_resp_depts(data)
@@ -99,6 +116,13 @@ module CoreObjectIdInfoForm
     end
   end
 
+  def verify_resp_depts(data)
+    resp_depts = data[CoreObjectData::RESPONSIBLE_DEPTS.name]
+    resp_depts && resp_depts.each_with_index do |dept, index|
+      verify_values_match(dept[CoreObjectData::RESPONSIBLE_DEPT.name], element_value(resp_dept_input index))
+    end
+  end
+
   # COLLECTION
 
   def select_collection(data)
@@ -106,11 +130,21 @@ module CoreObjectIdInfoForm
     wait_for_options_and_select(collection_input, collection_options, data[CoreObjectData::COLLECTION.name])
   end
 
+  def verify_collection(data)
+    collection = data[CoreObjectData::COLLECTION.name]
+    collection && verify_values_match(collection, element_value(collection_input))
+  end
+
   # RECORD STATUS
 
   def select_status(data)
     logger.debug "Selecting record status #{data[CoreObjectData::RECORD_STATUS.name]}"
     wait_for_options_and_select(record_status_input, record_status_options, data[CoreObjectData::RECORD_STATUS.name])
+  end
+
+  def verify_status(data)
+    status = data[CoreObjectData::RECORD_STATUS.name]
+    status && verify_values_match(status, element_value(record_status_input))
   end
 
   # PUBLISH TO
@@ -121,6 +155,13 @@ module CoreObjectIdInfoForm
     pub_to_list && pub_to_list.each_with_index do |pub, index|
       logger.debug "Selecting publish-to-list #{pub[CoreObjectData::PUBLISH_TO.name]} at index #{index}"
       wait_for_options_and_select(publish_to_input(index), publish_to_options(index), pub[CoreObjectData::PUBLISH_TO.name])
+    end
+  end
+
+  def verify_publish_to_list(data)
+    pub_to_list = data[CoreObjectData::PUBLISH_TO_LIST.name]
+    pub_to_list && pub_to_list.each_with_index do |pub, index|
+      verify_values_match(pub[CoreObjectData::PUBLISH_TO.name], element_value(publish_to_input index))
     end
   end
 
@@ -135,6 +176,13 @@ module CoreObjectIdInfoForm
     end
   end
 
+  def verify_inventory_status(data)
+    inv_statuses = data[CoreObjectData::INVENTORY_STATUS_LIST.name]
+    inv_statuses && inv_statuses.each do |stat|
+      verify_values_match(stat[CoreObjectData::INVENTORY_STATUS.name], element_value(inventory_status_input inv_statuses.index(stat)))
+    end
+  end
+
   # BRIEF DESCRIPTION
 
   def enter_brief_description(data)
@@ -146,11 +194,23 @@ module CoreObjectIdInfoForm
     end
   end
 
+  def verify_brief_descriptions(data)
+    brief_descrips = data[CoreObjectData::BRIEF_DESCRIPS.name]
+    brief_descrips && brief_descrips.each do |descrip|
+      verify_values_match(descrip[CoreObjectData::BRIEF_DESCRIP.name], element_value(brief_desc_text_area brief_descrips.index(descrip)))
+    end
+  end
+
   # DISTINGUISHING FEATURES
 
   def enter_dist_features(data)
     logger.debug "Entering distinguishing feature #{data[CoreObjectData::DISTINGUISHING_FEATURES.name]}"
     wait_for_element_and_type(dist_features_text_area, data[CoreObjectData::DISTINGUISHING_FEATURES.name])
+  end
+
+  def verify_distinguishing_features(data)
+    dist_feat = data[CoreObjectData::DISTINGUISHING_FEATURES.name]
+    dist_feat && verify_values_match(dist_feat, element_value(dist_features_text_area))
   end
 
   # COMMENT
@@ -161,6 +221,13 @@ module CoreObjectIdInfoForm
     comments && comments.each_with_index do |comment, index|
       logger.debug "Entering comment #{comment[CoreObjectData::COMMENT.name]} at index #{index}"
       wait_for_element_and_type(comment_text_area(index), comment[CoreObjectData::COMMENT.name])
+    end
+  end
+
+  def verify_comments(data)
+    comments = data[CoreObjectData::COMMENTS.name]
+    comments && comments.each do |comment|
+      verify_values_match(comment[CoreObjectData::COMMENT.name], element_value(comment_text_area comments.index(comment)))
     end
   end
 
@@ -194,6 +261,21 @@ module CoreObjectIdInfoForm
     end
   end
 
+  def verify_titles(data)
+    titles = data[CoreObjectData::TITLE_GRP.name]
+    titles && titles.each_with_index do |title, index|
+      verify_values_match(title[CoreObjectData::TITLE.name], element_value(title_input index))
+      verify_values_match(title[CoreObjectData::TITLE_TYPE.name], element_value(title_type_input index))
+      verify_values_match(title[CoreObjectData::TITLE_LANG.name], element_value(title_lang_input index))
+
+      translations = title[CoreObjectData::TITLE_TRANSLATION_SUB_GRP.name]
+      translations && translations.each_with_index do |trans, sub_index|
+        verify_values_match(trans[CoreObjectData::TITLE_TRANSLATION.name], element_value(title_translation_input [index, sub_index]))
+        verify_values_match(trans[CoreObjectData::TITLE_TRANSLATION_LANG.name], element_value(title_translation_lang_input [index, sub_index]))
+      end
+    end
+  end
+
   # OBJECT NAME
 
   def enter_object_names(data)
@@ -211,76 +293,17 @@ module CoreObjectIdInfoForm
     end
   end
 
-  # Checks that visible object info data matches a given object info test data set
-  # @param [Hash] data_set
-  # @return [Array<Object>]
-  def verify_object_info_data(data_set)
-    logger.debug "Checking object number #{data_set[CoreObjectData::OBJECT_NUM.name]}"
-    object_data_errors = []
-    text_values_match?(data_set[CoreObjectData::OBJECT_NUM.name], element_value(object_num_input), object_data_errors)
-
-    other_nums = data_set[CoreObjectData::OTHER_NUM.name]
-    other_nums && other_nums.each do |num|
-      index = other_nums.index num
-      text_values_match?(num[CoreObjectData::NUM_VALUE.name], element_value(other_num_num_input index), object_data_errors)
-      text_values_match?(num[CoreObjectData::NUM_TYPE.name], element_value(other_num_type_input index), object_data_errors)
+  def verify_object_names(data)
+    obj_names = data[CoreObjectData::OBJ_NAME_GRP.name]
+    obj_names && obj_names.each_with_index do |name, index|
+      verify_values_match(name[CoreObjectData::OBJ_NAME_NAME.name], element_value(object_name_input index))
+      verify_values_match(name[CoreObjectData::OBJ_NAME_CURRENCY.name], element_value(object_name_currency_input index))
+      verify_values_match(name[CoreObjectData::OBJ_NAME_LEVEL.name], element_value(object_name_level_input index))
+      verify_values_match(name[CoreObjectData::OBJ_NAME_SYSTEM.name], element_value(object_name_system_input index))
+      verify_values_match(name[CoreObjectData::OBJ_NAME_TYPE.name], element_value(object_name_type_input index))
+      verify_values_match(name[CoreObjectData::OBJ_NAME_LANG.name], element_value(object_name_lang_input index))
+      verify_values_match(name[CoreObjectData::OBJ_NAME_NOTE.name], element_value(object_name_note_input index))
     end
-
-    num_objects = data_set[CoreObjectData::NUM_OBJECTS.name]
-    num_objects && text_values_match?(num_objects.to_s, element_value(num_objects_input), object_data_errors)
-
-    collection = data_set[CoreObjectData::COLLECTION.name]
-    collection && text_values_match?(collection, element_value(collection_input), object_data_errors)
-
-    resp_depts = data_set[CoreObjectData::RESPONSIBLE_DEPTS.name]
-    resp_depts && resp_depts.each { |dept| text_values_match?(dept[CoreObjectData::RESPONSIBLE_DEPT.name], element_value(resp_dept_input resp_depts.index(dept)), object_data_errors) }
-
-    pub_to_list = data_set[CoreObjectData::PUBLISH_TO_LIST.name]
-    pub_to_list && pub_to_list.each { |pub| text_values_match?(pub[CoreObjectData::PUBLISH_TO.name], element_value(publish_to_input pub_to_list.index(pub)), object_data_errors) }
-
-    status = data_set[CoreObjectData::RECORD_STATUS.name]
-    status && text_values_match?(status, element_value(record_status_input), object_data_errors)
-
-    inv_statuses = data_set[CoreObjectData::INVENTORY_STATUS_LIST.name]
-    inv_statuses && inv_statuses.each { |stat| text_values_match?(stat[CoreObjectData::INVENTORY_STATUS.name], element_value(inventory_status_input inv_statuses.index(stat)), object_data_errors) }
-
-    brief_descrips = data_set[CoreObjectData::BRIEF_DESCRIPS.name]
-    brief_descrips && brief_descrips.each { |descrip| text_values_match?(descrip[CoreObjectData::BRIEF_DESCRIP.name], element_value(brief_desc_text_area brief_descrips.index(descrip)), object_data_errors) }
-
-    dist_feat = data_set[CoreObjectData::DISTINGUISHING_FEATURES.name]
-    dist_feat && text_values_match?(dist_feat, element_value(dist_features_text_area), object_data_errors)
-
-    comments = data_set[CoreObjectData::COMMENTS.name]
-    comments && comments.each { |comment| text_values_match?(comment[CoreObjectData::COMMENT.name], element_value(comment_text_area comments.index(comment)), object_data_errors) }
-
-    titles = data_set[CoreObjectData::TITLE_GRP.name]
-    titles && titles.each do |title|
-      index = titles.index title
-      text_values_match?(title[CoreObjectData::TITLE.name], element_value(title_input index), object_data_errors)
-      text_values_match?(title[CoreObjectData::TITLE_TYPE.name], element_value(title_type_input index), object_data_errors)
-      text_values_match?(title[CoreObjectData::TITLE_LANG.name], element_value(title_lang_input index), object_data_errors)
-
-      translations = title[CoreObjectData::TITLE_TRANSLATION_SUB_GRP.name]
-      translations && translations.each do |trans|
-        sub_index = translations.index trans
-        text_values_match?(trans[CoreObjectData::TITLE_TRANSLATION.name], element_value(title_translation_input [index, sub_index]), object_data_errors)
-        text_values_match?(trans[CoreObjectData::TITLE_TRANSLATION_LANG.name], element_value(title_translation_lang_input [index, sub_index]), object_data_errors)
-      end
-    end
-
-    obj_names = data_set[CoreObjectData::OBJ_NAME_GRP.name]
-    obj_names && obj_names.each do |name|
-      index = obj_names.index name
-      text_values_match?(name[CoreObjectData::OBJ_NAME_NAME.name], element_value(object_name_input index), object_data_errors)
-      text_values_match?(name[CoreObjectData::OBJ_NAME_CURRENCY.name], element_value(object_name_currency_input index), object_data_errors)
-      text_values_match?(name[CoreObjectData::OBJ_NAME_LEVEL.name], element_value(object_name_level_input index), object_data_errors)
-      text_values_match?(name[CoreObjectData::OBJ_NAME_SYSTEM.name], element_value(object_name_system_input index), object_data_errors)
-      text_values_match?(name[CoreObjectData::OBJ_NAME_TYPE.name], element_value(object_name_type_input index), object_data_errors)
-      text_values_match?(name[CoreObjectData::OBJ_NAME_LANG.name], element_value(object_name_lang_input index), object_data_errors)
-      text_values_match?(name[CoreObjectData::OBJ_NAME_NOTE.name], element_value(object_name_note_input index), object_data_errors)
-    end
-
-    object_data_errors
   end
 
 end
