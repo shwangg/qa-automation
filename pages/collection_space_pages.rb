@@ -344,11 +344,13 @@ module CollectionSpacePages
     wait_for_element_and_click clone_button
   end
 
+  # Clicks the unrelate button for a record
   def click_unrelate_button
     logger.info 'Clicking the Unrelate button'
     wait_for_element_and_click unrelate_button
   end
 
+  # Removes a related record
   def unrelate_record
     logger.info 'Removing a related record'
     click_unrelate_button
