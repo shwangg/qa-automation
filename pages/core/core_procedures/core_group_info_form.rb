@@ -23,4 +23,31 @@ module CoreGroupInfoForm
     logger.debug "Entering group note '#{scope_note}'"
     wait_for_element_and_type(scope_note_input_locator, scope_note) if scope_note
   end
+
+  def group_related_input; {:xpath => '//nav[contains(@class,"RecordBrowserNavBar")]//div[contains(@class,"DropdownMenuInput")]/input'} end
+  def group_related_options; {:xpath => '//nav[contains(@class,"RecordBrowserNavBar")]//li'} end
+
+  def select_group_related(related)
+    logger.info "Selecting related '#{related}'"
+    wait_for_options_and_select(group_related_input, group_related_options, related)
+  end
+
+  def first_row_input; input_locator([], "0") end
+  def second_row_input; input_locator([], "1") end
+  def unrelate_button; {:name => 'unrelate'} end
+
+  def select_and_unrelate_two_objects()
+    wait_for_element_and_click first_row_input
+    wait_for_element_and_click second_row_input
+    wait_for_element_and_click unrelate_button
+    hit_tab
+    hit_enter
+    sleep 1
+  end
+
+  def primary_record; {:xpath => '//nav[contains(@class,"RecordBrowserNavBar")]//button[contains(.,"Primary Record")]'} end
+
+  def select_primary_record()
+    wait_for_element_and_click primary_record
+  end
 end
