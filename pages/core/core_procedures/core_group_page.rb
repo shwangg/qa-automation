@@ -19,4 +19,16 @@ class CoreGroupPage
   def enter_number(data)
     enter_title data
   end
+
+  def select_related(related)
+    select_group_related related
+  end
+
+  def select_primary()
+    select_primary_record
+  end
+
+  def select_and_unrelate_two()
+    select_and_unrelate_two_objects
+  end
 end
