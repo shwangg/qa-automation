@@ -34,6 +34,14 @@ class CoreObjectPage
     enter_brief_description data
   end
 
+  def enter_number(data)
+    enter_object_number data
+  end
+
+  def select_template(template)
+    select_object_template(template)
+  end
+
   # Enters data in the various forms on the new object page
   # @param [Hash] data_set
   # @return [Array<Object>]

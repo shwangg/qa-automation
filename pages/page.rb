@@ -320,6 +320,11 @@ module Page
     @driver.action.send_keys(:backspace).perform
   end
 
+  # Hits the Down Arrow key
+  def hit_down_arrow
+    @driver.action.send_keys(:arrow_down).perform
+  end
+
   # Hits the Shift and Tab keys together
   def hit_shift_tab
     @driver.action.key_down(:shift).send_keys(:tab).key_up(:shift).perform

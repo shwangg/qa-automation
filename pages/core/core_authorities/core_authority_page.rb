@@ -30,6 +30,7 @@ class CoreAuthorityPage
   def term_source_id_input(fieldsets); input_locator(fieldsets, CoreAuthorityData::TERM_SOURCE_ID.name) end
   def term_source_note_input(fieldsets); input_locator(fieldsets, CoreAuthorityData::TERM_SOURCE_NOTE.name) end
 
+  def term_title_input(fieldsets); input_locator(fieldsets, CoreAuthorityData::TERM_TITLE.name) end
   # HIERARCHY SECTION
 
   def hierarchy_section_button; {:xpath => '//button[contains(., "Hierarchy")]'} end
@@ -125,4 +126,37 @@ class CoreAuthorityPage
     end
     errors
   end
+
+  # [fieldset(CoreOrgData::ORG_TERM_GRP.name, index)]
+
+  def enter_term_display_name(name, index)
+    logger.debug "Entering display name '#{name}'"
+    wait_for_element_and_type(term_display_name_input([]), name)
+  end
+
+  def enter_term_name(name, index)
+    logger.debug "Entering term name '#{name}'"
+    wait_for_element_and_type(term_name_input([]), name)
+  end
+
+  def enter_term_title(name, index)
+    logger.debug "Entering term name '#{name}'"
+    wait_for_element_and_type(term_title_input([]), name)
+  end
+
+  def enter_number_and_text(data)
+    enter_term_display_name(data[CoreAuthorityData::TERM_DISPLAY_NAME.name], 0)
+    enter_term_name(data[CoreAuthorityData::TERM_NAME.name], 0)
+  end
+
+  def enter_number_and_title(data)
+    enter_term_display_name(data[CoreAuthorityData::TERM_DISPLAY_NAME.name], 0)
+    enter_term_title(data[CoreAuthorityData::TERM_TITLE.name], 0)
+  end
+
+  def enter_number(data)
+    enter_term_display_name(data[CoreAuthorityData::TERM_DISPLAY_NAME.name], 0)
+  end
+
+
 end

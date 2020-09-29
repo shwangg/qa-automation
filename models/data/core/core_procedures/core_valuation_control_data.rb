@@ -1,8 +1,7 @@
 class CoreValuationControlData < CollectionSpaceData
 
-  DATA = [
-      VC_REF_NUM = new('valuationcontrolRefNumber'),
-
-  ]
-
+    DATA = [
+        VALUE_NUM = new('valuationcontrolRefNumber'),
+        VALUE_NOTE = new('valueNote')
+    ]
 end

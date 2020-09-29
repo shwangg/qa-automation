@@ -71,5 +71,29 @@ class CoreSearchResultsPage
     wait_for_element_and_click relate_selected_button
     wait_for_notification 'related to'
   end
+ 
+  def first_row_input; input_locator([], "0") end
+  def second_row_input; input_locator([], "1") end
+  # def group_input(id); {:xpath => "//div[@class=\"ReactModal__Content\")]//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][contains(.,\"#{id}\")]"} end
+  def group_input(id); {:xpath => '//div[contains(@class,"ReactModal__Content")]//div[contains(@class,"cspace-ui-SearchResultTable--common")]//div[contains(.,"group1 sean")]'} end
+
+  def relate_button; {:name => 'relate'} end
+  def new_search; {:xpath => '//label[text()="Find"]'} end
+
+  def relate_record(identifier)
+    wait_for_element_and_click group_input(identifier)
+    wait_for_element_and_click relate_selected_button
+    wait_for_notification 'related to'
+  end
+
+
+  def relate_first_two()
+    wait_for_element_and_click first_row_input
+    wait_for_element_and_click second_row_input
+    wait_for_element_and_click relate_button
+    # when_exists(new_search, Config.long_wait)
+  end
+
+
 
 end

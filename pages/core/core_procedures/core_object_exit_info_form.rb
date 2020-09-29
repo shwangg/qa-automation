@@ -1,5 +1,3 @@
-#Object Exit Info form
-
 require_relative '../../../spec_helper'
 
 module CoreObjectExitInfoForm
@@ -10,23 +8,21 @@ module CoreObjectExitInfoForm
 
   DEPLOYMENT = Deployment::CORE
 
-  def exit_num_input_locator; input_locator([], CoreObjectExitData::OBJECT_EXIT_NUM.name) end
+  def object_num_input; input_locator([], CoreObjectExitData::EXIT_NUM.name) end
+  def object_num_options; input_options_locator([], CoreObjectExitData::EXIT_NUM.name) end
 
-  # Enters an acquisition reference number
-  # @param [Hash] data_set
-  def enter_object_exit_num(data_set)
-    exit_num = data_set[CoreObjectExitData::OBJECT_EXIT_NUM.name]
-    logger.debug "Entering exit number '#{exit_num}'"
-    exit_num_options_locator = input_options_locator([], CoreObjectExitData::OBJECT_EXIT_NUM.name)
-    wait_for_options_and_type(exit_num_input_locator, exit_num_options_locator, exit_num)
+  def enter_exit_number(data)
+    logger.debug "Entering number #{data[CoreObjectExitData::EXIT_NUM.name]}"
+    wait_for_options_and_type(object_num_input, object_num_options, data[CoreObjectExitData::EXIT_NUM.name])
   end
 
+  def exit_note_input_locator; text_area_locator([], CoreObjectExitData::EXIT_NOTE.name) end
 
-  # Combines all data entry methods
+  # Enters exit note
   # @param [Hash] data_set
-  def enter_object_exit_info_data(data_set)
-    hide_notifications_bar
-    enter_object_exit_num data_set
+  def enter_exit_note(data_set)
+    exit_note = data_set[CoreObjectExitData::EXIT_NOTE.name]
+    logger.debug "Entering exit_note '#{exit_note}'"
+    wait_for_element_and_type(exit_note_input_locator,exit_note) if exit_note
   end
-
 end

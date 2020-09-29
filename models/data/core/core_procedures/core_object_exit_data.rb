@@ -1,8 +1,10 @@
 class CoreObjectExitData < CollectionSpaceData
 
-  DATA = [
-      OBJECT_EXIT_NUM = new('exitNumber'),
 
-  ]
-
+    DATA = [
+        EXIT_NUM = new('exitNumber'),
+        EXIT_NOTE = new('exitNote')
+    ]
+  
 end
+

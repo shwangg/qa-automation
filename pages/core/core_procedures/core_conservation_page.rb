@@ -7,6 +7,17 @@ class CoreConservationPage
     include Page
     include CollectionSpacePages
     include CoreSidebar
-    include CoreAcquisitionInfoForm
+    include CoreConservationInfoForm
   
+
+    DEPLOYMENT = Deployment::CORE
+
+    def enter_number_and_text(data)
+        enter_conservation_ref_num data
+        enter_conservation_note data
+      end
+      
+      def enter_number(data)
+        enter_conservation_ref_num data
+      end    
 end

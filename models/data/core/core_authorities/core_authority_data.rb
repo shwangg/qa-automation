@@ -14,7 +14,8 @@ class CoreAuthorityData < CollectionSpaceData
       TERM_SOURCE_ID = new('termSourceID'),
       TERM_SOURCE_NOTE = new('termSourceNote'),
       TERM_STATUS = new('termStatus'),
-      TERM_TYPE = new('termType')
+      TERM_TYPE = new('termType'),
+      TERM_TITLE = new('termTitle')
   ]
 
 end
