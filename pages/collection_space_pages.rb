@@ -30,6 +30,8 @@ module CollectionSpacePages
   def create_new_button; {:name => 'create'} end
   def run_button; {:name => 'run'} end
   def clone_button; {:name => 'clone'} end
+  def unrelate_button; {:name => 'unrelate'} end
+  def unrelate_option; {:xpath => '//button[@name = "cancel"]/following-sibling::button'} end
   def header_bar; {:xpath => '//header/div'} end
   def page_h1; {:xpath => '//h1'} end
   def page_h2; {:xpath => '//h2'} end
@@ -342,6 +344,18 @@ module CollectionSpacePages
     wait_for_element_and_click clone_button
   end
 
+  # Clicks the unrelate button for a record
+  def click_unrelate_button
+    logger.info 'Clicking the Unrelate button'
+    wait_for_element_and_click unrelate_button
+  end
+
+  # Removes a related record
+  def unrelate_record
+    logger.info 'Removing a related record'
+    click_unrelate_button
+    wait_for_element_and_click unrelate_option
+  end
   # LOG OUT
 
   # Logs out using the sign out link in the header

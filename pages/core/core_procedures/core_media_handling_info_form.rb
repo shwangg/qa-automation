@@ -10,12 +10,12 @@ module CoreMediaHandlingInfoForm
 
   def object_num_input; input_locator([], CoreMediaHandlingData::ID_NUM.name) end
   def object_num_options; input_options_locator([], CoreMediaHandlingData::ID_NUM.name) end
-  
+
   def enter_id_number(data)
     logger.debug "Entering id number #{data[CoreMediaHandlingData::ID_NUM.name]}"
     wait_for_options_and_type(object_num_input, object_num_options, data[CoreMediaHandlingData::ID_NUM.name])
   end
-  
+
   def description_input_locator; text_area_locator([], CoreMediaHandlingData::DESCRIPTION.name) end
 
   # Enters description

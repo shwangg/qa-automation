@@ -10,7 +10,6 @@ class CoreMediaHandlingPage
 
   DEPLOYMENT = Deployment::CORE
 
-
   def enter_number_and_text(data)
     enter_id_number data
     enter_description data

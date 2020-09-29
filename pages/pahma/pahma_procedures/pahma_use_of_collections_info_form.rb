@@ -4,6 +4,12 @@ module PAHMAUseOfCollectionsInfoForm
 
   DEPLOYMENT = Deployment::PAHMA
 
+  def enter_reference_nbr(test_data)
+    hide_notifications_bar
+    logger.info "Entering reference number '#{test_data[CoreUseOfCollectionsData::REFERENCE_NBR.name]}'"
+    wait_for_element_and_type(reference_nbr_input, test_data[CoreUseOfCollectionsData::REFERENCE_NBR.name])
+  end
+
   # USERS
 
   # Enters users data per a given set of test data
@@ -32,7 +38,7 @@ module PAHMAUseOfCollectionsInfoForm
     prep_fieldsets_for_test_data([fieldset(CoreUseOfCollectionsData::OCCASION_LIST.name)], occasions)
     occasions.each_with_index do |occasion, index|
       logger.info "Entering occasion data set at index #{index}: #{occasion}"
-      enter_auto_complete(occasion_input(index), occasion_options(index), occasion[CoreUseOfCollectionsData::OCCASION.name], 'Activities')
+      enter_auto_complete(occasion_input(index), occasion_options(index), occasion[CoreUseOfCollectionsData::OCCASION.name], 'Occasion Concepts')
     end
   end
 

@@ -1,0 +1,24 @@
+{
+  "Acquisitions": [
+     "groupPurchasePriceValue",
+     "objectOfferPriceValue",
+     "objectPurchaseOfferPriceValue",
+     "objectPurchasePriceValue",
+     "originalObjectPurchasePriceValue",
+     "acquisitionFundingValue"
+  ],
+  "Media Handling": [
+     "value"
+  ],
+  "Object Exits": [
+     "displosalValue",
+     "groupDisplosalValue"
+  ],
+  "Valuation Controls": [
+    "valueAmount"
+  ],
+  "Objects": [
+     "value",
+     "ownershipExchangePriceValue"
+  ]
+}

@@ -43,7 +43,7 @@
                     "termSourceNote": "Term Source Note 0"
                 }
             ],
-            "contactNames": [
+            "contactGroup": [
                 {
                     "contactName": "Contact Name 0"
                 }
@@ -107,7 +107,7 @@
                     "termSourceNote": "Term Source Note 1"
                 }
             ],
-            "contactNames": [
+            "contactGroup": [
                 {
                     "contactName": "Contact Name 0 Edited"
                 },

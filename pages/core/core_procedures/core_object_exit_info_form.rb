@@ -10,12 +10,12 @@ module CoreObjectExitInfoForm
 
   def object_num_input; input_locator([], CoreObjectExitData::EXIT_NUM.name) end
   def object_num_options; input_options_locator([], CoreObjectExitData::EXIT_NUM.name) end
-  
+
   def enter_exit_number(data)
     logger.debug "Entering number #{data[CoreObjectExitData::EXIT_NUM.name]}"
     wait_for_options_and_type(object_num_input, object_num_options, data[CoreObjectExitData::EXIT_NUM.name])
   end
-  
+
   def exit_note_input_locator; text_area_locator([], CoreObjectExitData::EXIT_NOTE.name) end
 
   # Enters exit note

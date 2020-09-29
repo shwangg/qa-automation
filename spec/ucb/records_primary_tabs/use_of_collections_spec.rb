@@ -1,6 +1,7 @@
 require_relative '../../../spec_helper'
 
-[Deployment::CORE_UCB, Deployment::PAHMA].each do |deploy|
+# [Deployment::CORE_UCB, Deployment::PAHMA].each do |deploy|
+[Deployment::PAHMA].each do |deploy|
 
   describe 'Use of Collection records' do
 
@@ -8,18 +9,18 @@ require_relative '../../../spec_helper'
     include WebDriverManager
 
     before(:all) do
-      @test_run = TestConfig.new deploy
+      @config = TestConfig.new deploy
       @test_id = Time.now.to_i
-      @test_data = @test_run.all_procedures_test_data deploy
+      @test_data = @config.all_procedures_test_data deploy
 
-      @test_run.set_driver launch_browser
-      @admin = @test_run.get_admin_user
-      @login_page = @test_run.get_page CoreLoginPage
-      @create_new_page = @test_run.get_page CoreCreateNewPage
-      @search_page = @test_run.get_page CoreSearchPage
-      @search_results_page = @test_run.get_page CoreSearchResultsPage
-      @use_of_collections_page = @test_run.get_page CoreUseOfCollectionsPage
-      @authority_page = CoreAuthorityPage.new @test_run.driver
+      @config.set_driver launch_browser
+      @admin = @config.get_admin_user
+      @login_page = @config.get_page CoreLoginPage
+      @create_new_page = @config.get_page CoreCreateNewPage
+      @search_page = @config.get_page CoreSearchPage
+      @search_results_page = @config.get_page CoreSearchResultsPage
+      @use_of_collections_page = @config.get_page CoreUseOfCollectionsPage
+      @authority_page = CoreAuthorityPage.new @config.driver
 
       @uoc_0 = @test_data[0]
       @uoc_1 = @test_data[1]
@@ -40,7 +41,7 @@ require_relative '../../../spec_helper'
       @login_page.log_in(@admin.username, @admin.password)
     end
 
-    after(:all) { quit_browser @test_run.driver }
+    after(:all) { quit_browser @config.driver }
 
     context 'when created' do
 
@@ -51,33 +52,39 @@ require_relative '../../../spec_helper'
         @use_of_collections_page.wait_for_notification 'Reference number is required. Please enter a value.'
       end
 
-      it 'allow the user to choose a generated reference number of a selected pattern' do
-        ref_num = @use_of_collections_page.select_id_generator_option(@use_of_collections_page.reference_nbr_input, @use_of_collections_page.reference_nbr_options)
-        @uoc_0.merge!({CoreUseOfCollectionsData::REFERENCE_NBR.name => ref_num})
-        expect(ref_num).not_to be_empty
+      it 'allow the user to choose a generated reference number of a selected pattern if the tenant is Core' do
+        if deploy == Deployment::CORE_UCB
+          ref_num = @use_of_collections_page.select_id_generator_option(@use_of_collections_page.reference_nbr_input, @use_of_collections_page.reference_nbr_options)
+          @uoc_0.merge!({CoreUseOfCollectionsData::REFERENCE_NBR.name => ref_num})
+          expect(ref_num).not_to be_empty
+        end
       end
 
-      it 'show the user the "last generated value" for a reference number' do
-        # Pause to allow the last-generated-value to be updated
-        @use_of_collections_page.hit_tab
-        @use_of_collections_page.wait_for_element_and_click @use_of_collections_page.reference_nbr_input
-        @use_of_collections_page.wait_until(Config.short_wait) { @use_of_collections_page.elements(@use_of_collections_page.reference_nbr_options).any? &:displayed? }
-        sleep 2
-        expect(@use_of_collections_page.elements(@use_of_collections_page.reference_nbr_options).first.text).to include(@uoc_0[CoreUseOfCollectionsData::REFERENCE_NBR.name])
+      it 'show the user the "last generated value" for a reference number if the tenant is Core' do
+        if deploy == Deployment::CORE_UCB
+          # Pause to allow the last-generated-value to be updated
+          @use_of_collections_page.hit_tab
+          @use_of_collections_page.wait_for_element_and_click @use_of_collections_page.reference_nbr_input
+          @use_of_collections_page.wait_until(Config.short_wait) { @use_of_collections_page.elements(@use_of_collections_page.reference_nbr_options).any? &:displayed? }
+          sleep 2
+          expect(@use_of_collections_page.elements(@use_of_collections_page.reference_nbr_options).first.text).to include(@uoc_0[CoreUseOfCollectionsData::REFERENCE_NBR.name])
+        end
       end
 
-      it 'allow the user to choose an incremented reference number of a selected pattern' do
-        @use_of_collections_page.hit_tab
-        prev_ref_num = @uoc_0[CoreUseOfCollectionsData::REFERENCE_NBR.name].split(//).last.to_i
-        new_ref_num = @use_of_collections_page.select_id_generator_option(@use_of_collections_page.reference_nbr_input, @use_of_collections_page.reference_nbr_options)
-        last_digit = new_ref_num.split(//).last.to_i
-        (prev_ref_num == 9) ? (expect(last_digit).to be_zero) : (expect(last_digit).to eql(prev_ref_num + 1))
+      it 'allow the user to choose an incremented reference number of a selected pattern if the tenant is Core' do
+        if deploy == Deployment::CORE_UCB
+          @use_of_collections_page.hit_tab
+          prev_ref_num = @uoc_0[CoreUseOfCollectionsData::REFERENCE_NBR.name].split(//).last.to_i
+          new_ref_num = @use_of_collections_page.select_id_generator_option(@use_of_collections_page.reference_nbr_input, @use_of_collections_page.reference_nbr_options)
+          last_digit = new_ref_num.split(//).last.to_i
+          (prev_ref_num == 9) ? (expect(last_digit).to be_zero) : (expect(last_digit).to eql(prev_ref_num + 1))
+        end
       end
     end
 
     context 'when being created' do
 
-      before(:all) { @use_of_collections_page.revert_record }
+      before(:all) { @use_of_collections_page.revert_record if deploy == Deployment::CORE_UCB }
 
       it('allow a Reference Number to be added') { @use_of_collections_page.enter_reference_nbr @uoc_1 }
       it('allow a Project ID to be selected') { @use_of_collections_page.select_project_id @uoc_1 }

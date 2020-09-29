@@ -2,9 +2,9 @@ Feature: the UCJEPS Portal (Search) application
 
 Scenario: Find and use the keyword search feature
     Given I am on the "ucjeps" homepage
-    Then I will sign in
-    Then I click app "search"
-    Then I verify the search fields "Scientific Name, Collector(s), Locality (verbatim), County, Cultivated?, Major Group, Date Collected, Associated Taxa, Type Assertions?, Collection Number, Specimen ID, Country" in "div#searchfieldsTarget"
+    When I log in to "ucjeps"
+    When I click the app "search"
+    Then I verify the search fields "Scientific Name, Collector(s), Locality (verbatim), County, Cultivated?, Major Group, Date Collected, Associated Taxa, Type Assertions?, Collection Number, Specimen ID, Country"
 
     When I enter "Arroyo" in the "localityverbatim" field
     Then I click on "Arroyo Calmalli" in the dropdown menu and search
@@ -17,12 +17,12 @@ Scenario: Find and use the keyword search feature
     When I click the button "map selected with Google staticmaps API"
     Then I find the content "selected objects in result set examined." in "div#maps"
     When I click the button "map selected with Berkeley Mapper"
-    #Then the url contains "http://berkeleymapper.berkeley.edu"
+    Then "BerkeleyMapper" opens in a new window
 
     When I click "Statistics"
     Then I will select "Specimen ID" under Select field to summarize on
     Then I find the content "Specimen ID, Count" in "div#statsresults"
-    Then I click the button "downloadstats" and download the csv file
+    Then I click the button "Download Summary as CSV" and download the csv file
 
     When I click "Facets"
     Then I find the content "Scientific Name, Major Group, Family, Collector(s), County, State, Country" in "div#tabs"
@@ -40,10 +40,10 @@ Scenario: Find and use the keyword search feature
     When I click "Help"
     Then I find the content "Some fields have an option of searching as either "keyword", "phrase", or "exact"." in "div#helpTarget"
     When I click "Credits"
-    Then I find the content "For questions about the content, and to access content beyond what is provided here, please contact David Baxter, dbaxter@berkeley.edu." in "div#creditsTarget"
+    Then I find the content "For questions about the content, and to access content beyond what is provided here, please contact" in "div#creditsTarget"
     When I click "Terms"
     Then I find the content "Terms of Use" in "div#termsTarget"
     When I go back
 
     When I click "Sign out"
-    Then I see "eloan, publicsearch, search" in "div#content-main"
+    Then I find the content "eloan, publicsearch, search" in "div#content-main"
