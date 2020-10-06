@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-class CoreInvocablesPage
+class CoreInvocablesPage < CoreToolsPage
 
   include Page
   include Logging
@@ -17,12 +17,16 @@ class CoreInvocablesPage
   def invocable_group_ctx_locator; input_locator([], CoreInvocablesData::INVOCABLE_GROUP_CONTEXT.name) end
   def invocable_list_ctx_locator; input_locator([], CoreInvocablesData::INVOCABLE_LIST_CONTEXT.name) end
   def invocable_batch_doctypes_locator; input_locator_by_label(CoreInvocablesData::INVOCABLE_DOC_TYPES_GROUP.label) end
+  def invocable_batch_doctype_locator(type); {xpath: "//input[@value='#{type}']"} end
   def invocable_report_doctypes_locator; disabled_input_locator_by_label(CoreInvocablesData::INVOCABLE_DOC_TYPES_GROUP.label) end
   def invocable_mimetype_locator; disabled_input_locator_by_label(CoreInvocablesData::INVOCABLE_REPORT_OUTPUT_MIME.label) end
   def invocable_classname_locator;  {:xpath => '//label[contains(., "Java class")]//following-sibling::textarea'} end
   def invocable_batch_new_focus_locator; input_locator([], CoreInvocablesData::INVOCABLE_BATCH_CREATES_NEW_FOCUS.name) end
 
   def invocable_modal; {:xpath => '//div[@class="cspace-ui-InvocationModal--common"]'} end
+  def run_on_input; input_locator_by_label('Run on') end
+  def invocable_option; input_options_locator_by_label('Run on') end
+  def select_run_on_record_button; {xpath: '//button[text()="Select…"]'} end
 
   def select_invocable(invocable_name)
     {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][contains(.,\"#{invocable_name}\")]"}
@@ -46,6 +50,18 @@ class CoreInvocablesPage
     logger.debug("Changing the description to '#{description}'")
     wait_for_element_and_type(invocable_description_locator, description) if description
     click_save_button
+  end
+
+  def choose_run_on_option(option)
+    wait_for_options_and_select(run_on_input, invocable_option, option)
+  end
+
+  def click_select_record_button
+    wait_for_element_and_click select_run_on_record_button
+  end
+
+  def enter_target_record(option)
+    enter_auto_complete(input_locator_by_label('Target record'), input_options_locator_by_label('Target record'), option)
   end
 
 end

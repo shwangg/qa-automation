@@ -12,6 +12,7 @@ class CoreSearchResultsPage
   def no_results_msg; {:xpath => '//span[text()="No records found"]'} end
   def relate_selected_button; {:xpath => '//button[contains(.,"Relate selected")]'} end
   def search_filter_bar; {:xpath => '//div[contains(@class, "AdminSearchBar")]//input[contains(@class,"LineInput")]'} end
+  def search_result_checkbox(identifier); {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,\"#{identifier}\")]//input"} end
 
   def fill_search_filter_bar(value)
     wait_for_element_and_type(search_filter_bar, value)
@@ -62,11 +63,15 @@ class CoreSearchResultsPage
     wait_for_element_and_click({:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,\"#{identifier}\")]//input"})
   end
 
+  def click_search_result_cbx(identifier)
+    wait_for_element_and_click search_result_checkbox(identifier)
+  end
+
   # Selects search result rows and clicks the 'Relate' button
   # @param [Array<String>] identifiers
   def relate_records(identifiers)
     identifiers.each do |identifier|
-      wait_for_element_and_click({:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,\"#{identifier}\")]//input"})
+      click_search_result_cbx identifier
     end
     wait_for_element_and_click relate_selected_button
     wait_for_notification 'related to'
