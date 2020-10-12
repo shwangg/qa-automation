@@ -10,7 +10,7 @@ class LandingPage < WebAppPage
   def user_icon; {xpath: '//img[contains(@src, "usericon.jpg")]'} end
 
   def load_page(institution)
-    get "https://webapps-qa.cspace.berkeley.edu/#{institution}"
+    get "#{Config.webapps_base_url}/#{institution}"
     when_displayed(apps_available_h1, Config.short_wait)
   end
 

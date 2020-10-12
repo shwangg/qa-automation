@@ -83,6 +83,10 @@ class Config
     @global_settings[deployment.code]['base_url']
   end
 
+  def Config.webapps_base_url
+    @global_settings['webapps_base_url']
+  end
+
   def Config.admin_user(deployment)
     settings = @global_settings[deployment.code]
     admin_data = settings[UserRole::ADMIN.name]
