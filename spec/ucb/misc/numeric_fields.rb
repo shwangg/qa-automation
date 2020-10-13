@@ -26,7 +26,8 @@ if test_run.deployment == Deployment::CORE
 
       #set up a record for each record type to ensure presence of existing file
       @login_page.load_page
-      @login_page.log_in(@admin.username, @admin.password)
+      @login_page.log_in("students@cspace.berkeley.edu", "cspacestudents")
+      #@admin.username, @admin.password)
 
       #all records will have ref/id num = @test_rec_num
       @test_rec_num = "0000000"
@@ -75,53 +76,53 @@ if test_run.deployment == Deployment::CORE
     invalid_floats = ["123a", "0.123a", "123.123.123"]
     valid_integers = ["1234", "0", "-1234"]
     invalid_integers = ["123.0", "1abc"]
+    #Methods and variables to be used in tests
+    obj_description_info = {:xpath => "//button//h3//span[text() = 'Object Description Information']"}
+    obj_history_association_info = {:xpath => "//span[text() = 'Object History and Association Information']"}
+    objexit_deaccession_disposal_info = {:xpath => "//span[text()= 'Deaccession and Disposal Information']"}
+    #  notification_bar = {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]//div'}
+    success_message =  {:xpath => '//div[@class = "cspace-ui-RecordHistory--common"]'}
+    def save_notification(num); {:xpath => "(//div[@class = 'cspace-ui-NotificationBar--common']//li)[#{num}]"} end
 
-    it "checks for valid float field inputs" do
-      test_data.each do |type, field|
-        #sets (type,field) pair to test; will cycle through all pairs for given type (Acquisition, Cataloging, etc)
-        @record_type_string = type
-        puts @record_type_string
+    test_data.each do |type, field|
+      it "checks #{type} for valid float field inputs" do
+      #test_data.each do |type, field|
         @page = test_run.find_page_class(type)
         @search_page.click_search_link
-        @search_page.select_record_type_option(@record_type_string)
+        @search_page.select_record_type_option(type)
         @search_page.full_text_search @test_rec_num
         @search_results_page.wait_for_results
         @search_results_page.click_result(0)
 
         field.each do |field|
-          puts field
           input_field = @page.input_locator([], input_data_name = field)
           if type == 'Objects'
             if field == 'value' and !(@page.exists? input_field)
-              test_run.driver.find_element(:xpath => "//button//h3//span[text() = 'Object Description Information']").click
+              @page.click_element(obj_description_info)
             elsif field == 'ownershipExchangePriceValue' and !(@page.exists? input_field)
-              test_run.driver.find_element(:xpath => "//span[text() = 'Object History and Association Information']").click
+              @page.click_element(obj_history_association_info)
             end
           elsif type == "Object Exits" and !(@page.exists? input_field)
-            test_run.driver.find_element(:xpath => "//span[text()= 'Deaccession and Disposal Information']").click
+            @page.click_element(objexit_deaccession_disposal_info)
           end
           @page.scroll_to_element(input_field)
           valid_floats.each do |float|
             @page.wait_for_element_and_type(input_field, float)
             @page.save_record
-            #checks if save was successful
             @page.wait_for_notification("Saved")
-            success_message = @page.element_text(:xpath => '//div[@class = "cspace-ui-RecordHistory--common"]')
-            expect(success_message.include? "Editing").to be false
+            expect(@page.element_text(success_message).include? "Editing").to be false
             @page.close_notifications_bar
           end
         end
       end
     end
 
-    it "checks for invalid float field inputs" do
-      test_data.each do |type, field|
-        #sets (type,field) pair to test; will cycle through all pairs for given type (Acquisition, Cataloging, etc)
-        @record_type_string = type
-        puts @record_type_string
+    test_data.each do |type, field|
+      it "checks #{type} for invalid float field inputs" do
+        #  test_data.each do |type, field|
         @page = test_run.find_page_class(type)
         @page.click_search_link
-        @search_page.select_record_type_option(@record_type_string)
+        @search_page.select_record_type_option(type)
         @search_page.full_text_search @test_rec_num
         @search_results_page.wait_for_results
         @search_results_page.click_result(0)
@@ -131,24 +132,19 @@ if test_run.deployment == Deployment::CORE
           input_field = @page.input_locator([], input_data_name = field)
           if type == 'Objects'
             if field == 'value' and !(@page.exists? input_field)
-              test_run.driver.find_element(:xpath => "//button//h3//span[text() = 'Object Description Information']").click
+              @page.click_element(obj_description_info)
             elsif field == 'ownershipExchangePriceValue' and !(@page.exists? input_field)
-              test_run.driver.find_element(:xpath => "//span[text() = 'Object History and Association Information']").click
+              @page.click_element(obj_history_association_info)
             end
           elsif type == "Object Exits" and !(@page.exists? input_field)
-            test_run.driver.find_element(:xpath => "//span[text()= 'Deaccession and Disposal Information']").click
+            @page.click_element(objexit_deaccession_disposal_info)
           end
           invalid_floats.each do |float|
             @page.scroll_to_element(input_field)
             @page.wait_for_element_and_type(input_field, float)
             @page.hit_enter
-            #checks for error notification message
-            notifications = @page.element_text(:xpath => '//div[@class="cspace-ui-NotificationBar--common"]//div')
-            expect(notifications.include? " must be a number. Correct the value").to be true
-            #checks that clicking save is disabled
-            save_button = test_run.driver.find_element(:name => 'save')
-            expect(save_button.enabled?).to be false
-            #reverts changes
+            expect(@page.element_text(@page.notifications_bar).include? " must be a number. Correct the value").to be true
+            expect(@page.enabled? @page.save_button).to be false
             @page.revert_record
           end
         end
@@ -165,20 +161,18 @@ if test_run.deployment == Deployment::CORE
         input_field = @object_page.input_locator([], input_data_name = field)
         valid_integers.each do |int|
           if !(@object_page.exists? input_field)
-            test_run.driver.find_element(:xpath => "//button//h3//span[text() = 'Object Description Information']").click
+            @object_page.click_element(obj_description_info)
           end
           @object_page.scroll_to_element(input_field)
           @object_page.wait_for_element_and_type(input_field, int)
           @object_page.save_record
-          #checks if save was successful
-          success_message = test_run.driver.find_element(:xpath => '//div[@class = "cspace-ui-RecordHistory--common"]')
-          expect(success_message.text.include? "Editing").to be false
+          expect(@object_page.element_text(success_message).include? "Editing").to be false
           @object_page.close_notifications_bar
         end
       end
     end
 
-    it "checks for invalid integer field inputs" do
+    it "checks Objects for invalid integer field inputs" do
       @search_page.click_search_link
       @search_page.select_record_type_option("Objects")
       @search_page.full_text_search @test_rec_num
@@ -188,19 +182,14 @@ if test_run.deployment == Deployment::CORE
         input_field = @object_page.input_locator([], input_data_name = field)
         invalid_integers.each do |int|
           if !(@object_page.exists? input_field)
-            test_run.driver.find_element(:xpath => "//button//h3//span[text() = 'Object Description Information']").click
+            @object_page.click_element(obj_description_info)
           end
           @object_page.scroll_to_element(input_field)
           @object_page.wait_for_element_and_type(input_field, int)
           @object_page.unhide_notifications_bar
           @object_page.hit_enter
-          #checks for error notification message
-          notifications = @object_page.element_text(:xpath => '//div[@class="cspace-ui-NotificationBar--common"]//div')
-          expect(notifications.include? "must be an integer. Correct the value").to be true
-          #checks that save button is disabled
-          save_button = test_run.driver.find_element(:name => 'save')
-          expect(save_button.enabled?).to be false
-          #reverts changes
+          expect(@object_page.element_text(@object_page.notifications_bar).include? "must be an integer. Correct the value").to be true
+          expect(@object_page.enabled? @object_page.save_button).to be false
           @object_page.revert_record
         end
       end
@@ -221,30 +210,21 @@ if test_run.deployment == Deployment::CORE
       @object_page.scroll_to_element(numberOfObjects)
       @object_page.wait_for_element_and_type(numberOfObjects, "123.0")
       @object_page.hit_enter
-      #checks for error notification message
-      notification_obj = @object_page.element_text(:xpath => '//div[@class="cspace-ui-NotificationBar--common"]//div')
-      expect(notification_obj.include? "must be an integer. Correct the value").to be true
+      expect(@object_page.element_text(@object_page.notifications_bar).include? "must be an integer. Correct the value").to be true
       @object_page.close_notifications_bar
 
       #testing field 2
       if !(@object_page.exists? age)
-        test_run.driver.find_element(:xpath => "//button//h3//span[text() = 'Object Description Information']").click
+        @object_page.click_element(obj_description_info)
       end
       @object_page.scroll_to_element(age)
       @object_page.wait_for_element_and_type(age, "123.123.123")
       @object_page.hit_enter
-      #checks for error notification message
-      notification_age = @object_page.element_text(:xpath => '//div[@class="cspace-ui-NotificationBar--common"]//div')
-      expect(notification_age.include? "must be an integer. Correct the value"). to be true
-
-      #checks for invalid save notification bar
-      save_button = test_run.driver.find_element(:name => 'save')
-      expect(save_button.enabled?).to be false
-      save_notification_1 = @object_page.element_text(:xpath => '//div[@class="cspace-ui-NotificationBar--common"]//li')
-      save_notification_2 = @object_page.element_text(:xpath => '//div[@class ="cspace-ui-NotificationBar--common"]//li[2]')
-
-      expect(save_notification_1.include? "Number of objects must be an integer. Correct the value").to be true
-      expect(save_notification_2.include? "Age value must be an integer. Correct the value").to be true
+      expect(@object_page.element_text(@object_page.notifications_bar).include? "must be an integer. Correct the value"). to be true
+      expect(@object_page.enabled? @object_page.save_button).to be false
+      expect(@object_page.element_text(save_notification(1)).include? "Number of objects must be an integer. Correct the value").to be true
+      expect(@object_page.element_text(save_notification(2)).include? "Age value must be an integer. Correct the value").to be true
     end
+
   end
 end

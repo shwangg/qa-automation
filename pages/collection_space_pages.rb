@@ -13,6 +13,7 @@ module CollectionSpacePages
   def quick_search_sub_type_options; {:xpath => '(//div[contains(@class,"QuickSearchInput")]//div[contains(@class,"DropdownMenuInput")])[2]//li'} end
   def quick_search_input; {:xpath => '//div[contains(@class,"QuickSearchInput")]//input[@placeholder="Search"]'} end
   def quick_search_button; {:xpath => '//div[contains(@class,"QuickSearchInput")]//button'} end
+  def dialog_search_button; {:xpath => '//footer//button[@name = "search"]'} end
   def my_collection_space_link; {:xpath => '//a[contains(.,"My CollectionSpace")]'} end
   def create_new_link; {:xpath => '//a[contains(.,"Create New")]'} end
   def search_link; {:xpath => '//a[contains(.,"Search")]'} end
@@ -31,8 +32,6 @@ module CollectionSpacePages
   def run_button; {:name => 'run'} end
   def use_selection_button; {:name => 'accept'} end
   def clone_button; {:name => 'clone'} end
-  def unrelate_button; {:name => 'unrelate'} end
-  def unrelate_option; {:xpath => '//button[@name = "cancel"]/following-sibling::button'} end
   def header_bar; {:xpath => '//header/div'} end
   def page_h1; {:xpath => '//h1'} end
   def page_h2; {:xpath => '//h2'} end
@@ -42,6 +41,9 @@ module CollectionSpacePages
   def related_tab; {:xpath => '//input[@placeholder="+ Related"]'} end
   def related_option; {:xpath => "//input[@placeholder='+ Related']/following-sibling::div//li"} end
   def relate_button; {:name => 'relate'} end
+#  def relate_selected_button; {:name => 'accept'} end
+  def unrelate_button; {:name => 'unrelate'} end
+  def unrelate_option; {:xpath => '//button[@name = "cancel"]/following-sibling::button'} end
 
   def notifications_bar; {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]'} end
   def notifications_close_button; {:name => 'close'} end
@@ -56,6 +58,9 @@ module CollectionSpacePages
 
   def toggle_panel_button(label); {:xpath => "//section[contains(@class, \"Panel\")][contains(., \"#{label}\")]//button"} end
   def collapsed_panel_locator(label); {:xpath => "//section[contains(@class, 'collapsed')][contains(., \"#{label}\")]"} end
+
+  # To be used when checking if the rest of a page is inactive/greyed out when a dialog box is open
+  def inactive_page_check; {:xpath => '//div[@aria-hidden = "true"]'} end
 
   # Returns a hash containing both the data name used to locate a set of data fields on the page and also the index of the data (i.e., which row)
   # @param [String] data_name
@@ -217,6 +222,12 @@ module CollectionSpacePages
     hit_enter
   end
 
+  #Clicks the 'Search' button in an open dialog
+  def click_dialog_search_button
+    logger.info 'Clicking search button in open dialog'
+    wait_for_element_and_click dialog_search_button
+  end
+
   # Clicks the 'Create New' link in the navigation menu
   def click_create_new_link
     logger.info 'Clicking link to Create New'
@@ -361,6 +372,12 @@ module CollectionSpacePages
     logger.info 'Removing a related record'
     click_unrelate_button
     wait_for_element_and_click unrelate_option
+  end
+
+  # Clicks the relate selected button
+  def click_relate_selected_button
+    logger.info 'Clicking the Relate Selected button'
+    wait_for_element_and_click relate_selected_button
   end
   # LOG OUT
 

@@ -6,6 +6,7 @@ module CoreSidebar
   include Logging
 
   def section_xpath(label); "//section[contains(.,'#{label}:')]" end
+  def section_header_xpath(label); "//header[contains., '#{label}:']" end
   def button_locator(label); {:xpath => "//button[contains(.,'#{label}:')]"} end
   def open_related_button_locator(path); {:xpath => "//a[contains(@href,'/list/#{path}')]"} end
   def add_related_button_locator(path); {:xpath => "//a[contains(@href,'/list/#{path}')]/following-sibling::button"} end
@@ -14,6 +15,10 @@ module CoreSidebar
   def link_locator(label, identifier); {:xpath => "#{section_xpath(label)}//a[contains(.,'#{identifier}')]"} end
   def num_per_page_input(label); {:xpath => "#{section_xpath(label)}//input"} end
   def num_per_page_option(label); {:xpath => "#{section_xpath(label)}//input/following-sibling::div//li"} end
+  def empty_sidebar_section(label); {:xpath => "#{section_header_xpath(label)}/following-sibling::div//div[@class = 'cspace-ui-SearchResultEmpty--common']"} end 
+
+  def show_sidebar_button; button_locator("Show sidebar") end
+  def hide_sidebar_button; button_locator("Hide sidebar") end
 
   def terms_used_button; button_locator('Terms Used') end
   def terms_used_expanded_div; expanded_div_locator('Terms Used') end
@@ -42,6 +47,14 @@ module CoreSidebar
   def related_proc_link(proc); link_locator('Procedures', proc) end
   def related_proc_num_per_page_input; num_per_page_input('Procedures') end
   def related_proc_num_per_page_option; num_per_page_option('Procedures') end
+
+  # Makes sure the sidebar is shown
+  def show_sidebar
+    begin
+      wait_for_element_and_click show_sidebar_button
+    rescue Selenium::WebDriver::Error::WebDriverError
+    end
+  end
 
   # Makes sure a sidebar section is expanded, given a button and input that locate the section
   def expand_sidebar_section(button_locator, num_per_page_locator)
@@ -134,7 +147,7 @@ module CoreSidebar
   # Clicks the 'Open' button to view related procedures
   def click_open_related_procedures
     wait_for_element_and_click open_related_button_locator("procedure")
-  end 
+  end
 
   # Clicks the Add button to relate two procedures
   def click_add_related_procedure
