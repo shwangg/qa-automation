@@ -8,10 +8,10 @@
             "projectID": "",
             "methodList": [
                 {
-                    "method": "exhibition"
+                    "method": "tour"
                 },
                 {
-                    "method": "publication"
+                    "method": "class"
                 },
                 {
                     "method": "research"
@@ -22,18 +22,18 @@
                     "collectionType": "osteology"
                 },
                 {
-                    "collectionType": "documentation"
+                    "collectionType": "media"
                 }
             ],
             "materialTypeList": [
                 {
-                    "materialType": "fruit"
+                    "materialType": "class visit"
                 },
                 {
-                    "materialType": "seed"
+                    "materialType": "general tour"
                 },
                 {
-                    "materialType": "bulb"
+                    "materialType": "interview"
                 }
             ],
             "userGroup": [
@@ -47,7 +47,7 @@
                 {
                     "user": "UoC User 3",
                     "userInstitutionRole": "publisher",
-                    "userUocRole": "Undergraduate student",
+                    "userUocRole": "UCB staff",
                     "userInstitution": "UoC Institution"
                 }
             ],
@@ -74,7 +74,7 @@
             "authorizationGroup": [
                 {
                     "authorizedBy": "UoC Authorizer 1",
-                    "authorizationStatus": "Pending"
+                    "authorizationStatus": "Undecided"
                 },
                 {
                     "authorizedBy": "UoC Authorizer 2",

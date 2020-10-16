@@ -1,16 +1,11 @@
 Then(/^I will select a file "(.*?)" to upload$/) do |f|
-    @file = File.expand_path(f)
-    attach_file 'imagefiles', @file
+  @bmu_page.select_file f
 end
 
-When(/^I click the (\d+) "([^"]*)"$/) do |index, arg2|
-    all("input[type='submit']")[index.to_i-1].click
-    page.all("enqueued; 1 images.").any?
-end
-
-When(/^I click the button with value "(.*?)"$/) do |button|
-    find(:xpath, "//input[@value='#{button}']").click
-end
+# TODO When(/^I click the (\d+) "([^"]*)"$/) do |index, arg2|
+#     all("input[type='submit']")[index.to_i-1].click
+#     page.all("enqueued; 1 images.").any?
+# end
 
 # Add these lines below back to xxx_bmu.feature only if running on DEV
 # Then I will select a file "test.jpg" to upload

@@ -1,69 +1,20 @@
-require 'selenium-webdriver'
-require 'capybara/cucumber'
-require 'rspec/expectations'
-require 'capybara-screenshot/cucumber'
-require 'pry'
-require File.expand_path('../custom_config', __FILE__)
-include CustomConfig
+require_relative '../../spec_helper'
 
-Capybara.register_driver(:headless_chrome) do |app|
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: { args: %w[headless no-sandbox disable-gpu] }
-  )
+include Logging
+include WebDriverManager
 
-  Capybara::Selenium::Driver.new(
-    app,
-    browser: :chrome,
-    desired_capabilities: capabilities
-  )
+Before do
+  @config = TestConfig.new
+  @config.set_driver launch_browser
+  @page = WebAppPage.new @config.driver
+  @bmu_page = BMUPage.new @config.driver
+  @img_browser_page = ImageBrowserPage.new @config.driver
+  @i_reports_page = IReportsPage.new @config.driver
+  @landing_page = LandingPage.new @config.driver
+  @login_page = LoginPage.new @config.driver
+  @search_page = WebappSearchPage.new @config.driver
 end
 
-Capybara.register_driver :headless_firefox do |app|
-  browser_options = Selenium::WebDriver::Firefox::Options.new()
-  browser_options.args << '--headless'
-
-  Capybara::Selenium::Driver.new(
-    app,
-    browser: :firefox,
-    options: browser_options
-  )
+After do
+  quit_browser @config.driver
 end
-
-Capybara.register_driver :chrome do |app|
-    Capybara::Selenium::Driver.new(app, browser: :chrome)
-  end
-
-Capybara.register_driver :firefox do |app|
-    Capybara::Selenium::Driver.new(app, browser: :firefox)
-end
-
-Capybara::Screenshot.register_driver(:headless_firefox) do |driver, path|
-  driver.browser.save_screenshot path
-end
-
-Capybara::Screenshot.register_driver(:headless_chrome) do |driver, path|
-  driver.browser.save_screenshot path
-end
-
-Capybara.configure do |config|
-  config.run_server = false
-
-  case ENV['DRIVER']
-      when "headless_chrome"
-        config.default_driver = :headless_chrome
-      when "headless_firefox"
-        config.default_driver = :headless_firefox
-      else
-        config.default_driver = :headless_firefox
-      end
-
-end
-
-# To override default settings in the capybara-screenshot gem:
-Capybara.save_path = "tmp/capybara"
-# To keep only the screenshots generated from the last failing test suite
-Capybara::Screenshot.prune_strategy = :keep_last_run
-
-Capybara.javascript_driver = :headless_firefox
-
-World(Capybara)

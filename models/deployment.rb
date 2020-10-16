@@ -10,6 +10,9 @@ class Deployment
   end
 
   DEPLOYMENTS = [
+      BAMPFA = new('BAMPFA', 'bampfa'),
+      BOTGARDEN = new('BOTGARDEN', 'botgarden'),
+      CINEFILES = new('CINEFILES', 'cinefiles'),
       CORE = new('Core', 'core'),
       CORE_UCB = new('Core', 'core_ucb'),
       PAHMA = new('PAHMA', 'pahma'),

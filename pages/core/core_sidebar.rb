@@ -7,6 +7,7 @@ module CoreSidebar
 
   def section_xpath(label); "//section[contains(.,'#{label}:')]" end
   def button_locator(label); {:xpath => "//button[contains(.,'#{label}:')]"} end
+  def open_related_button_locator(path); {:xpath => "//a[contains(@href,'/list/#{path}')]"} end
   def add_related_button_locator(path); {:xpath => "//a[contains(@href,'/list/#{path}')]/following-sibling::button"} end
   def expanded_div_locator(label); {:xpath => "#{section_xpath(label)}/div"} end
   def links_locator(label); {:xpath => "#{section_xpath(label)}//a[@role='row']"} end
@@ -94,6 +95,11 @@ module CoreSidebar
     wait_for_element_and_click related_obj_link(obj)
   end
 
+  # Clicks the 'Open' button to view related objects
+  def click_open_related_object
+    wait_for_element_and_click open_related_button_locator('collectionobject')
+  end
+
   # Clicks the 'Add' button the relate an existing object
   def click_add_related_object
     wait_for_element_and_click related_obj_add_button
@@ -124,6 +130,11 @@ module CoreSidebar
     expand_sidebar_related_proc
     wait_for_options_and_select(related_proc_num_per_page_input, related_proc_num_per_page_option, '20')
   end
+
+  # Clicks the 'Open' button to view related procedures
+  def click_open_related_procedures
+    wait_for_element_and_click open_related_button_locator("procedure")
+  end 
 
   # Clicks the Add button to relate two procedures
   def click_add_related_procedure

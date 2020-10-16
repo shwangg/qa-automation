@@ -83,13 +83,13 @@ if test_run.deployment == Deployment::CORE
       it('allow a Reference Number to be added') { @use_of_collections_page.enter_reference_nbr @uoc_1 }
       it('allow Methods to be added') { @use_of_collections_page.select_methods @uoc_1 }
       it('allow a Title to be added') { @use_of_collections_page.enter_title @uoc_1 }
-      it('allow an Authorized By to be added') { @use_of_collections_page.enter_authorized_by @uoc_1 }
-      it('allow an Authorization Date to be added') { @use_of_collections_page.enter_authorization_date @uoc_1 }
-      it('allow an Authorization Note to be added') { @use_of_collections_page.enter_authorization_note @uoc_1 }
-      it('allow a Start Date to be added') { @use_of_collections_page.enter_start_single_date @uoc_1 }
+      it('allow an Authorization to be added') { @use_of_collections_page.enter_authorizations @uoc_1 }
+      it('allow Use Dates to be added') { @use_of_collections_page.enter_use_dates @uoc_1 }
       it('allow an End Date to be added') { @use_of_collections_page.enter_end_date @uoc_1 }
       it('allow Users to be added') { @use_of_collections_page.enter_users @uoc_1 }
-      it('allow a Location to be added') { @use_of_collections_page.enter_location @uoc_1 }
+      it('allow Locations to be added') { @use_of_collections_page.enter_locations @uoc_1 }
+      it('allow Staff to be added') { @use_of_collections_page.enter_staff @uoc_1 }
+      it('allow Occasions to be added') { @use_of_collections_page.enter_occasions @uoc_1 }
       it('allow a Note to be added') { @use_of_collections_page.enter_note @uoc_1 }
       it('allow Provisos to be added') { @use_of_collections_page.enter_provisos @uoc_1 }
       it('allow a Result to be added') { @use_of_collections_page.enter_result @uoc_1 }
@@ -102,13 +102,13 @@ if test_run.deployment == Deployment::CORE
       it('show the right Reference Number') { @use_of_collections_page.verify_reference_nbr @uoc_1 }
       it('show the right Methods') { @use_of_collections_page.verify_methods @uoc_1 }
       it('show the right Title') { @use_of_collections_page.verify_title @uoc_1 }
-      it('show the right Authorized By') { @use_of_collections_page.verify_authorized_by @uoc_1 }
-      it('show the right Authorization Date') { @use_of_collections_page.verify_authorization_date @uoc_1 }
-      it('show the right Authorization Note') { @use_of_collections_page.verify_authorization_note @uoc_1 }
-      it('show the right Start Date') { @use_of_collections_page.verify_start_single_date @uoc_1 }
+      it('show the right Authorizations') { @use_of_collections_page.verify_authorizations @uoc_1 }
+      it('show the right Use Dates') { @use_of_collections_page.verify_use_dates @uoc_1 }
       it('show the right End Date') { @use_of_collections_page.verify_end_date @uoc_1 }
       it('show the right Users') { @use_of_collections_page.verify_users @uoc_1 }
-      it('show the right Location') { @use_of_collections_page.verify_location @uoc_1 }
+      it('show the right Locations') { @use_of_collections_page.verify_locations @uoc_1 }
+      it('show the right Staff') { @use_of_collections_page.verify_staff @uoc_1 }
+      it('show the right Occasions') { @use_of_collections_page.verify_occasions @uoc_1 }
       it('show the right Note') { @use_of_collections_page.verify_note @uoc_1 }
       it('show the right Provisos') { @use_of_collections_page.verify_provisos @uoc_1 }
       it('show the right Result') { @use_of_collections_page.verify_result @uoc_1 }
@@ -119,13 +119,24 @@ if test_run.deployment == Deployment::CORE
       end
 
       it 'show the right Terms used in the sidebar' do
-        @terms_used << @uoc_1[CoreUseOfCollectionsData::AUTHORIZED_BY.name]
-        @terms_used << @uoc_1[CoreUseOfCollectionsData::LOCATION.name]
-        @uoc_1[CoreUseOfCollectionsData::USER_GRP.name].each { |name| @terms_used << name[CoreUseOfCollectionsData::USER.name] }
+        @uoc_1[CoreUseOfCollectionsData::USER_GRP.name].each do |user|
+          @terms_used << user[CoreUseOfCollectionsData::USER.name]
+          @terms_used << user[CoreUseOfCollectionsData::USER_INSTITUTION.name]
+        end
+        @uoc_1[CoreUseOfCollectionsData::AUTHORIZATION_GRP.name].each { |auth| @terms_used << auth[CoreUseOfCollectionsData::AUTHORIZED_BY.name] }
+        @uoc_1[CoreUseOfCollectionsData::STAFF_GRP.name].each { |staff| @terms_used << staff[CoreUseOfCollectionsData::STAFF_NAME.name] }
+        @uoc_1[CoreUseOfCollectionsData::OCCASION_LIST.name].each { |occ| @terms_used << occ[CoreUseOfCollectionsData::OCCASION.name] }
+        @uoc_1[CoreUseOfCollectionsData::LOCATION_LIST.name].each { |loc| @terms_used << loc[CoreUseOfCollectionsData::LOCATION.name] }
+        @terms_used.compact!
 
-        @use_of_collections_page.expand_sidebar_terms_used
-        @terms_used.each { |term| @use_of_collections_page.when_exists(@use_of_collections_page.terms_used_term_link(term), 1) }
-        expect(@use_of_collections_page.elements(@use_of_collections_page.terms_used_links).length).to eql(@terms_used.length)
+        @use_of_collections_page.show_twenty_terms
+        errors = []
+        @terms_used.each do |term|
+          @use_of_collections_page.attempt_action(errors, "Term #{term} not found") do
+            @use_of_collections_page.when_exists(@use_of_collections_page.terms_used_term_link(term), 1)
+          end
+        end
+        @use_of_collections_page.wait_until(1, "Expected errors #{errors} to be empty") { errors.empty? }
       end
 
       it 'provide links to Terms used records' do
@@ -146,13 +157,13 @@ if test_run.deployment == Deployment::CORE
       it('allow the Reference Number to be edited') { @use_of_collections_page.enter_reference_nbr @uoc_2 }
       it('allow Methods to be removed') { @use_of_collections_page.select_methods @uoc_2 }
       it('allow a Title to be removed') { @use_of_collections_page.enter_title @uoc_2 }
-      it('allow an Authorized By to be removed') { @use_of_collections_page.enter_authorized_by @uoc_2 }
-      it('allow an Authorization Date to be removed') { @use_of_collections_page.enter_authorization_date @uoc_2 }
-      it('allow an Authorization Note to be removed') { @use_of_collections_page.enter_authorization_note @uoc_2 }
-      it('allow a Start Date to be removed') { @use_of_collections_page.enter_start_single_date @uoc_2 }
+      it('allow an Authorization to be removed') { @use_of_collections_page.enter_authorizations @uoc_2 }
+      it('allow Use Dates to be removed') { @use_of_collections_page.enter_use_dates @uoc_2 }
       it('allow an End Date to be removed') { @use_of_collections_page.enter_end_date @uoc_2 }
       it('allow Users to be removed') { @use_of_collections_page.enter_users @uoc_2 }
-      it('allow a Location to be removed') { @use_of_collections_page.enter_location @uoc_2 }
+      it('allow Locations to be removed') { @use_of_collections_page.enter_locations @uoc_2 }
+      it('allow Staff to be removed') { @use_of_collections_page.enter_staff @uoc_2 }
+      it('allow Occasions to be removed') { @use_of_collections_page.enter_occasions @uoc_2 }
       it('allow a Note to be removed') { @use_of_collections_page.enter_note @uoc_2 }
       it('allow Provisos to be removed') { @use_of_collections_page.enter_provisos @uoc_2 }
       it('allow a Result to be removed') { @use_of_collections_page.enter_result @uoc_2 }
@@ -161,13 +172,13 @@ if test_run.deployment == Deployment::CORE
       it('show the right Reference Number') { @use_of_collections_page.verify_reference_nbr @uoc_2 }
       it('show the right Methods') { @use_of_collections_page.verify_methods @uoc_2 }
       it('show the right Title') { @use_of_collections_page.verify_title @uoc_2 }
-      it('show the right Authorized By') { @use_of_collections_page.verify_authorized_by @uoc_2 }
-      it('show the right Authorization Date') { @use_of_collections_page.verify_authorization_date @uoc_2 }
-      it('show the right Authorization Note') { @use_of_collections_page.verify_authorization_note @uoc_2 }
-      it('show the right Start Date') { @use_of_collections_page.verify_start_single_date @uoc_2 }
+      it('show the right Authorizations') { @use_of_collections_page.verify_authorizations @uoc_2 }
+      it('show the right Use Dates') { @use_of_collections_page.verify_use_dates @uoc_2 }
       it('show the right End Date') { @use_of_collections_page.verify_end_date @uoc_2 }
       it('show the right Users') { @use_of_collections_page.verify_users @uoc_2 }
-      it('show the right Location') { @use_of_collections_page.verify_location @uoc_2 }
+      it('show the right Locations') { @use_of_collections_page.verify_locations @uoc_2 }
+      it('show the right Staff') { @use_of_collections_page.verify_staff @uoc_2 }
+      it('show the right Occasions') { @use_of_collections_page.verify_occasions @uoc_2 }
       it('show the right Note') { @use_of_collections_page.verify_note @uoc_2 }
       it('show the right Provisos') { @use_of_collections_page.verify_provisos @uoc_2 }
       it('show the right Result') { @use_of_collections_page.verify_result @uoc_2 }

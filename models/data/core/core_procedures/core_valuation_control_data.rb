@@ -4,6 +4,4 @@ class CoreValuationControlData < CollectionSpaceData
         VALUE_NUM = new('valuationcontrolRefNumber'),
         VALUE_NOTE = new('valueNote')
     ]
-  
-  end
-  
+end

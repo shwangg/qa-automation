@@ -10,7 +10,6 @@ class CoreObjectExitPage
 
   DEPLOYMENT = Deployment::CORE
 
-
   def enter_number_and_text(data)
     enter_exit_number data
     enter_exit_note data

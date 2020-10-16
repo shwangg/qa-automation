@@ -1,34 +1,22 @@
 Given(/^I am on the "(.*?)" homepage$/) do |institution|
-    $ginstitution = institution
-    visit 'https://webapps' + env_config['server'] + '.cspace.berkeley.edu/' + institution
+  @landing_page.load_page institution
 end
 
-Then(/^I will sign in$/) do
-    first(:link_or_button, "Sign in").click
-    expect(page).to have_content("Sign In")
-    fill_in "Username", :with => env_config['login'] + "@berkeley.edu"
-    fill_in "Password", :with => env_config['password']
-    find(:link_or_button, "Sign In").click
-	  expect(page).to have_content("Sign out")
+When(/^I log in to "(.*?)"$/) do |institution|
+  @config.deployment = Deployment::DEPLOYMENTS.find { |d| d.code == institution }
+  @admin = @config.get_admin_user
+  @landing_page.click_sign_in
+  @login_page.log_in(@admin.username, @admin.password)
+end
+
+When(/^I click the app "(.*?)"/) do |app|
+  @landing_page.click_app app
 end
 
 Then(/^I will sign out$/) do
-    find(:link_or_button, "Sign out").click
-	  expect(page).to have_content("Sign in")
+  @landing_page.log_out
 end
 
-Then(/^I click "([^"]*)"$/) do |link|
-    first(:xpath, "//a[text()='#{link}']").click
-end
-
-Then(/^I click (the )?app "([^"]*)"$/) do |x, link|
-    find(:xpath, "//td//a[text()='#{link}']").click
-end
-
-Then(/^I see "(.*?)" in "(.*?)"$/) do |items, div|
-    within(div) do
-        for item in items.split(', ')
-            find_link(item).visible?
-        end
-    end
+Then(/^I check for the user icon image$/) do
+  expect(@landing_page.exists? @landing_page.user_icon).to be true
 end

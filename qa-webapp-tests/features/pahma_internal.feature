@@ -2,9 +2,9 @@ Feature: Test the behavior of the PAHMA internal portal
 
 Scenario: Test Internal Search Portal
     Given I am on the "pahma" homepage
-    Then I will sign in
-    Then I click app "internal"
-    Then I verify the search fields "Keyword, Museum Number, Alternate Number, Accession Number, Object Name, Description, Collection Place, Culture or Time period, Materials, Inscription, Collector, Object Type, Ethnographic File Code, Production Date, Collection Date, Acquisition Date, Accession Date" in "div#searchfieldsTarget"
+    When I log in to "pahma"
+    Then I click "internal"
+    Then I verify the search fields "Keyword, Museum Number, Alternate Number, Accession Number, Object Name, Description, Collection Place, Culture or Time period, Materials, Inscription, Collector, Object Type, Ethnographic File Code, Production Date, Collection Date, Acquisition Date, Accession Date"
 
     When I enter "Oyo" in the "fcp" field
     Then I click on "Ibadan, Oyo State, Nigeria" in the dropdown menu and search
@@ -22,12 +22,12 @@ Scenario: Test Internal Search Portal
     When I click the button "map selected with Google staticmaps API"
     Then I find the content "selected objects in result set examined." in "div#maps"
     When I click the button "map selected with Berkeley Mapper"
-    #Then the url contains "http://berkeleymapper.berkeley.edu"
+    Then "BerkeleyMapper" opens in a new window
 
     When I click "Statistics"
     Then I will select "Sortable Museum Number" under Select field to summarize on
     Then I find the content "Sortable Museum Number, Count" in "div#statsresults"
-    Then I click the button "downloadstats" and download the csv file
+    Then I click the button "Download Summary as CSV" and download the csv file
 
     When I click "Facets"
     Then I find the content "Object Name, Object Type, Collection Place, Ethnographic File Code, Culture, Materials, Collection Date" in "div#tabs"
@@ -42,4 +42,4 @@ Scenario: Test Internal Search Portal
     Then I verify the contents of the page
     Then I find the content "Current time:" in "div#container"
     When I click "Sign out"
-    Then I see "search" in "div#content-main"
+    Then I find the content "search" in "div#content-main"
