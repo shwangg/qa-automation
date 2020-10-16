@@ -46,9 +46,9 @@ describe 'Cataloging' do
 
     [@test_0, @test_1, @test_2, @test_3].each do |test|
       test_run.set_unique_test_id(test, CoreConditionCheckData::COND_REF_NUM.name)
-      # @search_page.click_create_new_link
-      # @create_new_page.click_create_new_condition_check
-      # @condition_page.create_new_condition_check test
+      @search_page.click_create_new_link
+      @create_new_page.click_create_new_condition_check
+      @condition_page.create_new_condition_check test
     end
   end
 
@@ -56,52 +56,50 @@ describe 'Cataloging' do
 
   describe 'advanced search fields' do
 
-    # it 'allow a search by object audit' do
-    #   @search_page.load_search_condition_check_form
-    #   @search_page.select_object_audit_category @test_0
-    #   @search_page.click_search_button
-    #   @search_results_page.wait_for_results
-    #   expect(@search_results_page.field_condition_present? @test_0[CoreConditionCheckData::OBJ_AUDIT_CATEGORY.name]).to be true
-    #   expect(@search_results_page.row_exists? @test_0[CoreConditionCheckData::COND_REF_NUM.name]).to be true
-    # end
+    it 'allow a search by object audit' do
+      @search_page.load_search_condition_check_form
+      @search_page.select_object_audit_category @test_0
+      @search_page.click_search_button
+      @search_results_page.wait_for_results
+      expect(@search_results_page.field_condition_present? @test_0[CoreConditionCheckData::OBJ_AUDIT_CATEGORY.name]).to be true
+      expect(@search_results_page.row_exists? @test_0[CoreConditionCheckData::COND_REF_NUM.name]).to be true
+    end
 
-    # it 'allow a search by reference number' do
-    #   @search_page.load_search_condition_check_form
-    #   @search_page.enter_condition_ref_num @test_0
-    #   @search_page.hit_enter
-    #   @search_page.click_search_button
-    #   @search_results_page.wait_for_results
-    #   expect(@search_results_page.field_condition_present? @test_0[CoreConditionCheckData::COND_REF_NUM.name]).to be true
-    #   expect(@search_results_page.row_exists? @test_0[CoreConditionCheckData::COND_REF_NUM.name]).to be true
-    # end
+    it 'allow a search by reference number' do
+      @search_page.load_search_condition_check_form
+      @search_page.enter_condition_ref_num @test_0
+      @search_page.hit_enter
+      @search_results_page.wait_for_results
+      expect(@search_results_page.field_condition_present? @test_0[CoreConditionCheckData::COND_REF_NUM.name]).to be true
+      expect(@search_results_page.row_exists? @test_0[CoreConditionCheckData::COND_REF_NUM.name]).to be true
+    end
 
-    # it 'allow a search by condition date' do
-    #   @search_page.load_search_condition_check_form
-    #   @search_page.enter_condition_date @test_0
-    #   @search_page.click_search_button
-    #   @search_results_page.wait_for_results
-    #   expect(@search_results_page.field_condition_present? @test_0[CoreConditionCheckData::COND_CHECK_DATE.name]).to be true
-    #   expect(@search_results_page.row_exists? @test_0[CoreConditionCheckData::COND_REF_NUM.name]).to be true
-    # end
+    it 'allow a search by condition date' do
+      @search_page.load_search_condition_check_form
+      @search_page.enter_condition_date @test_0
+      @search_page.click_search_button
+      @search_results_page.wait_for_results
+      expect(@search_results_page.field_condition_present? @test_0[CoreConditionCheckData::COND_CHECK_DATE.name]).to be true
+      expect(@search_results_page.row_exists? @test_0[CoreConditionCheckData::COND_REF_NUM.name]).to be true
+    end
 
-    # it 'allow a search by conservation treatment priority' do
-    #   @search_page.load_search_condition_check_form
-    #   @search_page.select_conservation_treatment_priority @test_0
-    #   @search_page.click_search_button
-    #   @search_results_page.wait_for_results
-    #   expect(@search_results_page.field_condition_present? @test_0[CoreConditionCheckData::CONS_TREATMENT_PRIORITY.name]).to be true
-    #   expect(@search_results_page.row_exists? @test_0[CoreConditionCheckData::COND_REF_NUM.name]).to be true
-    # end
+    it 'allow a search by conservation treatment priority' do
+      @search_page.load_search_condition_check_form
+      @search_page.select_conservation_treatment_priority @test_0
+      @search_page.click_search_button
+      @search_results_page.wait_for_results
+      expect(@search_results_page.field_condition_present? @test_0[CoreConditionCheckData::CONS_TREATMENT_PRIORITY.name]).to be true
+      expect(@search_results_page.row_exists? @test_0[CoreConditionCheckData::COND_REF_NUM.name]).to be true
+    end
 
-    # not working
-    # it 'allow a search by next check date' do
-    #   @search_page.load_search_condition_check_form
-    #   @search_page.enter_next_check_date @test_0
-    #   @search_page.click_search_button
-    #   @search_results_page.wait_for_results
-    #   expect(@search_results_page.field_condition_present? @test_0[CoreConditionCheckData::NXT_COND_CHECK_DATE.name]).to be true
-    #   expect(@search_results_page.row_exists? @test_0[CoreConditionCheckData::COND_REF_NUM.name]).to be true
-    # end
+    it 'allow a search by next check date' do
+      @search_page.load_search_condition_check_form
+      @search_page.enter_next_check_date @test_0
+      @search_page.click_search_button
+      @search_results_page.wait_for_results
+      expect(@search_results_page.field_condition_present? @test_0[CoreConditionCheckData::NXT_COND_CHECK_DATE.name]).to be true
+      expect(@search_results_page.row_exists? @test_0[CoreConditionCheckData::COND_REF_NUM.name]).to be true
+    end
 
     it 'allow a search by condition description' do
       @search_page.load_search_condition_check_form
@@ -109,15 +107,6 @@ describe 'Cataloging' do
       @search_page.click_search_button
       @search_results_page.wait_for_results
       expect(@search_results_page.field_condition_present? @test_0[CoreConditionCheckData::COND_CHECK_GRP_LIST.name].first[CoreConditionCheckData::COND_DESC.name]).to be true
-      expect(@search_results_page.row_exists? @test_0[CoreConditionCheckData::COND_REF_NUM.name]).to be true
-    end
-
-    it 'allow a search by condition note' do
-      @search_page.load_search_condition_check_form
-      @search_page.enter_condition_note @test_0
-      @search_page.click_search_button
-      @search_results_page.wait_for_results
-      expect(@search_results_page.field_condition_present? @test_0[CoreConditionCheckData::COND_NOTE.name]).to be true
       expect(@search_results_page.row_exists? @test_0[CoreConditionCheckData::COND_REF_NUM.name]).to be true
     end
 

@@ -14,7 +14,6 @@ module CoreSearchConditionCheckForm
   # @param [Hash] data_set
   def enter_condition_ref_num(data_set)
     cond_ref_num = data_set[CoreConditionCheckData::COND_REF_NUM.name]
-    print(cond_ref_num)
     logger.debug "Entering condition ref number '#{cond_ref_num}'"
     wait_for_element_and_type(ref_num_input_locator(0), cond_ref_num) if cond_ref_num
   end
@@ -53,7 +52,6 @@ module CoreSearchConditionCheckForm
   # @param [Hash] data_set
   def select_object_audit_category(data_set)
     obj_audit = data_set[CoreConditionCheckData::OBJ_AUDIT_CATEGORY.name]
-    print(obj_audit)
     logger.debug "Selecting #{obj_audit}"
     obj_audit_options_locator = input_options_locator([fieldset(CoreConditionCheckData::OBJ_AUDIT_CATEGORY.name, 0)])
     wait_for_options_and_select(obj_audit_input_locator(0),obj_audit_options_locator, obj_audit) if obj_audit
@@ -67,7 +65,6 @@ module CoreSearchConditionCheckForm
   # @param [Hash] data_set
   def select_conservation_treatment_priority(data_set)
     priority = data_set[CoreConditionCheckData::CONS_TREATMENT_PRIORITY.name]
-    print(priority)
     logger.debug "Selecting #{priority}"
     conservation_treatment_options_locator = input_options_locator([fieldset(CoreConditionCheckData::CONS_TREATMENT_PRIORITY.name, 0)])
     wait_for_options_and_select(conservation_treatment_input_locator(0),conservation_treatment_options_locator, priority) if priority
@@ -81,7 +78,6 @@ module CoreSearchConditionCheckForm
   # @param [Hash] data_set
   def enter_next_check_date(data_set)
     check_date = data_set[CoreConditionCheckData::NXT_COND_CHECK_DATE.name]
-    print(check_date)
     if check_date
       logger.debug "Enter accession date '#{check_date}'"
       input = element next_check_date_input_locator
@@ -101,7 +97,6 @@ module CoreSearchConditionCheckForm
   # @param [Hash] data_set
   def select_condition_description(data_set)
     group = data_set[CoreConditionCheckData::COND_CHECK_GRP_LIST.name][0][CoreConditionCheckData::COND_DESC.name]
-    print(group)
     logger.debug "Entering condition description #{group}"
     condition_description_options_locator = input_options_locator([fieldset(CoreConditionCheckData::COND_DESC.name, 0)])
     wait_for_options_and_select(condition_description_input_locator(0), condition_description_options_locator, group) if group

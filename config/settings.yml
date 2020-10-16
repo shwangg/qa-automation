@@ -1,7 +1,6 @@
 webdriver:
   browser: chrome
   headless: false
-
 log_level: Logger::DEBUG
 
 timeout:
@@ -15,8 +14,8 @@ deployment: core
 core:
   base_url: https://core-dev.cspace.berkeley.edu
   admin:
-    username: students@cspace.berkeley.edu
-    password: cspacestudents
+    username: admin@core.collectionspace.org
+    password: Administrator
 
 core_ucb:
   base_url: https://core-qa.cspace.berkeley.edu
