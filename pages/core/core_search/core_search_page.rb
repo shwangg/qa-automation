@@ -5,6 +5,7 @@ class CoreSearchPage
   include Page
   include CollectionSpacePages
   include CoreSearchAcquisitionsForm
+  include CoreSearchConditionCheckForm
   include CoreSearchObjectsForm
 
   DEPLOYMENT = Deployment::CORE
