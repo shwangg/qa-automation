@@ -12,6 +12,7 @@ class CoreToolsPage
   def reports_link; {:xpath => '//a[contains(.,"Reports")]'} end
   def batch_link; {:xpath => '//a[contains(.,"Data Updates")]'} end
   def run_button; {:name => 'run'} end
+  def invoke_button; {:name => 'invoke'} end
   def filter_bar; {:xpath => '//div[contains(@class, "AdminSearchBar")]//input[contains(@class,"LineInput")]'} end
   def cancel_modal_button; {:xpath => '//button[@name="cancel"]'} end
   def clear_button; {:xpath => '//button[contains(.,"Clear")]'} end
@@ -35,6 +36,10 @@ class CoreToolsPage
 
   def click_run_button
     wait_for_element_and_click run_button
+  end
+
+  def click_invoke_button
+    wait_for_element_and_click invoke_button
   end
 
   def click_cancel_modal_button

@@ -29,6 +29,7 @@ module CollectionSpacePages
   def close_button; {:name => 'close'} end
   def create_new_button; {:name => 'create'} end
   def run_button; {:name => 'run'} end
+  def use_selection_button; {:name => 'accept'} end
   def clone_button; {:name => 'clone'} end
   def unrelate_button; {:name => 'unrelate'} end
   def unrelate_option; {:xpath => '//button[@name = "cancel"]/following-sibling::button'} end
@@ -344,6 +345,11 @@ module CollectionSpacePages
     wait_for_element_and_click clone_button
   end
 
+  def click_use_selection_button
+    logger.info 'Clicking the Use Selection button'
+    wait_for_element_and_click use_selection_button
+  end
+
   # Clicks the unrelate button for a record
   def click_unrelate_button
     logger.info 'Clicking the Unrelate button'
@@ -495,8 +501,15 @@ module CollectionSpacePages
       data_set_diff.times do
         logger.debug "Removing a data set at XPath '#{fieldset_remove_btn_xpath(fieldsets, row_index)}'"
         if ui_data_set_count == 1
-          wait_until(Config.short_wait) { elements(input_locator fieldsets).any?(&:displayed?) || elements(text_area_locator fieldsets).any?(&:displayed?) }
-          elements(input_locator fieldsets ).each &:clear
+          wait_until(Config.short_wait) { elements(input_locator fieldsets).any?(&:enabled?) || elements(text_area_locator fieldsets).any?(&:enabled?) }
+          logger.debug "Clearing input with locator '#{input_locator fieldsets}'"
+          elements(input_locator fieldsets).each_with_index do |el, i|
+            if el.attribute('type') == 'checkbox'
+              logger.warn "Skipping clearing element #{i} because it is a checkbox whose state cannot be determined"
+            else
+              el.clear
+            end
+          end
           elements(text_area_locator fieldsets).each &:clear
         else
           wait_for_element_and_click({:xpath => fieldset_remove_btn_xpath(fieldsets, row_index)})
