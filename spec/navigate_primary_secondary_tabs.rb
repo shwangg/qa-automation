@@ -20,8 +20,7 @@ if test_run.deployment == Deployment::CORE
       @acquisition_page = test_run.get_page CoreAcquisitionPage
 
       @login_page.load_page
-      @login_page.log_in("students@cspace.berkeley.edu", "cspacestudents")
-      #@admin.username, @admin.password)
+      @login_page.log_in(@admin.username, @admin.password)
 
       @test_proc = {
         CoreAcquisitionData::ACQUIS_METHOD.name => 'gift',

@@ -21,8 +21,7 @@ if test_run.deployment == Deployment::CORE
       @person_auth_page = test_run.get_page CorePersonPage
 
       @login_page.load_page
-      @login_page.log_in("students@cspace.berkeley.edu", "cspacestudents")
-      #@admin.username, @admin.password)
+      @login_page.log_in(@admin.username, @admin.password)
 
       @test_1_object = {
         CoreObjectData::OBJECT_NUM.name => Time.now.to_i
@@ -58,7 +57,7 @@ if test_run.deployment == Deployment::CORE
 
     after(:all) { quit_browser test_run.driver }
 
-    #def variables to be used in tests
+    #variables/methods to be used in tests
     add_row = {:xpath => '(//fieldset[@data-name = "contentPerson"]//div//button)[last()]'}
     dialog_element = {:xpath => "//div[@role = 'dialog']"}
     dialog_record_header = {:xpath => '(//div[@role = "dialog"]//div[contains(@class,"SearchResultSummary")]//span)[1]'}
@@ -76,6 +75,7 @@ if test_run.deployment == Deployment::CORE
       @object_page.element_text({:xpath => "//section[contains(., #{label})]//a[contains(., #{identifier})]//div[#{index}]"})
     end
     ##
+
     it "empty list on a new page" do
       @object_page.hide_notifications_bar
       @search_page.click_create_new_link
@@ -102,7 +102,6 @@ if test_run.deployment == Deployment::CORE
 
       @object_page.when_not_exists(dialog_element, Config.short_wait)
       expect(@object_page.exists? dialog_element).to be false
-      puts @object_page.related_obj_link(@related_obj[CoreObjectData::OBJECT_NUM.name])
       expect(@object_page.exists? @object_page.related_obj_link(@related_obj[CoreObjectData::OBJECT_NUM.name]))
     end
 
@@ -117,6 +116,7 @@ if test_run.deployment == Deployment::CORE
       @object_page.click_close_button
     end
 
+=begin
     [20, 40].each do |variation|
       it "checks if the pages work in dialog - select #{variation}" do
         @object_page.click_create_new_link
@@ -138,7 +138,6 @@ if test_run.deployment == Deployment::CORE
         expect(@object_page.exists? @search_results_page.navigation_pages)
 
         @object_page.wait_for_element_and_click(@search_results_page.navigation_right_arrow)
-        puts @object_page.element_text(@search_results_page.navigation_page_index_button(3))
         expect(@object_page.enabled? @search_results_page.navigation_page_index_button(3)).to be false
 
         @object_page.wait_for_element_and_click(@search_results_page.navigation_page_index_button("last()".gsub('"', '')))
@@ -156,9 +155,10 @@ if test_run.deployment == Deployment::CORE
         end
       end
     end
+=end
 
     it "test adding multiple to current record from dialog" do
-      ##RUN SECTION ONLY IF PREVIOUS DIALOG TEST IS COMMENTED OUT - REMOVE WHEN FIXED##
+      ##RUN SECTION ONLY IF PRECEDING DIALOG TEST IS COMMENTED OUT - REMOVE WHEN FIXED##
         @object_page.click_create_new_link
         @create_new_page.click_create_new_object
         @object_page.create_new_object @test_7_object

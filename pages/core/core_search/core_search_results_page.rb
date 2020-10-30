@@ -69,7 +69,8 @@ class CoreSearchResultsPage
   # @param [Integer] row number
   def select_result_nth_row(value)
     wait_for_element_and_click(:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][#{value}]")
-  end 
+  end
+  
   def click_search_result_cbx(identifier)
     wait_for_element_and_click search_result_checkbox(identifier)
   end
