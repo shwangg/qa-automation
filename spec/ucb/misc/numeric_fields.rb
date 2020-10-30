@@ -17,17 +17,14 @@ if test_run.deployment == Deployment::CORE
       @create_new_page = test_run.get_page CoreCreateNewPage
       @search_page = test_run.get_page CoreSearchPage
       @search_results_page = test_run.get_page CoreSearchResultsPage
-      #loads record category pages
       @acquisition_page = test_run.get_page CoreAcquisitionPage
       @object_page = test_run.get_page CoreObjectPage
       @media_handling_page = test_run.get_page CoreMediaHandlingPage
       @object_exit_page = test_run.get_page CoreObjectExitPage
       @valuation_control_page = test_run.get_page CoreValuationControlPage
 
-      #set up a record for each record type to ensure presence of existing file
       @login_page.load_page
-      @login_page.log_in("students@cspace.berkeley.edu", "cspacestudents")
-      #@admin.username, @admin.password)
+      @login_page.log_in(@admin.username, @admin.password)
 
       #all records will have ref/id num = @test_rec_num
       @test_rec_num = "0000000"
@@ -47,21 +44,21 @@ if test_run.deployment == Deployment::CORE
       @acquisition_page.create_new_acquisition @test_acquisition
 
       @test_media_handling = {
-        CoreMediaHandlingData::MEDIA_ID_NUM.name => @test_rec_num
+        CoreMediaHandlingData::ID_NUM.name => @test_rec_num
       }
       @acquisition_page.click_create_new_link
       @create_new_page.click_create_new_media_handling
       @media_handling_page.create_new_media @test_media_handling
 
       @test_object_exit = {
-        CoreObjectExitData::OBJECT_EXIT_NUM.name => @test_rec_num
+        CoreObjectExitData::EXIT_NUM.name => @test_rec_num
       }
       @media_handling_page.click_create_new_link
       @create_new_page.click_create_new_object_exit
       @object_exit_page.create_new_object_exit @test_object_exit
 
       @test_valuation_control = {
-        CoreValuationControlData::VC_REF_NUM.name => @test_rec_num
+        CoreValuationControlData::VALUE_NUM.name => @test_rec_num
       }
       @object_exit_page.click_create_new_link
       @create_new_page.click_create_new_valuation_control
@@ -80,13 +77,11 @@ if test_run.deployment == Deployment::CORE
     obj_description_info = {:xpath => "//button//h3//span[text() = 'Object Description Information']"}
     obj_history_association_info = {:xpath => "//span[text() = 'Object History and Association Information']"}
     objexit_deaccession_disposal_info = {:xpath => "//span[text()= 'Deaccession and Disposal Information']"}
-    #  notification_bar = {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]//div'}
     success_message =  {:xpath => '//div[@class = "cspace-ui-RecordHistory--common"]'}
     def save_notification(num); {:xpath => "(//div[@class = 'cspace-ui-NotificationBar--common']//li)[#{num}]"} end
 
     test_data.each do |type, field|
       it "checks #{type} for valid float field inputs" do
-      #test_data.each do |type, field|
         @page = test_run.find_page_class(type)
         @search_page.click_search_link
         @search_page.select_record_type_option(type)
@@ -119,7 +114,6 @@ if test_run.deployment == Deployment::CORE
 
     test_data.each do |type, field|
       it "checks #{type} for invalid float field inputs" do
-        #  test_data.each do |type, field|
         @page = test_run.find_page_class(type)
         @page.click_search_link
         @search_page.select_record_type_option(type)
@@ -128,7 +122,6 @@ if test_run.deployment == Deployment::CORE
         @search_results_page.click_result(0)
 
         field.each do |field|
-          puts field
           input_field = @page.input_locator([], input_data_name = field)
           if type == 'Objects'
             if field == 'value' and !(@page.exists? input_field)
@@ -203,17 +196,13 @@ if test_run.deployment == Deployment::CORE
       @search_results_page.click_result(0)
       #field 1: Object > Number of Objects
       numberOfObjects = @object_page.input_locator([], input_data_name = "numberOfObjects")
-      #field 2: Object > Age
-      age = @object_page.input_locator([], input_data_name = "age")
-
-      #testing field 1
       @object_page.scroll_to_element(numberOfObjects)
       @object_page.wait_for_element_and_type(numberOfObjects, "123.0")
       @object_page.hit_enter
       expect(@object_page.element_text(@object_page.notifications_bar).include? "must be an integer. Correct the value").to be true
       @object_page.close_notifications_bar
-
-      #testing field 2
+      #field 2: Object > Age
+      age = @object_page.input_locator([], input_data_name = "age")
       if !(@object_page.exists? age)
         @object_page.click_element(obj_description_info)
       end

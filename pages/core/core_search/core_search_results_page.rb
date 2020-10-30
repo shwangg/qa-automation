@@ -23,6 +23,8 @@ class CoreSearchResultsPage
     {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][contains(.,\"#{id}\")]"}
   end
 
+  def result_row_checkbox(id); {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,\"#{id}\")]//input"} end
+
   # Checks whether the page header contains the keyword searched
   # @param [String] keyword
   # @return [boolean]
@@ -63,11 +65,11 @@ class CoreSearchResultsPage
     wait_for_element_and_click({:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,\"#{identifier}\")]//input"})
   end
 
-  # Clicks the checkbox for a search result row
+  # Clicks the checkbox for a search result row and returns Identification Number of selected record
   # @param [Integer] row number
   def select_result_nth_row(value)
     wait_for_element_and_click(:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][#{value}]")
-
+  end 
   def click_search_result_cbx(identifier)
     wait_for_element_and_click search_result_checkbox(identifier)
   end
@@ -129,7 +131,6 @@ class CoreSearchResultsPage
   def navigation_bar; {:xpath => "//footer//nav"} end
   def navigation_pages; {:xpath => "//footer//nav//ul"} end
   def navigation_page_index_button(index); {:xpath => "(//footer//nav//ul//button)[#{index}]"} end
-#  def navigation_page_num_button(num); {:xpath => "//footer//nav//ul//button[@data-pagenum = '#{num}' -1]"}
   def navigation_left_arrow; {:xpath => "(//footer//nav//button)[1]"} end
   def navigation_right_arrow; {:xpath => "(//footer//nav//button)[last()]"} end
 

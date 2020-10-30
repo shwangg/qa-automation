@@ -25,4 +25,12 @@ module CoreObjectExitInfoForm
     logger.debug "Entering exit_note '#{exit_note}'"
     wait_for_element_and_type(exit_note_input_locator,exit_note) if exit_note
   end
+
+  # Combines all data entry methods
+  # @param [Hash] data_set
+  def enter_object_exit_info_data(data_set)
+    hide_notifications_bar
+    enter_exit_number data_set
+  end
+
 end

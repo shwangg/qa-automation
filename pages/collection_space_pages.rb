@@ -41,7 +41,7 @@ module CollectionSpacePages
   def related_tab; {:xpath => '//input[@placeholder="+ Related"]'} end
   def related_option; {:xpath => "//input[@placeholder='+ Related']/following-sibling::div//li"} end
   def relate_button; {:name => 'relate'} end
-#  def relate_selected_button; {:name => 'accept'} end
+  def relate_selected_button; {:name => 'accept'} end
   def unrelate_button; {:name => 'unrelate'} end
   def unrelate_option; {:xpath => '//button[@name = "cancel"]/following-sibling::button'} end
 
@@ -58,6 +58,7 @@ module CollectionSpacePages
 
   def toggle_panel_button(label); {:xpath => "//section[contains(@class, \"Panel\")][contains(., \"#{label}\")]//button"} end
   def collapsed_panel_locator(label); {:xpath => "//section[contains(@class, 'collapsed')][contains(., \"#{label}\")]"} end
+  def toggle_subpanel_button(label); {:xpath => "//section//section[contains(@class, \"Panel\")][contains(., \"#{label}\")]//button"} end
 
   # To be used when checking if the rest of a page is inactive/greyed out when a dialog box is open
   def inactive_page_check; {:xpath => '//div[@aria-hidden = "true"]'} end
@@ -573,9 +574,20 @@ module CollectionSpacePages
       click_element toggle_panel_button panel_label
   end
 
+  def toggle_subpanel(panel_label)
+      click_element toggle_subpanel_button panel_label
+  end
+
   def uncollapse_panel_if_collapsed(label)
     if is_collapsed label
       toggle_panel label
     end
   end
+
+  def uncollapse_subpanel_if_collapsed(label)
+    if is_collapsed label
+      toggle_subpanel label
+    end
+  end
+
 end

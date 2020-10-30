@@ -8,14 +8,14 @@ module CoreValuationControlInfoForm
 
   DEPLOYMENT = Deployment::CORE
 
-  def ref_num_input_locator; input_locator([], CoreValuationControlData::VC_REF_NUM.name) end
+  def ref_num_input_locator; input_locator([], CoreValuationControlData::VALUE_NUM.name) end
 
   # Enters an valuation control reference number
   # @param [Hash] data_set
   def enter_valuation_control_ref_num(data_set)
-    vc_ref_num = data_set[CoreValuationControlData::VC_REF_NUM.name]
+    vc_ref_num = data_set[CoreValuationControlData::VALUE_NUM.name]
     logger.debug "Entering reference number '#{vc_ref_num}'"
-    ref_num_options_locator = input_options_locator([], CoreValuationControlData::VC_REF_NUM.name)
+    ref_num_options_locator = input_options_locator([], CoreValuationControlData::VALUE_NUM.name)
     wait_for_options_and_type(ref_num_input_locator, ref_num_options_locator, vc_ref_num)
   end
 

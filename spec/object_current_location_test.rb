@@ -56,6 +56,19 @@ if test_run.deployment == Deployment::CORE
     dropdown_input = {:xpath => '//div[contains(@class,"SearchFormRecordType")]//input'}
     dropdown_options = {:xpath => '//div[@class = "cspace-layout-Popup--common"]//li' }
     keywords_input_locator = {:xpath => '//label[text()="Keywords"]/following-sibling::input'}
+    def sidebar_row(identifier); {:xpath => "//*[@aria-colindex = '2'][@title = '#{identifier}']"} end
+    def num_of_proc(value); {:xpath => "//span[contains(., 'Related Procedures: #{value}')]"} end
+    #methods
+    def create_new_lmi(dataset, location, option)
+      @inventory_movement_page.enter_reference_number dataset
+      @inventory_movement_page.hit_tab
+      current_location_input = @inventory_movement_page.input_locator([], CoreInventoryMovementData::CURRENT_LOCATION.name)
+      current_location_options = @inventory_movement_page.input_options_locator([], CoreInventoryMovementData::CURRENT_LOCATION.name)
+      @inventory_movement_page.scroll_to_element(current_location_input)
+      @inventory_movement_page.enter_auto_complete(current_location_input, current_location_options, location, option)
+      @inventory_movement_page.enter_location_date dataset
+      @inventory_movement_page.save_record_only
+    end
 
     it "Object Current Location is Created/Updated - Test 1a" do
       @search_page.click_create_new_link
@@ -64,15 +77,8 @@ if test_run.deployment == Deployment::CORE
       @object_page.scroll_to_top
       @object_page.select_related_type "Location/Movement/Inventory"
       @object_page.click_create_new_button
-##TO DO: edit adding new record
-      @inventory_movement_page.enter_reference_number @alpha_location_lmi
-      @inventory_movement_page.hit_tab
-      current_location_input = @inventory_movement_page.input_locator([], CoreInventoryMovementData::CURRENT_LOCATION.name)
-      current_location_options = @inventory_movement_page.input_options_locator([], CoreInventoryMovementData::CURRENT_LOCATION.name)
-      @inventory_movement_page.scroll_to_element(current_location_input)
-      @inventory_movement_page.enter_auto_complete(current_location_input, current_location_options, "Alpha Location", 'Offsite Storage Locations')
-      @inventory_movement_page.enter_location_date @alpha_location_lmi
-      @inventory_movement_page.save_record_only
+
+      create_new_lmi(@alpha_location_lmi, "Alpha Location", 'Offsite Storage Locations')
 
       @inventory_movement_page.quick_search("Objects", [], "Tango Object")
       @search_results_page.click_result(0)
@@ -90,15 +96,7 @@ if test_run.deployment == Deployment::CORE
       @search_page.click_create_new_link
       @create_new_page.click_create_new_movement
 
-    ##TO DO: edit
-      @inventory_movement_page.enter_reference_number @bravo_location
-      @inventory_movement_page.hit_tab
-      current_location_input = @inventory_movement_page.input_locator([], CoreInventoryMovementData::CURRENT_LOCATION.name)
-      current_location_options = @inventory_movement_page.input_options_locator([], CoreInventoryMovementData::CURRENT_LOCATION.name)
-      @inventory_movement_page.scroll_to_element(current_location_input)
-      @inventory_movement_page.enter_auto_complete(current_location_input, current_location_options, "Bravo Location", 'Offsite Storage Locations')
-      @inventory_movement_page.enter_location_date @bravo_location
-      @inventory_movement_page.save_record_only
+      create_new_lmi(@bravo_location, "Bravo Location", 'Offsite Storage Locations')
 
       @inventory_movement_page.quick_search("Objects", [], "Tango Object")
       @search_results_page.click_result(0)
@@ -107,7 +105,8 @@ if test_run.deployment == Deployment::CORE
       @object_page.wait_for_options_and_select(dropdown_input, dropdown_options, "Location/Movement/Inventory")
       @object_page.wait_for_element_and_type(keywords_input_locator, "Bravo")
       @object_page.click_dialog_search_button
-      @object_page.wait_for_element_and_click(:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,'Bravo')]//input")
+
+      @search_results_page.select_result_row('Bravo')
       @object_page.click_relate_selected_button
 
       @object_page.expand_sidebar_related_proc
@@ -117,9 +116,7 @@ if test_run.deployment == Deployment::CORE
       sleep Config.click_wait
       expect(@object_page.exists? terms_alpha).to be true
 
-      #test_run.driver.navigate.refresh
       @object_page.refresh_page
-
       expect(CoreObjectData::COMPUTED_LOCATION.name).eql? "Bravo Location"
       @object_page.expand_sidebar_terms_used
       sleep Config.click_wait
@@ -130,29 +127,20 @@ if test_run.deployment == Deployment::CORE
       @object_page.click_create_new_link
       @create_new_page.click_create_new_movement
 
-      @inventory_movement_page.enter_reference_number @charlie_org
-      @inventory_movement_page.hit_tab
-      current_location_input = @inventory_movement_page.input_locator([], CoreInventoryMovementData::CURRENT_LOCATION.name)
-      current_location_options = @inventory_movement_page.input_options_locator([], CoreInventoryMovementData::CURRENT_LOCATION.name)
-      @inventory_movement_page.scroll_to_element(current_location_input)
-      @inventory_movement_page.enter_auto_complete(current_location_input, current_location_options, "Charlie Organization", 'Local Organizations')
-      @inventory_movement_page.enter_location_date @charlie_org
-      @inventory_movement_page.save_record_only
+      create_new_lmi(@charlie_org, "Charlie Organization", 'Local Organizations')
 
       @inventory_movement_page.quick_search("Objects", [], "Tango Object")
       @search_results_page.click_result(0)
 
-      test_run.driver.find_element(:xpath => '//button[@data-recordtype ="movement"]').click
-    #  @object_page.wait_for_element_and_click(:name => 'relate')
+      @object_page.click_movement_secondary_tab
+
       @object_page.click_relate_button
-      ## ^check if above works correctly
-      keywords_input_locator = {:xpath => '//label[text()="Keywords"]/following-sibling::input'}
       @object_page.wait_for_element_and_type(keywords_input_locator, "Charlie")
       @object_page.click_dialog_search_button
-      @object_page.wait_for_element_and_click(:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,'Charlie Organization')]//input")
-    #  @object_page.wait_for_element_and_click(@object_page.result_row("Charlie Organization"))
+
+      @search_results_page.select_result_row("Charlie Organization")
       @object_page.click_relate_selected_button
-      test_run.driver.find_element(:xpath => '//button[contains(.,"Primary Record")]').click
+      @object_page.click_primary_record_tab
 
       @object_page.expand_sidebar_related_proc
       expect(@object_page.exists?(proc_charlie) && @object_page.exists?(proc_bravo) && @object_page.exists?(proc_alpha)).to be true
@@ -177,27 +165,24 @@ if test_run.deployment == Deployment::CORE
       @inventory_movement_page.hit_enter
       @inventory_movement_page.save_record_only
       @inventory_movement_page.expand_sidebar_related_obj
-      test_run.driver.find_element(:xpath => '//*[@aria-colindex = "2"][@title = "Tango Object"]').click
+      @inventory_movement_page.wait_for_element_and_click(sidebar_row("Tango Object"))
 
       expect(CoreObjectData::COMPUTED_LOCATION.name).eql? "Alpha Location"
-      @object_page.expand_sidebar_terms_used
-      #test_run.driver.navigate.refresh
       @object_page.refresh_page
+      @object_page.expand_sidebar_terms_used
       sleep Config.click_wait
       expect(@object_page.exists? terms_alpha).to be true
     end
 
     it "Object Current Location is Updated When a Related L/M/I is Deleted - Test 3" do
       @object_page.expand_sidebar_related_proc
-      test_run.driver.find_element(:xpath => '//*[@aria-colindex = "2"][@title = "Alpha Location"]').click
+      @object_page.wait_for_element_and_click(sidebar_row("Alpha Location"))
       @inventory_movement_page.delete_record
       @inventory_movement_page.quick_search("Objects", [], "Tango Object")
       @search_results_page.click_result(0)
-###does the refresh work???
       @object_page.refresh_page
       @object_page.expand_sidebar_related_proc
-      num_of_proc = {:xpath => '//span[contains(., "Related Procedures: 2")]'}
-      expect(@object_page.exists? num_of_proc).to be true
+      expect(@object_page.exists? num_of_proc(2)).to be true
       expect(@object_page.exists?(proc_charlie) && @object_page.exists?(proc_bravo)).to be true
       expect(CoreObjectData::COMPUTED_LOCATION.name).eql? "Charlie Organization"
       @object_page.expand_sidebar_terms_used
@@ -206,16 +191,14 @@ if test_run.deployment == Deployment::CORE
     end
 
     it "Object Current Location is Updated When Relationship to L/M/I is Deleted - Test 4" do
-      test_run.driver.find_element(:xpath => '//button[contains(.,"Location/Movement/Inventory")]').click
-      @object_page.wait_for_element_and_click(:xpath => '//div[@title = "Charlie Organization"][@aria-colindex = 4]/preceding::input[1]')
+      @object_page.click_movement_secondary_tab
+      @search_results_page.select_result_row("Charlie Organization")
       @object_page.unrelate_record
       @object_page.quick_search("Objects", [], "Tango Object")
       @search_results_page.click_result(0)
-###does the refresh work???
       @object_page.refresh_page
       @object_page.expand_sidebar_related_proc
-      num_of_proc = {:xpath => '//span[contains(., "Related Procedures: 1")]'}
-      expect(@object_page.exists? num_of_proc).to be true
+      expect(@object_page.exists? num_of_proc(1)).to be true
       expect(@object_page.exists? proc_bravo).to be true
       expect(CoreObjectData::COMPUTED_LOCATION.name).eql? "Bravo Location"
       @object_page.expand_sidebar_terms_used
