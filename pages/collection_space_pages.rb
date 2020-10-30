@@ -63,6 +63,9 @@ module CollectionSpacePages
   # To be used when checking if the rest of a page is inactive/greyed out when a dialog box is open
   def inactive_page_check; {:xpath => '//div[@aria-hidden = "true"]'} end
 
+  # To be used when checking if the rest of a page is inactive/greyed out when a dialog box is open
+  def inactive_page_check; {:xpath => '//div[@aria-hidden = "true"]'} end
+
   # Returns a hash containing both the data name used to locate a set of data fields on the page and also the index of the data (i.e., which row)
   # @param [String] data_name
   # @param [Integer] index

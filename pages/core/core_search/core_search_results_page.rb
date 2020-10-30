@@ -65,7 +65,7 @@ class CoreSearchResultsPage
     wait_for_element_and_click({:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,\"#{identifier}\")]//input"})
   end
 
-  # Clicks the checkbox for a search result row and returns Identification Number of selected record
+  # Clicks the checkbox for a search result row
   # @param [Integer] row number
   def select_result_nth_row(value)
     wait_for_element_and_click(:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][#{value}]")
