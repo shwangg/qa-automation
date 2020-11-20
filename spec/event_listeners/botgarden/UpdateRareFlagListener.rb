@@ -1,5 +1,5 @@
 require_relative '../../../spec_helper'
-test_run = TestConfig.new Deployment::BOTGARDEN
+deploy = Deployment::BOTGARDEN
 
 describe 'BOTGARDEN' do
 
@@ -7,10 +7,10 @@ describe 'BOTGARDEN' do
   include WebDriverManager
 
   before(:all) do
-
-    test_run.set_driver launch_browser
-    @admin = test_run.get_admin_user
-    @login_page = test_run.get_page BOTGARDENLoginPage
+    @test = TestConfig.new deploy
+    @test.set_driver launch_browser
+    @admin = @test.get_admin_user
+    @login_page = @test.get_page BOTGARDENLoginPage
   #  @search_page = test_run.get_page CoreSearchPage
   #  @search_results_page = test_run.get_page CoreSearchResultsPage
     @login_page.load_page
@@ -20,8 +20,8 @@ describe 'BOTGARDEN' do
     #@admin.username, @admin.password)
   end
 
-  after(:all) { quit_browser test_run.driver }
-=begin
+  after(:all) { quit_browser @test.driver }
+
   search_result = "N/A"
 
   it "find conservation category value with set qualifier field" do
@@ -37,5 +37,5 @@ describe 'BOTGARDEN' do
     @concept_page.click_create_new_link
     @create_new_page.click_create_new_object
   end
-=end
+
 end

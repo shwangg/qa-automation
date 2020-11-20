@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 
-class BOTGARDENLoginPage < CoreLoginPage
+class BOTGARDENLoginPage < CoreUCBLoginPage
 
   include Logging
   include Page
