@@ -6,6 +6,7 @@ class CoreSearchPage
   include CollectionSpacePages
   include CoreSearchAcquisitionsForm
   include CoreSearchConditionCheckForm
+  include CoreSearchConservationForm
   include CoreSearchObjectsForm
 
   DEPLOYMENT = Deployment::CORE
@@ -13,6 +14,8 @@ class CoreSearchPage
   def search_button_one; {:xpath => '(//button[@name="search"])[1]'} end
   def search_button_two; {:xpath => '(//button[@name="search"])[2]'} end
   def clear_button; {:name => 'clear'} end
+  def add_field_button; {:xpath => '//span[contains(.,"+ Field")]'} end
+  def add_group_button; {:xpath => '//span[contains(.,"+ Group")]'} end
 
   def record_type_input; {:xpath => '//label[text()="Find"]/following-sibling::div/input'} end
   def record_type_options; {:xpath => '//label[text()="Find"]/following-sibling::div//li'} end
@@ -61,13 +64,14 @@ class CoreSearchPage
   def enter_keyword(string)
     logger.info "Searching for keyword '#{string}'"
     wait_for_element_and_type(keywords_input_locator, string)
+    hit_tab
   end
 
   # Enters a keyword search term and clicks search
   # @param [String] string
   def full_text_search(string)
     enter_keyword string
-    hit_enter
+    # hit_enter
   end
 
   # LAST UPDATED BY
@@ -123,4 +127,66 @@ class CoreSearchPage
     search_input_errors
   end
 
+  # ADDING SEARCH OPTIONS
+
+  def single_field_input_locator(rep); {:xpath => '(//div[contains(@class,"FieldConditionInput")]//input[@data-name="field"])[' + rep.to_s + ']'} end
+  def single_field_options_locator(rep); {:xpath => '(//div[contains(@class,"FieldConditionInput")]//input[@data-name="field"])[' + rep.to_s + ']/following-sibling::div//li'} end
+  def field_is_input_locator(rep); {:xpath => '(//div[contains(@class,"FieldConditionInput")]//input[@data-name="searchOp"])[' + rep.to_s + ']'} end
+  def field_is_options_locator(rep); {:xpath => '(//div[contains(@class,"FieldConditionInput")]//input[@data-name="searchOp"])[' + rep.to_s + ']/following-sibling::div//li'} end
+  # grab FieldCondition div, then div with span, then next sibling, then input for searchOp
+  # add a single field
+  def add_single_field(field, searchOp)
+    wait_for_element_and_click add_field_button
+    logger.debug "adding a #{field} field"
+    wait_for_options_and_select(single_field_input_locator(1), single_field_options_locator(1), field)
+    # wait_for_options_and_select(field_is_input_locator(1), field_is_options_locator(1), searchOp)
+  end 
+
+  def single_group_input_locator(rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//input[@data-name="group"])[' + rep.to_s + ']'} end
+  def single_group_options_locator(rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//input[@data-name="group"])[' + rep.to_s + ']/following-sibling::div//li'} end
+  def group_boolean_input_locator(rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//input[@data-name="booleanSearchOp"])[' + rep.to_s + ']'} end
+  def group_boolean_options_locator(rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//input[@data-name="booleanSearchOp"])[' + rep.to_s + ']/following-sibling::div//li'} end
+  def group_field_input_locator(rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//input[@data-name="field"])[' + rep.to_s + ']'} end
+  def group_field_options_locator(rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//input[@data-name="field"])[' + rep.to_s + ']/following-sibling::div//li'} end
+  def group_is_input_locator(rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//input[@data-name="searchOp"])[' + rep.to_s + ']'} end
+  def group_is_options_locator(rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//input[@data-name="searchOp"])[' + rep.to_s + ']/following-sibling::div//li'} end
+
+
+  # add a single group
+  def add_single_group(group, booleanOp, field, searchOp)
+    wait_for_element_and_click add_group_button
+    logger.debug "adding a #{group} group"
+    wait_for_options_and_select(single_group_input_locator(1), single_group_options_locator(1), group)
+    wait_for_options_and_select(group_boolean_input_locator(1), group_boolean_options_locator(1), booleanOp)
+    wait_for_options_and_select(group_field_input_locator(1), group_field_options_locator(1), field)
+    wait_for_options_and_select(group_is_input_locator(1), group_is_options_locator(1), searchOp)
+  end
+
+  def add_field_to_group_button; {:xpath => '//div[contains(@class,"GroupConditionInput")]//span[contains(.,"+ Field")]'} end
+
+  def add_field_to_group(field, is, rep)
+    wait_for_element_and_click add_field_to_group_button
+    logger.debug "adding a #{field} to group"
+    wait_for_options_and_select(group_field_input_locator(rep), group_field_options_locator(rep), field)
+    # wait_for_options_and_select(group_is_input_locator(rep), group_is_options_locator(rep), bol)
+  end
+  
+  def group_select_input_locator(index, rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//fieldset[contains(@class,"RepeatingInput")]//input[@data-name="' + index.to_s + '"])[' + rep.to_s + ']'} end
+  def group_select_options_locator(index, rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//fieldset[contains(@class,"RepeatingInput")]//input[@data-name="' + index.to_s + '"])[' + rep.to_s + ']/following-sibling::div//li'} end
+  
+  def select_from_single_group(data, rep)
+    logger.debug "Selecting #{data}"
+    wait_for_options_and_select(group_select_input_locator(0, rep), group_select_options_locator(0, rep), data)
+  end
+
+  def group_date_input_locator(name, rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//div[contains(@class,"DateInput")]//input[@data-name="' + name + '"])[' + rep.to_s + ']'} end
+
+  def date_from_single_group(data, name, rep)
+    input = element group_date_input_locator(name, rep)
+    input.clear
+    sleep Config.click_wait
+    input.send_keys data
+    hit_enter
+    hit_tab
+  end
 end

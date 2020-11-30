@@ -11,7 +11,7 @@ ids = [
   CoreObjectData::OBJECT_NUM.name,
   CoreAcquisitionData::ACQUIS_REF_NUM.name,
   CoreConditionCheckData::COND_REF_NUM.name,
-  CoreConservationData::CONSERV_NUM.name,
+  CoreConservationData::CONS_REF_NUM.name,
   CoreExhibitionData::EXHIBITION_NUM.name,
   CoreGroupData::TITLE.name,
   CoreIntakeData::ENTRY_NUMBER.name,
