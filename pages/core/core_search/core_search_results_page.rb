@@ -23,6 +23,8 @@ class CoreSearchResultsPage
     {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][contains(.,\"#{id}\")]"}
   end
 
+  def result_row_checkbox(id); {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,\"#{id}\")]//input"} end
+
   # Checks whether the page header contains the keyword searched
   # @param [String] keyword
   # @return [boolean]
@@ -63,6 +65,12 @@ class CoreSearchResultsPage
     wait_for_element_and_click({:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,\"#{identifier}\")]//input"})
   end
 
+  # Clicks the checkbox for a search result row
+  # @param [Integer] row number
+  def select_result_nth_row(value)
+    wait_for_element_and_click(:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][#{value}]")
+  end
+  
   def click_search_result_cbx(identifier)
     wait_for_element_and_click search_result_checkbox(identifier)
   end
@@ -76,7 +84,7 @@ class CoreSearchResultsPage
     wait_for_element_and_click relate_selected_button
     wait_for_notification 'related to'
   end
- 
+
   def first_row_input; input_locator([], "0") end
   def second_row_input; input_locator([], "1") end
   # def group_input(id); {:xpath => "//div[@class=\"ReactModal__Content\")]//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][contains(.,\"#{id}\")]"} end
@@ -100,5 +108,31 @@ class CoreSearchResultsPage
   end
 
 
+
+  #SELECT BOX
+
+  def header_select_size_input_locator; {:xpath => '(//div[contains(@class, "PageSizeChooser")]//input)[1]'} end
+  def footer_select_size_input_locator; {:xpath => '(//div[contains(@class, "PageSizeChooser")]//input)[2]'} end
+
+  # Enters a size integer in header select box
+  # @param [Integer] integer
+  def select_size(input_locator, integer)
+    logger.info "Update results to show #{integer} records"
+    wait_for_element_and_type(input_locator, integer)
+  end
+
+  # Enters a size integer and hits enter
+  # @param [Integer] integer
+  def full_text_search(integer)
+    select_size integer
+    hit_enter
+  end
+
+  #SEARCH RESULTS NAVIGATION
+  def navigation_bar; {:xpath => "//footer//nav"} end
+  def navigation_pages; {:xpath => "//footer//nav//ul"} end
+  def navigation_page_index_button(index); {:xpath => "(//footer//nav//ul//button)[#{index}]"} end
+  def navigation_left_arrow; {:xpath => "(//footer//nav//button)[1]"} end
+  def navigation_right_arrow; {:xpath => "(//footer//nav//button)[last()]"} end
 
 end

@@ -6,6 +6,7 @@ class CoreAcquisitionPage
   include Page
   include CollectionSpacePages
   include CoreSidebar
+  include CorePages
   include CoreAcquisitionInfoForm
 
   DEPLOYMENT = Deployment::CORE
