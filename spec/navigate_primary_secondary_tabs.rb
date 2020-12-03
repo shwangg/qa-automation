@@ -35,106 +35,94 @@ if test_run.deployment == Deployment::CORE
 
     after(:all) { quit_browser test_run.driver }
 
+    ## Methods and variables to be used for this test
+    def secondary_tab(tab); {:xpath => "//button[text()= \"#{tab}\"]"} end
+    def variation_button(type); {:xpath => "//div[@role = \"presentation\"]//button[@name = \"#{type}\"]"} end
+    all_secondary_tabs = ["Objects", "Acquisitions", "Condition Checks", "Conservation Treatments",\
+      "Exhibitions" , "Groups", "Intakes", "Loans In", "Loans Out", "Location/Movement/Inventory",\
+      "Media Handling", "Object Exits", "Use of Collections", "Valuation Controls"]
+    accession_date_locator = {:xpath => '//label[contains(., "Accession date")]/following-sibling::div//input'}
     current_date = (Date.today - 1).to_s
-    primary_tab = {:xpath => '//button[contains(., "Primary Record")]'}
-    all_secondary_tabs = ["Objects", "Acquisitions", "Condition Checks", "Conservation Treatments",
-                          "Exhibitions" , "Groups", "Intakes", "Loans In", "Loans Out", "Location/Movement/Inventory",
-                          "Media Handling", "Object Exits", "Use of Collections", "Valuation Controls"]
+    dialog_popup = {:xpath => '//div[@role = "dialog"]//div'}
+    days_1, days_2 = 15, 8
+    ##
 
     it "Navigates Between Secondary and Primary Tabs" do
       @search_page.quick_search("Acquisitions", [], @core_id)
       @search_results_page.click_result(0)
-
-      i = 30
       [["close", "Location/Movement/Inventory"], ["cancel", "Exhibitions"]].each do |(button, tab)|
-        @acquisition_page.wait_for_element_and_type(@acquisition_page.structured_date_input_locator([]),  (Date.today - i).to_s)
+        @acquisition_page.wait_for_element_and_type(@acquisition_page.structured_date_input_locator([]),  (Date.today - days_1).to_s)
         @acquisition_page.hit_enter
         @acquisition_page.select_related_type tab
-
-        dialog_popup = @acquisition_page.element_text(:xpath => '//div[@role = "dialog"]//div')
-        expect(dialog_popup.include? "about to leave a record that has unsaved changes").to be true
-
-        @acquisition_page.wait_for_element_and_click(:xpath => "//div[@role = \"presentation\"]//button[@name = \"#{button}\"]")
+        expect(@acquisition_page.element_text(dialog_popup).include? "about to leave a record that has unsaved changes").to be true
+        @acquisition_page.wait_for_element_and_click(variation_button(button))
         expect(@acquisition_page.exists? dialog_popup).to be false
-        i += 1
+        days_1 += 1
       end
 
-      movement_tab = {:xpath => '//button[@data-recordtype = "movement"][1]'}
-      @acquisition_page.wait_for_element_and_click(movement_tab)
+      @acquisition_page.click_movement_secondary_tab
       @acquisition_page.revert_and_continue
-      expect(@acquisition_page.enabled? movement_tab).to be false
+      expect(@acquisition_page.enabled? @acquisition_page.movement_secondary_tab).to be false
 
-      @acquisition_page.wait_for_element_and_click(primary_tab)
-      ad_text = test_run.driver.find_element(:xpath => '//label[contains(., "Accession date")]/following-sibling::div//input').attribute('value')
+      @acquisition_page.click_primary_record_tab
+      ad_text = @acquisition_page.element_value(accession_date_locator)
       expect(ad_text == current_date)
-      @acquisition_page.wait_for_element_and_click(:xpath => '//button[@aria-label = "close"]')
-      @acquisition_page.wait_for_element_and_type(@acquisition_page.structured_date_input_locator([]),  (Date.today - i).to_s)
+      @acquisition_page.click_close_tab("Location/Movement/Inventory")
+      @acquisition_page.wait_for_element_and_type(@acquisition_page.structured_date_input_locator([]),  (Date.today - days_1).to_s)
       @acquisition_page.hit_enter
-      current_date = (Date.today - i).to_s
+      current_date = (Date.today - days_1).to_s
 
-      exhibition_tab = {:xpath => '//button[@data-recordtype = "exhibition"]'}
-      @acquisition_page.wait_for_element_and_click(exhibition_tab)
-      dialog_popup = @acquisition_page.element_text(:xpath => '//div[@role = "dialog"]//div')
-      expect(dialog_popup.include? "about to leave a record that has unsaved changes").to be true
-
+      @acquisition_page.click_exhibitions_tab
+      expect(@acquisition_page.element_text(dialog_popup).include? "about to leave a record that has unsaved changes").to be true
       @acquisition_page.save_and_continue
-      expect(@acquisition_page.enabled? exhibition_tab).to be false
+      expect(@acquisition_page.enabled? @acquisition_page.exhibition_tab).to be false
 
-      @acquisition_page.wait_for_element_and_click(primary_tab)
-      ad_text = test_run.driver.find_element(:xpath => '//label[contains(., "Accession date")]/following-sibling::div//input').attribute('value')
+      @acquisition_page.click_primary_record_tab
+      ad_text = @acquisition_page.element_value(accession_date_locator)
       expect(ad_text == current_date)
-
-      @acquisition_page.wait_for_element_and_click(:xpath => '//button[@aria-label = "close"]')
+      @acquisition_page.click_close_tab("Exhibitions")
     end
 
-    it "Navigates Between ALL Secondary and Primary Tabs" do
-      @acquisition_page.quick_search("Acquisitions", [], @core_id)
-      @search_results_page.click_result(0)
-
-      i = 8
-      all_secondary_tabs.each do |tab|
+    all_secondary_tabs.each do |tab|
+      it "Navigates Between \"#{tab}\" Secondary Tab and Primary Tab" do
+        @acquisition_page.quick_search("Acquisitions", [], @core_id)
+        @search_results_page.click_result(0)
         ["close", "cancel"].each do |button|
-          @acquisition_page.wait_for_element_and_type(@acquisition_page.structured_date_input_locator([]),  (Date.today - i).to_s)
+          @acquisition_page.wait_for_element_and_type(@acquisition_page.structured_date_input_locator([]),  (Date.today - days_2).to_s)
           @acquisition_page.hit_enter
           @acquisition_page.select_related_type tab
-
-          dialog_popup = @acquisition_page.element_text(:xpath => '//div[@role = "dialog"]//div')
-          expect(dialog_popup.include? "about to leave a record that has unsaved changes").to be true
-
-          @acquisition_page.wait_for_element_and_click(:xpath => "//div[@role = \"presentation\"]//button[@name = \"#{button}\"]")
+          expect(@acquisition_page.element_text(dialog_popup).include? "about to leave a record that has unsaved changes").to be true
+          @acquisition_page.wait_for_element_and_click(variation_button(button))
           expect(@acquisition_page.exists? dialog_popup).to be false
           if button == "close"
-            @acquisition_page.wait_for_element_and_click(:xpath => '//button[@aria-label = "close"]')
+            @acquisition_page.click_close_tab(tab)
           end
-          i += 1
+          days_2 += 1
         end
 
-        secondary_tab = {:xpath => "//button[contains(., \"#{tab}\")]"}
-        @acquisition_page.wait_for_element_and_click(secondary_tab)
+        @acquisition_page.wait_for_element_and_click(secondary_tab(tab))
         @acquisition_page.revert_and_continue
-        expect(@acquisition_page.enabled? secondary_tab).to be false
+        expect(@acquisition_page.enabled? secondary_tab(tab)).to be false
 
-        @acquisition_page.wait_for_element_and_click(primary_tab)
-        ad_text = test_run.driver.find_element(:xpath => '//label[contains(., "Accession date")]/following-sibling::div//input').attribute('value')
+        @acquisition_page.click_primary_record_tab
+        ad_text = @acquisition_page.element_value(accession_date_locator)
         expect(ad_text == current_date).to be true
-        @acquisition_page.wait_for_element_and_type(@acquisition_page.structured_date_input_locator([]),  (Date.today - i).to_s)
+        @acquisition_page.wait_for_element_and_type(@acquisition_page.structured_date_input_locator([]),  (Date.today - days_2).to_s)
         @acquisition_page.hit_enter
-        current_date = (Date.today - i).to_s
+        current_date = (Date.today - days_2).to_s
 
-        @acquisition_page.wait_for_element_and_click(secondary_tab)
-        dialog_popup = @acquisition_page.element_text(:xpath => '//div[@role = "dialog"]//div')
-        expect(dialog_popup.include? "about to leave a record that has unsaved changes").to be true
-
+        @acquisition_page.wait_for_element_and_click(secondary_tab(tab))
+        expect(@acquisition_page.element_text(dialog_popup).include? "about to leave a record that has unsaved changes").to be true
         @acquisition_page.save_and_continue
-        expect(@acquisition_page.enabled? secondary_tab).to be false
+        expect(@acquisition_page.enabled? secondary_tab(tab)).to be false
 
-        @acquisition_page.wait_for_element_and_click(primary_tab)
-        ad_text = test_run.driver.find_element(:xpath => '//label[contains(., "Accession date")]/following-sibling::div//input').attribute('value')
+        @acquisition_page.wait_for_element_and_click(@acquisition_page.primary_tab)
+        ad_text = @acquisition_page.element_value(accession_date_locator)
         expect(ad_text == current_date)
-        @acquisition_page.wait_for_element_and_click(:xpath => '//button[@aria-label = "close"]')
-        i += 1
+        @acquisition_page.click_close_tab(tab)
+        days_2 += 1
       end
     end
-  end
 
+  end
 end

@@ -12,12 +12,9 @@ class CoreCreateNewPage
   def acquisition_link; {:id => 'acquisition'} end
   def exhibition_link; {:id => 'exhibition'} end
   def movement_link; {:id => 'movement'} end
-  def media_handling_link; {:id => 'media'} end
-  def object_exit_link; {:id => 'objectexit'} end
   def use_of_collections_link; {:id => 'uoc'} end
-  def valuation_control_link; {:id => 'valuation'} end
-  def authority_org_local_link; {:xpath => '//a[@id="organization/local"]'} end
-  def authority_org_ulan_link; {:xpath => '//a[@id="organization/ulan"]'} end
+  def authority_org_local_link; {:id => 'organization/local'} end
+  def authority_org_ulan_link; {:id => 'organization/ulan'} end
   def condition_check_link; {:id => 'conditioncheck'} end
   def conservation_link; {:id => 'conservation'} end
   def group_link; {:id => 'group'} end
@@ -27,21 +24,21 @@ class CoreCreateNewPage
   def media_handling_link; {:id => 'media'} end
   def object_exit_link; {:id => 'objectexit'} end
   def valuation_control_link; {:id => 'valuation'} end
-  def authority_citation_local_link; {:xpath => '//a[@id="citation/local"]'} end
-  def authority_citation_worldcat_link; {:xpath => '//a[@id="citation/worldcat"]'} end
-  def authority_concept_activity_link; {:xpath => '//a[@id="concept/activity"]'} end
-  def authority_concept_associated_link; {:xpath => '//a[@id="concept/associated"]'} end
-  def authority_concept_material_link; {:xpath => '//a[@id="concept/material"]'} end
-  def authority_concept_nomenclature_link; {:xpath => '//a[@id="concept/nomenclature"]'} end
-  def authority_concept_occasion_link; {:xpath => '//a[@id="concept/occasion"]'} end
-  def authority_person_local_link; {:xpath => '//a[@id="person/local"]'} end
-  def authority_person_ulan_link; {:xpath => '//a[@id="person/ulan"]'} end
-  def authority_place_local_link; {:xpath => '//a[@id="place/local"]'} end
-  def authority_place_tgn_link; {:xpath => '//a[@id="place/tgn"]'} end
-  def authority_storage_local_link; {:xpath => '//a[@id="location/local"]'} end
-  def authority_storage_offsite_link; {:xpath => '//a[@id="location/offsite"]'} end
-  def authority_work_local_link; {:xpath => '//a[@id="work/local"]'} end
-  def authority_work_cona_link; {:xpath => '//a[@id="work/cona"]'} end
+  def authority_citation_local_link; {:id => 'citation/local'} end
+  def authority_citation_worldcat_link; {:id => 'citation/worldcat'} end
+  def authority_concept_activity_link; {:id => 'concept/activity'} end
+  def authority_concept_associated_link; {:id => 'concept/associated'} end
+  def authority_concept_material_link; {:id => 'concept/material'} end
+  def authority_concept_nomenclature_link; {:id => '//a[@id="concept/nomenclature'} end
+  def authority_concept_occasion_link; {:id => '//a[@id="concept/occasion'} end
+  def authority_person_local_link; {:id => 'person/local'} end
+  def authority_person_ulan_link; {:id => 'person/ulan'} end
+  def authority_place_local_link; {:id => 'place/local'} end
+  def authority_place_tgn_link; {:id => 'place/tgn'} end
+  def authority_storage_local_link; {:id => 'location/local'} end
+  def authority_storage_offsite_link; {:id => 'location/offsite'} end
+  def authority_work_local_link; {:id => 'work/local'} end
+  def authority_work_cona_link; {:id => 'work/cona'} end
 
   # Loads the Create New page with a given base URL
   # @param [String] base_url
@@ -70,19 +67,9 @@ class CoreCreateNewPage
     wait_for_page_and_click media_handling_link
   end
 
-  # Clicks the link to create a new object exit record
-  def click_create_new_object_exit
-    wait_for_page_and_click object_exit_link
-  end
-
   # Clicks the link to create a new use of collections procedure
   def click_create_new_use_of_collections
     wait_for_page_and_click use_of_collections_link
-  end
-
-  # Clicks the link to create a new valuation control record
-  def click_create_new_valuation_control
-    wait_for_page_and_click valuation_control_link
   end
   
   # Clicks the link to create a new exhibition record

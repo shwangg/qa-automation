@@ -9,6 +9,10 @@ class CoreObjectData < CollectionSpaceData
        COMMENT = new('comment'),
        COMMENTS = new('comments'),
        COMPUTED_LOCATION = new('currentLocation', 'Computed current location'),
+
+       CONTENT_PERSONS = new('contentPersons'),
+       CONTENT_PERSON = new('contentPerson'),
+
        DATE = new('date'),
        DATE_ASSOC = new('dateAssociation'),
        DATE_EARLIEST_CERTAINTY = new('dateEarliestSingleCertainty'),

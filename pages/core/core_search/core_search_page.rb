@@ -8,6 +8,7 @@ class CoreSearchPage
   include CoreSearchConditionCheckForm
   include CoreSearchConservationForm
   include CoreSearchObjectsForm
+  include CoreSearchOrganizationsForm
 
   DEPLOYMENT = Deployment::CORE
 
@@ -16,6 +17,8 @@ class CoreSearchPage
   def clear_button; {:name => 'clear'} end
   def add_field_button; {:xpath => '//span[contains(.,"+ Field")]'} end
   def add_group_button; {:xpath => '//span[contains(.,"+ Group")]'} end
+  def modal_clear_button; {:xpath => '//footer//button[@name="clear"]'} end
+
 
   def record_type_input; {:xpath => '//label[text()="Find"]/following-sibling::div/input'} end
   def record_type_options; {:xpath => '//label[text()="Find"]/following-sibling::div//li'} end
@@ -53,6 +56,10 @@ class CoreSearchPage
   # Clicks the 'Clear' button
   def click_clear_button
     wait_for_element_and_click clear_button
+  end
+
+  def click_modal_clear_button
+    wait_for_element_and_click modal_clear_button
   end
 
   # KEYWORD

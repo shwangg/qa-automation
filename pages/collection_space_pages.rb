@@ -13,6 +13,7 @@ module CollectionSpacePages
   def quick_search_sub_type_options; {:xpath => '(//div[contains(@class,"QuickSearchInput")]//div[contains(@class,"DropdownMenuInput")])[2]//li'} end
   def quick_search_input; {:xpath => '//div[contains(@class,"QuickSearchInput")]//input[@placeholder="Search"]'} end
   def quick_search_button; {:xpath => '//div[contains(@class,"QuickSearchInput")]//button'} end
+  def dialog_search_button; {:xpath => '//footer//button[@name = "search"]'} end
   def my_collection_space_link; {:xpath => '//a[contains(.,"My CollectionSpace")]'} end
   def create_new_link; {:xpath => '//a[contains(.,"Create New")]'} end
   def search_link; {:xpath => '//a[contains(.,"Search")]'} end
@@ -29,9 +30,8 @@ module CollectionSpacePages
   def close_button; {:name => 'close'} end
   def create_new_button; {:name => 'create'} end
   def run_button; {:name => 'run'} end
+  def use_selection_button; {:name => 'accept'} end
   def clone_button; {:name => 'clone'} end
-  def unrelate_button; {:name => 'unrelate'} end
-  def unrelate_option; {:xpath => '//button[@name = "cancel"]/following-sibling::button'} end
   def header_bar; {:xpath => '//header/div'} end
   def page_h1; {:xpath => '//h1'} end
   def page_h2; {:xpath => '//h2'} end
@@ -41,6 +41,9 @@ module CollectionSpacePages
   def related_tab; {:xpath => '//input[@placeholder="+ Related"]'} end
   def related_option; {:xpath => "//input[@placeholder='+ Related']/following-sibling::div//li"} end
   def relate_button; {:name => 'relate'} end
+  def relate_selected_button; {:name => 'accept'} end
+  def unrelate_button; {:name => 'unrelate'} end
+  def unrelate_option; {:xpath => '//button[@name = "cancel"]/following-sibling::button'} end
 
   def notifications_bar; {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]'} end
   def notifications_close_button; {:name => 'close'} end
@@ -55,6 +58,13 @@ module CollectionSpacePages
 
   def toggle_panel_button(label); {:xpath => "//section[contains(@class, \"Panel\")][contains(., \"#{label}\")]//button"} end
   def collapsed_panel_locator(label); {:xpath => "//section[contains(@class, 'collapsed')][contains(., \"#{label}\")]"} end
+  def toggle_subpanel_button(label); {:xpath => "//section//section[contains(@class, \"Panel\")][contains(., \"#{label}\")]//button"} end
+
+  # To be used when checking if the rest of a page is inactive/greyed out when a dialog box is open
+  def inactive_page_check; {:xpath => '//div[@aria-hidden = "true"]'} end
+
+  # To be used when checking if the rest of a page is inactive/greyed out when a dialog box is open
+  def inactive_page_check; {:xpath => '//div[@aria-hidden = "true"]'} end
 
   # Returns a hash containing both the data name used to locate a set of data fields on the page and also the index of the data (i.e., which row)
   # @param [String] data_name
@@ -216,6 +226,12 @@ module CollectionSpacePages
     hit_enter
   end
 
+  #Clicks the 'Search' button in an open dialog
+  def click_dialog_search_button
+    logger.info 'Clicking search button in open dialog'
+    wait_for_element_and_click dialog_search_button
+  end
+
   # Clicks the 'Create New' link in the navigation menu
   def click_create_new_link
     logger.info 'Clicking link to Create New'
@@ -344,6 +360,11 @@ module CollectionSpacePages
     wait_for_element_and_click clone_button
   end
 
+  def click_use_selection_button
+    logger.info 'Clicking the Use Selection button'
+    wait_for_element_and_click use_selection_button
+  end
+
   # Clicks the unrelate button for a record
   def click_unrelate_button
     logger.info 'Clicking the Unrelate button'
@@ -355,6 +376,12 @@ module CollectionSpacePages
     logger.info 'Removing a related record'
     click_unrelate_button
     wait_for_element_and_click unrelate_option
+  end
+
+  # Clicks the relate selected button
+  def click_relate_selected_button
+    logger.info 'Clicking the Relate Selected button'
+    wait_for_element_and_click relate_selected_button
   end
   # LOG OUT
 
@@ -495,8 +522,15 @@ module CollectionSpacePages
       data_set_diff.times do
         logger.debug "Removing a data set at XPath '#{fieldset_remove_btn_xpath(fieldsets, row_index)}'"
         if ui_data_set_count == 1
-          wait_until(Config.short_wait) { elements(input_locator fieldsets).any?(&:displayed?) || elements(text_area_locator fieldsets).any?(&:displayed?) }
-          elements(input_locator fieldsets ).each &:clear
+          wait_until(Config.short_wait) { elements(input_locator fieldsets).any?(&:enabled?) || elements(text_area_locator fieldsets).any?(&:enabled?) }
+          logger.debug "Clearing input with locator '#{input_locator fieldsets}'"
+          elements(input_locator fieldsets).each_with_index do |el, i|
+            if el.attribute('type') == 'checkbox'
+              logger.warn "Skipping clearing element #{i} because it is a checkbox whose state cannot be determined"
+            else
+              el.clear
+            end
+          end
           elements(text_area_locator fieldsets).each &:clear
         else
           wait_for_element_and_click({:xpath => fieldset_remove_btn_xpath(fieldsets, row_index)})
@@ -543,9 +577,20 @@ module CollectionSpacePages
       click_element toggle_panel_button panel_label
   end
 
+  def toggle_subpanel(panel_label)
+      click_element toggle_subpanel_button panel_label
+  end
+
   def uncollapse_panel_if_collapsed(label)
     if is_collapsed label
       toggle_panel label
     end
   end
+
+  def uncollapse_subpanel_if_collapsed(label)
+    if is_collapsed label
+      toggle_subpanel label
+    end
+  end
+
 end

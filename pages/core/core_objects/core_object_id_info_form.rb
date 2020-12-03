@@ -65,6 +65,9 @@ module CoreObjectIdInfoForm
   def object_template_input; {:xpath => '//div[contains(@class,"RecordHeader")]//div[contains(@class,"DropdownMenuInput")]/input'} end
   def object_template_options; {:xpath => '//div[contains(@class,"RecordHeader")]//li'} end
 
+  def person_input(index); input_locator([fieldset(CoreObjectData::CONTENT_PERSON.name, index)]) end
+  def person_options(index); input_options_locator([fieldset(CoreObjectData::CONTENT_PERSON.name, index)]) end
+
   def select_object_template(template)
     logger.info "Selecting template '#{template}'"
     wait_for_options_and_select(object_template_input, object_template_options, template)
@@ -311,6 +314,24 @@ module CoreObjectIdInfoForm
       verify_values_match(name[CoreObjectData::OBJ_NAME_TYPE.name], element_value(object_name_type_input index))
       verify_values_match(name[CoreObjectData::OBJ_NAME_LANG.name], element_value(object_name_lang_input index))
       verify_values_match(name[CoreObjectData::OBJ_NAME_NOTE.name], element_value(object_name_note_input index))
+    end
+  end
+
+  # CONTENT > Person
+  def enter_content_person(data)
+    hide_notifications_bar
+    persons = data[CoreObjectData::CONTENT_PERSONS.name]
+    prep_fieldsets_for_test_data([fieldset(CoreObjectData::CONTENT_PERSONS.name)], persons)
+    persons && persons.each_with_index do |person, index|
+      logger.info "Entering content person '#{data[CoreObjectData::CONTENT_PERSON.name]}'"
+      enter_auto_complete(person_input(index), person_options(index), person[CoreObjectData::CONTENT_PERSON.name], 'Local Persons')
+    end
+  end
+
+  def verify_content_person(data)
+    persons = data[CoreObjectData::CONTENT_PERSONS.name]
+    persons && persons.each_with_index do |person, index|
+      verify_values_match(person[CoreObjectData::CONTENT_PERSON.name], element_value(person_input index))
     end
   end
 

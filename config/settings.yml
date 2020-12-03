@@ -12,6 +12,8 @@ timeout:
 
 deployment: core
 
+webapps_base_url: https://webapps-qa.cspace.berkeley.edu
+
 core:
   base_url: https://core-dev.cspace.berkeley.edu
   admin:

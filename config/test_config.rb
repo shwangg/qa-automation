@@ -136,4 +136,11 @@ end
   def numeric_fields_test_data(deployment = nil)
     parse_test_data((deployment || @deployment), 'test-data-numeric-fields.json')
   end
+
+  # Returns the test data for the 'special characters and formatting' tests
+  # @return [Array<Hash>]
+  def special_characters_test_data(deployment = nil)
+    parse_test_data((deployment || @deployment), 'test-data-special-characters.json')
+    #["objects"]
+  end
 end
