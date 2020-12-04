@@ -39,7 +39,8 @@ bampfa:
     password: secret
 
 botgarden:
-  base_url: https://botgarden-qa.cspace.berkeley.edu
+  base_url: https://botgarden-dev.cspace.berkeley.edu/
+    #https://botgarden-qa.cspace.berkeley.edu
   admin:
     username: secret
     password: secret
