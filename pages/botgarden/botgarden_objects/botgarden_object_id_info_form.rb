@@ -16,6 +16,8 @@ module BOTGARDENObjectIdInfoForm
 
   def object_num_input; input_locator([], BOTGARDENObjectData::OBJECT_NUM.name) end
 
+  def object_rarity; input_locator([], BOTGARDENObjectData::RARE.name) end
+
   def obj_type_input; input_locator([], BOTGARDENObjectData::COLLECTION.name) end
   def obj_type_options; input_options_locator([], BOTGARDENObjectData::COLLECTION.name) end
 
@@ -114,6 +116,16 @@ module BOTGARDENObjectIdInfoForm
       wait_for_element_and_type(taxon_ref_input(index), tax[BOTGARDENObjectData::TAXON_REF.name])
       wait_for_element_and_type(taxon_page_input(index), tax[BOTGARDENObjectData::TAXON_PAGE.name])
       wait_for_element_and_type(taxon_note_input(index), tax[BOTGARDENObjectData::TAXON_NOTE.name])
+    end
+  end
+
+  def enter_default_taxonomics(data)
+    taxonomics = data[BOTGARDENObjectData::TAXON_IDENT_GRP.name]
+    prep_fieldsets_for_test_data([fieldset(BOTGARDENObjectData::TAXON_IDENT_GRP.name)], taxonomics)
+    taxonomics && taxonomics.each_with_index do |tax, index|
+      logger.debug "Entering taxonomic information '#{tax}' at index #{index}"
+      enter_auto_complete(taxon_name_input(index), taxon_name_options(index), tax[BOTGARDENObjectData::TAXON_NAME.name], "Default Taxonomic Names")
+      #TODO - all other inputs
     end
   end
 
