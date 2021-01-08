@@ -1,6 +1,6 @@
 require_relative '../../../../spec_helper'
 
-class CoreConceptData < CoreAuthorityData
+class BOTGARDENConceptData < CoreUCBAuthorityData
 
   DATA = [
       CONCEPT_TERMS = new('conceptTermGroup'),

@@ -102,7 +102,7 @@ require_relative 'pages/core/core_admin/core_admin_page'
 
 Dir.glob("config/config_*").each { |file| require_relative file if file.include? '.rb' }
 
-%w(bampfa botgarden cinefiles core_ucb pahma ucjeps).each do |deployment|
+%w(core_ucb bampfa botgarden cinefiles pahma ucjeps).each do |deployment|
   Dir.glob("models/data/#{deployment}/*").each { |file| require_relative file if file.include? '.rb' }
   Dir.glob("models/data/#{deployment}/#{deployment}_authorities/*").each { |file| require_relative file if file.include? '.rb' }
   Dir.glob("models/data/#{deployment}/#{deployment}_objects/*").each { |file| require_relative file if file.include? '.rb' }

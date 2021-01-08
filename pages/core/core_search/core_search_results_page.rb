@@ -70,7 +70,13 @@ class CoreSearchResultsPage
   def select_result_nth_row(value)
     wait_for_element_and_click(:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][#{value}]")
   end
-  
+
+  # Returns the display name for a search result row
+  # @param [Integer] row number
+  def name_of_nth_row(value)
+    element_text(:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][#{value}]//div[@aria-colindex = 2]")
+  end
+
   def click_search_result_cbx(identifier)
     wait_for_element_and_click search_result_checkbox(identifier)
   end
