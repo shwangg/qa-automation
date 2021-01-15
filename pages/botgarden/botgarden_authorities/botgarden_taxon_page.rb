@@ -1,8 +1,9 @@
 class BOTGARDENTaxonPage < CoreUCBAuthorityPage
-#CoreUCBAuthorityPage is used because CoreUCBTaxonPage/CoreTaxonPage does not exist 
+#CoreUCBAuthorityPage is used because CoreUCBTaxonPage/CoreTaxonPage does not exist
 
   DEPLOYMENT = Deployment::BOTGARDEN
 
+  def access_code_input; input_locator([], BOTGARDENTaxonData::ACCESS_RESTRICTIONS.name) end
   def attribute_conserv_categ_input(index); input_locator([fieldset(BOTGARDENTaxonData::PLANT_ATTRIB_GRP.name, index)], BOTGARDENTaxonData::CONSERV_CATEG.name) end
   def attribute_conserv_categ_options(index); input_options_locator([fieldset(BOTGARDENTaxonData::PLANT_ATTRIB_GRP.name, index)], BOTGARDENTaxonData::CONSERV_CATEG.name) end
 
