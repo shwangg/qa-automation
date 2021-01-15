@@ -14,6 +14,7 @@ module BOTGARDENObjectIdInfoForm
   def alt_num_type_options(index); input_options_locator([fieldset(BOTGARDENObjectData::ALT_NUM_GRP.name, index)], BOTGARDENObjectData::ALT_NUM_TYPE.name) end
   def alt_num_note_input(index); input_locator([fieldset(BOTGARDENObjectData::ALT_NUM_GRP.name, index)], BOTGARDENObjectData::ALT_NUM_NOTE.name) end
 
+  def dead_flag_input; disabled_input_locator_by_label(BOTGARDENObjectData::DEAD_FLAG.label) end
   def object_num_input; input_locator([], BOTGARDENObjectData::OBJECT_NUM.name) end
 
   def object_rarity; input_locator([], BOTGARDENObjectData::RARE.name) end

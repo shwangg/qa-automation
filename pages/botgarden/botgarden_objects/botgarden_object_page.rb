@@ -5,7 +5,7 @@ class BOTGARDENObjectPage < CoreUCBObjectPage
   include Logging
   include Page
   include CollectionSpacePages
-#  include BOTGARDENPages
+  include BOTGARDENPages
   include BOTGARDENSidebar
   include BOTGARDENObjectIdInfoForm
 
