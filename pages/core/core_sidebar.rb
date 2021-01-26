@@ -13,6 +13,7 @@ module CoreSidebar
   def expanded_div_locator(label); {:xpath => "#{section_xpath(label)}/div"} end
   def links_locator(label); {:xpath => "#{section_xpath(label)}//a[@role='row']"} end
   def link_locator(label, identifier); {:xpath => "#{section_xpath(label)}//a[contains(.,'#{identifier}')]"} end
+  def report_link_locator(label, identifier); {:xpath => "#{section_xpath(label)}//div[contains(@class,'innerScrollContainer')]//div[contains(.,'#{identifier}')]"} end
   def num_per_page_input(label); {:xpath => "#{section_xpath(label)}//input"} end
   def num_per_page_option(label); {:xpath => "#{section_xpath(label)}//input/following-sibling::div//li"} end
   def empty_sidebar_section(label); {:xpath => "#{section_header_xpath(label)}/following-sibling::div//div[@class = 'cspace-ui-SearchResultEmpty--common']"} end 
@@ -47,6 +48,12 @@ module CoreSidebar
   def related_proc_link(proc); link_locator('Procedures', proc) end
   def related_proc_num_per_page_input; num_per_page_input('Procedures') end
   def related_proc_num_per_page_option; num_per_page_option('Procedures') end
+
+  def reports_button; button_locator('Reports') end
+  def reports_report_link(report); report_link_locator('Reports', report) end
+  def reports_num_per_page_input; num_per_page_input('Reports') end
+  def reports_num_per_page_options; num_per_page_options('Reports') end
+  
 
   # Makes sure the sidebar is shown
   def show_sidebar
@@ -158,6 +165,20 @@ module CoreSidebar
   # @param [String] identifier - this should match the string under the Record column
   def click_sidebar_related_proc(identifier)
     wait_for_element_and_click related_proc_link(identifier)
+  end
+
+  # REPORTS
+
+  # Expands the Reports section of the sidebar
+  def expand_sidebar_reports
+    expand_sidebar_section(reports_button, reports_num_per_page_input)
+  end
+
+  # Clicks the link for a Report in the sidebar
+  # @param [String] term
+  def click_sidebar_report(report)
+    wait_for_element_and_click reports_report_link(report)
+
   end
 
 end

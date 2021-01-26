@@ -38,4 +38,12 @@ class BOTGARDENObjectPage < CoreUCBObjectPage
     select_tms_source data
   end
 
+  def related_tab_button(relate); {:xpath => '//div[contains(@class,"RecordBrowser")]//button[contains(., "' + relate + '")]'} end
+
+  def hit_related_tab(relate)
+    logger.info 'Clicking link to Create New' + relate
+    scroll_to_top
+    wait_for_element_and_click related_tab_button(relate)
+  end
+
 end

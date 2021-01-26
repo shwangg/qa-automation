@@ -30,6 +30,7 @@ module CollectionSpacePages
   def close_button; {:name => 'close'} end
   def create_new_button; {:name => 'create'} end
   def run_button; {:name => 'run'} end
+  def invoke_button; {:name => 'invoke'} end
   def use_selection_button; {:name => 'accept'} end
   def clone_button; {:name => 'clone'} end
   def header_bar; {:xpath => '//header/div'} end
@@ -45,8 +46,11 @@ module CollectionSpacePages
   def unrelate_button; {:name => 'unrelate'} end
   def unrelate_option; {:xpath => '//button[@name = "cancel"]/following-sibling::button'} end
 
+  def relation_editor_unrelate_button; {:xpath => '//div[contains(@class,"RelationEditor")]//button'} end
+  def relation_editor_cancel_button; {:xpath => '//div[contains(@class,"ConfirmRecordUnrelateModal")]//button[@name="cancel"]'} end
+
   def notifications_bar; {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]'} end
-  def notifications_close_button; {:name => 'close'} end
+  def notifications_close_button; {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]//button'} end
 
   def do_not_leave_button; {:xpath => '//button[contains(., "Don\'t leave")]'} end
   def save_and_continue_button; {:xpath => '//button[contains(., "Save and continue")]'} end
@@ -258,6 +262,12 @@ module CollectionSpacePages
     wait_for_element_and_click admin_link
   end
 
+  def click_invoke_button
+    logger.info 'Clicking invoke button'
+    scroll_to_top
+    wait_for_element_and_click invoke_button
+  end
+
   # SAVE, DELETE, REVERT, CANCEL
 
   # Clicks the save button
@@ -369,6 +379,18 @@ module CollectionSpacePages
   def click_unrelate_button
     logger.info 'Clicking the Unrelate button'
     wait_for_element_and_click unrelate_button
+  end
+
+  # Clicks the unrelate button in relation editor for a record
+  def click_relation_editor_unrelate_button
+    logger.info 'Clicking the Unrelate button'
+    wait_for_element_and_click relation_editor_unrelate_button
+  end
+
+  # Clicks the cancel button in relation editor for a record
+  def click_relation_editor_cancel_button
+    logger.info 'Clicking the cancel button'
+    wait_for_element_and_click relation_editor_cancel_button
   end
 
   # Removes a related record
