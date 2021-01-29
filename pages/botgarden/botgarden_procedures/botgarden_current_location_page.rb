@@ -11,8 +11,8 @@ class BOTGARDENCurrentLocationPage < CoreProcedurePage
   DEPLOYMENT = Deployment::BOTGARDEN
 
   def enter_current_loc_data(data)
-    enter_action_code data
     enter_action_date data
+    enter_action_code data
     enter_garden_location data
   end
 
