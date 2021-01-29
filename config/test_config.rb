@@ -141,6 +141,11 @@ end
   # @return [Array<Hash>]
   def special_characters_test_data(deployment = nil)
     parse_test_data((deployment || @deployment), 'test-data-special-characters.json')
-    #["objects"]
   end
+
+  # Returns the test data for the 'UpdateDeadFlagListener' Event Listener test
+  def update_dead_flag_listener_data(deployment = nil)
+    parse_test_data((deployment || @deployment), 'test-data-update-dead-flag.json')
+  end
+
 end

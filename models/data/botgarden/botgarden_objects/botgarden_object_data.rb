@@ -12,6 +12,8 @@ class BOTGARDENObjectData < CoreUCBObjectData
       ASSOC_PPL_TYPE = new('assocPeopleType'),
       ASSOC_PPL_NOTE = new('assocPeopleNote'),
 
+      DEAD_FLAG = new(nil, 'Dead flag'),
+
       RARE = new('rare'),
       TAXON_IDENT_GRP = new('taxonomicIdentGroup'),
       TAXON_NAME = new('taxon'),

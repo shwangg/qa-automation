@@ -3,11 +3,10 @@ require_relative '../../../spec_helper'
 class BOTGARDENCurrentLocationPage < CoreUCBCurrentLocationPage
 
   include Logging
-  include Page
+  include BOTGARDENPages
   include CollectionSpacePages
-#  include BOTGARDENPages
+  include CoreSidebar
   include BOTGARDENCurrentLocationInfoForm
-
 
   DEPLOYMENT = Deployment::BOTGARDEN
 
@@ -17,5 +16,6 @@ class BOTGARDENCurrentLocationPage < CoreUCBCurrentLocationPage
     enter_movement_note data
     select_action_code data
   end
+
 
 end
