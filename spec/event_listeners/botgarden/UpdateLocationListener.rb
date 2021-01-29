@@ -51,7 +51,7 @@ describe 'BOTGARDEN' do
     }
 
 
-    
+
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)
   end

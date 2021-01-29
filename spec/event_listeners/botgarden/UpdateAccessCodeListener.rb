@@ -11,7 +11,7 @@ describe 'BOTGARDEN' do
     @test.set_driver launch_browser
 
     @admin = @test.get_admin_user
-    @current_loc_page = @test.get_page CoreProcedurePage
+    @current_loc_page = @test.get_page CoreCurrentLocationPage
     @create_new_page = @test.get_page CoreCreateNewPage
     @login_page = @test.get_page CoreLoginPage
     @object_page = @test.get_page CoreObjectPage
@@ -20,8 +20,7 @@ describe 'BOTGARDEN' do
     @taxon_page = @test.get_page CoreUCBAuthorityPage
 
     @login_page.load_page
-    @login_page.log_in("sehyunhwang@berkeley.edu", "cspacestudents")
-    #@admin.username, @admin.password)
+    @login_page.log_in(@admin.username, @admin.password)
   end
 
   after(:all) { quit_browser @test.driver }
@@ -37,7 +36,7 @@ describe 'BOTGARDEN' do
     BOTGARDENObjectData::TAXON_IDENT_GRP.name => [{BOTGARDENObjectData::TAXON_NAME.name => test_taxon}]
   }
   current_loc_1 = {
-    BOTGARDENCurrentLocationData::LOCATION.name => "Asian"
+    BOTGARDENCurrentLocationData::GARDEN_LOCATION.name => "Asian"
   }
   dead_rec = {
     BOTGARDENCurrentLocationData::ACTION_DATE.name => "12-12-2020",
@@ -46,13 +45,13 @@ describe 'BOTGARDEN' do
   revived_rec = {
     BOTGARDENCurrentLocationData::ACTION_DATE.name => "12-23-2020",
     BOTGARDENCurrentLocationData::ACTION_CODE.name => "Revived",
-    BOTGARDENCurrentLocationData::LOCATION.name => "*Asian"
+    BOTGARDENCurrentLocationData::GARDEN_LOCATION.name => "*Asian"
   }
   obj_1_num = {BOTGARDENObjectData::OBJECT_NUM.name => object_1[BOTGARDENObjectData::OBJECT_NUM.name]}
   obj_2_num = {BOTGARDENObjectData::OBJECT_NUM.name => object_2[BOTGARDENObjectData::OBJECT_NUM.name]}
   hash_TODO = {BOTGARDENObjectData::OBJECT_NUM.name => [obj_1_num, obj_2_num]}
 
-  #Variables to be used in tests
+  #XPath locators
   def accession_number; {:xpath => '//header//div//h1//a'} end
   def related_proc_header(accession_num); {:xpath => "//header[contains(., 'Procedures related to #{accession_num}')]"} end
   def row_taxon_name; {:xpath => '//div[@class="cspace-ui-SearchResultTable--common"]//*[@aria-label="row"]//div[@aria-colindex = 3]'} end
@@ -72,7 +71,7 @@ describe 'BOTGARDEN' do
 
         @object_page.click_current_locations_tab
         @current_loc_page.click_create_new_button
-        @current_loc_page.enter_current_loc_data(current_loc_1)
+        @current_loc_page.enter_current_location_data(current_loc_1)
         @current_loc_page.save_record
       end
       @current_loc_page.click_search_link
@@ -113,7 +112,7 @@ describe 'BOTGARDEN' do
         @taxon_page.click_sidebar_used_by(accession_num)
         @object_page.expand_sidebar_related_proc
         @object_page.click_sidebar_related_proc("Asian")
-        @current_loc_page.enter_current_loc_data(dead_rec)
+        @current_loc_page.enter_current_location_data(dead_rec)
         @current_loc_page.save_record
         @current_loc_page.wait_for_notification("Deleted")
         expect(@current_loc_page.exists? related_proc_header(accession_num)).to be true
@@ -139,7 +138,7 @@ describe 'BOTGARDEN' do
       @search_results_page.click_result(object_1[BOTGARDENObjectData::OBJECT_NUM.name])
       @object_page.click_current_locations_tab
       @current_loc_page.click_create_new_button
-      @current_loc_page.enter_current_loc_data(revived_rec)
+      @current_loc_page.enter_current_location_data(revived_rec)
       @current_loc_page.save_record
       @current_loc_page.click_sidebar_term(test_taxon)
       expect(@taxon_page.element_value(@taxon_page.access_code_input) == "dead").to be false

@@ -1,6 +1,6 @@
 require_relative '../../../../spec_helper'
 
-class BOTGARDENCurrentLocationData < CoreProcedureData
+class BOTGARDENCurrentLocationData < CoreUCBCurrentLocationData
 
     DATA = [
         ACTION_DATE = new('locationDate'),

@@ -13,7 +13,7 @@ describe 'BOTGARDEN' do
 
     #Initialize pages
     @admin = @test.get_admin_user
-    @current_loc_page = @test.get_page CoreProcedurePage
+    @current_loc_page = @test.get_page CoreCurrentLocationPage
     @create_new_page = @test.get_page CoreCreateNewPage
     @login_page = @test.get_page CoreLoginPage
     @object_page = @test.get_page CoreObjectPage
@@ -50,7 +50,7 @@ describe 'BOTGARDEN' do
     @object_page.click_current_locations_tab
     [@current_loc_1, @current_loc_2].each do |record|
       @current_loc_page.click_create_new_button
-      @current_loc_page.enter_current_loc_data record
+      @current_loc_page.enter_current_location_data record
       @current_loc_page.save_record
     end
 
@@ -72,7 +72,7 @@ describe 'BOTGARDEN' do
     [[1, "no"], [0,"yes"]].each do |records_left, dead_flag|
       @object_page.close_notifications_bar
       @object_page.click_sidebar_related_proc("Asian")
-      @current_loc_page.enter_action_code(@new_action)
+      @current_loc_page.select_action_code(@new_action)
       @current_loc_page.save_record
       @current_loc_page.wait_for_notification("Deleted")
       expect(@current_loc_page.elements(@search_results_page.result_rows).length).to eql(records_left)
@@ -89,7 +89,7 @@ describe 'BOTGARDEN' do
   it "Dead flag resets to no when new related Current Location added to Accession marked Dead" do
     @object_page.click_current_locations_tab
     @current_loc_page.click_create_new_button
-    @current_loc_page.enter_current_loc_data @current_loc_3
+    @current_loc_page.enter_current_location_data @current_loc_3
     @current_loc_page.save_record
     @current_loc_page.click_primary_record_tab
 

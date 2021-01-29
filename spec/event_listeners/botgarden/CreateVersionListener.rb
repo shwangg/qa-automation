@@ -37,7 +37,7 @@ describe 'BOTGARDEN' do
     @test_3 = {
       BOTGARDENCurrentLocationData::MOVEMENT_NOTE.name => "this is a note"
     }
-    
+
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)
   end
@@ -74,7 +74,7 @@ describe 'BOTGARDEN' do
     @location_page.verify_values_match(summary, @location_page.element_text(relations_bar))
   end
 
-  
+
   it 'Move Accession to a new Current Location' do
     @location_page.enter_current_location_data @test_2
     summary = "#{@test_2[BOTGARDENCurrentLocationData::GARDEN_LOCATION.name]} – #{@test_1[BOTGARDENCurrentLocationData::ACTION_DATE.name]}"
