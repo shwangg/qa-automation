@@ -1,5 +1,7 @@
 class PAHMAOrganizationPage < CoreUCBOrganizationPage
 
+  include PAHMAOrganizationInfoForm
+
   DEPLOYMENT = Deployment::PAHMA
 
   # Adds or removes contact names per a given set of test data

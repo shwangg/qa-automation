@@ -198,7 +198,7 @@ module PAHMAObjectIdInfoForm
   def wait_for_location(data)
     wait_for_event_listener do
       wait_until(Config.short_wait) do
-        !element_value(current_location_input).empty?
+        when_exists(current_location_input, Config.short_wait)
         logger.debug "Current location is '#{element_value current_location_input}'"
         element_value(current_location_input) == data[PAHMAInventoryMovementData::CURRENT_LOCATION.name]
         element_value(current_crate_input) == data[PAHMAInventoryMovementData::CRATE.name]

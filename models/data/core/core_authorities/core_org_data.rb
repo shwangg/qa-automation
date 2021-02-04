@@ -7,7 +7,7 @@ class CoreOrgData < CoreAuthorityData
       CONTACT_NAME = new('contactName'),
       CONTACT_NAMES = new('contactGroup'),
       DISSOLUTION_DATE = new('dissolutionDate', 'Dissolution date'),
-      FOUNDING_DATE = new('foundingDate', 'Founding date'),
+      FOUNDING_DATE = new('foundingDate', 'Foundation date'),
       FOUNDING_PLACE = new('foundingPlace'),
       FUNCTION = new('function'),
       FUNCTIONS = new('functions'),

@@ -302,8 +302,7 @@ if test_run.deployment == Deployment::CORE
 
     it "test adding a relation to self" do
       @object_page.click_add_related_object
-      @search_page.enter_keyword(@Record_A[CoreObjectData::OBJECT_NUM.name])
-      @search_page.click_search_button
+      @search_page.full_text_search @Record_A[CoreObjectData::OBJECT_NUM.name]
       expect(@search_results_page.row_exists?(@Record_A[CoreObjectData::OBJECT_NUM.name]))
       expect(@search_results_page.exists? @search_results_page.result_row_checkbox(@Record_A[CoreObjectData::OBJECT_NUM.name])).to be false
       @object_page.click_close_button

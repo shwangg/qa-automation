@@ -71,14 +71,13 @@ class CoreSearchPage
   def enter_keyword(string)
     logger.info "Searching for keyword '#{string}'"
     wait_for_element_and_type(keywords_input_locator, string)
-    hit_tab
   end
 
   # Enters a keyword search term and clicks search
   # @param [String] string
   def full_text_search(string)
     enter_keyword string
-    # hit_enter
+    hit_enter
   end
 
   # LAST UPDATED BY
