@@ -169,6 +169,8 @@ module Page
     sleep Config.click_wait
     when_enabled(locator, Config.short_wait)
     element(locator).click
+  rescue Selenium::WebDriver::Error::WebDriverError
+    click_element_js locator
   end
 
   def click_element_js(locator)
@@ -195,9 +197,12 @@ module Page
   # @param [Hash] locator
   # @param [String] string
   def wait_for_element_and_type(locator, string)
-    wait_for_element_and_click locator
-    element(locator).clear
-    element(locator).send_keys string if string
+    when_exists(locator, Config.short_wait)
+    unless string.to_s.empty? && element(locator).text.to_s.empty? && element_value(locator).to_s.empty?
+      click_element locator
+      element(locator).clear
+      element(locator).send_keys string
+    end
   end
 
   # Clicks an input, waits for options to appear, enters a given string, and waits for the element's value to match
@@ -206,18 +211,21 @@ module Page
   # @param [Hash] options_locator
   # @param [String] string
   def wait_for_options_and_type(input_locator, options_locator, string)
-    wait_for_element_and_click input_locator
-    wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
-    tries = 2
-    begin
-      tries -= 1
-      element(input_locator).clear
-      element(input_locator).send_keys string if string
-      sleep Config.click_wait
-      hit_tab
-      wait_until(1, 'Element value not updated, retrying') { element(input_locator).attribute('value') == string.to_s }
-    rescue
-      tries.zero? ? fail : retry
+    when_exists(input_locator, Config.short_wait)
+    unless string.to_s.empty? && element_value(input_locator).to_s.empty?
+      click_element input_locator
+      wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
+      tries = 2
+      begin
+        tries -= 1
+        element(input_locator).clear
+        element(input_locator).send_keys string
+        sleep Config.click_wait
+        hit_tab
+        wait_until(1, 'Element value not updated, retrying') { element_value(input_locator) == string.to_s }
+      rescue
+        tries.zero? ? fail : retry
+      end
     end
   end
 
@@ -231,12 +239,15 @@ module Page
   # @param [Hash] options_locator
   # @param [String] option
   def wait_for_options_and_select(input_locator, options_locator, option)
-    wait_for_element_and_click input_locator
-    wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
-    sleep 0.5
-    (option && !option.empty?) ?
+    when_exists(input_locator, Config.short_wait)
+    unless option.to_s.empty? && element_value(input_locator).to_s.empty?
+      click_element input_locator
+      wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
+      sleep 0.5
+      (option && !option.empty?) ?
         (elements(options_locator).find { |el| el.text == option }).click :
         (elements(options_locator).find { |el| el.text.gsub(/[[:space:]]+/, '').empty? }).click
+    end
   end
 
   # Enters or removes data in an auto-complete field. If entering data, can select an existing option or create a new
@@ -270,27 +281,30 @@ module Page
     # User wants to delete existing value. Removing the value is tricky, so checks that the field is actually emptied.
     # If not, retries once.
     else
-      tries ||= 2
-      begin
-        tries -= 1
-        wait_for_element_and_click input_locator
-        value = element(input_locator).attribute('value')
-        if value
-          value.length.times do
-            hit_backspace
-            hit_delete
+      when_exists(input_locator, Config.short_wait)
+      unless element_value(input_locator).empty?
+        tries ||= 2
+        begin
+          tries -= 1
+          wait_for_element_and_click input_locator
+          value = element_value input_locator
+          if value
+            value.length.times do
+              hit_backspace
+              hit_delete
+            end
+            sleep 1
           end
-          sleep 1
-        end
-        hit_tab
-        sleep 0.5
-        wait_until(1) { element(input_locator).attribute('value').empty? }
-      rescue
-        if tries.zero?
-          fail
-        else
-          logger.warn 'Unable to remove data from an auto-complete, retrying'
-          retry
+          hit_tab
+          sleep 0.5
+          wait_until(1) { element_value(input_locator).empty? }
+        rescue
+          if tries.zero?
+            fail
+          else
+            logger.warn 'Unable to remove data from an auto-complete, retrying'
+            retry
+          end
         end
       end
     end

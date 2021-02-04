@@ -63,7 +63,7 @@ describe 'Organization Authority records', order: :defined do
     it 'can be added to Procedure records' do
       @org_authority_page.click_create_new_link
       @create_new_page.click_create_new_exhibition
-      @exhibition_page.enter_exhibition_num "Exhibition Zero #{test_id}"
+      @exhibition_page.enter_exhibition_num({CoreExhibitionData::EXHIBITION_NUM.name => "Exhibition Zero #{test_id}"})
       @exhibition_page.select_sponsor(@org_0_display_name, 0)
       @exhibition_page.save_record
     end
@@ -93,7 +93,7 @@ describe 'Organization Authority records', order: :defined do
     it 'can be added to Procedure records' do
       @org_authority_page.click_create_new_link
       @create_new_page.click_create_new_exhibition
-      @exhibition_page.enter_exhibition_num "Exhibition One #{test_id}"
+      @exhibition_page.enter_exhibition_num({CoreExhibitionData::EXHIBITION_NUM.name => "Exhibition One #{test_id}"})
       @exhibition_page.select_sponsor(@org_1_display_name, 0)
       @exhibition_page.save_record
     end
@@ -327,17 +327,15 @@ describe 'Organization Authority records', order: :defined do
     context 'and the authority is in use by other records' do
 
       before(:all) do
-        @exhibition_2_num = "Exhibition Two #{test_id}"
         @search_results_page.click_create_new_link
         @create_new_page.click_create_new_exhibition
-        @exhibition_page.enter_exhibition_num @exhibition_2_num
+        @exhibition_page.enter_exhibition_num({CoreExhibitionData::EXHIBITION_NUM.name => "Exhibition Two #{test_id}"})
         @exhibition_page.select_sponsor(@org_1_display_name, 0)
         @exhibition_page.save_record
 
-        @exhibition_3_num = "Exhibition Three #{test_id}"
         @search_results_page.click_create_new_link
         @create_new_page.click_create_new_exhibition
-        @exhibition_page.enter_exhibition_num @exhibition_3_num
+        @exhibition_page.enter_exhibition_num({CoreExhibitionData::EXHIBITION_NUM.name => "Exhibition Three #{test_id}"})
         @exhibition_page.select_sponsor(@org_1_display_name, 0)
         @exhibition_page.save_record
       end
