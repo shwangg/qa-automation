@@ -6,6 +6,7 @@ class CoreAcquisitionData < CollectionSpaceData
       ACQUIS_DATE = new('acquisitionDate'),
       ACQUIS_DATE_GRP = new('acquisitionDateGroup'),
       ACQUIS_FUNDING_LIST = new('acquisitionFundingList'),
+      ACQUIS_FUNDING_VALUE = new('acquisitionFundingValue'),
       ACQUIS_FUNDING_SOURCE = new('acquisitionFundingSource'),
       ACQUIS_METHOD = new('acquisitionMethod'),
       ACQUIS_NOTE = new('acquisitionNote'),
@@ -16,7 +17,14 @@ class CoreAcquisitionData < CollectionSpaceData
       ACQUIS_SOURCES = new('acquisitionSources'),
       CREDIT_LINE = new('creditLine'),
       FIELD_COLLECT_EVENT_NAME = new('fieldCollectionEventName'),
-      FIELD_COLLECT_EVENT_NAMES = new('fieldCollectionEventNames')
+      FIELD_COLLECT_EVENT_NAMES = new('fieldCollectionEventNames'),
+
+      # Price info section
+      GRP_PURCHASE_PRICE_VALUE = new('groupPurchasePriceValue'),
+      OBJ_OFFER_PRICE_VALUE = new('objectOfferPriceValue'),
+      OBJ_PURCHASER_OFFER_PRICE_VALUE = new('objectPurchaseOfferPriceValue'),
+      OBJ_PURCHASE_PRICE_VALUE = new('objectPurchasePriceValue'),
+      ORIG_OBJ_PURCHASE_PRICE_VALUE = new('originalObjectPurchasePriceValue')
   ]
 
 end

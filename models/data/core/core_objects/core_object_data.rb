@@ -62,9 +62,11 @@ class CoreObjectData < CollectionSpaceData
        TITLE_TRANSLATION_LANG = new('titleTranslationLanguage'),
        TITLE_TRANSLATION_SUB_GRP = new('titleTranslationSubGroup'),
 
-       # Object description info
-       VALUE = new('value'),
-       OWNERSHIP_EXCH_PRICE_VALUE = new('ownershipExchangePriceValue')
+        # Object description info
+        AGE = new('age'),
+
+        # Object history association info
+        OWNERSHIP_EXCH_PRICE_VALUE = new('ownershipExchangePriceValue')
    ]
 
 end
