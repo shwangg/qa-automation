@@ -90,7 +90,7 @@ module Page
   # @param [Hash] locator
   # @return [boolean]
   def visible?(locator)
-    @driver.find_element(locator).displayed?
+    exists?(locator) && @driver.find_element(locator).displayed?
   end
 
   # Returns the text of an element if it exists

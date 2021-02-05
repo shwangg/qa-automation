@@ -9,6 +9,7 @@ module CoreValuationControlInfoForm
   DEPLOYMENT = Deployment::CORE
 
   def ref_num_input_locator; input_locator([], CoreValuationControlData::VALUE_NUM.name) end
+  def amount_input_loc(index); input_locator([fieldset(CoreValuationControlData::VALUE_AMTS_LIST.name, index)], CoreValuationControlData::VALUE_AMT.name) end
 
   # Enters an valuation control reference number
   # @param [Hash] data_set
@@ -18,7 +19,6 @@ module CoreValuationControlInfoForm
     ref_num_options_locator = input_options_locator([], CoreValuationControlData::VALUE_NUM.name)
     wait_for_options_and_type(ref_num_input_locator, ref_num_options_locator, vc_ref_num)
   end
-
 
   # Combines all data entry methods
   # @param [Hash] data_set

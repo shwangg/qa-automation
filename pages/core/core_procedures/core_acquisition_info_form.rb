@@ -137,18 +137,18 @@ module CoreAcquisitionInfoForm
 
   # FUNDING SOURCE
 
+  def funding_value_input_locator(index); input_locator([fieldset(CoreAcquisitionData::ACQUIS_FUNDING_LIST.name, index)], CoreAcquisitionData::ACQUIS_FUNDING_VALUE.name) end
   def funding_source_input_locator(index); input_locator([fieldset(CoreAcquisitionData::ACQUIS_FUNDING_LIST.name, index)], CoreAcquisitionData::ACQUIS_FUNDING_SOURCE.name) end
 
   # Selects a set of funding sources
   # @param [Hash] data_set
   def select_funding_sources(data_set)
     fundings = data_set[CoreAcquisitionData::ACQUIS_FUNDING_LIST.name]
-    fundings && fundings.each do |funding|
-      index = fundings.index funding
+    fundings && fundings.each_with_index do |funding, index|
       logger.debug "Entering funding source #{funding} at index #{index}"
-      add_button_locator = add_button_locator([fieldset(CoreAcquisitionData::ACQUIS_FUNDING_LIST.name)])
       funding_source_options_locator = input_options_locator([fieldset(CoreAcquisitionData::ACQUIS_FUNDING_LIST.name, index)], CoreAcquisitionData::ACQUIS_FUNDING_SOURCE.name)
-      wait_for_element_and_click add_button_locator unless index.zero?
+      wait_for_element_and_click add_button_locator([fieldset(CoreAcquisitionData::ACQUIS_FUNDING_LIST.name)]) unless index.zero?
+      wait_for_element_and_type(funding_value_input_locator(index), funding[CoreAcquisitionData::ACQUIS_FUNDING_VALUE.name])
       enter_auto_complete(funding_source_input_locator(index), funding_source_options_locator, funding[CoreAcquisitionData::ACQUIS_FUNDING_SOURCE.name], 'Local Persons')
     end
   end
@@ -171,6 +171,34 @@ module CoreAcquisitionInfoForm
     end
   end
 
+  # PRICE INFORMATION
+
+  def grp_purchase_price_value_loc; input_locator([], CoreAcquisitionData::GRP_PURCHASE_PRICE_VALUE.name) end
+  def obj_offer_price_value_loc; input_locator([], CoreAcquisitionData::OBJ_OFFER_PRICE_VALUE.name) end
+  def obj_purchase_offer_price_value_loc; input_locator([], CoreAcquisitionData::OBJ_PURCHASER_OFFER_PRICE_VALUE.name) end
+  def obj_purchase_price_value_loc; input_locator([], CoreAcquisitionData::OBJ_PURCHASE_PRICE_VALUE.name) end
+  def orig_obj_purchase_price_value; input_locator([], CoreAcquisitionData::ORIG_OBJ_PURCHASE_PRICE_VALUE.name) end
+
+  def enter_grp_purchase_price(data_set)
+    wait_for_element_and_type(grp_purchase_price_value_loc, data_set[CoreAcquisitionData::GRP_PURCHASE_PRICE_VALUE.name])
+  end
+
+  def enter_obj_offer_price(data_set)
+    wait_for_element_and_type(obj_offer_price_value_loc, data_set[CoreAcquisitionData::OBJ_OFFER_PRICE_VALUE.name])
+  end
+
+  def enter_obj_purchaser_offer_price(data_set)
+    wait_for_element_and_type(obj_purchase_offer_price_value_loc, data_set[CoreAcquisitionData::OBJ_PURCHASER_OFFER_PRICE_VALUE.name])
+  end
+
+  def enter_obj_purchase_price(data_set)
+    wait_for_element_and_type(obj_purchase_price_value_loc, data_set[CoreAcquisitionData::OBJ_PURCHASE_PRICE_VALUE.name])
+  end
+
+  def enter_orig_obj_purchase_price(data_set)
+    wait_for_element_and_type(orig_obj_purchase_price_value, data_set[CoreAcquisitionData::ORIG_OBJ_PURCHASE_PRICE_VALUE.name])
+  end
+
   # Combines all data entry methods
   # @param [Hash] data_set
   def enter_acquisition_info_data(data_set)
@@ -186,6 +214,11 @@ module CoreAcquisitionInfoForm
     select_funding_sources data_set
     enter_credit_line data_set
     enter_obj_collection_info data_set
+    enter_grp_purchase_price(data_set)
+    enter_obj_offer_price(data_set)
+    enter_obj_purchaser_offer_price(data_set)
+    enter_obj_purchase_price(data_set)
+    enter_orig_obj_purchase_price(data_set)
   end
 
 end

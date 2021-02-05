@@ -1,5 +1,3 @@
-require_relative '../../../spec_helper'
-
 class CoreObjectExitPage
 
   include Logging
@@ -7,6 +5,7 @@ class CoreObjectExitPage
   include CollectionSpacePages
   include CoreSidebar
   include CoreObjectExitInfoForm
+  include CoreObjectExitDeaccessionForm
 
   DEPLOYMENT = Deployment::CORE
 

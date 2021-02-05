@@ -8,6 +8,8 @@ class CoreObjectPage
   include CoreSidebar
   include CorePages
   include CoreObjectIdInfoForm
+  include CoreObjectDescInfoForm
+  include CoreObjectHistoryAssocInfoForm
 
   DEPLOYMENT = Deployment::CORE
 

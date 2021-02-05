@@ -10,6 +10,7 @@ module CoreMediaHandlingInfoForm
 
   def media_num_input; input_locator([], CoreMediaHandlingData::ID_NUM.name) end
   def media_num_options; input_options_locator([], CoreMediaHandlingData::ID_NUM.name) end
+  def dimens_measure_value_input(indices); input_locator([fieldset(CoreMediaHandlingData::DIMENS_LIST.name, indices[0]), fieldset(CoreMediaHandlingData::MEASURE_SUB_GRP.name, indices[1])], CoreMediaHandlingData::VALUE.name) end
 
   def enter_id_number(data)
     logger.debug "Entering id number #{data[CoreMediaHandlingData::ID_NUM.name]}"
