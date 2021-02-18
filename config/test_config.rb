@@ -30,31 +30,15 @@ class TestConfig < Config
     end
   end
 
-##NEW -- calls get_page method with catagory string
-def find_page_class(string)
-  if string == "Acquisitions"
-    get_page CoreAcquisitionPage
-  elsif string == "Objects"
-    get_page CoreObjectPage
-  elsif string == "Media Handling"
-    get_page CoreMediaHandlingPage
-  elsif string == "Object Exits"
-    get_page CoreObjectExitPage
-  elsif string == "Valuation Controls"
-    get_page CoreValuationControlPage
-  end
-end
-
-  # Returns an array of test users associated with the deployment configured for testing
-  # @return [Array<User>]
-  def get_users
-    [Config.admin_user(@deployment)]
-  end
-
   # Returns the admin usr
   # @return [User]
   def get_admin_user
-    get_users.find { |u| u.role == UserRole::ADMIN }
+    Config.admin_user @deployment
+  end
+
+  # Returns a generic, role-less test user with unique username / password / name
+  def get_test_user(test_id)
+    Config.test_user test_id
   end
 
   # Given test data and a key used as ID, sets the epoch as the unique ID for the test

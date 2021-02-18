@@ -18,8 +18,8 @@ class CoreInvocablesPage < CoreToolsPage
   def invocable_list_ctx_locator; input_locator([], CoreInvocablesData::INVOCABLE_LIST_CONTEXT.name) end
   def invocable_batch_doctypes_locator; input_locator_by_label(CoreInvocablesData::INVOCABLE_DOC_TYPES_GROUP.label) end
   def invocable_batch_doctype_locator(type); {xpath: "//input[@value='#{type}']"} end
-  def invocable_report_doctypes_locator; disabled_input_locator_by_label(CoreInvocablesData::INVOCABLE_DOC_TYPES_GROUP.label) end
-  def invocable_mimetype_locator; disabled_input_locator_by_label(CoreInvocablesData::INVOCABLE_REPORT_OUTPUT_MIME.label) end
+  def invocable_report_doctypes_locator; input_locator_by_label(CoreInvocablesData::INVOCABLE_DOC_TYPES_GROUP.label) end
+  def invocable_mimetype_locator; input_locator_by_label(CoreInvocablesData::INVOCABLE_REPORT_OUTPUT_MIME.label) end
   def invocable_classname_locator;  {:xpath => '//label[contains(., "Java class")]//following-sibling::textarea'} end
   def invocable_batch_new_focus_locator; input_locator([], CoreInvocablesData::INVOCABLE_BATCH_CREATES_NEW_FOCUS.name) end
 
