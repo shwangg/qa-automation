@@ -405,11 +405,13 @@ module CollectionSpacePages
     logger.info 'Clicking the Relate Selected button'
     wait_for_element_and_click relate_selected_button
   end
+
   # LOG OUT
 
   # Logs out using the sign out link in the header
   def log_out
     logger.info 'Logging out'
+    unhide_header_bar
     wait_for_element_and_click sign_out_link
     wait_until(Config.short_wait) { url.include? '/login' }
   end
@@ -445,6 +447,10 @@ module CollectionSpacePages
   def hide_header_bar
     when_exists(header_bar, Config.medium_wait)
     @driver.execute_script("arguments[0].style.visibility='hidden';", element(header_bar))
+  end
+
+  def unhide_header_bar
+    @driver.execute_script("arguments[0].style.visibility='visible';", element(header_bar))
   end
 
   # SECONDARY TAB

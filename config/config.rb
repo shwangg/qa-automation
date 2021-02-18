@@ -11,10 +11,6 @@ class Config
   @global_settings.merge! YAML.load_file(default_settings)
   @global_settings.deep_merge! YAML.load_file(override_settings) if File.exist? override_settings
 
-  def Config.global_settings
-    @global_settings
-  end
-
   def Config.override_settings_dir
     @override_settings_dir
   end
@@ -89,8 +85,16 @@ class Config
 
   def Config.admin_user(deployment)
     settings = @global_settings[deployment.code]
-    admin_data = settings[UserRole::ADMIN.name]
-    User.new({:username => admin_data['username'], :password => admin_data['password'], :role => UserRole::ADMIN})
+    role = UserRole.new('TENANT_ADMINISTRATOR', '', deployment)
+    role.perms.transform_values! { 'D' }
+    User.new({username: settings['admin']['username'], password: settings['admin']['password'], roles: [role]})
+  end
+
+  def Config.test_user(test_id)
+    User.new(username: "#{test_id}-#{@global_settings['test_user']['username']}",
+             password: "#{@global_settings['test_user']['password']}"[0..23],
+             roles: [],
+             name: "Test User #{test_id}")
   end
 
 end

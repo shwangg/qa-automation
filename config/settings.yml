@@ -14,6 +14,10 @@ deployment: core
 
 webapps_base_url: https://webapps-qa.cspace.berkeley.edu
 
+test_user:
+  username: secret
+  password: secret
+
 core:
   base_url: https://core-dev.cspace.berkeley.edu
   admin:
@@ -25,12 +29,6 @@ core_ucb:
   admin:
     username: secret
     password: secret
-  batch_user:
-    username: batch-test@core.collectionspace.org
-    password: DataUpdates
-  report_user:
-    username: report-test@core.collectionspace.org
-    password: Reporter
 
 bampfa:
   base_url: https://bampfa-qa.cspace.berkeley.edu
@@ -39,8 +37,7 @@ bampfa:
     password: secret
 
 botgarden:
-  base_url: https://botgarden-dev.cspace.berkeley.edu/
-    #https://botgarden-qa.cspace.berkeley.edu
+  base_url: https://botgarden-qa.cspace.berkeley.edu
   admin:
     username: secret
     password: secret

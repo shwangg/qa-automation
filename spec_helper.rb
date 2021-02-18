@@ -37,6 +37,7 @@ require_relative 'models/data/core/core_procedures/core_object_exit_data'
 require_relative 'models/data/core/core_procedures/core_procedure_data'
 require_relative 'models/data/core/core_procedures/core_use_of_collections_data'
 require_relative 'models/data/core/core_procedures/core_valuation_control_data'
+require_relative 'models/record_types/core_record_types'
 require_relative 'models/user_role'
 require_relative 'models/user'
 require_relative 'models/data/core/core_tools/core_invocables_data'
@@ -110,8 +111,10 @@ Dir.glob("config/config_*").each { |file| require_relative file if file.include?
   Dir.glob("models/data/#{deployment}/#{deployment}_objects/*").each { |file| require_relative file if file.include? '.rb' }
   Dir.glob("models/data/#{deployment}/#{deployment}_procedures/*").each { |file| require_relative file if file.include? '.rb' }
   Dir.glob("models/data/#{deployment}/#{deployment}_tools/*").each { |file| require_relative file if file.include? '.rb' }
+  require_relative "models/record_types/#{deployment}_record_types.rb"
 
   Dir.glob("pages/#{deployment}/*").each { |file| require_relative file if file.include? '.rb' }
+  Dir.glob("pages/#{deployment}/#{deployment}_admin/*page.rb").each { |file| require_relative file }
   Dir.glob("pages/#{deployment}/#{deployment}_authorities/*form.rb").each { |file| require_relative file }
   Dir.glob("pages/#{deployment}/#{deployment}_authorities/*page.rb").each { |file| require_relative file }
   Dir.glob("pages/#{deployment}/#{deployment}_objects/*form.rb").each { |file| require_relative file }
