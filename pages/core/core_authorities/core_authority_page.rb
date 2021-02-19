@@ -127,8 +127,6 @@ class CoreAuthorityPage
     errors
   end
 
-  # [fieldset(CoreOrgData::ORG_TERM_GRP.name, index)]
-
   def enter_term_display_name(name, index)
     logger.debug "Entering display name '#{name}'"
     wait_for_element_and_type(term_display_name_input([]), name)

@@ -156,13 +156,16 @@ module CollectionSpacePages
     {:xpath => "//label[contains(., \"#{label}\")]/following-sibling::div//input"}
   end
 
-
   # Returns a hash containing the XPath to a text_area element, with a data-name attribute if given
   # @param [Hash] fieldset
   # @param [String] text_data_name
   # @return [Hash]
   def text_area_locator(fieldset, text_data_name=nil)
     {:xpath => "#{fieldset_xpath fieldset}//textarea#{'[@data-name="' + text_data_name + '"]' if text_data_name}"}
+  end
+
+  def rich_text_input_locator_by_label(label)
+    {xpath: "//label[contains(., \"#{label}\")]/following-sibling::div//div[contains(@class, 'ql-editor')]"}
   end
 
   # Returns a hash containing the XPath to a set of options for an input, with a data-name attribute if given

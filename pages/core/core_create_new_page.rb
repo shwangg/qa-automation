@@ -37,6 +37,7 @@ class CoreCreateNewPage
   def authority_place_tgn_link; {:id => 'place/tgn'} end
   def authority_storage_local_link; {:id => 'location/local'} end
   def authority_storage_offsite_link; {:id => 'location/offsite'} end
+  def authority_taxon_default_link; {:id => 'taxon/local'} end
   def authority_work_local_link; {:id => 'work/local'} end
   def authority_work_cona_link; {:id => 'work/cona'} end
 
@@ -195,6 +196,11 @@ class CoreCreateNewPage
   # Clicks the link to create a new offsite storage record
   def click_create_new_authority_storage_offsite
     wait_for_element_and_click authority_storage_offsite_link
+  end
+
+  def click_create_new_authority_taxon_default
+    logger.info 'Clicking Taxon Default'
+    wait_for_element_and_click authority_taxon_default_link
   end
 
   # Clicks the link to create a new local work record
