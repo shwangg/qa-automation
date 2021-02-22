@@ -10,6 +10,7 @@ class CoreSearchResultsPage
 
   def result_rows; {:xpath => '//div[@class="cspace-ui-SearchResultTable--common"]//*[@aria-label="row"]'} end
   def no_results_msg; {:xpath => '//span[text()="No records found"]'} end
+  def records_found_header_text; {:xpath => "//div[contains(@class, 'SearchResultSummary')]//div//span"} end
   def relate_selected_button; {:xpath => '//button[contains(.,"Relate selected")]'} end
   def search_filter_bar; {:xpath => '//div[contains(@class, "AdminSearchBar")]//input[contains(@class,"LineInput")]'} end
   def search_result_checkbox(identifier); {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,\"#{identifier}\")]//input"} end
