@@ -6,7 +6,8 @@ module CoreSidebar
   include Logging
 
   def section_xpath(label); "//section[contains(.,'#{label}:')]" end
-  def section_header_xpath(label); "//header[contains., '#{label}:']" end
+  def section_header_xpath(label); "//header[contains(., '#{label}:')]" end
+  def section_header_text(label); {:xpath => "//header[contains(., '#{label}:')]//h3//span"} end
   def button_locator(label); {:xpath => "//button[contains(.,'#{label}:')]"} end
   def open_related_button_locator(path); {:xpath => "//a[contains(@href,'/list/#{path}')]"} end
   def add_related_button_locator(path); {:xpath => "//a[contains(@href,'/list/#{path}')]/following-sibling::button"} end
@@ -16,7 +17,7 @@ module CoreSidebar
   def report_link_locator(label, identifier); {:xpath => "#{section_xpath(label)}//div[contains(@class,'innerScrollContainer')]//div[contains(.,'#{identifier}')]"} end
   def num_per_page_input(label); {:xpath => "#{section_xpath(label)}//input"} end
   def num_per_page_option(label); {:xpath => "#{section_xpath(label)}//input/following-sibling::div//li"} end
-  def empty_sidebar_section(label); {:xpath => "#{section_header_xpath(label)}/following-sibling::div//div[@class = 'cspace-ui-SearchResultEmpty--common']"} end 
+  def empty_sidebar_section(label); {:xpath => "#{section_header_xpath(label)}/following-sibling::div//div[@class = 'cspace-ui-SearchResultEmpty--common']"} end
 
   def show_sidebar_button; button_locator("Show sidebar") end
   def hide_sidebar_button; button_locator("Hide sidebar") end
@@ -53,7 +54,7 @@ module CoreSidebar
   def reports_report_link(report); report_link_locator('Reports', report) end
   def reports_num_per_page_input; num_per_page_input('Reports') end
   def reports_num_per_page_options; num_per_page_options('Reports') end
-  
+
 
   # Makes sure the sidebar is shown
   def show_sidebar

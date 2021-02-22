@@ -49,7 +49,7 @@ describe 'BOTGARDEN' do
   }
   obj_1_num = {BOTGARDENObjectData::OBJECT_NUM.name => object_1[BOTGARDENObjectData::OBJECT_NUM.name]}
   obj_2_num = {BOTGARDENObjectData::OBJECT_NUM.name => object_2[BOTGARDENObjectData::OBJECT_NUM.name]}
-  hash_TODO = {BOTGARDENObjectData::OBJECT_NUM.name => [obj_1_num, obj_2_num]}
+  search_data = {BOTGARDENObjectData::OBJECT_NUM.name => [obj_1_num, obj_2_num]}
 
   #XPath locators
   def accession_number; {:xpath => '//header//div//h1//a'} end
@@ -76,7 +76,7 @@ describe 'BOTGARDEN' do
       end
       @current_loc_page.click_search_link
       @search_page.select_record_type_option("Objects")
-      @search_page.enter_object_id_search_data(hash_TODO)
+      @search_page.enter_object_id_search_data(search_data)
       @search_page.click_search_button
 
       @search_results_page.wait_for_results

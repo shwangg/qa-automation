@@ -9,6 +9,7 @@ class CoreSearchPage
   include CoreSearchConservationForm
   include CoreSearchObjectsForm
   include CoreSearchOrganizationsForm
+  include CoreSearchPersonsForm
 
   DEPLOYMENT = Deployment::CORE
 
@@ -146,7 +147,7 @@ class CoreSearchPage
     logger.debug "adding a #{field} field"
     wait_for_options_and_select(single_field_input_locator(1), single_field_options_locator(1), field)
     # wait_for_options_and_select(field_is_input_locator(1), field_is_options_locator(1), searchOp)
-  end 
+  end
 
   def single_group_input_locator(rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//input[@data-name="group"])[' + rep.to_s + ']'} end
   def single_group_options_locator(rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//input[@data-name="group"])[' + rep.to_s + ']/following-sibling::div//li'} end
@@ -176,10 +177,10 @@ class CoreSearchPage
     wait_for_options_and_select(group_field_input_locator(rep), group_field_options_locator(rep), field)
     # wait_for_options_and_select(group_is_input_locator(rep), group_is_options_locator(rep), bol)
   end
-  
+
   def group_select_input_locator(index, rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//fieldset[contains(@class,"RepeatingInput")]//input[@data-name="' + index.to_s + '"])[' + rep.to_s + ']'} end
   def group_select_options_locator(index, rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//fieldset[contains(@class,"RepeatingInput")]//input[@data-name="' + index.to_s + '"])[' + rep.to_s + ']/following-sibling::div//li'} end
-  
+
   def select_from_single_group(data, rep)
     logger.debug "Selecting #{data}"
     wait_for_options_and_select(group_select_input_locator(0, rep), group_select_options_locator(0, rep), data)
