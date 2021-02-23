@@ -1,5 +1,4 @@
 require_relative '../../../spec_helper'
-deploy = Deployment::BOTGARDEN
 
 describe 'BOTGARDEN' do
 
@@ -7,17 +6,17 @@ describe 'BOTGARDEN' do
   include WebDriverManager
 
   before(:all) do
-    @test = TestConfig.new deploy
+    @test = TestConfig.new Deployment::BOTGARDEN
     @test.set_driver launch_browser
 
     @admin = @test.get_admin_user
-    @current_loc_page = @test.get_page CoreCurrentLocationPage
-    @create_new_page = @test.get_page CoreCreateNewPage
-    @login_page = @test.get_page CoreLoginPage
-    @object_page = @test.get_page CoreObjectPage
-    @search_page = @test.get_page CoreSearchPage
-    @search_results_page = @test.get_page CoreSearchResultsPage
-    @taxon_page = @test.get_page CoreUCBAuthorityPage
+    @current_loc_page = InventoryMovementPage.new @test
+    @create_new_page = CreateNewPage.new @test
+    @login_page = LoginPage.new @test
+    @object_page = ObjectPage.new @test
+    @search_page = SearchPage.new @test
+    @search_results_page = SearchResultsPage.new @test
+    @taxon_page = TaxonPage.new @test
 
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)
@@ -62,16 +61,12 @@ describe 'BOTGARDEN' do
         @search_page.click_create_new_link
         @create_new_page.click_create_new_object
         @object_page.enter_object_number record
-        if record == object_1
-          @object_page.enter_default_taxonomics record
-        else
-          @object_page.enter_taxonomics record
-        end
+        @object_page.enter_botgarden_taxonomics record
         @object_page.save_record
 
         @object_page.click_current_locations_tab
         @current_loc_page.click_create_new_button
-        @current_loc_page.enter_current_location_data(current_loc_1)
+        @current_loc_page.enter_current_location(current_loc_1)
         @current_loc_page.save_record
       end
       @current_loc_page.click_search_link
@@ -101,7 +96,7 @@ describe 'BOTGARDEN' do
   describe "Test 3 - Access code updates on Dead" do
     it "checks that Taxon is not Dead and related to records" do
       @object_page.click_sidebar_term(test_taxon)
-      expect(@taxon_page.element_value(@taxon_page.access_code_input) == "Dead").to be false
+      expect(@taxon_page.element_value(@taxon_page.botgarden_access_code_input) == "Dead").to be false
       @taxon_page.expand_sidebar_used_by
       expect(@taxon_page.elements(@taxon_page.used_by_links).length).to eql(2)
     end
@@ -112,7 +107,7 @@ describe 'BOTGARDEN' do
         @taxon_page.click_sidebar_used_by(accession_num)
         @object_page.expand_sidebar_related_proc
         @object_page.click_sidebar_related_proc("Asian")
-        @current_loc_page.enter_current_location_data(dead_rec)
+        @current_loc_page.enter_current_location(dead_rec)
         @current_loc_page.save_record
         @current_loc_page.wait_for_notification("Deleted")
         expect(@current_loc_page.exists? related_proc_header(accession_num)).to be true
@@ -123,8 +118,8 @@ describe 'BOTGARDEN' do
         @search_page.enter_display_names([test_taxon])
         @search_page.click_search_button
         @search_results_page.click_result(test_taxon)
-        @taxon_page.when_displayed(@taxon_page.access_code_input, Config.short_wait)
-        expect(@taxon_page.element_value(@taxon_page.access_code_input) == "dead").to be bool
+        @taxon_page.when_displayed(@taxon_page.botgarden_access_code_input, Config.short_wait)
+        expect(@taxon_page.element_value(@taxon_page.botgarden_access_code_input) == "dead").to be bool
       end
     end
   end
@@ -138,17 +133,17 @@ describe 'BOTGARDEN' do
       @search_results_page.click_result(object_1[BOTGARDENObjectData::OBJECT_NUM.name])
       @object_page.click_current_locations_tab
       @current_loc_page.click_create_new_button
-      @current_loc_page.enter_current_location_data(revived_rec)
+      @current_loc_page.enter_current_location(revived_rec)
       @current_loc_page.save_record
       @current_loc_page.click_sidebar_term(test_taxon)
-      expect(@taxon_page.element_value(@taxon_page.access_code_input) == "dead").to be false
+      expect(@taxon_page.element_value(@taxon_page.botgarden_access_code_input) == "dead").to be false
 
       @taxon_page.expand_sidebar_used_by
       @taxon_page.click_sidebar_used_by(object_1[BOTGARDENObjectData::OBJECT_NUM.name])
       @object_page.refresh_page
-      @object_page.when_displayed(@object_page.dead_flag_input, Config.short_wait)
+      @object_page.when_displayed(@object_page.botgarden_dead_flag_input, Config.short_wait)
       sleep Config.click_wait
-      expect(@object_page.element_value(@object_page.dead_flag_input) == "no").to be true
+      expect(@object_page.element_value(@object_page.botgarden_dead_flag_input) == "no").to be true
     end
   end
 

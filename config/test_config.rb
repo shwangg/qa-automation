@@ -7,27 +7,11 @@ class TestConfig < Config
   attr_accessor :deployment, :driver
 
   def initialize(deployment=nil)
-    @deployment = deployment || Config.deployment
+    @deployment = deployment
   end
 
   def set_driver(driver)
     @driver = driver
-  end
-
-  # Returns the page object associated with the deployment configured for testing. If testing the Core create new object
-  # page, returns an object of the Core class of the create new object page. If another deployment is to be tested, then
-  # a sub-class of the Core class should exist with its customized UI references. This allows the same set of tests to
-  # interact with different versions of the same UI.
-  # @param [Class] core_klass
-  # @return [Object]
-  def get_page(core_klass)
-    if @deployment == Deployment::CORE
-      core_klass.new @driver
-    else
-      subs = ObjectSpace.each_object(Class).select { |klass| klass < core_klass }
-      sub = subs.find { |p| p::DEPLOYMENT == @deployment }
-      sub.new @driver
-    end
   end
 
   # Returns the admin usr

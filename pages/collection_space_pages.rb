@@ -1,5 +1,3 @@
-require_relative '../spec_helper'
-
 module CollectionSpacePages
 
   include Page
@@ -599,7 +597,7 @@ module CollectionSpacePages
   # PANELS
 
   def is_collapsed(panel_label)
-    return exists? collapsed_panel_locator panel_label
+    exists? collapsed_panel_locator panel_label
   end
 
   def toggle_panel(panel_label)
@@ -620,6 +618,68 @@ module CollectionSpacePages
     if is_collapsed label
       toggle_subpanel label
     end
+  end
+
+  def primary_tab; {:xpath => '//button[text()="Primary Record"]'} end
+  def current_locations_tab; {:xpath => '//button[text()="Current Locations"]'} end
+  def exhibition_tab; {:xpath => '//button[text()="Exhibitions"]'} end
+  def related_tab_button(relate); {:xpath => '//div[contains(@class,"RecordBrowser")]//button[contains(., "' + relate + '")]'} end
+  def related_panel_rows; {:xpath => '//div[contains(@class,"cspace-ui-RelatedRecordBrowser")]//div[@class="cspace-ui-SearchResultTable--common"]//*[@aria-label="row"]'} end
+  def nth_result_row(value); {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][#{value}]"} end
+  def close_tab(label); {:xpath => "//button[text() = '#{label}']//following-sibling::button[@aria-label = 'close']"} end
+  def movement_secondary_tab; {:xpath => '//button[contains(text(), "Inventory") and contains(text(), "Movement")]'} end
+
+  # Clicks the Primary Record tab on a record
+  def click_primary_record_tab
+    logger.info 'Clicking the primary record tab'
+    wait_for_element_and_click primary_tab
+  end
+
+  #Clicks the secondary 'Current Locations' tab on a record
+  def click_current_locations_tab
+    logger.info 'Clicking the secondary Current Locations tab'
+    when_displayed(primary_tab, Config.short_wait)
+    wait_for_element_and_click(current_locations_tab, 2)
+  rescue
+    select_related_type 'Current Locations'
+  end
+
+  #Clicks the secondary 'Exhibitions' tab on a record
+  def click_exhibitions_tab
+    logger.info 'Clicking the secondary Exhibitions tab'
+    when_displayed(primary_tab, Config.short_wait)
+    wait_for_element_and_click(exhibition_tab, 2)
+  rescue
+    select_related_type 'Exhibitions'
+  end
+
+  # Clicks the secondary 'Location/Movement/Inventory' tab on a record
+  def click_movement_secondary_tab
+    logger.info 'Clicking the secondary Movement tab'
+    when_displayed(primary_tab, Config.short_wait)
+    wait_for_element_and_click(movement_secondary_tab, 2)
+  rescue
+    select_related_type 'Location/Movement/Inventory'
+  end
+
+  def click_pahma_movement_secondary_tab
+    logger.info 'Clicking the secondary Movement tab'
+    when_displayed(primary_tab, Config.short_wait)
+    wait_for_element_and_click(movement_secondary_tab, 2)
+  rescue
+    select_related_type 'Inventory/Movement'
+  end
+
+  def hit_related_tab(relate)
+    logger.info 'Clicking link to Create New' + relate
+    scroll_to_top
+    wait_for_element_and_click related_tab_button(relate)
+  end
+
+  # Closes the specified secondary tab on a record
+  def click_close_tab(label)
+    logger.info "Closing the secondary #{label} tab"
+    wait_for_element_and_click close_tab(label)
   end
 
 end

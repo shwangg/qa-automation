@@ -5,17 +5,15 @@ describe 'Cataloging' do
   include Logging
   include WebDriverManager
 
-  test_run = TestConfig.new
-  test_id = Time.now.to_i
-
   before(:all) do
-    test_run.set_driver launch_browser
-    @admin = test_run.get_admin_user
-    @login_page = test_run.get_page CoreLoginPage
-    @create_new_page = test_run.get_page CoreCreateNewPage
-    @conservation_page = test_run.get_page CoreConservationPage
-    @search_page = test_run.get_page CoreSearchPage
-    @search_results_page = test_run.get_page CoreSearchResultsPage
+    @test = TestConfig.new Deployment::CORE
+    @test.set_driver launch_browser
+    @admin = @test.get_admin_user
+    @login_page = LoginPage.new @test
+    @create_new_page = CreateNewPage.new @test
+    @conservation_page = ConservationPage.new @test
+    @search_page = SearchPage.new @test
+    @search_results_page = SearchResultsPage.new @test
 
     @test_0 = {
       CoreConservationData::CONS_REF_NUM.name => 'QA TEST CONSERVATION ALL FIELDS',
@@ -63,7 +61,7 @@ describe 'Cataloging' do
     end
   end
 
-  after(:all) { quit_browser test_run.driver }
+  after(:all) { quit_browser @test.driver }
 
   describe 'advanced search fields' do
 

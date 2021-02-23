@@ -10,8 +10,6 @@ timeout:
   medium: 30
   long: 240
 
-deployment: core
-
 webapps_base_url: https://webapps-qa.cspace.berkeley.edu
 
 test_user:

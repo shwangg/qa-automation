@@ -71,10 +71,6 @@ class Config
 
   # DEPLOYMENT SPECIFIC SETTINGS
 
-  def Config.deployment
-    Deployment::DEPLOYMENTS.find { |m| m.code == @global_settings['deployment'] }
-  end
-
   def Config.base_url(deployment)
     @global_settings[deployment.code]['base_url']
   end

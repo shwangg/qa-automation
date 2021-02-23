@@ -1,9 +1,8 @@
 require_relative '../spec_helper'
 
-
-test_run = TestConfig.new
+test_run = TestConfig.new Deployment::CORE
 test_data = test_run.create_data_entry_templates_test_data
-index = 0;
+index = 0
 pages = []
 temp_pages = []
 creates = []
@@ -47,43 +46,40 @@ describe 'CollectionSpace' do
 
   include Logging
   include WebDriverManager
-  include Page 
-  include CollectionSpacePages
 
 
   before(:all) do
-    test_run = TestConfig.new
     test_run.set_driver launch_browser
     @admin = test_run.get_admin_user
-    @login_page = test_run.get_page CoreLoginPage
-    @search_page = test_run.get_page CoreSearchPage
-    @result_page = test_run.get_page CoreSearchResultsPage
-    @create_new_page = test_run.get_page CoreCreateNewPage
+    @login_page = LoginPage.new test_run
+    @search_page = SearchPage.new test_run
+    @result_page = SearchResultsPage.new test_run
+    @create_new_page = CreateNewPage.new test_run
 
-    @object_page = test_run.get_page CoreObjectPage
+    @object_page = ObjectPage.new test_run
 
-    @acquisition_page = test_run.get_page CoreAcquisitionPage
-    @condition_page = test_run.get_page CoreConditionCheckPage
-    @conservation_page = test_run.get_page CoreConservationPage
-    @exhibition_page = test_run.get_page CoreExhibitionPage
-    @group_page = test_run.get_page CoreGroupPage
-    @intake_page = test_run.get_page CoreIntakePage
-    @inventory_page = test_run.get_page CoreInventoryMovementPage
-    @loan_in_page = test_run.get_page CoreLoanInPage
-    @loan_out_page = test_run.get_page CoreLoanOutPage
-    @media_page = test_run.get_page CoreMediaHandlingPage
-    @object_exit_page = test_run.get_page CoreObjectExitPage
-    @collections_page = test_run.get_page CoreUseOfCollectionsPage
-    @valuation_page = test_run.get_page CoreValuationPage
+    @acquisition_page = AcquisitionPage.new test_run
+    @condition_page = ConditionCheckPage.new test_run
+    @conservation_page = ConservationPage.new test_run
+    @exhibition_page = ExhibitionPage.new test_run
+    @group_page = GroupPage.new test_run
+    @intake_page = IntakePage.new test_run
+    @inventory_page = InventoryMovementPage.new test_run
+    @loan_in_page = LoanInPage.new test_run
+    @loan_out_page = LoanOutPage.new test_run
+    @media_page = MediaHandlingPage.new test_run
+    @object_exit_page = ObjectExitPage.new test_run
+    @collections_page = UseOfCollectionsPage.new test_run
+    @valuation_page = ValuationControlPage.new test_run
 
-    @auth_page = test_run.get_page CoreAuthorityPage
-    @citation_page = test_run.get_page CoreCitationPage
-    @concept_page = test_run.get_page CoreConceptPage
-    @org_page = test_run.get_page CoreOrganizationPage
-    @person_page = test_run.get_page CorePersonPage
-    @place_page = test_run.get_page CorePlacePage
-    @storage_page = test_run.get_page CoreStoragePage
-    @work_page = test_run.get_page CoreWorkPage
+    @auth_page = AuthorityPage.new test_run
+    @citation_page = CitationPage.new test_run
+    @concept_page = ConceptPage.new test_run
+    @org_page = OrganizationPage.new test_run
+    @person_page = PersonPage.new test_run
+    @place_page = PlacePage.new test_run
+    @storage_page = StoragePage.new test_run
+    @work_page = WorkPage.new test_run
 
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)
@@ -198,8 +194,8 @@ describe 'CollectionSpace' do
             creates[index].()
             id1 = Time.now.to_i
             test.merge!({ids[index] => id1})
-            data_input_errors = pages[index].enter_number_and_text test if (index != 14 && index != 15)
-            data_input_errors = pages[index].enter_number_and_title test if (index == 14 || index == 15)
+            pages[index].enter_number_and_text test if (index != 14 && index != 15)
+            pages[index].enter_number_and_title test if (index == 14 || index == 15)
             Config.click_wait
             pages[index].hit_tab
             begin
@@ -218,8 +214,8 @@ describe 'CollectionSpace' do
             dup = {}
             id2 = Time.now.to_i
             dup.merge!({ids[index] => id2})
-            data_input_errors = pages[index].enter_number dup if index != 7
-            data_input_errors = pages[index].enter_number test if index == 7
+            pages[index].enter_number dup if index != 7
+            pages[index].enter_number test if index == 7
             pages[index].hit_tab
             begin
               pages[index].click_save_button if index != 7
@@ -278,7 +274,7 @@ describe 'CollectionSpace' do
         id = Time.now.to_i
         temp.merge!({CoreObjectData::OBJECT_NUM.name => id}) if i != 2
         temp.merge!({CoreIntakeData::ENTRY_NUMBER.name => id}) if i == 2
-        data_input_errors = temp_pages[i].enter_number temp
+        temp_pages[i].enter_number temp
         temp_pages[i].click_save_button
         temp_pages[i].click_search_link
         @search_page.select_record_type_option("All Records")
@@ -286,7 +282,7 @@ describe 'CollectionSpace' do
         @result_page.wait_for_results
         @result_page.click_result(id)
         @result_page.click_clone_button 
-        data_input_errors = temp_pages[i].enter_number temp
+        temp_pages[i].enter_number temp
         temp_pages[i].click_save_button
         temp_pages[i].select_template('Standard Template')
         @result_page.delete_record
@@ -306,7 +302,7 @@ describe 'CollectionSpace' do
       temp = {}
       id = Time.now.to_i
       temp.merge!({CoreObjectData::OBJECT_NUM.name => id})
-      data_input_errors = @object_page.enter_number temp
+      @object_page.enter_number temp
       @object_page.click_save_button
       # tab is 2 less than manually tested on website
       for i in 0..54
