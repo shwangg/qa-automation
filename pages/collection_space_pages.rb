@@ -33,6 +33,7 @@ module CollectionSpacePages
   def invoke_button; {:name => 'invoke'} end
   def use_selection_button; {:name => 'accept'} end
   def clone_button; {:name => 'clone'} end
+  def timestamp; {:xpath => '//div[@class = "cspace-ui-RecordHistory--common"]//button//span'} end
   def header_bar; {:xpath => '//header/div'} end
   def page_h1; {:xpath => '//h1'} end
   def page_h2; {:xpath => '//h2'} end
@@ -63,9 +64,6 @@ module CollectionSpacePages
   def toggle_panel_button(label); {:xpath => "//section[contains(@class, \"Panel\")][contains(., \"#{label}\")]//button"} end
   def collapsed_panel_locator(label); {:xpath => "//section[contains(@class, 'collapsed')][contains(., \"#{label}\")]"} end
   def toggle_subpanel_button(label); {:xpath => "//section//section[contains(@class, \"Panel\")][contains(., \"#{label}\")]//button"} end
-
-  # To be used when checking if the rest of a page is inactive/greyed out when a dialog box is open
-  def inactive_page_check; {:xpath => '//div[@aria-hidden = "true"]'} end
 
   # To be used when checking if the rest of a page is inactive/greyed out when a dialog box is open
   def inactive_page_check; {:xpath => '//div[@aria-hidden = "true"]'} end
