@@ -43,7 +43,8 @@ describe 'BAMPFA' do
     }
 
     @login_page.load_page
-    @login_page.log_in(@admin.username, @admin.password)
+    @login_page.log_in("sehyunhwang@berkeley.edu", "cspacestudents")
+      #@admin.username, @admin.password)
 
     @search_page.click_create_new_link
     @create_new_page.click_create_new_object
