@@ -63,7 +63,6 @@ if test_run.deployment == Deployment::CORE
     dialog_record_header = {:xpath => '(//div[@role = "dialog"]//div[contains(@class,"SearchResultSummary")]//span)[1]'}
     editing_button = {:xpath => "//button[contains(., 'Editing')]"}
     header_record_label = {:xpath => "//header//div//h1"}
-    records_found_header_text = {:xpath => "//div[contains(@class, 'SearchResultSummary')]//div"}
     related_objects_header = {:xpath => "//section[contains(.,'Related Objects')]//header"}
     notification_time_stamp = {:xpath => '//div[contains(@class, "NotificationBar")]//header'}
     page_size_chooser = {:xpath => '//footer//div[contains(@class, "PageSizeChooser")]'}

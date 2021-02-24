@@ -5,7 +5,6 @@ class BAMPFAObjectPage < CoreUCBObjectPage
   include Logging
   include Page
   include CollectionSpacePages
-#  include BOTGARDENPages
   include BAMPFASidebar
   include BAMPFAObjectIdInfoForm
 
