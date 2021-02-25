@@ -1,5 +1,4 @@
 require_relative '../../../spec_helper'
-deploy = Deployment::BOTGARDEN
 
 describe 'BOTGARDEN' do
 
@@ -7,18 +6,18 @@ describe 'BOTGARDEN' do
   include WebDriverManager
 
   before(:all) do
-    @test = TestConfig.new deploy
+    @test = TestConfig.new Deployment::BOTGARDEN
     @test.set_driver launch_browser
-    @test_data = @test.update_dead_flag_listener_data deploy
+    @test_data = @test.update_dead_flag_listener_data Deployment::BOTGARDEN
 
     #Initialize pages
     @admin = @test.get_admin_user
-    @current_loc_page = @test.get_page CoreCurrentLocationPage
-    @create_new_page = @test.get_page CoreCreateNewPage
-    @login_page = @test.get_page CoreLoginPage
-    @object_page = @test.get_page CoreObjectPage
-    @search_page = @test.get_page CoreSearchPage
-    @search_results_page = @test.get_page CoreSearchResultsPage
+    @current_loc_page = InventoryMovementPage.new @test
+    @create_new_page = CreateNewPage.new @test
+    @login_page = LoginPage.new @test
+    @object_page = ObjectPage.new @test
+    @search_page = SearchPage.new @test
+    @search_results_page = SearchResultsPage.new @test
 
     #Initialize test data
     @obj_record = {
@@ -44,13 +43,13 @@ describe 'BOTGARDEN' do
     @search_page.click_create_new_link
     @create_new_page.click_create_new_object
     @object_page.enter_object_number @obj_record
-    @object_page.enter_default_taxonomics @obj_record
+    @object_page.enter_botgarden_taxonomics @obj_record
     @object_page.save_record
 
     @object_page.click_current_locations_tab
     [@current_loc_1, @current_loc_2].each do |record|
       @current_loc_page.click_create_new_button
-      @current_loc_page.enter_current_location_data record
+      @current_loc_page.enter_botgarden_current_location_data record
       @current_loc_page.save_record
     end
 
@@ -61,10 +60,10 @@ describe 'BOTGARDEN' do
 
     @object_page.click_primary_record_tab
 
-    @object_page.when_displayed(@object_page.dead_flag_input, Config.short_wait)
+    @object_page.when_displayed(@object_page.botgarden_dead_flag_input, Config.short_wait)
     sleep Config.click_wait
-    expect(@object_page.element_value(@object_page.dead_flag_input) == "no").to be true
-    expect(@object_page.enabled? @object_page.dead_flag_input)
+    expect(@object_page.element_value(@object_page.botgarden_dead_flag_input) == "no").to be true
+    expect(@object_page.enabled? @object_page.botgarden_dead_flag_input)
     expect(@object_page.elements(@object_page.related_proc_links).length).to eql(2)
   end
 
@@ -72,16 +71,16 @@ describe 'BOTGARDEN' do
     [[1, "no"], [0,"yes"]].each do |records_left, dead_flag|
       @object_page.close_notifications_bar
       @object_page.click_sidebar_related_proc("Asian")
-      @current_loc_page.select_action_code(@new_action)
+      @current_loc_page.select_botgarden_action_code(@new_action)
       @current_loc_page.save_record
       @current_loc_page.wait_for_notification("Deleted")
       expect(@current_loc_page.elements(@search_results_page.result_rows).length).to eql(records_left)
 
       @current_loc_page.wait_for_element_and_click(accession_number)
 
-      @object_page.when_displayed(@object_page.dead_flag_input, Config.medium_wait)
+      @object_page.when_displayed(@object_page.botgarden_dead_flag_input, Config.medium_wait)
       sleep Config.click_wait
-      expect(@object_page.element_value(@object_page.dead_flag_input) == dead_flag).to be true
+      expect(@object_page.element_value(@object_page.botgarden_dead_flag_input) == dead_flag).to be true
     end
     expect(@object_page.elements(@object_page.related_proc_links).length).to eql(0)
   end
@@ -89,14 +88,14 @@ describe 'BOTGARDEN' do
   it "Dead flag resets to no when new related Current Location added to Accession marked Dead" do
     @object_page.click_current_locations_tab
     @current_loc_page.click_create_new_button
-    @current_loc_page.enter_current_location_data @current_loc_3
+    @current_loc_page.enter_botgarden_current_location_data @current_loc_3
     @current_loc_page.save_record
     @current_loc_page.click_primary_record_tab
 
     @object_page.refresh_page
-    @object_page.when_displayed(@object_page.dead_flag_input, Config.medium_wait)
+    @object_page.when_displayed(@object_page.botgarden_dead_flag_input, Config.medium_wait)
     sleep Config.click_wait
-    expect(@object_page.element_value(@object_page.dead_flag_input) == "no").to be true
+    expect(@object_page.element_value(@object_page.botgarden_dead_flag_input) == "no").to be true
   end
 
 end

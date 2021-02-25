@@ -1,7 +1,6 @@
 require_relative '../../../spec_helper'
 
-# [Deployment::CORE_UCB, Deployment::PAHMA].each do |deploy|
-[Deployment::PAHMA].each do |deploy|
+[Deployment::CORE_UCB, Deployment::PAHMA].each do |deploy|
 
   describe 'Use of Collection records' do
 
@@ -15,12 +14,12 @@ require_relative '../../../spec_helper'
 
       @config.set_driver launch_browser
       @admin = @config.get_admin_user
-      @login_page = @config.get_page CoreLoginPage
-      @create_new_page = @config.get_page CoreCreateNewPage
-      @search_page = @config.get_page CoreSearchPage
-      @search_results_page = @config.get_page CoreSearchResultsPage
-      @use_of_collections_page = @config.get_page CoreUseOfCollectionsPage
-      @authority_page = CoreAuthorityPage.new @config.driver
+      @login_page = LoginPage.new @config
+      @create_new_page = CreateNewPage.new @config
+      @search_page = SearchPage.new @config
+      @search_results_page = SearchResultsPage.new @config
+      @use_of_collections_page = UseOfCollectionsPage.new @config
+      @authority_page = AuthorityPage.new @config
 
       @uoc_0 = @test_data[0]
       @uoc_1 = @test_data[1]
@@ -86,22 +85,58 @@ require_relative '../../../spec_helper'
 
       before(:all) { @use_of_collections_page.revert_record if deploy == Deployment::CORE_UCB }
 
-      it('allow a Reference Number to be added') { @use_of_collections_page.enter_reference_nbr @uoc_1 }
+      it('allow a Reference Number to be added') do
+        if deploy == Deployment::PAHMA
+          @use_of_collections_page.enter_pahma_reference_nbr @uoc_1
+        else
+          @use_of_collections_page.enter_reference_nbr @uoc_1
+        end
+      end
       it('allow a Project ID to be selected') { @use_of_collections_page.select_project_id @uoc_1 }
       it("allow #{(deploy == Deployment::PAHMA) ? 'Types of Use' : 'Methods'} to be added") { @use_of_collections_page.select_methods @uoc_1 }
       it('allow Collection Types to be added') { @use_of_collections_page.select_collection_types @uoc_1 }
       it("allow #{(deploy == Deployment::PAHMA) ? 'Research Types' : 'Material Types'} to be added") { @use_of_collections_page.select_material_types @uoc_1 }
-      it('allow Users to be added') { @use_of_collections_page.enter_users @uoc_1 }
+      it('allow Users to be added') do
+        if deploy == Deployment::PAHMA
+          @use_of_collections_page.enter_pahma_users @uoc_1
+        else
+          @use_of_collections_page.enter_users @uoc_1
+        end
+      end
       it('allow a Title to be added') { @use_of_collections_page.enter_title @uoc_1 }
       it('allow a Date Requested to be added') { @use_of_collections_page.enter_date_requested @uoc_1 }
       it('allow a Date Completed to be added') { @use_of_collections_page.enter_date_completed @uoc_1 }
-      it('allow Occasions to be added') { @use_of_collections_page.enter_occasions @uoc_1 }
+      it('allow Occasions to be added') do
+        if deploy == Deployment::PAHMA
+          @use_of_collections_page.enter_pahma_occasions @uoc_1
+        else
+          @use_of_collections_page.enter_occasions @uoc_1
+        end
+      end
       it('allow a Project Description to be added') { @use_of_collections_page.enter_project_desc @uoc_1 }
-      it('allow Authorizations to be added') { @use_of_collections_page.enter_authorizations @uoc_1 }
+      it('allow Authorizations to be added') do
+        if deploy == Deployment::PAHMA
+          @use_of_collections_page.enter_pahma_authorizations @uoc_1
+        else
+          @use_of_collections_page.enter_authorizations @uoc_1
+        end
+      end
       it('allow Use Dates to be added') { @use_of_collections_page.enter_use_dates @uoc_1 }
       it('allow an End Date to be added') { @use_of_collections_page.enter_end_date @uoc_1 }
-      it('allow Staff to be added') { @use_of_collections_page.enter_staff @uoc_1 }
-      it('allow Locations to be added') { @use_of_collections_page.enter_locations @uoc_1 }
+      it('allow Staff to be added') do
+        if deploy == Deployment::PAHMA
+          @use_of_collections_page.enter_pahma_staff @uoc_1
+        else
+          @use_of_collections_page.enter_staff @uoc_1
+        end
+      end
+      it('allow Locations to be added') do
+        if deploy == Deployment::PAHMA
+          @use_of_collections_page.enter_pahma_locations @uoc_1
+        else
+          @use_of_collections_page.enter_locations @uoc_1
+        end
+      end
       it('allow a Note to be added') { @use_of_collections_page.enter_note @uoc_1 }
       it('allow Provisos to be added') { @use_of_collections_page.enter_provisos @uoc_1 }
       it('allow Obligations Fulfilled to be checked') { @use_of_collections_page.click_obligations_fulfilled }
@@ -179,22 +214,22 @@ require_relative '../../../spec_helper'
 
     context 'when edited' do
 
-      it('allow a Reference Number to be edited') { @use_of_collections_page.enter_reference_nbr @uoc_2 }
+      it('allow a Reference Number to be edited') { @use_of_collections_page.enter_pahma_reference_nbr @uoc_2 }
       it('allow a Project ID to be removed') { @use_of_collections_page.select_project_id @uoc_2 }
       it("allow #{(deploy == Deployment::PAHMA) ? 'Types of Use' : 'Methods'} to be removed") { @use_of_collections_page.select_methods @uoc_2 }
       it('allow Collection Types to be removed') { @use_of_collections_page.select_collection_types @uoc_2 }
       it("allow #{(deploy == Deployment::PAHMA) ? 'Research Types' : 'Material Types'} to be removed") { @use_of_collections_page.select_material_types @uoc_2 }
-      it('allow Users to be removed') { @use_of_collections_page.enter_users @uoc_2 }
+      it('allow Users to be removed') { @use_of_collections_page.enter_pahma_users @uoc_2 }
       it('allow a Title to be removed') { @use_of_collections_page.enter_title @uoc_2 }
       it('allow a Date Requested to be removed') { @use_of_collections_page.enter_date_requested @uoc_2 }
       it('allow a Date Completed to be removed') { @use_of_collections_page.enter_date_completed @uoc_2 }
-      it('allow Occasions to be removed') { @use_of_collections_page.enter_occasions @uoc_2 }
+      it('allow Occasions to be removed') { @use_of_collections_page.enter_pahma_occasions @uoc_2 }
       it('allow a Project Description to be removed') { @use_of_collections_page.enter_project_desc @uoc_2 }
-      it('allow Authorizations to be removed') { @use_of_collections_page.enter_authorizations @uoc_2 }
+      it('allow Authorizations to be removed') { @use_of_collections_page.enter_pahma_authorizations @uoc_2 }
       it('allow Use Dates to be removed') { @use_of_collections_page.enter_use_dates @uoc_2 }
       it('allow an End Date to be removed') { @use_of_collections_page.enter_end_date @uoc_2 }
-      it('allow Staff to be removed') { @use_of_collections_page.enter_staff @uoc_2 }
-      it('allow Locations to be removed') { @use_of_collections_page.enter_locations @uoc_2 }
+      it('allow Staff to be removed') { @use_of_collections_page.enter_pahma_staff @uoc_2 }
+      it('allow Locations to be removed') { @use_of_collections_page.enter_pahma_locations @uoc_2 }
       it('allow a Note to be removed') { @use_of_collections_page.enter_note @uoc_2 }
       it('allow Provisos to be removed') { @use_of_collections_page.enter_provisos @uoc_2 }
       it('allow Fees Charged to be removed') { @use_of_collections_page.enter_fees @uoc_2 }
@@ -233,7 +268,7 @@ require_relative '../../../spec_helper'
       end
 
       it 'do not allow the reference number to be removed' do
-        @use_of_collections_page.enter_reference_nbr({CoreUseOfCollectionsData::REFERENCE_NBR.name => ''})
+        @use_of_collections_page.enter_pahma_reference_nbr({ CoreUseOfCollectionsData::REFERENCE_NBR.name => ''})
         @use_of_collections_page.hit_tab
         @use_of_collections_page.wait_for_notification 'Reference number is required. Please enter a value.'
         expect(@use_of_collections_page.enabled? @use_of_collections_page.save_button).to be false
@@ -248,7 +283,7 @@ require_relative '../../../spec_helper'
           @use_of_collections_page.revert_record
           @use_of_collections_page.click_create_new_link
           @create_new_page.click_create_new_use_of_collections
-          @use_of_collections_page.enter_reference_nbr @uoc_3
+          @use_of_collections_page.enter_pahma_reference_nbr @uoc_3
           @use_of_collections_page.save_record
         end
 
@@ -283,12 +318,12 @@ require_relative '../../../spec_helper'
         before(:all) do
           @search_results_page.click_create_new_link
           @create_new_page.click_create_new_use_of_collections
-          @use_of_collections_page.enter_reference_nbr @uoc_4
+          @use_of_collections_page.enter_pahma_reference_nbr @uoc_4
           @use_of_collections_page.save_record
 
           @use_of_collections_page.click_create_new_link
           @create_new_page.click_create_new_use_of_collections
-          @use_of_collections_page.enter_reference_nbr @uoc_5
+          @use_of_collections_page.enter_pahma_reference_nbr @uoc_5
           @use_of_collections_page.save_record
 
           @use_of_collections_page.click_add_related_procedure
@@ -308,7 +343,7 @@ require_relative '../../../spec_helper'
         @search_page.hit_escape
         @search_page.click_create_new_link
         @create_new_page.click_create_new_use_of_collections
-        @use_of_collections_page.enter_reference_nbr @uoc_6
+        @use_of_collections_page.enter_pahma_reference_nbr @uoc_6
         @use_of_collections_page.save_record
       end
 

@@ -5,21 +5,20 @@ describe 'Reports' do
   include Logging
   include WebDriverManager
 
-  test_run = TestConfig.new Deployment::CORE_UCB
-  test_id = Time.now.to_i
-
   before(:all) do
-    test_run.set_driver launch_browser
-    @admin = test_run.get_admin_user
-    @reports_user = test_run.get_test_user test_id
+    test_id = Time.now.to_i
+    @test = TestConfig.new Deployment::CORE_UCB
+    @test.set_driver launch_browser
+    @admin = @test.get_admin_user
+    @reports_user = @test.get_test_user test_id
 
-    @login_page = test_run.get_page CoreLoginPage
-    @create_new_page = test_run.get_page CoreCreateNewPage
-    @reports_page = test_run.get_page CoreInvocablesPage
-    @search_page = test_run.get_page CoreSearchPage
-    @tools_page = test_run.get_page CoreToolsPage
-    @admin_page = test_run.get_page CoreAdminPage
-    @search_results_page = test_run.get_page CoreSearchResultsPage
+    @login_page = LoginPage.new @test
+    @create_new_page = CreateNewPage.new @test
+    @reports_page = InvocablesPage.new @test
+    @search_page = SearchPage.new @test
+    @tools_page = ToolsPage.new @test
+    @admin_page = AdminPage.new @test
+    @search_results_page = SearchResultsPage.new @test
 
     @test_0 = {
         CoreInvocablesData::INVOCABLE_NAME.name => 'Use of Collections Approval Status Report',
@@ -38,7 +37,7 @@ describe 'Reports' do
     }
     @no_perms_role = UserRole.new("NO_REPORT_PERMISSIONS_#{test_id}",
                                   'No Permissions to run or invoke reports',
-                                  test_run.deployment,
+                                  @test.deployment,
                                   @no_perms)
 
     @full_perms = {
@@ -49,7 +48,7 @@ describe 'Reports' do
     }
     @full_perms_role = UserRole.new("CAN_EDIT_CAN_RUN_#{test_id}",
                                     'A role with CRUDL permissions',
-                                    test_run.deployment,
+                                    @test.deployment,
                                     @full_perms)
 
     @invoke_perms = {
@@ -60,7 +59,7 @@ describe 'Reports' do
     }
     @invoke_perms_role = UserRole.new("CANT_EDIT_CAN_RUN_UPDATES_#{test_id}",
                                       'A role with only Invocation permissions',
-                                      test_run.deployment,
+                                      @test.deployment,
                                       @invoke_perms)
 
     @edit_perms = {
@@ -70,7 +69,7 @@ describe 'Reports' do
     }
     @edit_perms_role = UserRole.new("CAN_EDIT_CANT_RUN_#{test_id}",
                                     'A role with only Edit permissions',
-                                    test_run.deployment,
+                                    @test.deployment,
                                     @edit_perms)
 
     # Initial Setup of Roles

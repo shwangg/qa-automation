@@ -5,21 +5,20 @@ describe 'Batch' do
   include Logging
   include WebDriverManager
 
-  test_run = TestConfig.new Deployment::PAHMA
-  test_id = Time.now.to_i
-
   before(:all) do
-    test_run.set_driver launch_browser
-    @admin = test_run.get_admin_user
+    test_id = Time.now.to_i
+    @test = TestConfig.new Deployment::PAHMA
+    @test.set_driver launch_browser
+    @admin = @test.get_admin_user
     @updates_user = Config.test_user test_id
 
-    @login_page = test_run.get_page CoreLoginPage
-    @create_new_page = test_run.get_page CoreCreateNewPage
-    @batch_page = test_run.get_page CoreInvocablesPage
-    @search_page = test_run.get_page CoreSearchPage
-    @tools_page = test_run.get_page CoreToolsPage
-    @admin_page = test_run.get_page CoreAdminPage
-    @search_results_page = test_run.get_page CoreSearchResultsPage
+    @login_page = LoginPage.new @test
+    @create_new_page = CreateNewPage.new @test
+    @batch_page = InvocablesPage.new @test
+    @search_page = SearchPage.new @test
+    @tools_page = ToolsPage.new @test
+    @admin_page =  AdminPage.new @test
+    @search_results_page = SearchResultsPage.new @test
 
     @test_0 = {
       CoreInvocablesData::INVOCABLE_NAME.name => 'Merge Authority Items',
@@ -40,7 +39,7 @@ describe 'Batch' do
     }
     @no_perms_role = UserRole.new("NO_BATCH_PERMISSIONS_#{test_id}",
                                   'No Permissions to run or invoke data updates',
-                                  test_run.deployment,
+                                  @test.deployment,
                                   @no_perms)
 
     @full_perms = {
@@ -51,7 +50,7 @@ describe 'Batch' do
     }
     @full_perms_role = UserRole.new("CAN_EDIT_CAN_RUN_UPDATES_#{test_id}",
                                     'A role with CRUDL permissions',
-                                    test_run.deployment,
+                                    @test.deployment,
                                     @full_perms)
 
     @invoke_perms = {
@@ -62,7 +61,7 @@ describe 'Batch' do
     }
     @invoke_perms_role = UserRole.new("CANT_EDIT_CAN_RUN_UPDATES_#{test_id}",
                                       'A role with only Invocation permissions',
-                                      test_run.deployment,
+                                      @test.deployment,
                                       @invoke_perms)
 
     @edit_perms = {
@@ -72,7 +71,7 @@ describe 'Batch' do
     }
     @edit_perms_role = UserRole.new("CAN_EDIT_CANT_RUN_UPDATES_#{test_id}",
                                     'A role with only Edit permissions',
-                                    test_run.deployment,
+                                    @test.deployment,
                                     @edit_perms)
 
     # Initial Setup of Roles
@@ -99,7 +98,7 @@ describe 'Batch' do
   rescue => e
     logger.error "#{e.message}\n#{e.backtrace.join("\n")}"
   ensure
-    quit_browser test_run.driver
+    quit_browser @test.driver
   end
 
   describe 'user with editor and invoker permissions interacting with the data updates page tab' do

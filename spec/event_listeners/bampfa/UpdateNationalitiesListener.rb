@@ -13,12 +13,12 @@ describe 'BAMPFA' do
     test_run.set_driver launch_browser
 
     @admin = test_run.get_admin_user
-    @create_new_page = test_run.get_page CoreCreateNewPage
-    @login_page = test_run.get_page CoreLoginPage
-    @object_page = test_run.get_page CoreObjectPage
-    @person_page = test_run.get_page CorePersonPage
-    @search_page = test_run.get_page CoreSearchPage
-    @search_results_page = test_run.get_page CoreSearchResultsPage
+    @create_new_page = CoreCreateNewPage test_run
+    @login_page = CoreLoginPage test_run
+    @object_page = CoreObjectPage test_run
+    @person_page = CorePersonInfoForm test_run
+    @search_page = CoreSearchPage test_run
+    @search_results_page = CoreSearchResultsPage test_run
 
     CA = {CorePersonData::NATIONALITY.name => "Canada"}
     US = {CorePersonData::NATIONALITY.name => "United States"}
@@ -43,8 +43,7 @@ describe 'BAMPFA' do
     }
 
     @login_page.load_page
-    @login_page.log_in("sehyunhwang@berkeley.edu", "cspacestudents")
-      #@admin.username, @admin.password)
+    @login_page.log_in(@admin.username, @admin.password)
 
     @search_page.click_create_new_link
     @create_new_page.click_create_new_object

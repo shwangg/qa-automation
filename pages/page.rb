@@ -3,8 +3,13 @@ module Page
   include Logging
   include WebDriverManager
 
-  def initialize(driver)
-    @driver = driver
+  def initialize(test)
+    @driver = test.driver
+    @deployment = test.deployment
+  end
+
+  def deployment
+    @deployment
   end
 
   # NAVIGATION
@@ -268,8 +273,8 @@ module Page
       # User wants to create a new record
       if create_type
         sleep 1
-        wait_until(Config.short_wait) { (elements(options_locator).select { |el| el.text == create_type }).any? }
-        (elements(options_locator).find { |el| el.text == create_type }).click
+        wait_until(Config.short_wait) { (elements(options_locator).select { |el| el.text.include? create_type }).any? }
+        (elements(options_locator).find { |el| el.text.include? create_type }).click
         sleep Config.click_wait
 
       # User wants to select existing record

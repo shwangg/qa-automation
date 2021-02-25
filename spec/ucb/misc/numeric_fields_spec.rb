@@ -1,8 +1,5 @@
 require_relative '../../../spec_helper'
 
-test_run = TestConfig.new
-test_run.deployment == Deployment::CORE
-
 #floats and integers for testing
 valid_floats = %w[.1234 0.1234 1234.0 -9.123]
 invalid_floats = %w[123a 0.123a 123.123.123]
@@ -15,16 +12,17 @@ describe 'A CollectionSpace numeric field' do
   include WebDriverManager
 
   before(:all) do
-    test_run.set_driver launch_browser
-    @admin = test_run.get_admin_user
-    @login_page = test_run.get_page CoreLoginPage
-    @create_new_page = test_run.get_page CoreCreateNewPage
-    @search_page = test_run.get_page CoreSearchPage
-    @acquisition_page = test_run.get_page CoreAcquisitionPage
-    @object_page = test_run.get_page CoreObjectPage
-    @media_handling_page = test_run.get_page CoreMediaHandlingPage
-    @object_exit_page = test_run.get_page CoreObjectExitPage
-    @valuation_control_page = test_run.get_page CoreValuationControlPage
+    @test = TestConfig.new Deployment::CORE
+    @test.set_driver launch_browser
+    @admin = @test.get_admin_user
+    @login_page = LoginPage.new @test
+    @create_new_page = CreateNewPage.new @test
+    @search_page = SearchPage.new @test
+    @acquisition_page = AcquisitionPage.new @test
+    @object_page = ObjectPage.new @test
+    @media_handling_page = MediaHandlingPage.new @test
+    @object_exit_page = ObjectExitPage.new @test
+    @valuation_control_page = ValuationControlPage.new @test
 
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)
@@ -35,7 +33,7 @@ describe 'A CollectionSpace numeric field' do
 
   before(:each) { @object_page.revert_record if @object_page.exists?(@object_page.revert_button) && @object_page.enabled?(@object_page.revert_button) }
 
-  after(:all) { quit_browser test_run.driver }
+  after(:all) { quit_browser @test.driver }
 
   context 'when a user enters a value' do
 

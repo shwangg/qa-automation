@@ -4,20 +4,20 @@ describe 'Structured dates' do
 
   include Logging
   include WebDriverManager
-
-  test_run = TestConfig.new Deployment::PAHMA
-
+  
   before(:all) do
-    test_run.set_driver launch_browser
+    @test = TestConfig.new Deployment::PAHMA
+    @test.set_driver launch_browser
     @test_data = {}
-    test_run.set_unique_test_id(@test_data, PAHMAObjectData::OBJECT_NUM.name)
+    @test.set_unique_test_id(@test_data, PAHMAObjectData::OBJECT_NUM.name)
 
-    @admin = test_run.get_admin_user
-    @login_page = test_run.get_page CoreLoginPage
-    @search_page = test_run.get_page CoreSearchPage
-    @create_new_page = test_run.get_page CoreCreateNewPage
-    @object_page = test_run.get_page CoreObjectPage
+    @admin = @test.get_admin_user
+    @login_page = LoginPage.new @test
+    @search_page = SearchPage.new @test
+    @create_new_page = CreateNewPage.new @test
+    @object_page = ObjectPage.new @test
 
+    logger.debug "Object page deployment is '#{@object_page.deployment.inspect}'"
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)
     @search_page.click_create_new_link
@@ -25,7 +25,7 @@ describe 'Structured dates' do
     @object_page.wait_for_element_and_type(@object_page.object_num_input, @test_data[PAHMAObjectData::OBJECT_NUM.name])
   end
 
-  after(:all) { quit_browser test_run.driver }
+  after(:all) { quit_browser @test.driver }
 
   context 'when "ca. 69 BC" is entered' do
     before do

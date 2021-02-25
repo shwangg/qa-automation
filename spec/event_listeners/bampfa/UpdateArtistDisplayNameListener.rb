@@ -13,10 +13,10 @@ describe 'BAMPFA' do
     test_run.set_driver launch_browser
 
     @admin = test_run.get_admin_user
-    @create_new_page = test_run.get_page CoreCreateNewPage
-    @login_page = test_run.get_page CoreLoginPage
-    @object_page = test_run.get_page CoreObjectPage
-    @search_page = test_run.get_page CoreSearchPage
+    @create_new_page = CoreCreateNewPage test_run
+    @login_page = CoreLoginPage test_run
+    @object_page = CoreObjectPage test_run
+    @search_page = CoreSearchPage test_run
 
     
     @login_page.load_page
