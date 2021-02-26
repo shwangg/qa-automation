@@ -1,5 +1,3 @@
-require_relative '../spec_helper'
-
 module CollectionSpacePages
 
   include Page
@@ -33,6 +31,7 @@ module CollectionSpacePages
   def invoke_button; {:name => 'invoke'} end
   def use_selection_button; {:name => 'accept'} end
   def clone_button; {:name => 'clone'} end
+  def timestamp; {:xpath => '//div[@class = "cspace-ui-RecordHistory--common"]//button//span'} end
   def header_bar; {:xpath => '//header/div'} end
   def page_h1; {:xpath => '//h1'} end
   def page_h2; {:xpath => '//h2'} end
@@ -63,9 +62,6 @@ module CollectionSpacePages
   def toggle_panel_button(label); {:xpath => "//section[contains(@class, \"Panel\")][contains(., \"#{label}\")]//button"} end
   def collapsed_panel_locator(label); {:xpath => "//section[contains(@class, 'collapsed')][contains(., \"#{label}\")]"} end
   def toggle_subpanel_button(label); {:xpath => "//section//section[contains(@class, \"Panel\")][contains(., \"#{label}\")]//button"} end
-
-  # To be used when checking if the rest of a page is inactive/greyed out when a dialog box is open
-  def inactive_page_check; {:xpath => '//div[@aria-hidden = "true"]'} end
 
   # To be used when checking if the rest of a page is inactive/greyed out when a dialog box is open
   def inactive_page_check; {:xpath => '//div[@aria-hidden = "true"]'} end
@@ -156,13 +152,16 @@ module CollectionSpacePages
     {:xpath => "//label[contains(., \"#{label}\")]/following-sibling::div//input"}
   end
 
-
   # Returns a hash containing the XPath to a text_area element, with a data-name attribute if given
   # @param [Hash] fieldset
   # @param [String] text_data_name
   # @return [Hash]
   def text_area_locator(fieldset, text_data_name=nil)
     {:xpath => "#{fieldset_xpath fieldset}//textarea#{'[@data-name="' + text_data_name + '"]' if text_data_name}"}
+  end
+
+  def rich_text_input_locator_by_label(label)
+    {xpath: "//label[contains(., \"#{label}\")]/following-sibling::div//div[contains(@class, 'ql-editor')]"}
   end
 
   # Returns a hash containing the XPath to a set of options for an input, with a data-name attribute if given
@@ -405,11 +404,13 @@ module CollectionSpacePages
     logger.info 'Clicking the Relate Selected button'
     wait_for_element_and_click relate_selected_button
   end
+
   # LOG OUT
 
   # Logs out using the sign out link in the header
   def log_out
     logger.info 'Logging out'
+    unhide_header_bar
     wait_for_element_and_click sign_out_link
     wait_until(Config.short_wait) { url.include? '/login' }
   end
@@ -445,6 +446,10 @@ module CollectionSpacePages
   def hide_header_bar
     when_exists(header_bar, Config.medium_wait)
     @driver.execute_script("arguments[0].style.visibility='hidden';", element(header_bar))
+  end
+
+  def unhide_header_bar
+    @driver.execute_script("arguments[0].style.visibility='visible';", element(header_bar))
   end
 
   # SECONDARY TAB
@@ -592,7 +597,7 @@ module CollectionSpacePages
   # PANELS
 
   def is_collapsed(panel_label)
-    return exists? collapsed_panel_locator panel_label
+    exists? collapsed_panel_locator panel_label
   end
 
   def toggle_panel(panel_label)
@@ -613,6 +618,68 @@ module CollectionSpacePages
     if is_collapsed label
       toggle_subpanel label
     end
+  end
+
+  def primary_tab; {:xpath => '//button[text()="Primary Record"]'} end
+  def current_locations_tab; {:xpath => '//button[text()="Current Locations"]'} end
+  def exhibition_tab; {:xpath => '//button[text()="Exhibitions"]'} end
+  def related_tab_button(relate); {:xpath => '//div[contains(@class,"RecordBrowser")]//button[contains(., "' + relate + '")]'} end
+  def related_panel_rows; {:xpath => '//div[contains(@class,"cspace-ui-RelatedRecordBrowser")]//div[@class="cspace-ui-SearchResultTable--common"]//*[@aria-label="row"]'} end
+  def nth_result_row(value); {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][#{value}]"} end
+  def close_tab(label); {:xpath => "//button[text() = '#{label}']//following-sibling::button[@aria-label = 'close']"} end
+  def movement_secondary_tab; {:xpath => '//button[contains(text(), "Inventory") and contains(text(), "Movement")]'} end
+
+  # Clicks the Primary Record tab on a record
+  def click_primary_record_tab
+    logger.info 'Clicking the primary record tab'
+    wait_for_element_and_click primary_tab
+  end
+
+  #Clicks the secondary 'Current Locations' tab on a record
+  def click_current_locations_tab
+    logger.info 'Clicking the secondary Current Locations tab'
+    when_displayed(primary_tab, Config.short_wait)
+    wait_for_element_and_click(current_locations_tab, 2)
+  rescue
+    select_related_type 'Current Locations'
+  end
+
+  #Clicks the secondary 'Exhibitions' tab on a record
+  def click_exhibitions_tab
+    logger.info 'Clicking the secondary Exhibitions tab'
+    when_displayed(primary_tab, Config.short_wait)
+    wait_for_element_and_click(exhibition_tab, 2)
+  rescue
+    select_related_type 'Exhibitions'
+  end
+
+  # Clicks the secondary 'Location/Movement/Inventory' tab on a record
+  def click_movement_secondary_tab
+    logger.info 'Clicking the secondary Movement tab'
+    when_displayed(primary_tab, Config.short_wait)
+    wait_for_element_and_click(movement_secondary_tab, 2)
+  rescue
+    select_related_type 'Location/Movement/Inventory'
+  end
+
+  def click_pahma_movement_secondary_tab
+    logger.info 'Clicking the secondary Movement tab'
+    when_displayed(primary_tab, Config.short_wait)
+    wait_for_element_and_click(movement_secondary_tab, 2)
+  rescue
+    select_related_type 'Inventory/Movement'
+  end
+
+  def hit_related_tab(relate)
+    logger.info 'Clicking link to Create New' + relate
+    scroll_to_top
+    wait_for_element_and_click related_tab_button(relate)
+  end
+
+  # Closes the specified secondary tab on a record
+  def click_close_tab(label)
+    logger.info "Closing the secondary #{label} tab"
+    wait_for_element_and_click close_tab(label)
   end
 
 end

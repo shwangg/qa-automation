@@ -13,22 +13,24 @@ describe 'BAMPFA' do
     test_run.set_driver launch_browser
 
     @admin = test_run.get_admin_user
-    @create_new_page = test_run.get_page CoreCreateNewPage
-    @login_page = test_run.get_page CoreLoginPage
-    @object_page = test_run.get_page CoreObjectPage
-    @search_page = test_run.get_page CoreSearchPage
+    @create_new_page = CoreCreateNewPage test_run
+    @login_page = CoreLoginPage test_run
+    @object_page = CoreObjectPage test_run
+    @search_page = SearchPage test_run
+    @search_results_page = SearchResultsPage test_run
 
     @test_0 = {
-      BAMPFAObjectData::ACC_NUM_PREF.name => 0,
-      BAMPFAObjectData::ACC_NUM_P1.name => 1,
-      BAMPFAObjectData::ACC_NUM_P2.name => 2,
-      BAMPFAObjectData::ACC_NUM_P3.name => 3,
-      BAMPFAObjectData::ACC_NUM_P4.name => 4,
-      BAMPFAObjectData::ACC_NUM_P5.name => 5
+      BAMPFAObjectData::ID_PREFIX.name => 0,
+      BAMPFAObjectData::ID_YEAR.name => 1,
+      BAMPFAObjectData::ID_GIFT_1.name => 2,
+      BAMPFAObjectData::ID_GIFT_2.name => 3,
+      BAMPFAObjectData::ID_GIFT_3.name => 4,
+      BAMPFAObjectData::ID_ALPHA.name => 5,
+      BAMPFAObjectData::ARTIST_MAKER_GRP.name => [{BAMPFAObjectData::ARTIST_NAME.name => "Sean"}]
     }
 
     @test_1 = {
-      BAMPFAObjectData::ARTIST.name => [{BAMPFAObjectData::ARTIST_NAME.name => "Sean"}]
+      BAMPFAObjectData::ARTIST_MAKER_GRP.name => [{BAMPFAObjectData::ARTIST_NAME.name => "Sean"}]
     }
 
     @test_2 = {
@@ -45,7 +47,22 @@ describe 'BAMPFA' do
   it 'Create a new recod with an artist and searching' do
     @search_page.click_create_new_link
     @create_new_page.click_create_new_object
-    @object_page.e
+    @object_page.enter_IDs
+    @object_page.click_save_button
+    @object_page.enter_artist
+    @object_page.click_save_button
+    @object_page.quick_search('Objects', '', 012345)
+
   end
+
+  it 'Create a new record with an artist and searching' do
+    @search_results_page.click_result()
+    @object_page.enter_artist @test_1
+    @object_page.click_save_button
+    @object_page.click_search_link
+    @search_page.select_record_type_option('Objects')
+    @search_page.enter_last_updated_times()
+    # check if record exist
+    @search_results_page.click_result()
 
 end

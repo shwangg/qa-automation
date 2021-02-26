@@ -11,5 +11,7 @@ class BAMPFAObjectPage < CoreUCBObjectPage
 
   DEPLOYMENT = Deployment::BAMPFA
 
-  
+  def enter_IDs(data)
+    
+
 end

@@ -1,15 +1,14 @@
 class BAMPFAObjectData < CoreUCBObjectData
 
     DATA = [
-
-        ACC_NUM_PREF = new('accNumberPrefix'),
-        ACC_NUM_P1 = new('accNumberPart1'),
-        ACC_NUM_P2 = new('accNumberPart2'),
-        ACC_NUM_P3 = new('accNumberPart3'),
-        ACC_NUM_P4 = new('accNumberPart4'),
-        ACC_NUM_P5 = new('accNumberPart5'),
-        ARTIST = new('bampfaObjectProductionPersonGroup'),
-        ARTIST_NAME = new('bampfaObjectProductionPerson')
-
+        ARTIST_MAKER_GRP = new('bampfaObjectProductionPersonGroup'),
+        ARTIST_NAME = new('bampfaObjectProductionPerson'),
+        ID_PREFIX = new('accNumberPrefix'),
+        ID_YEAR = new('accNumberPart1'),
+        ID_GIFT_1 = new('accNumberPart2'),
+        ID_GIFT_2 = new('accNumberPart3'),
+        ID_GIFT_3 = new('accNumberPart4'),
+        ID_ALPHA = new('accNumberPart5'),
+        ID_NUMBER = new('objectNumber')
     ]
-end  
+end

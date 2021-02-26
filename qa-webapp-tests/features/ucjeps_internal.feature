@@ -4,7 +4,7 @@ Scenario: Find and use the keyword search feature
     Given I am on the "ucjeps" homepage
     When I log in to "ucjeps"
     Then I click "search"
-    Then I verify the search fields "Scientific Name, Collector(s), Locality (verbatim), County, Cultivated?, Major Group, Date Collected, Associated Taxa, Type Assertions?, Collection Number, Specimen ID, Country" in "div#searchfieldsTarget"
+    Then I verify the search fields "Scientific Name, Collector(s), Locality (verbatim), County, Cultivated?, Major Group, Date Collected, Associated Taxa, Type Assertions?, Collection Number, Specimen ID, Country"
 
     When I enter "cubensis" in "keyword" and click "List"
     #Then I click on "cubensis" in the dropdown menu and search
@@ -22,7 +22,7 @@ Scenario: Find and use the keyword search feature
     When I click "Statistics"
     Then I will select "Specimen ID" under Select field to summarize on
     Then I find the content "Specimen ID, Count" in "div#statsresults"
-    Then I click the button "downloadstats" and download the csv file
+    Then I click the button "Download Summary as CSV" and download the csv file
 
     When I click "Facets"
     Then I find the content "Scientific Name, Major Group, Family, Collector(s), County, State, Country" in "div#tabs"

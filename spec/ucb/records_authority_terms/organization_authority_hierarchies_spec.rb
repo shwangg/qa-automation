@@ -1,6 +1,5 @@
 require_relative '../../../spec_helper'
 
-test_run = TestConfig.new Deployment::CORE_UCB
 test_id = Time.now.to_i
 
 describe 'Authority hierarchy', order: :defined do
@@ -9,13 +8,14 @@ describe 'Authority hierarchy', order: :defined do
   include WebDriverManager
 
   before(:all) do
-    test_run.set_driver launch_browser
-    @admin = test_run.get_admin_user
-    @login_page = test_run.get_page CoreLoginPage
-    @create_new_page = test_run.get_page CoreCreateNewPage
-    @org_authority_page = test_run.get_page CoreOrganizationPage
-    @search_page = test_run.get_page CoreSearchPage
-    @search_results_page = test_run.get_page CoreSearchResultsPage
+    @test = TestConfig.new Deployment::CORE_UCB
+    @test.set_driver launch_browser
+    @admin = @test.get_admin_user
+    @login_page = LoginPage.new @test
+    @create_new_page = CreateNewPage.new @test
+    @org_authority_page = OrganizationPage.new @test
+    @search_page = SearchPage.new @test
+    @search_results_page = SearchResultsPage.new @test
 
     @foo_1 = "Foo One #{test_id}"
     @foo_2 = "Foo Two #{test_id}"
@@ -32,7 +32,7 @@ describe 'Authority hierarchy', order: :defined do
     @login_page.log_in(@admin.username, @admin.password)
   end
 
-  after(:all) { quit_browser test_run.driver }
+  after(:all) { quit_browser @test.driver }
 
   describe 'creation' do
 

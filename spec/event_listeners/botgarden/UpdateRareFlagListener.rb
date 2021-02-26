@@ -1,5 +1,4 @@
 require_relative '../../../spec_helper'
-deploy = Deployment::BOTGARDEN
 
 describe 'BOTGARDEN' do
 
@@ -7,17 +6,17 @@ describe 'BOTGARDEN' do
   include WebDriverManager
 
   before(:all) do
-    @test = TestConfig.new deploy
+    @test = TestConfig.new Deployment::BOTGARDEN
     @test.set_driver launch_browser
 
     @admin = @test.get_admin_user
-    @concept_page = @test.get_page CoreConceptPage
-    @create_new_page = @test.get_page CoreCreateNewPage
-    @login_page = @test.get_page CoreLoginPage
-    @object_page = @test.get_page CoreObjectPage
-    @search_page = @test.get_page CoreSearchPage
-    @search_results_page = @test.get_page CoreSearchResultsPage
-    @taxon_page = @test.get_page CoreUCBAuthorityPage
+    @concept_page = ConceptPage.new @test
+    @create_new_page = CreateNewPage.new @test
+    @login_page = LoginPage.new @test
+    @object_page = ObjectPage.new @test
+    @search_page = SearchPage.new @test
+    @search_results_page = SearchResultsPage.new @test
+    @taxon_page = TaxonPage.new @test
 
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)
@@ -44,8 +43,8 @@ describe 'BOTGARDEN' do
   it "create a new object record for #{scientific_name} taxon" do
     @concept_page.click_create_new_link
     @create_new_page.click_create_new_object
-    @object_page.enter_object_number obj_rec
-    @object_page.enter_default_taxonomics obj_rec
+    @object_page.enter_botgarden_accession_num obj_rec
+    @object_page.enter_botgarden_taxonomics obj_rec
 
     summary = "#{obj_rec[BOTGARDENObjectData::OBJECT_NUM.name]} – #{scientific_name}"
     @object_page.click_save_button
@@ -55,7 +54,7 @@ describe 'BOTGARDEN' do
 
     #value in Rare field should be "no"; if yes, enter a unique Taxon name for scientific_name
     #and re-run test (confirm that Rare = "no")
-    expect(@object_page.element_value(@object_page.object_rarity) == "no").to be true
+    expect(@object_page.element_value(@object_page.botgarden_object_rarity) == "no").to be true
   end
 
   it "set Conservation category field to term with Qualifier" do
@@ -63,7 +62,7 @@ describe 'BOTGARDEN' do
     @object_page.click_sidebar_term(scientific_name)
 
     taxon = {BOTGARDENTaxonData::PLANT_ATTRIB_GRP.name => [{BOTGARDENTaxonData::CONSERV_CATEG.name => red_dot_record}]}
-    @taxon_page.enter_attributes(taxon)
+    @taxon_page.enter_botgarden_attributes(taxon)
     @taxon_page.click_save_button
 
     summary = "#{scientific_name}" # no TERM_STATUS value created for new test taxon
@@ -79,9 +78,9 @@ describe 'BOTGARDEN' do
     @taxon_page.expand_sidebar_used_by
     @taxon_page.click_sidebar_used_by(obj_rec[BOTGARDENObjectData::OBJECT_NUM.name])
 
-    @object_page.when_exists(@object_page.object_rarity, Config.short_wait)
-    @object_page.scroll_to_element(@object_page.object_rarity)
-    expect(@object_page.element_value(@object_page.object_rarity) == "yes").to be true
+    @object_page.when_exists(@object_page.botgarden_object_rarity, Config.short_wait)
+    @object_page.scroll_to_element(@object_page.botgarden_object_rarity)
+    expect(@object_page.element_value(@object_page.botgarden_object_rarity) == "yes").to be true
   end
 
 end

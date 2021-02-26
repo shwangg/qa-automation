@@ -1,8 +1,6 @@
 require_relative '../../../spec_helper'
 
-test_run = TestConfig.new Deployment::CORE_UCB
 test_id = Time.now.to_i
-test_data = test_run.all_authorities_test_data Deployment::CORE_UCB
 
 describe 'Organization Authority records', order: :defined do
 
@@ -10,14 +8,16 @@ describe 'Organization Authority records', order: :defined do
   include WebDriverManager
 
   before(:all) do
-    test_run.set_driver launch_browser
-    @admin = test_run.get_admin_user
-    @login_page = test_run.get_page CoreLoginPage
-    @create_new_page = test_run.get_page CoreCreateNewPage
-    @exhibition_page = test_run.get_page CoreExhibitionPage
-    @org_authority_page = test_run.get_page CoreOrganizationPage
-    @search_page = test_run.get_page CoreSearchPage
-    @search_results_page = test_run.get_page CoreSearchResultsPage
+    @test = TestConfig.new Deployment::CORE_UCB
+    test_data = @test.all_authorities_test_data Deployment::CORE_UCB
+    @test.set_driver launch_browser
+    @admin = @test.get_admin_user
+    @login_page = LoginPage.new @test
+    @create_new_page = CreateNewPage.new @test
+    @exhibition_page = ExhibitionPage.new @test
+    @org_authority_page = OrganizationPage.new @test
+    @search_page = SearchPage.new @test
+    @search_results_page = SearchResultsPage.new @test
 
     @org_0 = test_data[0]
     @org_1 = test_data[1]
@@ -43,7 +43,7 @@ describe 'Organization Authority records', order: :defined do
     @login_page.log_in(@admin.username, @admin.password)
   end
 
-  after(:all) { quit_browser test_run.driver }
+  after(:all) { quit_browser @test.driver }
 
   context 'when part of local vocabulary' do
 
@@ -63,7 +63,7 @@ describe 'Organization Authority records', order: :defined do
     it 'can be added to Procedure records' do
       @org_authority_page.click_create_new_link
       @create_new_page.click_create_new_exhibition
-      @exhibition_page.enter_exhibition_num "Exhibition Zero #{test_id}"
+      @exhibition_page.enter_exhibition_num({CoreExhibitionData::EXHIBITION_NUM.name => "Exhibition Zero #{test_id}"})
       @exhibition_page.select_sponsor(@org_0_display_name, 0)
       @exhibition_page.save_record
     end
@@ -93,7 +93,7 @@ describe 'Organization Authority records', order: :defined do
     it 'can be added to Procedure records' do
       @org_authority_page.click_create_new_link
       @create_new_page.click_create_new_exhibition
-      @exhibition_page.enter_exhibition_num "Exhibition One #{test_id}"
+      @exhibition_page.enter_exhibition_num({CoreExhibitionData::EXHIBITION_NUM.name => "Exhibition One #{test_id}"})
       @exhibition_page.select_sponsor(@org_1_display_name, 0)
       @exhibition_page.save_record
     end
@@ -327,17 +327,15 @@ describe 'Organization Authority records', order: :defined do
     context 'and the authority is in use by other records' do
 
       before(:all) do
-        @exhibition_2_num = "Exhibition Two #{test_id}"
         @search_results_page.click_create_new_link
         @create_new_page.click_create_new_exhibition
-        @exhibition_page.enter_exhibition_num @exhibition_2_num
+        @exhibition_page.enter_exhibition_num({CoreExhibitionData::EXHIBITION_NUM.name => "Exhibition Two #{test_id}"})
         @exhibition_page.select_sponsor(@org_1_display_name, 0)
         @exhibition_page.save_record
 
-        @exhibition_3_num = "Exhibition Three #{test_id}"
         @search_results_page.click_create_new_link
         @create_new_page.click_create_new_exhibition
-        @exhibition_page.enter_exhibition_num @exhibition_3_num
+        @exhibition_page.enter_exhibition_num({CoreExhibitionData::EXHIBITION_NUM.name => "Exhibition Three #{test_id}"})
         @exhibition_page.select_sponsor(@org_1_display_name, 0)
         @exhibition_page.save_record
       end
