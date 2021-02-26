@@ -5,27 +5,26 @@ describe 'CollectionSpace' do
   include Logging
   include WebDriverManager
 
-  test_run = TestConfig.new
-
   before(:all) do
-    test_run = TestConfig.new
-    test_run.set_driver launch_browser
-    @admin = test_run.get_admin_user
-    @login_page = test_run.get_page CoreLoginPage
-    @search_page = test_run.get_page CoreSearchPage
+    @test = TestConfig.new Deployment::CORE_UCB
+    @test.set_driver launch_browser
+    @admin = @test.get_admin_user
+    @login_page = LoginPage.new @test
+    @search_page = SearchPage.new @test
+    @create_new_page = CreateNewPage.new @test
+
     @login_page.load_page
-    @create_new_page = test_run.get_page CoreCreateNewPage
     @login_page.log_in(@admin.username, @admin.password)
   end
 
-  after(:all) { quit_browser test_run.driver }
+  after(:all) { quit_browser @test.driver }
 
   it('create new page') {
     @search_page.click_create_new_link
     @create_new_page.click_create_new_link
    }
    it('Checks if new page url is correct') {
-    if expectedURL == test_run.driver.current_url
+    if expectedURL == @test.driver.current_url
     end
   }
   end

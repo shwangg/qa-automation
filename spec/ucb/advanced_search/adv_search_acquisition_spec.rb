@@ -5,17 +5,16 @@ describe 'Acquisition' do
   include Logging
   include WebDriverManager
 
-  test_run = TestConfig.new Deployment::CORE_UCB
-  test_id = Time.now.to_i
-
   before(:all) do
-    test_run.set_driver launch_browser
-    @admin = test_run.get_admin_user
-    @login_page = test_run.get_page CoreLoginPage
-    @create_new_page = test_run.get_page CoreCreateNewPage
-    @acquisition_page = test_run.get_page CoreAcquisitionPage
-    @search_page = test_run.get_page CoreSearchPage
-    @search_results_page = test_run.get_page CoreSearchResultsPage
+    @test = TestConfig.new Deployment::CORE_UCB
+    test_id = Time.now.to_i
+    @test.set_driver launch_browser
+    @admin = @test.get_admin_user
+    @login_page = LoginPage.new @test
+    @create_new_page = CreateNewPage.new @test
+    @acquisition_page = AcquisitionPage.new @test
+    @search_page = SearchPage.new @test
+    @search_results_page = SearchResultsPage.new @test
 
     @test_0 = {
         CoreAcquisitionData::ACCESSION_DATE_GRP.name => (Date.today - 1).to_s,
@@ -46,14 +45,14 @@ describe 'Acquisition' do
     @login_page.log_in(@admin.username, @admin.password)
 
     [@test_0, @test_1, @test_2, @test_3].each do |test|
-      test_run.set_unique_test_id(test, CoreAcquisitionData::ACQUIS_REF_NUM.name)
+      @test.set_unique_test_id(test, CoreAcquisitionData::ACQUIS_REF_NUM.name)
       @search_page.click_create_new_link
       @create_new_page.click_create_new_acquisition
       @acquisition_page.create_new_acquisition test
     end
   end
 
-  after(:all) { quit_browser test_run.driver }
+  after(:all) { quit_browser @test.driver }
 
   describe 'advanced search fields' do
 

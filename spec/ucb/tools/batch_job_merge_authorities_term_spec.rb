@@ -14,18 +14,18 @@ describe "The #{deploy.name} merge authorities batch job" do
     @test_id = Time.now.to_i.to_s
     @admin = @test.get_admin_user
 
-    @login_page = @test.get_page CoreLoginPage
-    @search_results_page = @test.get_page CoreSearchResultsPage
-    @create_new_page = @test.get_page CoreCreateNewPage
-    @org_page = @test.get_page CoreOrganizationPage
-    @citation_page = @test.get_page CoreCitationPage
-    @concept_page = @test.get_page CoreConceptPage
+    @login_page = LoginPage.new @test
+    @search_results_page = SearchResultsPage.new @test
+    @create_new_page = CreateNewPage.new @test
+    @org_page = OrganizationPage.new @test
+    @citation_page = CitationPage.new @test
+    @concept_page = ConceptPage.new @test
 
-    @object_page = @test.get_page CoreObjectPage
-    @inventory_movement_page = @test.get_page CoreInventoryMovementPage
-    @search_page = @test.get_page CoreSearchPage
-    @tools_page = @test.get_page CoreToolsPage
-    @batch_jobs_page = @test.get_page CoreInvocablesPage
+    @object_page = ObjectPage.new @test
+    @inventory_movement_page = InventoryMovementPage.new @test
+    @search_page = SearchPage.new @test
+    @tools_page = ToolsPage.new @test
+    @batch_jobs_page = InvocablesPage.new @test
 
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)

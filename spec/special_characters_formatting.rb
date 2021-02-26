@@ -5,18 +5,17 @@ describe 'CollectionSpace' do
   include Logging
   include WebDriverManager
 
-  test_run = TestConfig.new
+  test_run = TestConfig.new Deployment::CORE
   test_data = test_run.special_characters_test_data
   test_data["objects"].each { |test| test_run.set_unique_test_id(test, CoreObjectData::OBJECT_NUM.name); sleep(1) }
 
   before(:all) do
-    test_run = TestConfig.new
     test_run.set_driver launch_browser
     @admin = test_run.get_admin_user
-    @object_page = test_run.get_page CoreObjectPage
-    @create_new_page = test_run.get_page CoreCreateNewPage
-    @search_results_page = test_run.get_page CoreSearchResultsPage
-    @login_page = test_run.get_page CoreLoginPage
+    @object_page = ObjectPage.new test_run
+    @create_new_page = CreateNewPage.new test_run
+    @search_results_page = SearchResultsPage.new test_run
+    @login_page = LoginPage.new test_run
 
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)

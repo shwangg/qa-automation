@@ -1,8 +1,7 @@
 require_relative '../spec_helper'
 
-test_run = TestConfig.new
-test_data = test_run.create_autocomplete_term_matching_search_test_data
-
+test = TestConfig.new Deployment::CORE
+test_data = test.create_autocomplete_term_matching_search_test_data
 
 # READ BEFORE RUN
 # known set of sample Person and Organization records are created for running this test:
@@ -27,8 +26,6 @@ describe 'CollectionSpace' do
 
   include Logging
   include WebDriverManager
-  include Page
-  include CollectionSpacePages
 
   def found_0; {:xpath => '//span[contains(.,"No matching terms found")]'} end
   def found_1; {:xpath => '//span[contains(.,"1 matching term found")]'} end
@@ -36,20 +33,19 @@ describe 'CollectionSpace' do
   def found_3; {:xpath => '//span[contains(.,"3 matching terms found")]'} end
 
   before(:all) do
-    test_run = TestConfig.new
-    test_run.set_driver launch_browser
-    @admin = test_run.get_admin_user
-    @login_page = test_run.get_page CoreLoginPage
-    @search_page = test_run.get_page CoreSearchPage
-    @create_new_page = test_run.get_page CoreCreateNewPage
-    @loan_in_page = test_run.get_page CoreLoanInPage
+    test.set_driver launch_browser
+    @admin = test.get_admin_user
+    @login_page = LoginPage.new test
+    @search_page = SearchPage.new test
+    @create_new_page = CreateNewPage.new test
+    @loan_in_page = LoanInPage.new test
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)
     @search_page.click_create_new_link
     @create_new_page.click_create_new_loan_in
   end
 
-    after(:all) { quit_browser test_run.driver }
+    after(:all) { quit_browser test.driver }
     
     test_data.each do |test|
         it "allows an admin to create a new collection loan in with #{test}" do
