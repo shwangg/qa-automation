@@ -11,4 +11,5 @@ class BAMPFAObjectPage < CoreUCBObjectPage
 
   DEPLOYMENT = Deployment::BAMPFA
 
+  
 end
