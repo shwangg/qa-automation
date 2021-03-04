@@ -30,7 +30,11 @@ class TestConfig < Config
   # @param [String] key
   # @return [Hash]
   def set_unique_test_id(test_data, key)
-    test_data.merge!({key => Time.now.to_i})
+    if test_data[key]
+      test_data.transform_values! { |v| v + Time.now.to_i.to_s if test_data.key(v) == key }
+    else
+      test_data.merge!({key => Time.now.to_i})
+    end
   end
 
   # TEST DATA
@@ -66,11 +70,6 @@ class TestConfig < Config
   # @return [Array<Hash>]
   def create_object_test_data(deployment = nil)
     parse_test_data((deployment || @deployment), 'test-data-create-new-object.json')['objects']
-  end
-
-  #added
-  def create_autocomplete_term_matching_search_test_data(deployment = nil)
-    parse_test_data((deployment || @deployment), 'test-data-autocomplete-term-matching-search.json')['objects']
   end
 
   def create_data_entry_templates_test_data(deployment = nil)

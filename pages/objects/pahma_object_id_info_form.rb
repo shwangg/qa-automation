@@ -85,6 +85,16 @@ module PAHMAObjectIdInfoForm
 
   # CURRENT STORAGE LOCATION
 
+  def pahma_current_storage_location; input_locator_by_label(PAHMAObjectData::CURRENT_LOCATION.label) end
+
+  def wait_for_pahma_location(movt_data)
+    wait_for_event_listener do
+      sleep 1
+      wait_until(3) { element_value(pahma_current_storage_location) == movt_data[PAHMAInventoryMovementData::CURRENT_LOCATION.name] }
+    end
+  end
+
+
   def wait_for_pahma_storage_location(data)
     wait_for_location data
   end

@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../../../spec_helper'
 
-test_run = TestConfig.new Deployment::CORE
+test_run = TestConfig.new Deployment::CORE_UCB
 test_data = test_run.create_object_test_data
 test_data.each { |test| test_run.set_unique_test_id(test, CoreObjectData::OBJECT_NUM.name); sleep(1) }
 

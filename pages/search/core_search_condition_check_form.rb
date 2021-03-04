@@ -4,14 +4,14 @@ module CoreSearchConditionCheckForm
   include Page
   include CollectionSpacePages
 
-  def ref_num_input_locator(index); input_locator([fieldset(CoreConditionCheckData::COND_REF_NUM.name, index)]) end
+  def cond_ref_num_input_locator(index); input_locator([fieldset(CoreConditionCheckData::COND_REF_NUM.name, index)]) end
 
   # Enters condition ref number
   # @param [Hash] data_set
   def enter_condition_ref_num(data_set)
     cond_ref_num = data_set[CoreConditionCheckData::COND_REF_NUM.name]
     logger.debug "Entering condition ref number '#{cond_ref_num}'"
-    wait_for_element_and_type(ref_num_input_locator(0), cond_ref_num) if cond_ref_num
+    wait_for_element_and_type(cond_ref_num_input_locator(0), cond_ref_num) if cond_ref_num
   end
 
   # Clicks the Search link and the Clear button, and selects 'Acquisitions' from the record type
