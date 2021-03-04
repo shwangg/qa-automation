@@ -13,12 +13,12 @@ describe 'BAMPFA' do
     test_run.set_driver launch_browser
 
     @admin = test_run.get_admin_user
-    @create_new_page = CoreCreateNewPage test_run
-    @login_page = CoreLoginPage test_run
-    @object_page = CoreObjectPage test_run
-    @person_page = CorePersonInfoForm test_run
-    @search_page = CoreSearchPage test_run
-    @search_results_page = CoreSearchResultsPage test_run
+    @create_new_page = CreateNewPage.new test_run
+    @login_page = LoginPage.new test_run
+    @object_page = ObjectPage.new test_run
+    @person_page = PersonPage.new test_run
+    @search_page = SearchPage.new test_run
+    @search_results_page = SearchResultsPage.new test_run
 
     CA = {CorePersonData::NATIONALITY.name => "Canada"}
     US = {CorePersonData::NATIONALITY.name => "United States"}

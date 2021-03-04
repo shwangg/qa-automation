@@ -264,7 +264,7 @@ module PAHMAObjectIdInfoForm
   # TAXONOMIC INFORMATION
 
   def enter_pahma_taxonomics(data)
-    enter_taxonomics data
+    enter_taxonomics(data, "PAHMA")
   end
 
   # TITLE

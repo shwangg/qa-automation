@@ -12,6 +12,7 @@ describe 'CollectionSpace' do
     @login_page = LoginPage.new @test
     @create_new_page = CreateNewPage.new @test
     @search_page = SearchPage.new @test
+    @search_results_page = SearchResultsPage.new @test
     @object_page = ObjectPage.new @test
     @acquisition_page = AcquisitionPage.new @test
     @media_handling_page = MediaHandlingPage.new @test
@@ -23,9 +24,9 @@ describe 'CollectionSpace' do
   after(:all) { quit_browser @test.driver }
 
   test_1_object = {  CoreObjectData::OBJECT_NUM.name => Time.now.to_i  }
-  title_bar_1_expected = {:xpath => "//header[contains(., \"Objects related to \"#{test_1_object[CoreObjectData::OBJECT_NUM.name]}\"\")]"}
+  #title_bar_1_expected = {:xpath => "//header[contains(., \"Objects related to \"#{test_1_object[CoreObjectData::OBJECT_NUM.name]}\"\")]"}
   test_2_acquisition = { CoreAcquisitionData::ACQUIS_REF_NUM.name => Time.now.to_i }
-  title_bar_2_expected = {:xpath => "//header[contains(., \"Procedures related to \"#{test_2_acquisition[CoreAcquisitionData::ACQUIS_REF_NUM.name]}\"\")]"}
+#  title_bar_2_expected = {:xpath => "//header[contains(., \"Procedures related to \"#{test_2_acquisition[CoreAcquisitionData::ACQUIS_REF_NUM.name]}\"\")]"}
   related_rec_1, related_rec_2 = 3 * Time.now.to_i, 6 * Time.now.to_i
 
   def rec_id_link(page); {:xpath => "//a[contains(., \"#{page}\")]"} end
@@ -50,9 +51,10 @@ describe 'CollectionSpace' do
      @object_page.click_open_related_object
      @test.driver.navigate.refresh
      [related_rec_1, related_rec_2].each do |ref_num|
-       expect(@object_page.exists? related_rec_row(ref_num))
+       expect(@object_page.exists? related_rec_row(ref_num)).to be true
      end
-     expect(@object_page.exists? title_bar_1_expected)
+  #   expect(@object_page.exists? title_bar_1_expected)
+      expect(@object_page.element_text(@search_results_page.title_bar_header_text)).to eql("Objects related to #{test_1_object[CoreObjectData::OBJECT_NUM.name]}")
    end
 
   it "search related procedural records" do
@@ -76,7 +78,8 @@ describe 'CollectionSpace' do
     [related_rec_1, related_rec_2].each do |ref_num|
       expect(@acquisition_page.exists? related_rec_row(ref_num))
     end
-    expect(@acquisition_page.exists? title_bar_2_expected)
+  #  expect(@acquisition_page.exists? title_bar_2_expected)
+    expect(@acquisition_page.element_text(@search_results_page.title_bar_header_text)).to eql("Procedures related to #{test_2_acquisition[CoreAcquisitionData::ACQUIS_REF_NUM.name]}")
   end
 
 end
