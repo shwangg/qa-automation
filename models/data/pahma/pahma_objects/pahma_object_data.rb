@@ -19,6 +19,7 @@ class PAHMAObjectData < CoreUCBObjectData
       PAHMA_COLLECTION_LIST = new('pahmaCollectionList'),
       PAHMA_COLLECTION = new('pahmaCollection'),
       CURRENT_CRATE = new(nil, 'Current box or container'),
+      CURRENT_LOCATION = new(nil, 'Current storage location'),
       ETHNO_FILE_CODE_LIST = new('pahmaEthnographicFileCodeList'),
       ETHNO_FILE_CODE = new('pahmaEthnographicFileCode'),
       INVENTORY_COUNT = new('inventoryCount'),

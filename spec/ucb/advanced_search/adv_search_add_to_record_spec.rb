@@ -1,6 +1,4 @@
-require_relative '../spec_helper'
-
-def new_search; {:xpath => '//label[text()="Find"]'} end
+require_relative '../../../spec_helper'
 
 describe 'CollectionSpace' do
 
@@ -8,9 +6,13 @@ describe 'CollectionSpace' do
   include WebDriverManager
 
   before(:all) do
-    @test = TestConfig.new Deployment::CORE
+    @test = TestConfig.new Deployment::CORE_UCB
     @test.set_driver launch_browser
     @admin = @test.get_admin_user
+
+    test_id = Time.now.to_i
+    @group = {CoreGroupData::TITLE.name => "Group 1 #{test_id}"}
+
     @login_page = LoginPage.new @test
     @search_page = SearchPage.new @test
     @result_page = SearchResultsPage.new @test
@@ -27,8 +29,7 @@ describe 'CollectionSpace' do
     it "creates and saves new group object" do
       @search_page.click_create_new_link
       @create_new_page.click_create_new_group
-      data = { CoreGroupData::TITLE.name => "group1 sean" }
-      @group_page.enter_number data
+      @group_page.enter_number @group
       @group_page.click_save_button
     end
 
@@ -42,10 +43,9 @@ describe 'CollectionSpace' do
 
     it "selects the first two objects from search and relate them to the previous group object" do
       @result_page.relate_first_two
-      @result_page.when_exists(new_search, Config.long_wait)
       @search_page.select_record_type_option("Groups")
-      @search_page.full_text_search("group1 sean")
-      @result_page.relate_record("group1 sean")
+      @search_page.full_text_search("#{@group[CoreGroupData::TITLE.name]}")
+      @result_page.relate_record("#{@group[CoreGroupData::TITLE.name]}")
     end
 
   end
@@ -55,9 +55,9 @@ describe 'CollectionSpace' do
     it "search and select the test group data" do
       @result_page.click_search_link
       @search_page.select_record_type_option("Groups")
-      @search_page.full_text_search("group1 sean")
+      @search_page.full_text_search("#{@group[CoreGroupData::TITLE.name]}")
       @result_page.wait_for_results
-      @result_page.click_result("group1 sean")
+      @result_page.click_result("#{@group[CoreGroupData::TITLE.name]}")
     end
 
     it "check for relations and remove them, then delete record" do

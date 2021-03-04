@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require_relative '../../spec_helper'
 
 test_id = Time.now.to_i
 
@@ -55,7 +55,7 @@ describe 'Organization Authority records', order: :defined do
     end
 
     it 'can be saved' do
-      @org_authority_page.enter_display_name(@org_0_display_name, 0)
+      @org_authority_page.enter_org_display_name(@org_0_display_name, 0)
       @org_authority_page.save_record
       expect(@org_authority_page.element(@org_authority_page.page_h2).attribute('innerText')).to eql('Organization - Local')
     end
@@ -85,7 +85,7 @@ describe 'Organization Authority records', order: :defined do
     end
 
     it 'can be saved' do
-      @org_authority_page.enter_display_name(@org_1_display_name, 0)
+      @org_authority_page.enter_org_display_name(@org_1_display_name, 0)
       @org_authority_page.save_record
       expect(@org_authority_page.element(@org_authority_page.page_h2).attribute('innerText')).to eql('Organization - ULAN')
     end
@@ -151,14 +151,14 @@ describe 'Organization Authority records', order: :defined do
     end
 
     it 'show display name as the h1 page heading' do
-      @org_authority_page.enter_display_name(@org_2_display_name_0, 0)
+      @org_authority_page.enter_org_display_name(@org_2_display_name_0, 0)
       @org_authority_page.hit_tab
       @org_authority_page.wait_until(Config.short_wait) { @org_authority_page.element_text(@org_authority_page.page_h1) == @org_2_display_name_0 }
     end
 
     it 'show the display name that is in the first term row' do
       @org_authority_page.add_term_grp
-      @org_authority_page.enter_display_name(@org_2_display_name_1, 1)
+      @org_authority_page.enter_org_display_name(@org_2_display_name_1, 1)
       @org_authority_page.move_term_grp_top 1
       @org_authority_page.save_record
       @org_authority_page.wait_until(Config.short_wait) { @org_authority_page.element_text(@org_authority_page.page_h1) == @org_2_display_name_1 }
@@ -278,7 +278,7 @@ describe 'Organization Authority records', order: :defined do
   context 'when being edited' do
 
     it 'cannot have all display names removed' do
-      @org_authority_page.enter_display_name('', 0)
+      @org_authority_page.enter_org_display_name('', 0)
       @org_authority_page.hit_tab
       @org_authority_page.wait_until(1) { !@org_authority_page.enabled?(@org_authority_page.save_button) }
       @org_authority_page.wait_for_notification 'Term display name is required. Please enter a value.'
@@ -294,7 +294,7 @@ describe 'Organization Authority records', order: :defined do
         @org_6_display_name = "Org 6 #{test_id}"
         @org_authority_page.click_create_new_link
         @create_new_page.click_create_new_org_local
-        @org_authority_page.enter_display_name(@org_6_display_name, 0)
+        @org_authority_page.enter_org_display_name(@org_6_display_name, 0)
         @org_authority_page.save_record
       end
 

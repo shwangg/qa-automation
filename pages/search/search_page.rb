@@ -46,7 +46,8 @@ class SearchPage
     begin
       tries -= 1
       wait_for_element_and_click search_button_two
-    rescue Selenium::WebDriver::Error::WebDriverError
+    rescue Selenium::WebDriver::Error::WebDriverError => e
+      logger.error e.message
       tries.zero? ? fail : (wait_for_element_and_click search_button_one)
     end
   end
@@ -76,6 +77,19 @@ class SearchPage
   def full_text_search(string)
     enter_keyword string
     hit_enter
+  end
+
+  # DISPLAY NAMES
+
+  def display_name_input(index); input_locator([fieldset(CoreAuthorityData::TERM_DISPLAY_NAME.name, index)]) end
+  def display_name_add_btn; add_button_locator([fieldset(CoreAuthorityData::TERM_DISPLAY_NAME.name)]) end
+
+  def enter_display_names(names)
+    names.each_with_index do |name, index|
+      logger.debug "Entering display name '#{name}' at index #{index}"
+      wait_for_element_and_click display_name_add_btn unless index.zero?
+      wait_for_element_and_type(display_name_input(index), name)
+    end
   end
 
   # LAST UPDATED BY
@@ -140,7 +154,6 @@ class SearchPage
     wait_for_element_and_click add_field_button
     logger.debug "adding a #{field} field"
     wait_for_options_and_select(single_field_input_locator(1), single_field_options_locator(1), field)
-    # wait_for_options_and_select(field_is_input_locator(1), field_is_options_locator(1), searchOp)
   end
 
   def single_group_input_locator(rep); {:xpath => '(//div[contains(@class,"GroupConditionInput")]//input[@data-name="group"])[' + rep.to_s + ']'} end

@@ -17,7 +17,6 @@ describe 'Structured dates' do
     @create_new_page = CreateNewPage.new @test
     @object_page = ObjectPage.new @test
 
-    logger.debug "Object page deployment is '#{@object_page.deployment.inspect}'"
     @login_page.load_page
     @login_page.log_in(@admin.username, @admin.password)
     @search_page.click_create_new_link
@@ -38,11 +37,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('74')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('64')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -57,11 +56,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('70')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('50')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -76,11 +75,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('250')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('150')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -95,11 +94,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('1500')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('500')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -114,11 +113,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('1300')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('1000')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -133,11 +132,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('1300')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('1000')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -152,11 +151,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('1300')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('1000')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -171,11 +170,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('1300')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('1000')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -190,11 +189,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('1300')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('1000')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -209,11 +208,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('1300')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('1000')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -228,11 +227,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('1300')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('1000')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -247,11 +246,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('700')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('AD/CE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('CE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('800')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('AD/CE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('CE')
     end
   end
 
@@ -266,11 +265,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('150')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('50')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('AD/CE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('CE')
     end
   end
 
@@ -285,11 +284,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('5580')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('5460')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -304,11 +303,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('5580')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('5460')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -323,11 +322,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('5580')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('5460')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -342,11 +341,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('5580')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('5460')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 
@@ -361,11 +360,11 @@ describe 'Structured dates' do
       expect(@object_page.element_value @object_page.date_earliest_year).to eql('5580')
       expect(@object_page.element_value @object_page.date_earliest_month).to eql('1')
       expect(@object_page.element_value @object_page.date_earliest_day).to eql('1')
-      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_earliest_era).to eql('BCE')
       expect(@object_page.element_value @object_page.date_latest_year).to eql('5460')
       expect(@object_page.element_value @object_page.date_latest_month).to eql('12')
       expect(@object_page.element_value @object_page.date_latest_day).to eql('31')
-      expect(@object_page.element_value @object_page.date_latest_era).to eql('BC/BCE')
+      expect(@object_page.element_value @object_page.date_latest_era).to eql('BCE')
     end
   end
 end

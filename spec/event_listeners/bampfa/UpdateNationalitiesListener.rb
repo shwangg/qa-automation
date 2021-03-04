@@ -69,7 +69,7 @@ describe 'BAMPFA' do
     @person_page.click_search_link
     ["United States", "Canada"].each do |nationality|
       @search_page.select_record_type_option("Objects")
-      @search_page.enter_nationalities([nationality])
+      @search_page.enter_persons_nationalities([nationality])
       @search_page.click_search_button
       @search_results_page.wait_for_results
       expect(@search_results_page.row_exists? @object_1[BAMPFAObjectData::ID_PREFIX.name]).to be true
@@ -89,7 +89,7 @@ describe 'BAMPFA' do
 
     @person_page.click_search_link
     @search_page.select_record_type_option("Objects")
-    @search_page.enter_nationalities(["Warholian_test"])
+    @search_page.enter_persons_nationalities(["Warholian_test"])
     @search_page.click_search_button
     @search_results_page.wait_for_results
     records_found = @search_results_page.element_text(@search_results_page.records_found_header_text)
@@ -102,7 +102,7 @@ describe 'BAMPFA' do
     @person_page.when_enabled(@person_page.save_button, Config.long_wait)
     @person_page.click_search_link
     @search_page.select_record_type_option("Objects")
-    @search_page.enter_nationalities(["Warholian_test"])
+    @search_page.enter_persons_nationalities(["Warholian_test"])
     @search_page.click_search_button
     sleep Config.click_wait
     expect(@search_results_page.exists? @search_results_page.no_results_msg).to be true

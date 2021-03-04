@@ -22,7 +22,7 @@ describe 'Reports' do
 
     @test_0 = {
         CoreInvocablesData::INVOCABLE_NAME.name => 'Use of Collections Approval Status Report',
-        CoreInvocablesData::INVOCABLE_DESC.name =>  'Lists Use of Collections requests with a value in the \'Authorized by\' field, filtered by authorized by, authorization status, and/or date requested range. Displays the record number, title, requested date, completed date, authorization date, authorizer and authorization status. Available output formats: PDF, CSV, MS Word.',
+        CoreInvocablesData::INVOCABLE_DESC.name =>  'Lists Use of Collections requests with a value in the \'Authorization\' field group, filtered by authorized by, authorization status, and/or date requested range. Displays the record number, title, requested date, completed date, authorization date, authorizer and authorization status. Available output formats: PDF, CSV, MS Word.',
     }
 
     @test_1 = {
@@ -96,7 +96,7 @@ describe 'Reports' do
   rescue => e
     logger.error "#{e.message}\n#{e.backtrace.join("\n")}"
   ensure
-    quit_browser test_run.driver
+    quit_browser @test.driver
   end
 
   describe 'user with editor and invoker permissions interacting with the reports page tab' do
