@@ -112,12 +112,12 @@
       "titleGroup":
       [
         {
-          "title": "backslashes and colon: \c:\mydocs"
+          "title": "backslashes and colon: \\\c:\\\mydocs"
         }
       ],
       "comments": [
         {
-          "comment": "backslashes and colon: \c:\mydocs"
+          "comment": "backslashes and colon: \\\c:\\\mydocs"
         }
       ]
     },

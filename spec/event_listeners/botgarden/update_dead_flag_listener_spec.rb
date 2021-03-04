@@ -42,7 +42,7 @@ describe 'BOTGARDEN' do
   it "create object, current location records" do
     @search_page.click_create_new_link
     @create_new_page.click_create_new_object
-    @object_page.enter_object_number @obj_record
+    @object_page.enter_botgarden_accession_num @obj_record
     @object_page.enter_botgarden_taxonomics @obj_record
     @object_page.save_record
 

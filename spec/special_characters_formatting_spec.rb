@@ -85,7 +85,8 @@ describe 'CollectionSpace' do
   test_data["Search Test"].each do |test|
     it "test Special Characters in Search - #{test}" do
       @object_page.quick_search("Persons", "All", test)
-      expect(@search_results_page.exists? search_record(test))
+      expect((@search_results_page.exists? search_record(test)) ||
+      (@search_results_page.exists? @search_results_page.result_row(test))).to be true
     end
   end
 

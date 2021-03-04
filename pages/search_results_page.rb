@@ -5,7 +5,9 @@ class SearchResultsPage
   include CollectionSpacePages
 
   def result_rows; {:xpath => '//div[@class="cspace-ui-SearchResultTable--common"]//*[@aria-label="row"]'} end
+  def botgarden_taxonomic_name_column; {:xpath => '//div[@class="cspace-ui-SearchResultTable--common"]//*[@aria-label="row"]//div[@aria-colindex = 3]'} end
   def no_results_msg; {:xpath => '//span[text()="No records found"]'} end
+  def title_bar_header_text; {:xpath => '//header[contains(@class, "TitleBar")]//h1//div'} end
   def records_found_header_text; {:xpath => "//div[contains(@class, 'SearchResultSummary')]//div//span"} end
   def relate_selected_button; {:xpath => '//button[contains(.,"Relate selected")]'} end
   def search_filter_bar; {:xpath => '//div[contains(@class, "AdminSearchBar")]//input[contains(@class,"LineInput")]'} end
@@ -71,7 +73,7 @@ class SearchResultsPage
   # Returns the display name for a search result row
   # @param [Integer] row number
   def name_of_nth_row(value)
-    element_text(:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][#{value}]//div[@aria-colindex = 2]")
+    element(:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][#{value}]//div[@aria-colindex = 3]").attribute("title")
   end
 
   def click_search_result_cbx(identifier)

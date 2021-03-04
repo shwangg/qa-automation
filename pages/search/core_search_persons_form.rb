@@ -6,8 +6,8 @@ module CoreSearchPersonsForm
   include Page
   include CollectionSpacePages
 
-  def display_name_input(index); input_locator([fieldset(CorePersonData::DISPLAY_NAME.name, index)]) end
-  def display_name_add_btn; add_button_locator([fieldset(CorePersonData::DISPLAY_NAME.name)]) end
+  def display_name_input(index); input_locator([fieldset(CorePersonData::TERM_DISPLAY_NAME.name, index)]) end
+  def display_name_add_btn; add_button_locator([fieldset(CorePersonData::TERM_DISPLAY_NAME.name)]) end
 
   def nationality_input(index); input_locator([fieldset(CorePersonData::NATIONALITY.name, index)]) end
   def nationality_add_btn; add_button_locator([fieldset(CorePersonData::NATIONALITY.name)]) end

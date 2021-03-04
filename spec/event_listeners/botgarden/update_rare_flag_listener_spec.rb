@@ -35,6 +35,7 @@ describe 'BOTGARDEN' do
 
   it "find conservation category value with set qualifier field" do
     @search_page.quick_search("Concepts", "Conservation Category", "red dot on label")
+    @search_results_page.wait_for_results
     red_dot_record = @search_results_page.name_of_nth_row(1)
     @search_results_page.select_result_nth_row(1)
     @concept_page.verify_qualifier_name("red dot on label", 0)
@@ -79,7 +80,8 @@ describe 'BOTGARDEN' do
     @taxon_page.click_sidebar_used_by(obj_rec[BOTGARDENObjectData::OBJECT_NUM.name])
 
     @object_page.when_exists(@object_page.botgarden_object_rarity, Config.short_wait)
-    @object_page.scroll_to_element(@object_page.botgarden_object_rarity)
+    #@object_page.scroll_to_element(@object_page.botgarden_object_rarity)
+    sleep Config.click_wait
     expect(@object_page.element_value(@object_page.botgarden_object_rarity) == "yes").to be true
   end
 
