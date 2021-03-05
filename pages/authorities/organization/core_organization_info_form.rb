@@ -67,7 +67,7 @@ module CoreOrganizationInfoForm
     test_terms.each do |test_term|
       index = test_terms.index test_term
       logger.info "Entering org term data set at index #{index}: #{test_term}"
-      enter_display_name(test_term[CoreOrgData::TERM_DISPLAY_NAME.name], index)
+      enter_org_display_name(test_term[CoreOrgData::TERM_DISPLAY_NAME.name], index)
       wait_for_element_and_type(org_term_name_input(index), test_term[CoreOrgData::TERM_NAME.name])
       wait_for_element_and_type(org_term_qualifier_input(index), test_term[CoreOrgData::TERM_QUALIFIER.name])
       wait_for_options_and_select(org_term_status_input(index), org_term_status_options(index), test_term[CoreOrgData::TERM_STATUS.name])
@@ -93,7 +93,7 @@ module CoreOrganizationInfoForm
     errors = []
     test_terms.each do |test_term|
       index = test_terms.index test_term
-      text_values_match?(test_term[CoreOrgData::TERM_DISPLAY_NAME.name], element_value(display_name_input index), errors)
+      text_values_match?(test_term[CoreOrgData::TERM_DISPLAY_NAME.name], element_value(org_display_name_input index), errors)
       text_values_match?(test_term[CoreOrgData::TERM_NAME.name], element_value(org_term_name_input index), errors)
       text_values_match?(test_term[CoreOrgData::TERM_QUALIFIER.name], element_value(org_term_qualifier_input index), errors)
       text_values_match?(test_term[CoreOrgData::TERM_STATUS.name], element_value(org_term_status_input index), errors)
@@ -311,8 +311,7 @@ module CoreOrganizationInfoForm
     test_names.each do |test_name|
       index = test_names.index test_name
       logger.info "Entering org contact name data set at index #{index}: #{test_name}"
-      type = (@deployment == Deployment::PAHMA) ? 'PAHMA Persons' : 'Local Persons'
-      enter_auto_complete(contact_name_input(index), contact_name_options(index), test_name[CoreOrgData::CONTACT_NAME.name], type)
+      enter_auto_complete(contact_name_input(index), contact_name_options(index), test_name[CoreOrgData::CONTACT_NAME.name], 'Local Persons')
     end
   end
 

@@ -18,7 +18,7 @@ class CoreInvocablesData < CollectionSpaceData
       INVOCABLE_BATCH_CLASSNAME = new('className', 'Java class'),
       
       # Reports
-      INVOCABLE_REPORT_OUTPUT_MIME = new('outputMIME', 'For record type'),
+      INVOCABLE_REPORT_OUTPUT_MIME = new('outputMIME', 'Default output format'),
       INVOCABLE_REPORT_FILENAME = new('filename'),
       INVOCABLE_REPORT_LIST_PANEL = new('', 'Reports'),
 

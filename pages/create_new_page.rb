@@ -25,8 +25,8 @@ class CreateNewPage
   def authority_concept_activity_link; {:id => 'concept/activity'} end
   def authority_concept_associated_link; {:id => 'concept/associated'} end
   def authority_concept_material_link; {:id => 'concept/material'} end
-  def authority_concept_nomenclature_link; {:id => '//a[@id="concept/nomenclature'} end
-  def authority_concept_occasion_link; {:id => '//a[@id="concept/occasion'} end
+  def authority_concept_nomenclature_link; {:id => 'concept/nomenclature'} end
+  def authority_concept_occasion_link; {:id => 'concept/occasion'} end
   def authority_person_local_link; {:id => 'person/local'} end
   def authority_person_ulan_link; {:id => 'person/ulan'} end
   def authority_place_local_link; {:id => 'place/local'} end

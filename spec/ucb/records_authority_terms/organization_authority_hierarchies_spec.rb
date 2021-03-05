@@ -42,7 +42,7 @@ describe 'Authority hierarchy', order: :defined do
     end
 
     it 'allows a user to create an org authority with a broader context and two narrower contexts' do
-      @org_authority_page.enter_display_name(@foo_2, 0)
+      @org_authority_page.enter_org_display_name(@foo_2, 0)
       @org_authority_page.expand_hierarchy
       @org_authority_page.add_broader_auth @foo_1
       @org_authority_page.add_narrower_auths [@foo_3a, @foo_3b]
@@ -130,13 +130,9 @@ describe 'Authority hierarchy', order: :defined do
       @create_new_page.click_create_new_org_local
     end
 
-    it 'warns a user before allowing a hierarchy member to be moved to a different hierarchy' do
-      @org_authority_page.enter_display_name(@bar, 0)
-      @org_authority_page.add_narrower_auths [@foo_4ba]
-      @org_authority_page.wait_for_notification "#{@foo_4ba} currently has the broader record #{@foo_3b}. Its broader record will be changed when this record is saved."
-    end
-
     it 'allows a user to move a hierarchy member to a different hierarchy' do
+      @org_authority_page.enter_org_display_name(@bar, 0)
+      @org_authority_page.add_narrower_auths [@foo_4ba]
       @org_authority_page.save_record
       @org_authority_page.verify_display_name(@bar, 0)
       errors = @org_authority_page.verify_hierarchy(nil, [], [@foo_4ba])

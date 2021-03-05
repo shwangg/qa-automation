@@ -59,7 +59,7 @@ describe "The #{deploy.name} merge authorities batch job" do
        (@merge2_2 = "MergeTest2Record_2 #{@test_id}")].each do |org|
         @batch_jobs_page.click_create_new_link
         @create_new_page.click_create_new_org_local
-        @org_page.enter_display_name(org, 0)
+        @org_page.enter_org_display_name(org, 0)
         @org_page.save_record
         @org_page.verify_display_name(org, 0)
       end
@@ -99,8 +99,8 @@ describe "The #{deploy.name} merge authorities batch job" do
 
     it 'shows the merged authority as a repeating term on the authority into which it was merged' do
       @org_page.wait_until(Config.short_wait) do
-        @org_page.element_value(@org_page.display_name_input 0) == @merge2_1
-        @org_page.element_value(@org_page.display_name_input 1) == @merge2_2
+        @org_page.element_value(@org_page.org_display_name_input 0) == @merge2_1
+        @org_page.element_value(@org_page.org_display_name_input 1) == @merge2_2
       end
     end
   end
@@ -116,7 +116,7 @@ describe "The #{deploy.name} merge authorities batch job" do
         sleep 1
         @org_page.click_create_new_link
         @create_new_page.click_create_new_org_local
-        @org_page.enter_display_name(org, 0)
+        @org_page.enter_org_display_name(org, 0)
         @org_page.save_record
         @org_page.verify_display_name(org, 0)
       end
@@ -171,10 +171,10 @@ describe "The #{deploy.name} merge authorities batch job" do
 
     it 'shows the merged authority as a repeating term on the authority into which it was merged' do
       @org_page.wait_until(Config.short_wait) do
-        @org_page.element_value(@org_page.display_name_input 0) == @merge3_1
-        @org_page.element_value(@org_page.display_name_input 1) == @merge3_2
-        @org_page.element_value(@org_page.display_name_input 2) == @merge3_3
-        @org_page.element_value(@org_page.display_name_input 3) == @merge3_4
+        @org_page.element_value(@org_page.org_display_name_input 0) == @merge3_1
+        @org_page.element_value(@org_page.org_display_name_input 1) == @merge3_2
+        @org_page.element_value(@org_page.org_display_name_input 2) == @merge3_3
+        @org_page.element_value(@org_page.org_display_name_input 3) == @merge3_4
       end
     end
   end
@@ -186,16 +186,16 @@ describe "The #{deploy.name} merge authorities batch job" do
       @merge4_1 = "CitationMerge_1 #{@test_id}"
       @batch_jobs_page.click_create_new_link
       @create_new_page.click_create_new_authority_citation_local
-      @citation_page.enter_display_name(@merge4_1, 0)
+      @citation_page.enter_citation_display_name(@merge4_1, 0)
       @citation_page.save_record
-      @citation_page.verify_display_name(@merge4_1, 0)
+      @citation_page.verify_citation_display_name(@merge4_1, 0)
 
       @merge4_2 = "ConceptMerge_1 #{@test_id}"
       @citation_page.click_create_new_link
       @create_new_page.click_create_new_authority_concept_activity
-      @concept_page.enter_term_display_name(@merge4_2, 0)
+      @concept_page.enter_concept_display_name(@merge4_2, 0)
       @concept_page.save_record
-      @concept_page.verify_display_name(@merge4_2, 0)
+      @concept_page.verify_concept_display_name(@merge4_2, 0)
 
       @concept_page.click_tools_link
       @tools_page.click_batch_link
@@ -262,12 +262,7 @@ describe "The #{deploy.name} merge authorities batch job" do
                   CoreOrgData::HISTORY_NOTE.name => "History Note 0"
               }
           ],
-          CoreOrgData::FOUNDING_DATE.name => "01/01/1999",
-          CoreOrgData::CONTACT_NAMES.name => [
-              {
-                  CoreOrgData::CONTACT_NAME.name => "Contact Name 0"
-              }
-          ]
+          CoreOrgData::FOUNDING_DATE.name => "01/01/1999"
       }
       @org_page.click_create_new_link
       @create_new_page.click_create_new_org_local
@@ -275,7 +270,6 @@ describe "The #{deploy.name} merge authorities batch job" do
       @org_page.enter_functions @merge5_2
       @org_page.enter_history_notes @merge5_2
       @org_page.enter_foundation_date @merge5_2
-      @org_page.enter_contact_names @merge5_2
       @org_page.save_record
       @org_page.verify_display_name(@merge5_2_name, 0)
 
@@ -318,7 +312,6 @@ describe "The #{deploy.name} merge authorities batch job" do
     it('merges the Foundation Date') { expect(@org_page.verify_foundation_date @merge5_2).to be_empty }
     it('merges the Foundation Place') { expect(@org_page.verify_foundation_place @merge5_2).to be_empty }
     it('merges the Dissolution Date') { expect(@org_page.verify_dissolution_date @merge5_2).to be_empty }
-    it('merges the Contact Names') { expect(@org_page.verify_contact_names @merge5_2).to be_empty }
   end
 
   describe 'merging authorities with the same display name and with conflicting values' do

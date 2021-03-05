@@ -338,6 +338,7 @@ module CoreObjectIdInfoForm
 
   def taxon_name_input(index); input_locator([fieldset(CoreObjectData::TAXON_IDENT_GRP.name, index)], CoreObjectData::TAXON_NAME.name) end
   def taxon_name_input_options(index); input_options_locator([fieldset(CoreObjectData::TAXON_IDENT_GRP.name, index)], CoreObjectData::TAXON_NAME.name) end
+  def taxon_date_input(index); structured_date_input_locator([fieldset(CoreObjectData::TAXON_IDENT_GRP.name, index)]) end
 
   def enter_taxonomics(data)
     taxonomics = data[CoreObjectData::TAXON_IDENT_GRP.name]
@@ -345,7 +346,7 @@ module CoreObjectIdInfoForm
     taxonomics && taxonomics.each_with_index do |tax, index|
       logger.debug "Entering taxonomic information '#{tax}' at index #{index}"
       enter_auto_complete(taxon_name_input(index), taxon_name_input_options(index), tax[CoreObjectData::TAXON_NAME.name], 'Taxonomic Names')
-      # TODO - the rest if the fields
+      # TODO - the rest of the fields
     end
   end
 

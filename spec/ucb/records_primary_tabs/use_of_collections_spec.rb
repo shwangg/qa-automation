@@ -343,7 +343,11 @@ require_relative '../../../spec_helper'
         @search_page.hit_escape
         @search_page.click_create_new_link
         @create_new_page.click_create_new_use_of_collections
-        @use_of_collections_page.enter_pahma_reference_nbr @uoc_6
+        if deploy == Deployment::PAHMA
+          @use_of_collections_page.enter_pahma_reference_nbr @uoc_6
+        else
+          @use_of_collections_page.enter_reference_nbr @uoc_6
+        end
         @use_of_collections_page.save_record
       end
 
