@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require_relative '../../../elper'
 
 describe 'Cataloging' do
 
@@ -7,6 +7,7 @@ describe 'Cataloging' do
 
   before(:all) do
     @test = TestConfig.new Deployment::CORE
+    test_id = Time.now.to_i
     @test.set_driver launch_browser
     @admin = @test.get_admin_user
     @login_page = LoginPage.new @test
@@ -16,38 +17,38 @@ describe 'Cataloging' do
     @search_results_page = SearchResultsPage.new @test
 
     @test_0 = {
-      CoreConservationData::CONS_REF_NUM.name => 'QA TEST CONSERVATION ALL FIELDS',
+      CoreConservationData::CONS_REF_NUM.name => "QA TEST CONSERVATION ALL FIELDS #{test_id}",
       CoreConservationData::STATUS_GROUP.name => [{CoreConservationData::STATUS.name => "Analysis complete", CoreConservationData::STATUS_DATE.name => 1/1/2000}],
       CoreConservationData::CONSERVATOR.name => 'QA TEST PERSON 1',
       CoreConservationData::EXAMINATION_GROUP.name => [{CoreConservationData::EXAMINATION_NOTE.name => "QA TEST"}]
     }
     @test_1 = {
-      CoreConservationData::CONS_REF_NUM.name => 'QA TEST 5 CONS BOOLEAN 1',
+      CoreConservationData::CONS_REF_NUM.name => "QA TEST 5 CONS BOOLEAN 1 #{test_id}",
       CoreConservationData::EXAMINATION_GROUP.name => [{CoreConservationData::EXAMINATION_NOTE.name => "thank you"}],
       CoreConservationData::TREATMENT_PURPOSE.name => 'Damage',
       CoreConservationData::FABRIC_NOTE.name => 'testtest'
     }
     @test_2 = {
-      CoreConservationData::CONS_REF_NUM.name => 'QA TEST 5 CONS BOOLEAN 2',
+      CoreConservationData::CONS_REF_NUM.name => "QA TEST 5 CONS BOOLEAN 2 #{test_id}",
       CoreConservationData::EXAMINATION_GROUP.name => [{CoreConservationData::EXAMINATION_NOTE.name => "thank you"}],
       CoreConservationData::TREATMENT_PURPOSE.name => 'Damage',
       CoreConservationData::PROPOSED_TREATMENT.name => 'testtest'
     }
     @test_3 = {
-      CoreConservationData::CONS_REF_NUM.name => 'QA TEST 5 CONS BOOLEAN 3',
+      CoreConservationData::CONS_REF_NUM.name => "QA TEST 5 CONS BOOLEAN 3 #{test_id}",
       CoreConservationData::EXAMINATION_GROUP.name => [{CoreConservationData::EXAMINATION_NOTE.name => "thank you"}],
       CoreConservationData::TREATMENT_SUMMARY.name => 'testtest'
     }
     @test_4 = {
-      CoreConservationData::CONS_REF_NUM.name => 'QA TEST 9 CONS GROUP 1',
+      CoreConservationData::CONS_REF_NUM.name => "QA TEST 9 CONS GROUP 1 #{test_id}",
       CoreConservationData::STATUS_GROUP.name => [{CoreConservationData::STATUS.name => "Analysis complete", CoreConservationData::STATUS_DATE.name => 1/1/2000}]
     }
     @test_5 = {
-      CoreConservationData::CONS_REF_NUM.name => 'QA TEST 9 CONS GROUP 2',
+      CoreConservationData::CONS_REF_NUM.name => "QA TEST 9 CONS GROUP 2 #{test_id}",
       CoreConservationData::STATUS_GROUP.name => [{CoreConservationData::STATUS.name => "Analysis complete", CoreConservationData::STATUS_DATE.name => 1/1/2000}]
     }
     @test_6 = {
-      CoreConservationData::CONS_REF_NUM.name => 'QA TEST 9 CONS GROUP 3',
+      CoreConservationData::CONS_REF_NUM.name => "QA TEST 9 CONS GROUP 3 #{test_id}",
       CoreConservationData::STATUS_GROUP.name => [{CoreConservationData::STATUS.name => "Analysis complete"}]
     }
 
@@ -141,7 +142,6 @@ describe 'Cataloging' do
       @search_page.load_search_conservation_form
       @search_page.select_adv_search_any_option
       @search_page.enter_examination_note @test_1
-      # @search_page.scroll_to_top
       @search_page.select_treatment_purpose @test_1
       @search_page.click_search_button
       @search_results_page.wait_for_results

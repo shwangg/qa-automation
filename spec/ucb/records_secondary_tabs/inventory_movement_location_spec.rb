@@ -195,7 +195,7 @@ describe "Inventory / movement" do
 
       it 'updates the object location and container with the later inventory/movement' do
         @object_page.get @object[:url]
-        @object_page.wait_for_location @move_7
+        @object_page.wait_for_pahma_location @move_7
       end
     end
 
@@ -208,7 +208,7 @@ describe "Inventory / movement" do
         @object_page.click_create_new_button
         @inventory_movement_page.create_unlocked_pahma_movement @move_8
         @object_page.get @object[:url]
-        @object_page.wait_for_location @move_7
+        @object_page.wait_for_pahma_location @move_7
       end
     end
   end

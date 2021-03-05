@@ -4,14 +4,14 @@ module CoreSearchConservationForm
   include Page
   include CollectionSpacePages
 
-  def ref_num_input_locator(index); input_locator([fieldset(CoreConservationData::CONS_REF_NUM.name, index)]) end
+  def cons_ref_num_input_locator(index); input_locator([fieldset(CoreConservationData::CONS_REF_NUM.name, index)]) end
 
   # Enters conservation ref number
   # @param [Hash] data_set
   def enter_conservation_ref_num(data_set)
     cons_ref_num = data_set[CoreConservationData::CONS_REF_NUM.name]
     logger.debug "Entering condition ref number '#{cons_ref_num}'"
-    wait_for_element_and_type(ref_num_input_locator(0), cons_ref_num) if cons_ref_num
+    wait_for_element_and_type(cons_ref_num_input_locator(0), cons_ref_num) if cons_ref_num
   end
 
   # Clicks the Search link and the Clear button, and selects 'Conservation Treatments' from the record type
@@ -23,15 +23,15 @@ module CoreSearchConservationForm
 
   # PROCEDURAL STATUS
 
-  def prodecural_status_input_locator(index); input_locator([fieldset(CoreConservationData::STATUS.name, index)]) end
+  def procedural_status_input_locator(index); input_locator([fieldset(CoreConservationData::STATUS.name, index)]) end
 
   # Selects procedural status
   # @param [Hash] data_set
   def select_procedural_status(data_set)
     group = data_set[CoreConservationData::STATUS_GROUP.name][0][CoreConservationData::STATUS.name]
     logger.debug "Entering procedural status #{group}"
-    prodecural_status_options_locator = input_options_locator([fieldset(CoreConservationData::STATUS.name, 0)])
-    wait_for_options_and_select(prodecural_status_input_locator(0), prodecural_status_options_locator, group) if group
+    procedural_status_options_locator = input_options_locator([fieldset(CoreConservationData::STATUS.name, 0)])
+    wait_for_options_and_select(procedural_status_input_locator(0), procedural_status_options_locator, group) if group
   end 
   
   # PROCEDURAL STATUS DATE

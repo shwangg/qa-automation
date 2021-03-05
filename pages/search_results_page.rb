@@ -17,7 +17,9 @@ class SearchResultsPage
   end
 
   def result_row(id)
-    {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][contains(.,\"#{id}\")]"}
+    id.instance_of?(String) && id.include?('"') ?
+      {:xpath => "//div[@class='cspace-ui-SearchResultTable--common']//*[@aria-label='row'][contains(.,'#{id}')]"} :
+      {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][contains(.,\"#{id}\")]"}
   end
 
   def result_row_checkbox(id); {:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,\"#{id}\")]//input"} end
@@ -90,7 +92,7 @@ class SearchResultsPage
 
   def first_row_input; input_locator([], "0") end
   def second_row_input; input_locator([], "1") end
-  def group_input(id); {:xpath => '//div[contains(@class,"ReactModal__Content")]//div[contains(@class,"cspace-ui-SearchResultTable--common")]//div[contains(.,"group1 sean")]'} end
+  def group_input(id); {:xpath => "//div[contains(@class,\"ReactModal__Content\")]//div[contains(@class,\"cspace-ui-SearchResultTable--common\")]//div[contains(.,\"#{id}\")]"} end
 
   def new_search; {:xpath => '//label[text()="Find"]'} end
 

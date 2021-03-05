@@ -174,7 +174,7 @@ module Page
     sleep Config.click_wait
     when_enabled(locator, Config.short_wait)
     element(locator).click
-  rescue Selenium::WebDriver::Error::WebDriverError
+  rescue Selenium::WebDriver::Error::WebDriverError, Selenium::WebDriver::Error::ElementNotInteractableError
     click_element_js locator
   end
 
@@ -248,10 +248,23 @@ module Page
     unless option.to_s.empty? && element_value(input_locator).to_s.empty?
       click_element input_locator
       wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
-      sleep 0.5
-      (option && !option.empty?) ?
-        (elements(options_locator).find { |el| el.text == option }).click :
-        (elements(options_locator).find { |el| el.text.gsub(/[[:space:]]+/, '').empty? }).click
+      tries = 2
+      begin
+        sleep Config.click_wait
+        tries -= 1
+        el = if option && !option.empty?
+               elements(options_locator).find { |el| el.text == option }
+             else
+               elements(options_locator).find { |el| el.text.gsub(/[[:space:]]+/, '').empty? }
+             end
+        el.click
+      rescue NoMethodError => e
+        logger.error e.message
+        retry unless tries.zero?
+      rescue Selenium::WebDriver::Error::ElementNotInteractableError => e
+        logger.error e.message
+        @driver.execute_script('arguments[0].click();', el)
+      end
     end
   end
 
@@ -274,13 +287,23 @@ module Page
       if create_type
         sleep 1
         wait_until(Config.short_wait) { (elements(options_locator).select { |el| el.text.include? create_type }).any? }
-        (elements(options_locator).find { |el| el.text.include? create_type }).click
+        begin
+          (el = (elements(options_locator).find { |el| el.text.include? create_type })).click
+        rescue Selenium::WebDriver::Error::ElementNotInteractableError => e
+          logger.error e.message
+          @driver.execute_script('arguments[0].click();', el)
+        end
         sleep Config.click_wait
 
       # User wants to select existing record
       else
         wait_until(Config.short_wait) { (elements(options_locator).select { |el| el.text == desired_option }).any? }
-        (elements(options_locator).find { |el| el.text == desired_option }).click
+        begin
+          (el = (elements(options_locator).find { |el| el.text == desired_option })).click
+        rescue Selenium::WebDriver::Error::ElementNotInteractableError => e
+          logger.error e.message
+          @driver.execute_script('arguments[0].click();', el)
+        end
       end
 
     # User wants to delete existing value. Removing the value is tricky, so checks that the field is actually emptied.

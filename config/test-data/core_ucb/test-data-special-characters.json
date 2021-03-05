@@ -1,8 +1,7 @@
 {
-  "objects":[
+  "objects": [
     {
-      "titleGroup":
-      [
+      "titleGroup": [
         {
           "title": "\"This sentence is wrapped in double quotes.\""
         }
@@ -14,13 +13,11 @@
       ]
     },
     {
-      "titleGroup":
-      [
+      "titleGroup": [
         {
           "title": "'single quotes'"
         }
       ],
-
       "comments": [
         {
           "comment": "'single quotes'"
@@ -28,8 +25,7 @@
       ]
     },
     {
-      "titleGroup":
-      [
+      "titleGroup": [
         {
           "title": "[square brackets]"
         }
@@ -41,13 +37,11 @@
       ]
     },
     {
-      "titleGroup":
-      [
+      "titleGroup": [
         {
           "title": "{curly braces}"
         }
       ],
-
       "comments": [
         {
           "comment": "{curly braces}"
@@ -55,8 +49,7 @@
       ]
     },
     {
-      "titleGroup":
-      [
+      "titleGroup": [
         {
           "title": "<angle brackets>"
         }
@@ -68,13 +61,11 @@
       ]
     },
     {
-      "titleGroup":
-      [
+      "titleGroup": [
         {
           "title": "<! -- XML comment -->"
         }
       ],
-
       "comments": [
         {
           "comment": "<! -- XML comment -->"
@@ -82,13 +73,11 @@
       ]
     },
     {
-      "titleGroup":
-      [
+      "titleGroup": [
         {
           "title": "\"quoted\" segment & ampersand"
         }
       ],
-
       "comments": [
         {
           "comment": "\"quoted\" segment & ampersand"
@@ -96,10 +85,9 @@
       ]
     },
     {
-      "titleGroup":
-      [
+      "titleGroup": [
         {
-          "title":   "\"A \"quoted\" segment; & (entity); wrapped in quotes\""
+          "title": "\"A \"quoted\" segment; & (entity); wrapped in quotes\""
         }
       ],
       "comments": [
@@ -109,8 +97,7 @@
       ]
     },
     {
-      "titleGroup":
-      [
+      "titleGroup": [
         {
           "title": "backslashes and colon: \c:\mydocs"
         }
@@ -122,8 +109,7 @@
       ]
     },
     {
-      "titleGroup":
-      [
+      "titleGroup": [
         {
           "title": "back-quote: Hawai`i"
         }
@@ -135,13 +121,11 @@
       ]
     },
     {
-      "titleGroup":
-      [
+      "titleGroup": [
         {
           "title": "hash: #20"
         }
       ],
-
       "comments": [
         {
           "comment": "hash: #20"
@@ -149,13 +133,11 @@
       ]
     },
     {
-      "titleGroup":
-      [
+      "titleGroup": [
         {
           "title": "escaped slash: \\/"
         }
       ],
-
       "comments": [
         {
           "comment": "escaped slash: \\/"
@@ -163,11 +145,6 @@
       ]
     }
   ],
-
-  "fivehundred": [
-    {"distinguishingFeatures": "1) I am typing in more than 500 characters of text to test whether the more than 500 characters are cut off or if they display correctly. 500 characters is a lot of text. 2) I am typing in more than 500 characters of text to test whether the more than 500 characters are cut off or if they display correctly. 500 characters is a lot of text. 3) I am typing in more than 500 characters of text to test whether the more than 500 characters are cut off or if they display correctly. 500 characters is a lot of text."}
-  ],
-
   "Non-ASCII char": [
     {
       "comments": [
@@ -176,8 +153,7 @@
         }
       ],
       "distinguishingFeatures": "café",
-      "titleGroup":
-      [
+      "titleGroup": [
         {
           "title": "ñóǹ äŝçíì 汉语/漢語  华语/華語 Huáyǔ; 中文 Zhōngwén 漢字仮名交じり文 Lech Wałęsa æøå",
           "titleTranslationSubGroup": [
@@ -189,38 +165,26 @@
       ]
     }
   ],
-
-  "Autocomplete Test": [
-    {
-      "contentPersons": [
-        {
-          "contentPerson": "Sanford & Sons"
-        },
-        {
-          "contentPerson": "O'Reilly"
-        },
-        {
-          "contentPerson": "Hawai`i"
-        },
-        {
-          "contentPerson": "\"Bull\" Connor"
-        },
-        {
-          "contentPerson": "Lech Wałęsa"
-        },
-        {
-          "contentPerson": "Herr Müller"
-        }
-      ]
-    }
-  ],
-
-  "Search Test": [
-    "Sanford & Sons",
-    "O'Reilly",
-    "Hawai`i",
-    "\"Bull\" Connor",
-    "Lech Wałęsa",
-    "Herr Müller"
-  ]
+  "Autocomplete Test": {
+    "contentPersons": [
+      {
+        "contentPerson": "Sanford & Sons"
+      },
+      {
+        "contentPerson": "O'Reilly"
+      },
+      {
+        "contentPerson": "Hawai`i"
+      },
+      {
+        "contentPerson": "\"Bull\" Connor"
+      },
+      {
+        "contentPerson": "Lech Wałęsa"
+      },
+      {
+        "contentPerson": "Herr Müller"
+      }
+    ]
+  }
 }

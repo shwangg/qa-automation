@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require_relative '../../../spec_helper'
 
 describe 'CollectionSpace' do
 
@@ -6,7 +6,7 @@ describe 'CollectionSpace' do
   include WebDriverManager
 
   before(:all) do
-    @test = TestConfig.new Deployment::CORE
+    @test = TestConfig.new Deployment::CORE_UCB
     @test.set_driver launch_browser
     @admin = @test.get_admin_user
     @login_page = LoginPage.new @test

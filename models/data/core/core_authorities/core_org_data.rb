@@ -5,7 +5,7 @@ class CoreOrgData < CoreAuthorityData
   DATA = [
       ADDITIONS_TO_NAME = new('additionsToName'),
       CONTACT_NAME = new('contactName'),
-      CONTACT_NAMES = new('contactGroup'),
+      CONTACT_NAMES = new('contactNames'),
       DISSOLUTION_DATE = new('dissolutionDate', 'Dissolution date'),
       FOUNDING_DATE = new('foundingDate', 'Foundation date'),
       FOUNDING_PLACE = new('foundingPlace'),

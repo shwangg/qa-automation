@@ -48,6 +48,8 @@ module CollectionSpacePages
   def relation_editor_unrelate_button; {:xpath => '//div[contains(@class,"RelationEditor")]//button'} end
   def relation_editor_cancel_button; {:xpath => '//div[contains(@class,"ConfirmRecordUnrelateModal")]//button[@name="cancel"]'} end
 
+  def term_search_result_msg; {:xpath => '//span[contains(text(), "matching term")]'} end
+
   def notifications_bar; {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]'} end
   def notifications_close_button; {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]//button'} end
 
@@ -177,10 +179,10 @@ module CollectionSpacePages
   end
 
   # Returns a has containing the XPath to a structured date input
-  # @param [Hash] fieldset
+  # @param [Array<Hash>] fieldsets
   # @return [Hash]
-  def structured_date_input_locator(fieldset)
-    {:xpath => "#{fieldset_xpath fieldset}//div[contains(@class, 'StructuredDateInput')]/input"}
+  def structured_date_input_locator(fieldsets)
+    {:xpath => "#{fieldset_xpath fieldsets}//div[contains(@class, 'StructuredDateInput')]/input"}
   end
 
   # Returns a hash containing the XPath to a 'move top' button for a row
@@ -211,7 +213,7 @@ module CollectionSpacePages
   # Waits for a given page title to load
   # @param [String] title_prefix
   def wait_for_title(title_prefix)
-    wait_until(Config.medium_wait) { title == "#{title_prefix} | CollectionSpace" }
+    wait_until(Config.medium_wait) { page_title == "#{title_prefix} | CollectionSpace" }
   end
 
   # Performs a search in the header bar, selecting a type and entering a search string
