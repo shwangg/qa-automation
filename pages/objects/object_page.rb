@@ -9,6 +9,7 @@ class ObjectPage
   include CoreObjectHistoryAssocInfoForm
   include PAHMAObjectIdInfoForm
   include BOTGARDENObjectIdInfoForm
+  include BAMPFAObjectIdInfoForm
 
   def page_heading; {:xpath => '//h1'} end
 
@@ -80,6 +81,16 @@ class ObjectPage
     select_pahma_series data
     select_pahma_collections data
     select_pahma_tms_source data
+  end
+
+  def enter_bampfa_object_id_data(data)
+    enter_bampfa_id_prefix data
+    enter_bampfa_id_year data
+    enter_bampfa_id_gift_1 data
+    enter_bampfa_id_gift_2 data
+    enter_bampfa_id_gift_3 data
+    enter_bampfa_id_alpha data
+    select_bampfa_artist_name data
   end
 
   def enter_number_and_text(data)

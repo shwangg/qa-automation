@@ -67,6 +67,7 @@ require_relative 'pages/objects/core_object_history_assoc_info_form'
 require_relative 'pages/objects/core_object_id_info_form'
 require_relative 'pages/objects/botgarden_object_id_info_form'
 require_relative 'pages/objects/pahma_object_id_info_form'
+require_relative 'pages/objects/bampfa_object_id_info_form'
 require_relative 'pages/objects/object_page'
 
 require_relative 'pages/procedures/acquisition/core_acquisition_info_form'
