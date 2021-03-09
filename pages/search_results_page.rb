@@ -8,7 +8,7 @@ class SearchResultsPage
   def botgarden_taxonomic_name_column; {:xpath => '//div[@class="cspace-ui-SearchResultTable--common"]//*[@aria-label="row"]//div[@aria-colindex = 3]'} end
   def no_results_msg; {:xpath => '//span[text()="No records found"]'} end
   def title_bar_header_text; {:xpath => '//header[contains(@class, "TitleBar")]//h1//div'} end
-  def title_bar_record_link(identifier); {:xpath => "//a[contains(., \"#{identifier}\")]"} end 
+  def title_bar_record_link(identifier); {:xpath => "//a[contains(., \"#{identifier}\")]"} end
   def records_found_header_text; {:xpath => "//div[contains(@class, 'SearchResultSummary')]//div//span"} end
   def relate_selected_button; {:xpath => '//button[contains(.,"Relate selected")]'} end
   def search_filter_bar; {:xpath => '//div[contains(@class, "AdminSearchBar")]//input[contains(@class,"LineInput")]'} end
