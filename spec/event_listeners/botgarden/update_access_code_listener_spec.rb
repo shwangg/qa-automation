@@ -133,7 +133,7 @@ describe 'BOTGARDEN' do
       @current_loc_page.click_sidebar_term(test_taxon)
       expect(@taxon_page.element_value(@taxon_page.botgarden_access_code_input) == "dead").to be false
 
-      @taxon_page.expand_sidebar_used_by
+      #@taxon_page.expand_sidebar_used_by
       @taxon_page.click_sidebar_used_by(object_1[BOTGARDENObjectData::OBJECT_NUM.name])
       @object_page.refresh_page
       @object_page.when_displayed(@object_page.botgarden_dead_flag_input, Config.short_wait)

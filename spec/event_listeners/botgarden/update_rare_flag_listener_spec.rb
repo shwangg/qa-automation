@@ -31,7 +31,6 @@ describe 'BOTGARDEN' do
     BOTGARDENObjectData::TAXON_IDENT_GRP.name => [{BOTGARDENObjectData::TAXON_NAME.name => scientific_name}]
   }
   red_dot_record = "N/A"
-  title_bar = {:xpath => '//header[contains(@class,"TitleBar")]//h1'}
 
   it "find conservation category value with set qualifier field" do
     @search_page.quick_search("Concepts", "Conservation Category", "red dot on label")
@@ -51,7 +50,7 @@ describe 'BOTGARDEN' do
     @object_page.click_save_button
     @object_page.wait_for_notification("Saving #{summary}")
     @object_page.wait_for_notification("Saved #{summary}")
-    @object_page.verify_values_match(summary, @object_page.element_text(title_bar))
+    @object_page.verify_values_match(summary, @object_page.element_text(@object_page.page_h1))
 
     #value in Rare field should be "no"; if yes, enter a unique Taxon name for scientific_name
     #and re-run test (confirm that Rare = "no")
@@ -67,7 +66,7 @@ describe 'BOTGARDEN' do
     @taxon_page.click_save_button
 
     summary = "#{scientific_name}" # no TERM_STATUS value created for new test taxon
-    @object_page.verify_values_match(scientific_name, @taxon_page.element_text(title_bar))
+    @object_page.verify_values_match(scientific_name, @taxon_page.element_text(@taxon_page.page_h1))
     @taxon_page.wait_for_notification("Saving #{summary}")
     @taxon_page.wait_for_notification("Saved #{summary}")
     expect(@taxon_page.exists? @taxon_page.terms_used_term_link(red_dot_record))

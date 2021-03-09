@@ -421,10 +421,11 @@ module CollectionSpacePages
 
   # Waits for the notifications bar to contain a given string
   # @param [String] string
-  def wait_for_notification(string)
+  def wait_for_notification(string, timeout = nil)
     unhide_notifications_bar
-    when_displayed(notifications_bar, Config.short_wait)
-    wait_until(Config.short_wait) { element_text(notifications_bar).include? string }
+    wait = timeout || Config.short_wait
+    when_displayed(notifications_bar, wait)
+    wait_until(wait) { element_text(notifications_bar).include? string }
   end
 
   # Closes the notifications bar if it is present
