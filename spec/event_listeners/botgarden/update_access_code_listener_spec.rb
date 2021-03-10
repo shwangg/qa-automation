@@ -50,23 +50,18 @@ describe 'BOTGARDEN' do
   obj_2_num = {BOTGARDENObjectData::OBJECT_NUM.name => object_2[BOTGARDENObjectData::OBJECT_NUM.name]}
   search_data = {BOTGARDENObjectData::OBJECT_NUM.name => [obj_1_num, obj_2_num]}
 
-  #XPath locators
-  def accession_number; {:xpath => '//header//div//h1//a'} end
-  def related_proc_header(accession_num); {:xpath => "//header[contains(., 'Procedures related to #{accession_num}')]"} end
-  def row_taxon_name; {:xpath => '//div[@class="cspace-ui-SearchResultTable--common"]//*[@aria-label="row"]//div[@aria-colindex = 3]'} end
-
   describe 'Test 1 - Create Object, Current Location Records' do
     it "creates new object record and relates current location record" do
-      [object_1, object_2].each do |record|
+      [[object_1, "Default"],[object_2, nil]].each do |record, default_name|
         @search_page.click_create_new_link
         @create_new_page.click_create_new_object
-        @object_page.enter_object_number record
-        @object_page.enter_botgarden_taxonomics record
+        @object_page.enter_botgarden_accession_num record
+        @object_page.enter_taxonomics(record, default_name)
         @object_page.save_record
 
         @object_page.click_current_locations_tab
         @current_loc_page.click_create_new_button
-        @current_loc_page.enter_current_location(current_loc_1)
+        @current_loc_page.enter_botgarden_current_location_data(current_loc_1)
         @current_loc_page.save_record
       end
       @current_loc_page.click_search_link
@@ -76,7 +71,7 @@ describe 'BOTGARDEN' do
 
       @search_results_page.wait_for_results
       expect(@search_results_page.elements(@search_results_page.result_rows).length).to eql(2)
-      @search_results_page.elements(row_taxon_name).each do |row|
+      @search_results_page.elements(@search_results_page.botgarden_taxonomic_name_column).each do |row|
         expect(@search_results_page.element_text(row) == test_taxon)
       end
     end
@@ -107,10 +102,10 @@ describe 'BOTGARDEN' do
         @taxon_page.click_sidebar_used_by(accession_num)
         @object_page.expand_sidebar_related_proc
         @object_page.click_sidebar_related_proc("Asian")
-        @current_loc_page.enter_current_location(dead_rec)
+        @current_loc_page.enter_botgarden_current_location_data(dead_rec)
         @current_loc_page.save_record
         @current_loc_page.wait_for_notification("Deleted")
-        expect(@current_loc_page.exists? related_proc_header(accession_num)).to be true
+        expect(@current_loc_page.element_text(@search_results_page.title_bar_header_text)).to eql("Procedures related to #{accession_num}")
         expect(@current_loc_page.elements(@search_results_page.result_rows).length).to eql(0)
 
         @current_loc_page.click_search_link
@@ -133,12 +128,12 @@ describe 'BOTGARDEN' do
       @search_results_page.click_result(object_1[BOTGARDENObjectData::OBJECT_NUM.name])
       @object_page.click_current_locations_tab
       @current_loc_page.click_create_new_button
-      @current_loc_page.enter_current_location(revived_rec)
+      @current_loc_page.enter_botgarden_current_location_data(revived_rec)
       @current_loc_page.save_record
       @current_loc_page.click_sidebar_term(test_taxon)
       expect(@taxon_page.element_value(@taxon_page.botgarden_access_code_input) == "dead").to be false
 
-      @taxon_page.expand_sidebar_used_by
+      #@taxon_page.expand_sidebar_used_by
       @taxon_page.click_sidebar_used_by(object_1[BOTGARDENObjectData::OBJECT_NUM.name])
       @object_page.refresh_page
       @object_page.when_displayed(@object_page.botgarden_dead_flag_input, Config.short_wait)

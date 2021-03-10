@@ -42,7 +42,7 @@ describe 'BOTGARDEN' do
   it "create object, current location records" do
     @search_page.click_create_new_link
     @create_new_page.click_create_new_object
-    @object_page.enter_object_number @obj_record
+    @object_page.enter_botgarden_accession_num @obj_record
     @object_page.enter_botgarden_taxonomics @obj_record
     @object_page.save_record
 
@@ -93,8 +93,7 @@ describe 'BOTGARDEN' do
     @current_loc_page.click_primary_record_tab
 
     @object_page.refresh_page
-    @object_page.when_displayed(@object_page.botgarden_dead_flag_input, Config.medium_wait)
-    sleep Config.click_wait
+    sleep Config.medium_wait
     expect(@object_page.element_value(@object_page.botgarden_dead_flag_input) == "no").to be true
   end
 

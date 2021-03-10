@@ -16,7 +16,7 @@ module BOTGARDENObjectIdInfoForm
   # TAXONOMIC INFORMATION
 
   def enter_botgarden_taxonomics(data)
-    enter_taxonomics data
+    enter_taxonomics(data, "Default")
   end
 
   def id_prefix_input_locator; input_locator([], BAMPFAObjectData::ID_PREFIX.name) end

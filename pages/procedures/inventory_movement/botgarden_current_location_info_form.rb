@@ -30,8 +30,12 @@ module BOTGARDENCurrentLocationInfoForm
       logger.debug "Entering garden location '#{garden}'"
       garden_location_options_locator = input_options_locator([], BOTGARDENCurrentLocationData::GARDEN_LOCATION.name)
       hit_escape
-      enter_auto_complete(botgarden_garden_location_input_locator, garden_location_options_locator, '')
-      enter_auto_complete(botgarden_garden_location_input_locator, garden_location_options_locator, garden)
+      begin
+        enter_auto_complete(botgarden_garden_location_input_locator, garden_location_options_locator, '')
+        enter_auto_complete(botgarden_garden_location_input_locator, garden_location_options_locator, garden)
+      rescue
+        enter_auto_complete(botgarden_garden_location_input_locator, garden_location_options_locator, garden, "Garden Locations")
+      end
     end
   end
 
