@@ -70,8 +70,10 @@ require_relative 'pages/objects/pahma_object_id_info_form'
 require_relative 'pages/objects/object_page'
 
 require_relative 'pages/procedures/acquisition/core_acquisition_info_form'
+require_relative 'pages/procedures/acquisition/pahma_accession_info_form'
 require_relative 'pages/procedures/acquisition/acquisition_page'
 require_relative 'pages/procedures/condition_check/core_condition_check_info_form'
+require_relative 'pages/procedures/condition_check/pahma_condition_check_tech_assess_info_form'
 require_relative 'pages/procedures/condition_check/condition_check_page'
 require_relative 'pages/procedures/conservation/core_conservation_info_form'
 require_relative 'pages/procedures/conservation/conservation_page'
@@ -101,6 +103,7 @@ require_relative 'pages/procedures/valuation_control/core_valuation_control_info
 require_relative 'pages/procedures/valuation_control/valuation_control_page'
 
 require_relative 'pages/search/core_search_acquisitions_form'
+require_relative 'pages/search/pahma_search_accessions_form'
 require_relative 'pages/search/core_search_condition_check_form'
 require_relative 'pages/search/core_search_conservation_form'
 require_relative 'pages/search/core_search_objects_form'

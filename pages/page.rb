@@ -174,7 +174,8 @@ module Page
     sleep Config.click_wait
     when_enabled(locator, Config.short_wait)
     element(locator).click
-  rescue Selenium::WebDriver::Error::WebDriverError, Selenium::WebDriver::Error::ElementNotInteractableError
+  rescue Selenium::WebDriver::Error::WebDriverError, Selenium::WebDriver::Error::ElementNotInteractableError => e
+    logger.error e.message
     click_element_js locator
   end
 

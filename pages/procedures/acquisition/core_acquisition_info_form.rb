@@ -115,7 +115,7 @@ module CoreAcquisitionInfoForm
       add_button_locator = add_button_locator([fieldset(CoreAcquisitionData::ACQUIS_SOURCES.name)])
       source_options_locator = input_options_locator([fieldset(CoreAcquisitionData::ACQUIS_SOURCES.name, index)])
       wait_for_element_and_click add_button_locator unless index.zero?
-      enter_auto_complete(acquis_source_input_locator(index), source_options_locator, source[CoreAcquisitionData::ACQUIS_SOURCE.name], 'Local Persons')
+      enter_auto_complete(acquis_source_input_locator(index), source_options_locator, source[CoreAcquisitionData::ACQUIS_SOURCE.name], 'Persons')
     end
   end
 
@@ -145,7 +145,7 @@ module CoreAcquisitionInfoForm
       funding_source_options_locator = input_options_locator([fieldset(CoreAcquisitionData::ACQUIS_FUNDING_LIST.name, index)], CoreAcquisitionData::ACQUIS_FUNDING_SOURCE.name)
       wait_for_element_and_click add_button_locator([fieldset(CoreAcquisitionData::ACQUIS_FUNDING_LIST.name)]) unless index.zero?
       wait_for_element_and_type(funding_value_input_locator(index), funding[CoreAcquisitionData::ACQUIS_FUNDING_VALUE.name])
-      enter_auto_complete(funding_source_input_locator(index), funding_source_options_locator, funding[CoreAcquisitionData::ACQUIS_FUNDING_SOURCE.name], 'Local Persons')
+      enter_auto_complete(funding_source_input_locator(index), funding_source_options_locator, funding[CoreAcquisitionData::ACQUIS_FUNDING_SOURCE.name], 'Persons')
     end
   end
 
