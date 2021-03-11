@@ -9,6 +9,7 @@ class SearchPage
   include CoreSearchOrganizationsForm
   include CoreSearchPersonsForm
   include PAHMASearchObjectsForm
+  include PAHMASearchAccessionsForm
 
   def search_button_one; {:xpath => '(//button[@name="search"])[1]'} end
   def search_button_two; {:xpath => '(//button[@name="search"])[2]'} end
@@ -118,6 +119,7 @@ class SearchPage
   def enter_last_updated_times(after_date_str, before_date_str)
     logger.info "Entering last updated on-or-after '#{after_date_str}' and on-or-before '#{before_date_str}'"
     if after_date_str
+      wait_until(Config.short_wait) { elements(last_updated_time_input_locator).any? }
       elements(last_updated_time_input_locator)[0].clear
       sleep Config.click_wait
       elements(last_updated_time_input_locator)[0].send_keys after_date_str
@@ -125,6 +127,7 @@ class SearchPage
       hit_tab
     end
     if before_date_str
+      wait_until(Config.short_wait) { elements(last_updated_time_input_locator).any? }
       elements(last_updated_time_input_locator)[1].clear
       sleep Config.click_wait
       elements(last_updated_time_input_locator)[1].send_keys before_date_str

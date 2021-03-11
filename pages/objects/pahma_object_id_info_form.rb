@@ -94,7 +94,6 @@ module PAHMAObjectIdInfoForm
     end
   end
 
-
   def wait_for_pahma_storage_location(data)
     wait_for_location data
   end
@@ -256,8 +255,8 @@ module PAHMAObjectIdInfoForm
       wait_for_element_and_type(pahma_material_input(index), mat[PAHMAObjectData::MATERIAL.name])
       wait_for_element_and_type(pahma_material_component_input(index), mat[PAHMAObjectData::MATERIAL_COMPONENT.name])
       wait_for_element_and_type(pahma_material_name_input(index), mat[PAHMAObjectData::MATERIAL_NAME.name])
-      attempt_action(data_input_errors, mat) { wait_for_element_and_type(pahma_material_source_input(index), mat[PAHMAObjectData::MATERIAL_SOURCE.name]) }
-      attempt_action(data_input_errors, mat) { wait_for_element_and_type(pahma_material_note_input(index), mat[PAHMAObjectData::MATERIAL_NOTE.name]) }
+      wait_for_element_and_type(pahma_material_source_input(index), mat[PAHMAObjectData::MATERIAL_SOURCE.name])
+      wait_for_element_and_type(pahma_material_note_input(index), mat[PAHMAObjectData::MATERIAL_NOTE.name])
     end
   end
 
@@ -304,7 +303,7 @@ module PAHMAObjectIdInfoForm
   def pahma_collection_options(index); input_options_locator([fieldset(PAHMAObjectData::PAHMA_COLLECTION_LIST.name, index)]) end
 
   def select_pahma_collections(data)
-    collections = data_set[PAHMAObjectData::PAHMA_COLLECTION_LIST.name]
+    collections = data[PAHMAObjectData::PAHMA_COLLECTION_LIST.name]
     prep_fieldsets_for_test_data([fieldset(PAHMAObjectData::PAHMA_COLLECTION_LIST.name)], collections)
     collections && collections.each_with_index do |collect, index|
       logger.debug "Entering collection '#{collect}' at index #{index}"
