@@ -120,6 +120,7 @@ module Page
   def wait_until(timeout, msg=nil, &blk)
     wait = Selenium::WebDriver::Wait.new :timeout => timeout, :message => msg
     wait.until &blk
+    Time.now
   end
 
   # Waits a given number of seconds to find an element
@@ -173,10 +174,13 @@ module Page
   def click_element(locator)
     sleep Config.click_wait
     when_enabled(locator, Config.short_wait)
+    timestamp = Time.now
     element(locator).click
+    timestamp
   rescue Selenium::WebDriver::Error::WebDriverError, Selenium::WebDriver::Error::ElementNotInteractableError => e
     logger.error e.message
     click_element_js locator
+    timestamp
   end
 
   def click_element_js(locator)
@@ -205,10 +209,11 @@ module Page
   def wait_for_element_and_type(locator, string)
     when_exists(locator, Config.short_wait)
     unless string.to_s.empty? && element(locator).text.to_s.empty? && element_value(locator).to_s.empty?
-      click_element locator
+      timestamp = click_element locator
       element(locator).clear
       element(locator).send_keys string
     end
+    timestamp
   end
 
   # Clicks an input, waits for options to appear, enters a given string, and waits for the element's value to match
@@ -219,8 +224,11 @@ module Page
   def wait_for_options_and_type(input_locator, options_locator, string)
     when_exists(input_locator, Config.short_wait)
     unless string.to_s.empty? && element_value(input_locator).to_s.empty?
-      click_element input_locator
-      wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
+      start = click_element input_locator
+      logger.debug "Start timestamp: #{start}"
+      finish = wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
+      logger.debug "Finish timestamp: #{finish}"
+      logger.warn "BENCHMARK - Took #{finish - start} seconds for dropdown options to appear"
       tries = 2
       begin
         tries -= 1
@@ -247,8 +255,9 @@ module Page
   def wait_for_options_and_select(input_locator, options_locator, option)
     when_exists(input_locator, Config.short_wait)
     unless option.to_s.empty? && element_value(input_locator).to_s.empty?
-      click_element input_locator
-      wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
+      start = click_element input_locator
+      finish = wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
+      logger.warn "BENCHMARK - Took #{finish - start} seconds for dropdown options to appear"
       tries = 2
       begin
         sleep Config.click_wait
@@ -281,13 +290,13 @@ module Page
 
     # User enters a value in the input
     if desired_option && !desired_option.empty?
-      wait_for_element_and_type(input_locator, desired_option)
+      start = wait_for_element_and_type(input_locator, desired_option)
       wait_until(Config.short_wait) { elements(options_locator).any? &:displayed? }
 
       # User wants to create a new record
       if create_type
         sleep 1
-        wait_until(Config.short_wait) { (elements(options_locator).select { |el| el.text.include? create_type }).any? }
+        finish = wait_until(Config.short_wait) { (elements(options_locator).select { |el| el.text.include? create_type }).any? }
         begin
           (el = (elements(options_locator).find { |el| el.text.include? create_type })).click
         rescue Selenium::WebDriver::Error::ElementNotInteractableError => e
@@ -298,7 +307,7 @@ module Page
 
       # User wants to select existing record
       else
-        wait_until(Config.short_wait) { (elements(options_locator).select { |el| el.text == desired_option }).any? }
+        finish = wait_until(Config.short_wait) { (elements(options_locator).select { |el| el.text == desired_option }).any? }
         begin
           (el = (elements(options_locator).find { |el| el.text == desired_option })).click
         rescue Selenium::WebDriver::Error::ElementNotInteractableError => e
@@ -307,7 +316,9 @@ module Page
         end
       end
 
-    # User wants to delete existing value. Removing the value is tricky, so checks that the field is actually emptied.
+      logger.warn "BENCHMARK - Took #{finish - start} seconds for autocomplete options to appear"
+
+      # User wants to delete existing value. Removing the value is tricky, so checks that the field is actually emptied.
     # If not, retries once.
     else
       when_exists(input_locator, Config.short_wait)
@@ -344,7 +355,9 @@ module Page
   # Hits the Enter key
   def hit_enter
     @driver.action.send_keys(:enter).perform
+    timestamp = Time.now
     sleep Config.click_wait
+    timestamp
   end
 
   # Hits the Tab key

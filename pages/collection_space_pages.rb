@@ -212,8 +212,9 @@ module CollectionSpacePages
 
   # Waits for a given page title to load
   # @param [String] title_prefix
-  def wait_for_title(title_prefix)
-    wait_until(Config.medium_wait) { page_title == "#{title_prefix} | CollectionSpace" }
+  def wait_for_title(title_prefix, start_time=nil)
+    finish = wait_until(Config.medium_wait) { page_title == "#{title_prefix} | CollectionSpace" }
+    logger.debug "BENCHMARK - #{title_prefix} page title loaded in #{finish - start_time}" if start_time
   end
 
   # Performs a search in the header bar, selecting a type and entering a search string
@@ -279,24 +280,27 @@ module CollectionSpacePages
   # Clicks save and waits for confirmation the record has been saved
   def save_record
     logger.info 'Saving the record'
-    click_save_button
-    wait_for_notification 'Saved'
+    start = click_save_button
+    finish = wait_for_notification 'Saved'
+    logger.warn "BENCHMARK - Took #{finish - start} seconds to save record"
   end
 
   # Clicks the save-only option for a record
   def save_record_only
     logger.info 'Saving but not locking the record'
     click_save_button
-    wait_for_element_and_click save_only_button
-    wait_for_notification 'Saved'
+    start = wait_for_element_and_click save_only_button
+    finish = wait_for_notification 'Saved'
+    logger.warn "BENCHMARK - Took #{finish - start} seconds to save but not lock record"
   end
 
   # Clicks the save-and-lock option for a record
   def save_and_lock_record
     logger.info 'Saving and locking the record'
     click_save_button
-    wait_for_element_and_click save_and_lock_button
-    wait_for_notification 'Saved'
+    start = wait_for_element_and_click save_and_lock_button
+    finish = wait_for_notification 'Saved'
+    logger.warn "BENCHMARK - Took #{finish - start} seconds to save and lock record"
   end
 
   # Clicks the delete button
@@ -308,8 +312,9 @@ module CollectionSpacePages
   def delete_record
     logger.info 'Deleting the record'
     click_delete_button
-    wait_for_element_and_click confirm_delete_button
-    when_not_exists(confirm_delete_button, Config.short_wait)
+    start = wait_for_element_and_click confirm_delete_button
+    finish = wait_for_notification 'Deleted'
+    logger.warn "BENCHMARK - Took #{finish - start} seconds to delete record"
   end
 
   # Returns the delete confirmation message text
@@ -413,8 +418,9 @@ module CollectionSpacePages
   def log_out
     logger.info 'Logging out'
     unhide_header_bar
-    wait_for_element_and_click sign_out_link
-    wait_until(Config.short_wait) { url.include? '/login' }
+    start = wait_for_element_and_click sign_out_link
+    finish = wait_until(Config.short_wait) { url.include? '/login' }
+    logger.warn "BENCHMARK - Took #{finish - start} seconds to log out"
   end
 
   # FLOATING HEADER AND NOTIFICATIONS BARS
@@ -426,6 +432,7 @@ module CollectionSpacePages
     wait = timeout || Config.short_wait
     when_displayed(notifications_bar, wait)
     wait_until(wait) { element_text(notifications_bar).include? string }
+    Time.now
   end
 
   # Closes the notifications bar if it is present

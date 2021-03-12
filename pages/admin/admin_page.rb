@@ -67,6 +67,7 @@ class AdminPage
 
     user.roles.each { |role| wait_for_element_and_click role_locator(role.name) }
 
+    logger.debug "BENCHMARK ACTION - saving a new user"
     save_record
   end
 
@@ -89,8 +90,8 @@ class AdminPage
     wait_for_element_and_click role_locator(prev_role_name)
     wait_for_element_and_click role_locator(new_role_name)
 
+    logger.debug "BENCHMARK ACTION - saving a changed user role"
     save_record
-    wait_for_notification 'Saved'
   end
 
   def delete_user(user)
@@ -99,8 +100,8 @@ class AdminPage
     fill_search_filter_bar user.name
     wait_for_results
     wait_for_element_and_click result_row(user.name)
+    logger.debug "BENCHMARK ACTION - deleting a user"
     delete_record
-    wait_for_notification 'Deleted'
   end
 
   #########################
@@ -179,8 +180,8 @@ class AdminPage
     fill_search_filter_bar role.name
     wait_for_results
     wait_for_element_and_click result_row(role.name)
+    logger.debug "BENCHMARK ACTION - deleting a user role"
     delete_record
-    wait_for_notification 'Deleted'
   end
 
 end

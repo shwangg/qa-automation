@@ -53,6 +53,18 @@ class SearchPage
     end
   end
 
+  def click_search_and_wait_for_results(results_page)
+    start = click_search_button
+    finish = results_page.wait_for_results
+    logger.debug "BENCHMARK ACTION - Took #{finish - start} seconds for search to complete"
+  end
+
+  def hit_enter_and_wait_for_results(results_page)
+    start = hit_enter
+    finish = results_page.wait_for_results
+    logger.debug "BENCHMARK ACTION - Took #{finish - start} seconds for search to complete"
+  end
+
   # Clicks the 'Clear' button
   def click_clear_button
     wait_for_element_and_click clear_button
