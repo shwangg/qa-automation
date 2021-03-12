@@ -66,40 +66,35 @@ require_relative '../../../spec_helper'
 
       it 'allow a search by reference number' do
         @search_page.enter_ref_num @test_0
-        @search_page.hit_enter
-        @search_results_page.wait_for_results
+        @search_page.hit_enter_and_wait_for_results @search_results_page
         expect(@search_results_page.field_condition_present? @test_0[CoreAcquisitionData::ACQUIS_REF_NUM.name]).to be true
         expect(@search_results_page.row_exists? @test_0[CoreAcquisitionData::ACQUIS_REF_NUM.name]).to be true
       end
 
       it 'allow a search by accession date' do
         @search_page.enter_accession_date @test_0
-        @search_page.click_search_button
-        @search_results_page.wait_for_results
+        @search_page.click_search_and_wait_for_results @search_results_page
         expect(@search_results_page.field_condition_present? @test_0[CoreAcquisitionData::ACCESSION_DATE_GRP.name]).to be true
         expect(@search_results_page.row_exists? @test_0[CoreAcquisitionData::ACQUIS_REF_NUM.name]).to be true
       end
 
       it 'allow a search by acquisition date' do
         @search_page.enter_acquisition_dates @test_0
-        @search_page.click_search_button
-        @search_results_page.wait_for_results
+        @search_page.click_search_and_wait_for_results @search_results_page
         expect(@search_results_page.field_condition_present? @test_0[CoreAcquisitionData::ACQUIS_DATE_GRP.name].first[CoreAcquisitionData::ACQUIS_DATE.name]).to be true
         expect(@search_results_page.row_exists? @test_0[CoreAcquisitionData::ACQUIS_REF_NUM.name]).to be true
       end
 
       it 'allow a search by acquisition method' do
         @search_page.select_acquisition_method @test_0
-        @search_page.click_search_button
-        @search_results_page.wait_for_results
+        @search_page.click_search_and_wait_for_results @search_results_page
         expect(@search_results_page.field_condition_present? @test_0[CoreAcquisitionData::ACQUIS_METHOD.name]).to be true
         expect(@search_results_page.row_exists? @test_0[CoreAcquisitionData::ACQUIS_REF_NUM.name]).to be true
       end
 
       it 'allow a search by acquisition source' do
         @search_page.select_acquisition_sources @test_0
-        @search_page.click_search_button
-        @search_results_page.wait_for_results
+        @search_page.click_search_and_wait_for_results @search_results_page
         expect(@search_results_page.field_condition_present? @test_0[CoreAcquisitionData::ACQUIS_SOURCES.name].first[CoreAcquisitionData::ACQUIS_SOURCE.name]).to be true
         expect(@search_results_page.row_exists? @test_0[CoreAcquisitionData::ACQUIS_REF_NUM.name]).to be true
       end
@@ -107,8 +102,7 @@ require_relative '../../../spec_helper'
       unless deploy == Deployment::PAHMA
         it 'allow a search by acquisition funding source' do
           @search_page.select_funding_sources @test_0
-          @search_page.click_search_button
-          @search_results_page.wait_for_results
+          @search_page.click_search_and_wait_for_results @search_results_page
           expect(@search_results_page.field_condition_present? @test_0[CoreAcquisitionData::ACQUIS_FUNDING_LIST.name].first[CoreAcquisitionData::ACQUIS_FUNDING_SOURCE.name]).to be true
           expect(@search_results_page.row_exists? @test_0[CoreAcquisitionData::ACQUIS_REF_NUM.name]).to be true
         end
@@ -116,16 +110,14 @@ require_relative '../../../spec_helper'
 
       it 'allow a search by credit line' do
         @search_page.enter_credit_line @test_0
-        @search_page.hit_enter
-        @search_results_page.wait_for_results
+        @search_page.hit_enter_and_wait_for_results @search_results_page
         expect(@search_results_page.field_condition_present? @test_0[CoreAcquisitionData::CREDIT_LINE.name]).to be true
         expect(@search_results_page.row_exists? @test_0[CoreAcquisitionData::ACQUIS_REF_NUM.name]).to be true
       end
 
       it 'allow a search by field collection event name' do
         @search_page.enter_field_collect_event_names @test_0
-        @search_page.click_search_button
-        @search_results_page.wait_for_results
+        @search_page.click_search_and_wait_for_results @search_results_page
         expect(@search_results_page.field_condition_present? @test_0[CoreAcquisitionData::FIELD_COLLECT_EVENT_NAMES.name].first[CoreAcquisitionData::FIELD_COLLECT_EVENT_NAME.name]).to be true
         expect(@search_results_page.row_exists? @test_0[CoreAcquisitionData::ACQUIS_REF_NUM.name]).to be true
       end
@@ -133,16 +125,14 @@ require_relative '../../../spec_helper'
       it 'allow a search by updated date' do
         today = Date.today.to_s
         @search_page.enter_last_updated_times(today, today)
-        @search_page.click_search_button
-        @search_results_page.wait_for_results
+        @search_page.click_search_and_wait_for_results @search_results_page
         expect(@search_results_page.field_condition_present? today).to be true
         expect(@search_results_page.row_exists? @test_0[CoreAcquisitionData::ACQUIS_REF_NUM.name]).to be true
       end
 
       it 'allow a search by updated by' do
         @search_page.enter_last_updated_by [@admin.username]
-        @search_page.click_search_button
-        @search_results_page.wait_for_results
+        @search_page.click_search_and_wait_for_results @search_results_page
         expect(@search_results_page.field_condition_present? @admin.username).to be true
         expect(@search_results_page.row_exists? @test_0[CoreAcquisitionData::ACQUIS_REF_NUM.name]).to be true
       end
@@ -156,8 +146,7 @@ require_relative '../../../spec_helper'
         @search_page.select_adv_search_any_option
         @search_page.enter_credit_line @test_1
         @search_page.select_acquisition_method @test_1
-        @search_page.click_search_button
-        @search_results_page.wait_for_results
+        @search_page.click_search_and_wait_for_results @search_results_page
         expect(@search_results_page.field_condition_present? @test_1[CoreAcquisitionData::CREDIT_LINE.name]).to be true
         expect(@search_results_page.field_condition_present? @test_1[CoreAcquisitionData::ACQUIS_METHOD.name]).to be true
         expect(@search_results_page.row_exists? @test_1[CoreAcquisitionData::ACQUIS_REF_NUM.name]).to be true
@@ -169,8 +158,7 @@ require_relative '../../../spec_helper'
         @search_page.select_adv_search_all_option
         @search_page.enter_credit_line @test_1
         @search_page.select_acquisition_method @test_1
-        @search_page.click_search_button
-        @search_results_page.wait_for_results
+        @search_page.click_search_and_wait_for_results @search_results_page
         expect(@search_results_page.field_condition_present? @test_1[CoreAcquisitionData::CREDIT_LINE.name]).to be true
         expect(@search_results_page.field_condition_present? @test_1[CoreAcquisitionData::ACQUIS_METHOD.name]).to be true
         expect(@search_results_page.row_exists? @test_1[CoreAcquisitionData::ACQUIS_REF_NUM.name]).to be true
@@ -188,8 +176,7 @@ require_relative '../../../spec_helper'
         @search_page.enter_keyword @test_1[CoreAcquisitionData::ACQUIS_REASON.name]
         @search_page.enter_credit_line @test_1
         @search_page.select_acquisition_method @test_1
-        @search_page.click_search_button
-        @search_results_page.wait_for_results
+        @search_page.click_search_and_wait_for_results @search_results_page
         expect(@search_results_page.keyword_condition_present? @test_1[CoreAcquisitionData::ACQUIS_REASON.name]).to be true
         expect(@search_results_page.field_condition_present? @test_1[CoreAcquisitionData::CREDIT_LINE.name]).to be true
         expect(@search_results_page.field_condition_present? @test_1[CoreAcquisitionData::ACQUIS_METHOD.name]).to be true
@@ -203,8 +190,7 @@ require_relative '../../../spec_helper'
         @search_page.enter_keyword @test_1[CoreAcquisitionData::ACQUIS_REASON.name]
         @search_page.enter_credit_line @test_1
         @search_page.select_acquisition_method @test_1
-        @search_page.click_search_button
-        @search_results_page.wait_for_results
+        @search_page.click_search_and_wait_for_results @search_results_page
         expect(@search_results_page.keyword_condition_present? @test_1[CoreAcquisitionData::ACQUIS_REASON.name]).to be true
         expect(@search_results_page.field_condition_present? @test_1[CoreAcquisitionData::CREDIT_LINE.name]).to be true
         expect(@search_results_page.field_condition_present? @test_1[CoreAcquisitionData::ACQUIS_METHOD.name]).to be true

@@ -85,8 +85,9 @@ describe "The #{deploy.name} merge authorities batch job" do
 
     it 'allows the user to merge the authority into another authority' do
       @batch_jobs_page.enter_target_record @merge2_1
-      @batch_jobs_page.click_invoke_button
-      @batch_jobs_page.wait_for_notification 'Completed Merge Authority Items: 2 records affected.'
+      start = @batch_jobs_page.click_invoke_button
+      finish = @batch_jobs_page.wait_for_notification 'Completed Merge Authority Items: 2 records affected.'
+      logger.debug "BENCHMARK ACTION - merging authorities took #{finish - start} seconds"
       @batch_jobs_page.wait_for_notification "Updated the target record, #{@merge2_1}."
       @batch_jobs_page.wait_for_notification "No records referenced the source record, #{@merge2_2}."
       @batch_jobs_page.wait_for_notification "Deleted the source record, #{@merge2_2}."
@@ -144,7 +145,7 @@ describe "The #{deploy.name} merge authorities batch job" do
 
     it 'allows the user to merge the authority into another authority' do
       @batch_jobs_page.enter_target_record @merge3_1
-      @batch_jobs_page.click_invoke_button
+      start = @batch_jobs_page.click_invoke_button
       msg = 'Completed Merge Authority Items: 4 records affected.'
       msg3_1 = "Updated the target record, #{@merge3_1}."
       msg3_2_1 = "No records referenced the source record, #{@merge3_2}."
@@ -153,7 +154,8 @@ describe "The #{deploy.name} merge authorities batch job" do
       msg3_3_2 = "Deleted the source record, #{@merge3_3}."
       msg3_4_1 = "No records referenced the source record, #{@merge3_4}."
       msg3_4_2 = "Deleted the source record, #{@merge3_4}."
-      @batch_jobs_page.wait_for_notification msg
+      finish = @batch_jobs_page.wait_for_notification msg
+      logger.debug "BENCHMARK ACTION - merging authorities took #{finish - start} seconds"
       @batch_jobs_page.wait_for_notification msg3_1
       @batch_jobs_page.wait_for_notification msg3_2_1
       @batch_jobs_page.wait_for_notification msg3_2_2
@@ -290,9 +292,10 @@ describe "The #{deploy.name} merge authorities batch job" do
       @search_results_page.click_search_result_cbx @merge5_1_name
       @search_results_page.click_use_selection_button
       @batch_jobs_page.enter_target_record @merge5_2_name
-      @batch_jobs_page.click_invoke_button
+      start = @batch_jobs_page.click_invoke_button
       @merge5_2[CoreOrgData::ORG_TERM_GRP.name][1].merge! @merge5_1[CoreOrgData::ORG_TERM_GRP.name][0]
-      @batch_jobs_page.wait_for_notification 'Completed Merge Authority Items: 2 records affected.'
+      finish = @batch_jobs_page.wait_for_notification 'Completed Merge Authority Items: 2 records affected.'
+      logger.debug "BENCHMARK ACTION - merging authorities took #{finish - start} seconds"
       @batch_jobs_page.wait_for_notification "Updated the target record, #{@merge5_2_name}."
       @batch_jobs_page.wait_for_notification "No records referenced the source record, #{@merge5_1_name}."
       @batch_jobs_page.wait_for_notification "Deleted the source record, #{@merge5_1_name}."
@@ -379,8 +382,9 @@ describe "The #{deploy.name} merge authorities batch job" do
       @search_results_page.click_search_result_cbx @merge6_1_name
       @search_results_page.click_use_selection_button
       @batch_jobs_page.enter_target_record @merge6_2_name
-      @batch_jobs_page.click_invoke_button
-      @batch_jobs_page.wait_for_notification 'Error running org.collectionspace.services.batch.nuxeo.MergeAuthorityItemsBatchJob'
+      start = @batch_jobs_page.click_invoke_button
+      finish = @batch_jobs_page.wait_for_notification 'Error running org.collectionspace.services.batch.nuxeo.MergeAuthorityItemsBatchJob'
+      logger.debug "BENCHMARK ACTION - merging authorities took #{finish - start} seconds"
     end
   end
 end
