@@ -76,7 +76,7 @@ describe "The #{deploy.name} merge authorities batch job" do
       @search_page.click_modal_clear_button
       @search_page.select_record_type_option 'Organizations'
       @search_page.enter_keyword @test_id
-      @search_page.click_search_button
+      @search_page.hit_enter
       @search_results_page.wait_for_results
       @search_results_page.click_search_result_cbx @merge2_2
     end
@@ -134,7 +134,7 @@ describe "The #{deploy.name} merge authorities batch job" do
       @search_page.click_modal_clear_button
       @search_page.select_record_type_option 'Organizations'
       @search_page.enter_display_names [@test_id]
-      @search_page.click_search_button
+      @search_page.hit_enter
       @search_results_page.wait_for_results
       @search_results_page.click_search_result_cbx @merge3_2
       @search_results_page.click_search_result_cbx @merge3_3
@@ -211,7 +211,7 @@ describe "The #{deploy.name} merge authorities batch job" do
       @search_page.click_modal_clear_button
       @search_page.select_record_type_option 'Citations'
       @search_page.enter_keyword @test_id
-      @search_page.click_search_button
+      @search_page.hit_enter
       @search_results_page.wait_for_results
       @search_results_page.click_search_result_cbx @merge4_1
       @search_results_page.click_use_selection_button
@@ -287,11 +287,13 @@ describe "The #{deploy.name} merge authorities batch job" do
       @search_page.click_modal_clear_button
       @search_page.select_record_type_option 'Organizations'
       @search_page.enter_keyword @test_id
-      @search_page.click_search_button
+      @search_page.hit_enter
       @search_results_page.wait_for_results
       @search_results_page.click_search_result_cbx @merge5_1_name
       @search_results_page.click_use_selection_button
       @batch_jobs_page.enter_target_record @merge5_2_name
+
+      sleep 360
       start = @batch_jobs_page.click_invoke_button
       @merge5_2[CoreOrgData::ORG_TERM_GRP.name][1].merge! @merge5_1[CoreOrgData::ORG_TERM_GRP.name][0]
       finish = @batch_jobs_page.wait_for_notification 'Completed Merge Authority Items: 2 records affected.'
@@ -377,7 +379,7 @@ describe "The #{deploy.name} merge authorities batch job" do
       @search_page.click_modal_clear_button
       @search_page.select_record_type_option 'Organizations'
       @search_page.enter_keyword @test_id
-      @search_page.click_search_button
+      @search_page.hit_enter
       @search_results_page.wait_for_results
       @search_results_page.click_search_result_cbx @merge6_1_name
       @search_results_page.click_use_selection_button

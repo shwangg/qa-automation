@@ -214,7 +214,7 @@ module CollectionSpacePages
   # @param [String] title_prefix
   def wait_for_title(title_prefix, start_time=nil)
     finish = wait_until(Config.medium_wait) { page_title == "#{title_prefix} | CollectionSpace" }
-    logger.debug "BENCHMARK - #{title_prefix} page title loaded in #{finish - start_time}" if start_time
+    logger.debug "BENCHMARK - #{title_prefix} page title loaded in #{finish - start_time} seconds" if start_time
   end
 
   # Performs a search in the header bar, selecting a type and entering a search string
@@ -593,14 +593,13 @@ module CollectionSpacePages
   # Executes a given block a configurable number of times until the block completes; intended for data updates made by
   # an event listener
   def wait_for_event_listener(&blk)
-    tries = Config.short_wait
+    tries = Config.medium_wait
     begin
-      sleep 3
       refresh_page
       yield
     rescue => e
       logger.error e.message
-      (tries -= 1).zero? ? fail : (sleep 3; retry)
+      (tries -= 1).zero? ? fail : (sleep 1; retry)
     end
   end
 

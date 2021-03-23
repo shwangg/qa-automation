@@ -18,19 +18,27 @@ class CreateNewPage
   def loan_in_link; {:id => 'loanin'} end
   def loan_out_link; {:id => 'loanout'} end
   def media_handling_link; {:id => 'media'} end
+  def nagpra_claim_link; {:id => 'claim'} end
+  def osteology_link; {:id => 'osteology'} end
   def object_exit_link; {:id => 'objectexit'} end
   def valuation_control_link; {:id => 'valuation'} end
   def authority_citation_local_link; {:id => 'citation/local'} end
   def authority_citation_worldcat_link; {:id => 'citation/worldcat'} end
   def authority_concept_activity_link; {:id => 'concept/activity'} end
+  def authority_concept_arch_culture_link; {:id => 'concept/archculture'} end
   def authority_concept_associated_link; {:id => 'concept/associated'} end
+  def authority_concept_ethno_culture_link; {:id => 'concept/ethculture'} end
+  def authority_concept_ethno_file_code_link; {:id => 'concept/ethusecode'} end
   def authority_concept_material_link; {:id => 'concept/material'} end
   def authority_concept_nomenclature_link; {:id => 'concept/nomenclature'} end
+  def authority_concept_object_class_link; {:id => 'concept/objectclass'} end
+  def authority_concept_object_name_link; {:id => 'concept/objectname'} end
   def authority_concept_occasion_link; {:id => 'concept/occasion'} end
   def authority_person_local_link; {:id => 'person/local'} end
   def authority_person_ulan_link; {:id => 'person/ulan'} end
   def authority_place_local_link; {:id => 'place/local'} end
   def authority_place_tgn_link; {:id => 'place/tgn'} end
+  def authority_storage_crate_link; {:id => 'location/crate'} end
   def authority_storage_local_link; {:id => 'location/local'} end
   def authority_storage_offsite_link; {:id => 'location/offsite'} end
   def authority_taxon_default_link; {:id => 'taxon/local'} end
@@ -40,8 +48,9 @@ class CreateNewPage
   # Loads the Create New page with a given base URL
   # @param [String] base_url
   def load_page(base_url)
+    start = Time.now
     get "#{base_url}/create"
-    wait_for_title 'Create New'
+    wait_for_title 'Create New', start
   end
 
   # Clicks the link to create a new collection object
@@ -119,9 +128,17 @@ class CreateNewPage
     wait_for_element_and_click media_handling_link
   end
 
+  def click_create_new_nagpra_claim
+    wait_for_element_and_click nagpra_claim_link
+  end
+
   # Clicks the link to create a new object exit record
   def click_create_new_object_exit
     wait_for_element_and_click object_exit_link
+  end
+
+  def click_create_new_osteology
+    wait_for_element_and_click osteology_link
   end
 
   # Clicks the link to create a new valuation control record
@@ -149,6 +166,18 @@ class CreateNewPage
     wait_for_element_and_click authority_concept_associated_link
   end
 
+  def click_create_new_authority_concept_arch_culture
+    wait_for_element_and_click authority_concept_arch_culture_link
+  end
+
+  def click_create_new_authority_concept_ethno_culture
+    wait_for_element_and_click authority_concept_ethno_culture_link
+  end
+
+  def click_create_new_authority_concept_ethno_file_code
+    wait_for_element_and_click authority_concept_ethno_file_code_link
+  end
+
   # Clicks the link to create a new concept material record
   def click_create_new_authority_concept_material
     wait_for_element_and_click authority_concept_material_link
@@ -157,6 +186,14 @@ class CreateNewPage
   # Clicks the link to create a new concept nomenclature record
   def click_create_new_authority_concept_nomenclature
     wait_for_element_and_click authority_concept_nomenclature_link
+  end
+
+  def click_create_new_authority_concept_object_class
+    wait_for_element_and_click authority_concept_object_class_link
+  end
+
+  def click_create_new_authority_concept_object_name
+    wait_for_element_and_click authority_concept_object_name_link
   end
 
   # Clicks the link to create a new concept occasion record
@@ -182,6 +219,10 @@ class CreateNewPage
   # Clicks the link to create a new tgn place record
   def click_create_new_authority_place_tgn
     wait_for_element_and_click authority_place_tgn_link
+  end
+
+  def click_create_new_authority_storage_crate
+    wait_for_element_and_click authority_storage_crate_link
   end
 
   # Clicks the link to create a new local storage record
