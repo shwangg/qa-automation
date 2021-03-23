@@ -45,7 +45,7 @@ describe 'CollectionSpace' do
       @result_page.relate_first_two
       @search_page.select_record_type_option("Groups")
       @search_page.full_text_search("#{@group[CoreGroupData::TITLE.name]}")
-      @result_page.relate_record("#{@group[CoreGroupData::TITLE.name]}")
+      @result_page.relate_records(["#{@group[CoreGroupData::TITLE.name]}"])
     end
 
   end

@@ -64,7 +64,7 @@ class SearchResultsPage
   # Clicks the checkbox for a search result row
   # @param [String] identifier
   def select_result_row(identifier)
-    wait_for_element_and_click({:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,\"#{identifier}\")]//input"})
+    wait_for_element_and_click result_row_checkbox(identifier)
   end
 
   # Clicks the checkbox for a search result row
@@ -86,33 +86,21 @@ class SearchResultsPage
   # Selects search result rows and clicks the 'Relate' button
   # @param [Array<String>] identifiers
   def relate_records(identifiers)
-    identifiers.each do |identifier|
-      click_search_result_cbx identifier
-    end
+    identifiers.each { |identifier| click_search_result_cbx identifier }
     wait_for_element_and_click relate_selected_button
     wait_for_notification 'related to'
   end
 
   def first_row_input; input_locator([], "0") end
   def second_row_input; input_locator([], "1") end
-  def group_input(id); {:xpath => "//div[contains(@class,\"ReactModal__Content\")]//div[contains(@class,\"cspace-ui-SearchResultTable--common\")]//div[contains(.,\"#{id}\")]"} end
 
   def new_search; {:xpath => '//label[text()="Find"]'} end
 
-  def relate_record(identifier)
-    wait_for_element_and_click group_input(identifier)
-    wait_for_element_and_click relate_selected_button
-    wait_for_notification 'related to'
-  end
-
-
-  def relate_first_two()
+  def relate_first_two
     wait_for_element_and_click first_row_input
     wait_for_element_and_click second_row_input
     wait_for_element_and_click relate_button
   end
-
-
 
   #SELECT BOX
 

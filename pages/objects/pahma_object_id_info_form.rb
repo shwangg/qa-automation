@@ -88,10 +88,14 @@ module PAHMAObjectIdInfoForm
   def pahma_current_storage_location; input_locator_by_label(PAHMAObjectData::CURRENT_LOCATION.label) end
 
   def wait_for_pahma_location(movt_data)
+    start = Time.now
     wait_for_event_listener do
-      sleep 1
-      wait_until(3) { element_value(pahma_current_storage_location) == movt_data[PAHMAInventoryMovementData::CURRENT_LOCATION.name] }
+      expected = movt_data[PAHMAInventoryMovementData::CURRENT_LOCATION.name]
+      wait_until(3, "Expected #{expected}, got '#{element_value pahma_current_storage_location}'") do
+        element_value(pahma_current_storage_location) == expected
+      end
     end
+    logger.debug "BENCHMARK ACTION - location update took under #{Time.now - start} seconds"
   end
 
   def wait_for_pahma_storage_location(data)

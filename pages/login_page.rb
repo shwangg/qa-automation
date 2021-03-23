@@ -30,7 +30,6 @@ class LoginPage
   def load_page
     logger.info "Loading #{@deployment.name} homepage"
     get Config.base_url @deployment
-    when_exists(page_heading, Config.medium_wait)
   end
 
   # Logs in from homepage
@@ -38,10 +37,14 @@ class LoginPage
   # @param [String] password
   def log_in(username, password)
     logger.info "Logging in as #{username}"
-    wait_for_element_and_type(username_input, username)
+    start = Time.now
+    finish = wait_for_element_and_type(username_input, username)
+    logger.debug "BENCHMARK - took #{finish - start} seconds for username input to appear"
     wait_for_element_and_type(password_input, password)
     wait_for_element_and_click sign_in_button
+    start = Time.now
     when_exists(sign_out_link, Config.medium_wait)
+    logger.debug "BENCHMARK - took #{Time.now - start} seconds for login to complete"
   end
 
 end

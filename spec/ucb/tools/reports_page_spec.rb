@@ -1,13 +1,13 @@
 require_relative '../../../spec_helper'
 
-describe 'Reports' do
+describe 'PAHMA Reports' do
 
   include Logging
   include WebDriverManager
 
   before(:all) do
     test_id = Time.now.to_i
-    @test = TestConfig.new Deployment::CORE_UCB
+    @test = TestConfig.new Deployment::PAHMA
     @test.set_driver launch_browser
     @admin = @test.get_admin_user
     @reports_user = @test.get_test_user test_id
@@ -22,7 +22,7 @@ describe 'Reports' do
 
     @test_0 = {
         CoreInvocablesData::INVOCABLE_NAME.name => 'Use of Collections Approval Status Report',
-        CoreInvocablesData::INVOCABLE_DESC.name =>  'Lists Use of Collections requests with a value in the \'Authorization\' field group, filtered by authorized by, authorization status, and/or date requested range. Displays the record number, title, requested date, completed date, authorization date, authorizer and authorization status. Available output formats: PDF, CSV, MS Word.',
+        CoreInvocablesData::INVOCABLE_DESC.name =>  'Lists Use of Collections requests with a value in the \'Authorized by\' field, filtered by authorized by, authorization status, and/or date requested range. Displays the record number, title, requested date, completed date, authorization date, authorizer and authorization status. Available output formats: PDF, CSV, MS Word.',
     }
 
     @test_1 = {
