@@ -52,9 +52,9 @@ describe 'CollectionSpace' do
       @acquisition_page.wait_for_element_and_type(@acquisition_page.structured_date_input_locator([]), (Date.today - days_1).to_s)
       @acquisition_page.hit_enter
       @acquisition_page.select_related_type tab
-      expect(@acquisition_page.element_text(@acquisition_page.modal_message)).to eql(unsaved_message)
+      expect(@acquisition_page.element_text(@acquisition_page.dialog_message)).to eql(unsaved_message)
       @acquisition_page.wait_for_element_and_click(variation_button(button))
-      expect(@acquisition_page.exists? @acquisition_page.modal_message).to be false
+      expect(@acquisition_page.exists? @acquisition_page.dialog_message).to be false
       days_1 += 1
     end
 
@@ -70,7 +70,7 @@ describe 'CollectionSpace' do
     current_date = (Date.today - days_1).to_s
 
     @acquisition_page.click_exhibitions_tab
-    expect(@acquisition_page.element_text(@acquisition_page.modal_message)).to eql(unsaved_message)
+    expect(@acquisition_page.element_text(@acquisition_page.dialog_message)).to eql(unsaved_message)
     @acquisition_page.save_and_continue
     expect(@acquisition_page.enabled? @acquisition_page.exhibition_tab).to be false
 
@@ -87,9 +87,9 @@ describe 'CollectionSpace' do
         @acquisition_page.wait_for_element_and_type(@acquisition_page.structured_date_input_locator([]), (Date.today - days_2).to_s)
         @acquisition_page.hit_enter
         @acquisition_page.select_related_type tab
-        expect(@acquisition_page.element_text(@acquisition_page.modal_message)).to eql(unsaved_message)
+        expect(@acquisition_page.element_text(@acquisition_page.dialog_message)).to eql(unsaved_message)
         @acquisition_page.wait_for_element_and_click(variation_button(button))
-        expect(@acquisition_page.exists? @acquisition_page.modal_message).to be false
+        expect(@acquisition_page.exists? @acquisition_page.dialog_message).to be false
         if button == "close"
           @acquisition_page.click_close_tab(tab)
         end
@@ -107,7 +107,7 @@ describe 'CollectionSpace' do
       current_date = (Date.today - days_2).to_s
 
       @acquisition_page.wait_for_element_and_click(secondary_tab(tab))
-      expect(@acquisition_page.element_text(@acquisition_page.modal_message)).to eql(unsaved_message)
+      expect(@acquisition_page.element_text(@acquisition_page.dialog_message)).to eql(unsaved_message)
       @acquisition_page.save_and_continue
       expect(@acquisition_page.enabled? secondary_tab(tab)).to be false
 
