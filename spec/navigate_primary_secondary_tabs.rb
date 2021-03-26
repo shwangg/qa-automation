@@ -52,15 +52,9 @@ describe 'CollectionSpace' do
       @acquisition_page.wait_for_element_and_type(@acquisition_page.structured_date_input_locator([]), (Date.today - days_1).to_s)
       @acquisition_page.hit_enter
       @acquisition_page.select_related_type tab
-<<<<<<< HEAD
       expect(@acquisition_page.element_text(@acquisition_page.dialog_message)).to eql(unsaved_message)
       @acquisition_page.wait_for_element_and_click(variation_button(button))
       expect(@acquisition_page.exists? @acquisition_page.dialog_message).to be false
-=======
-      expect(@acquisition_page.element_text(@acquisition_page.modal_message)).to eql(unsaved_message)
-      @acquisition_page.wait_for_element_and_click(variation_button(button))
-      expect(@acquisition_page.exists? @acquisition_page.modal_message).to be false
->>>>>>> 0590cf9eb6823be16112490a9afff8fdc2782eb0
       days_1 += 1
     end
 
