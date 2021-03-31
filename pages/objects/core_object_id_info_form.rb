@@ -319,6 +319,8 @@ module CoreObjectIdInfoForm
 
   def enter_content_person(data)
     hide_notifications_bar
+    uncollapse_panel_if_collapsed("Object Description Information")
+    uncollapse_subpanel_if_collapsed("Content")
     persons = data[CoreObjectData::CONTENT_PERSONS.name]
     prep_fieldsets_for_test_data([fieldset(CoreObjectData::CONTENT_PERSONS.name)], persons)
     persons && persons.each_with_index do |person, index|

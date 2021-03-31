@@ -7,6 +7,9 @@ class SearchResultsPage
   def result_rows; {:xpath => '//div[@class="cspace-ui-SearchResultTable--common"]//*[@aria-label="row"]'} end
   def botgarden_taxonomic_name_column; {:xpath => '//div[@class="cspace-ui-SearchResultTable--common"]//*[@aria-label="row"]//div[@aria-colindex = 3]'} end
   def no_results_msg; {:xpath => '//span[text()="No records found"]'} end
+  def no_terms_msg; {:xpath => '//span[text() = "No terms found"]'} end
+  def num_per_row_lower; {:xpath => '(//div[contains(@class, "PageSizeChooser")])[2]'} end
+  def num_per_row_upper; {:xpath => '(//div[contains(@class, "PageSizeChooser")])[1]'} end
   def title_bar_header_text; {:xpath => '//header[contains(@class, "TitleBar")]//h1//div'} end
   def title_bar_record_link(identifier); {:xpath => "//a[contains(., \"#{identifier}\")]"} end
   def records_found_header_text; {:xpath => "//div[contains(@class, 'SearchResultSummary')]//div//span"} end
@@ -106,12 +109,14 @@ class SearchResultsPage
 
   def header_select_size_input_locator; {:xpath => '(//div[contains(@class, "PageSizeChooser")]//input)[1]'} end
   def footer_select_size_input_locator; {:xpath => '(//div[contains(@class, "PageSizeChooser")]//input)[2]'} end
+  def select_size_input_options; {:xpath => '//div[contains(@class, "PageSizeChooser")]//input/following-sibling::div//li'} end
+
 
   # Enters a size integer in header select box
   # @param [Integer] integer
-  def select_size(input_locator, integer)
+  def select_size(integer)
     logger.info "Update results to show #{integer} records"
-    wait_for_element_and_type(input_locator, integer)
+    wait_for_options_and_select(footer_select_size_input_locator, select_size_input_options, integer)
   end
 
   # Enters a size integer and hits enter

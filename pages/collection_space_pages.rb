@@ -52,7 +52,10 @@ module CollectionSpacePages
 
   def notifications_bar; {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]'} end
   def notifications_close_button; {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]//button'} end
+  def notifications_timestamp; {:xpath => '//div[contains(@class, "NotificationBar")]//header'} end
 
+  def dialog_box; {:xpath => "//div[@role = 'dialog']"} end
+  def dialog_message; {:xpath => '//div[@role = "dialog"]//header/following-sibling::div//span'} end
   def do_not_leave_button; {:xpath => '//button[contains(., "Don\'t leave")]'} end
   def save_and_continue_button; {:xpath => '//button[contains(., "Save and continue")]'} end
   def revert_and_continue_button; {:xpath => '//button[contains(., "Revert and continue")]'} end
