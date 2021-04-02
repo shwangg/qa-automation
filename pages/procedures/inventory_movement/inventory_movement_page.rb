@@ -7,10 +7,10 @@ class InventoryMovementPage
 
   # Completes the Info form on the page
   # @param [Hash] data
-  def complete_info_form(data)
+  def complete_info_form(data, location_group = nil)
     enter_reference_number data
     enter_normal_location data
-    enter_current_location data
+    enter_current_location(data, location_group)
     enter_location_date data
   end
 
@@ -41,9 +41,14 @@ class InventoryMovementPage
     enter_current_location_preset data
     save_record_only
   end
-  
+
   def enter_number(data)
     enter_current_location_preset data
+    save_record_only
+  end
+
+  def enter_location_and_save(data)
+    enter_current_location data
     save_record_only
   end
 
@@ -52,6 +57,14 @@ class InventoryMovementPage
     select_botgarden_garden_location data
     enter_botgarden_movement_note data
     select_botgarden_action_code data
+  end
+
+  # Completes the Info Form with specified Current Location and saves the record
+  # @param [Hash] data
+  # @param string Current Location Group
+  def create_movement_record(data, location_group = nil)
+    complete_info_form(data, location_group)
+    save_record_only
   end
 
 end
