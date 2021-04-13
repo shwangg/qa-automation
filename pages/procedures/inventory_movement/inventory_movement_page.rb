@@ -4,6 +4,7 @@ class InventoryMovementPage
   include CoreInventoryMovementInfoForm
   include PAHMAInventoryMovementInfoForm
   include BOTGARDENCurrentLocationInfoForm
+  include BAMPFAInventoryMovementInfoForm
 
   # Completes the Info form on the page
   # @param [Hash] data
@@ -23,6 +24,15 @@ class InventoryMovementPage
     enter_pahma_note data
   end
 
+  def complete_bampfa_info_form(data)
+    enter_bampfa_current_location data
+    enter_location_date data
+    enter_bampfa_handler data
+    enter_bampfa_reason data
+    enter_bampfa_methods data
+    enter_bampfa_note data
+  end
+
   # Completes the Info form, saves the record, and adds the resulting record's URL to the test data
   # @param [Hash] data
   def create_unlocked_movement(data)
@@ -35,6 +45,11 @@ class InventoryMovementPage
     complete_pahma_info_form data
     save_record_only
     data.merge!({:url => url})
+  end
+
+  def create_unlocked_bampfa_movement(data)
+    complete_bampfa_info_form data
+    save_record_only
   end
 
   def enter_number_and_text(data)

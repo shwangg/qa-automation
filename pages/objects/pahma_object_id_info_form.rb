@@ -106,6 +106,13 @@ module PAHMAObjectIdInfoForm
 
   def pahma_current_crate_input; input_locator_by_label(PAHMAObjectData::CURRENT_CRATE.label) end
 
+  def wait_for_pahma_crate(data)
+    wait_for_event_listener do
+      sleep 1
+      wait_until(1) { element_value(pahma_current_crate_input) == data[PAHMAInventoryMovementData::CRATE.name] }
+    end
+  end
+
   # OBJECT CLASS
 
   def pahma_obj_class_name_input(index); input_locator([fieldset(PAHMAObjectData::OBJ_CLASS_GRP.name, index)], PAHMAObjectData::OBJ_CLASS_NAME.name) end

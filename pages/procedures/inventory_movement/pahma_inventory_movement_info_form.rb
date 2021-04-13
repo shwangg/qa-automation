@@ -22,6 +22,19 @@ module PAHMAInventoryMovementInfoForm
     wait_for_element_and_type(current_location_note_input, data[PAHMAInventoryMovementData::CURRENT_LOCATION_NOTE.name])
   end
 
+  def enter_pahma_current_location_only(data)
+    hide_notifications_bar
+    logger.info "Entering current location '#{data[PAHMAInventoryMovementData::CURRENT_LOCATION.name]}'"
+    enter_auto_complete(current_location_input, current_location_options, data[PAHMAInventoryMovementData::CURRENT_LOCATION.name], 'PAHMA Storage Locations')
+  end
+
+  def enter_pahma_crate_only(data)
+    hide_notifications_bar
+    logger.info "Entering current location crate '#{data[PAHMAInventoryMovementData::CRATE.name]}'"
+    enter_auto_complete(pahma_crate_input, pahma_crate_options, data[PAHMAInventoryMovementData::CRATE.name], 'Crates')
+  end 
+
+
   # LOCATION HANDLERS
 
   def pahma_location_handler_input(index); input_locator([fieldset(PAHMAInventoryMovementData::LOCATION_HANDLERS.name, index)]) end
