@@ -23,10 +23,10 @@ describe 'CollectionSpace' do
       CoreObjectData::OBJECT_NUM.name => Time.now.to_i * 2
     }
     @movement_1 = {
-      CoreInventoryMovementData::CURRENT_LOCATION.name => "movement 1",
+      CoreInventoryMovementData::CURRENT_LOCATION.name => "movement 1"
     }
     @movement_2 = {
-      CoreInventoryMovementData::CURRENT_LOCATION.name => "movement 2",
+      CoreInventoryMovementData::CURRENT_LOCATION.name => "movement 2"
     }
     @movement_3 = {
       CoreInventoryMovementData::CURRENT_LOCATION.name => "movement 3",
@@ -96,7 +96,7 @@ describe 'CollectionSpace' do
     @object_page.wait_for_location @movement_3
   end
 
-  it "Relate another new Movement record with the existing Cataloging record" do
+  it "Relate another a more recent Movement record with the existing Cataloging record" do
     @object_page.click_add_related_procedure
     @object_page.click_dialog_search_button
     @search_results_page.relate_records([@movement_4[CoreInventoryMovementData::REF_NUM.name]])
