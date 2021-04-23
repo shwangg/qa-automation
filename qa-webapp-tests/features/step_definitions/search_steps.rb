@@ -26,7 +26,7 @@ end
 
 Then(/^I verify the table headers "(.*?)"$/) do |headers|
   headers.split(', ').each do |header|
-    expect(@search_page.when_displayed(@search_page.results_table_header_loc(header), Config.short_wait)).to be true
+    expect(@search_page.when_displayed(@search_page.results_table_header_loc(header), Config.short_wait)).to be_truthy
   end
 end
 

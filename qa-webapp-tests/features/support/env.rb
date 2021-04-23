@@ -6,13 +6,13 @@ include WebDriverManager
 Before do
   @config = TestConfig.new
   @config.set_driver launch_browser
-  @page = WebAppPage.new @config.driver
-  @bmu_page = BMUPage.new @config.driver
-  @img_browser_page = ImageBrowserPage.new @config.driver
-  @i_reports_page = IReportsPage.new @config.driver
-  @landing_page = LandingPage.new @config.driver
-  @login_page = LoginPage.new @config.driver
-  @search_page = WebappSearchPage.new @config.driver
+  @page = WebAppPage.new @config
+  @bmu_page = BMUPage.new @config
+  @img_browser_page = ImageBrowserPage.new @config
+  @i_reports_page = IReportsPage.new @config
+  @landing_page = LandingPage.new @config
+  @login_page = WebappLoginPage.new @config
+  @search_page = WebappSearchPage.new @config
 end
 
 After do
