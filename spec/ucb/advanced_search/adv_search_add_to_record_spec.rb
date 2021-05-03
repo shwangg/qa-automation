@@ -30,7 +30,7 @@ describe 'CollectionSpace' do
       @search_page.click_create_new_link
       @create_new_page.click_create_new_group
       @group_page.enter_number @group
-      @group_page.click_save_button
+      @group_page.save_record
     end
 
     it "search for objects with empty search box" do
@@ -45,7 +45,7 @@ describe 'CollectionSpace' do
       @result_page.relate_first_two
       @search_page.select_record_type_option("Groups")
       @search_page.full_text_search("#{@group[CoreGroupData::TITLE.name]}")
-      @result_page.relate_record("#{@group[CoreGroupData::TITLE.name]}")
+      @result_page.relate_records(["#{@group[CoreGroupData::TITLE.name]}"])
     end
 
   end

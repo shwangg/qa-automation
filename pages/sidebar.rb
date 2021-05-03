@@ -32,6 +32,7 @@ module Sidebar
   def related_obj_expanded_div; expanded_div_locator('Related Objects') end
   def related_obj_links; links_locator('Related Objects') end
   def related_obj_link(obj); link_locator('Related Objects', obj) end
+  def related_obj_nth_link(row_number); {:xpath => "//section[contains(.,\"Related Objects:\")]//a[@role=\"row\"][#{row_number}]//div[1]"} end
   def related_obj_num_per_page_input; num_per_page_input('Related Objects') end
   def related_obj_num_per_page_option; num_per_page_option('Related Objects') end
 
@@ -130,6 +131,12 @@ module Sidebar
   # @param [String] obj
   def click_sidebar_related_obj(obj)
     wait_for_element_and_click related_obj_link(obj)
+  end
+
+  #Clicks the link for an Object in the sidebar
+  # @param [Integer] row_number
+  def click_sidebar_nth_related_obj(row_number)
+    wait_for_element_and_click related_obj_nth_link(row_number)
   end
 
   # Clicks the 'Open' button to view related objects

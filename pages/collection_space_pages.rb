@@ -52,7 +52,10 @@ module CollectionSpacePages
 
   def notifications_bar; {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]'} end
   def notifications_close_button; {:xpath => '//div[@class="cspace-ui-NotificationBar--common"]//button'} end
+  def notifications_timestamp; {:xpath => '//div[contains(@class, "NotificationBar")]//header'} end
 
+  def dialog_box; {:xpath => "//div[@role = 'dialog']"} end
+  def dialog_message; {:xpath => '//div[@role = "dialog"]//header/following-sibling::div//span'} end
   def do_not_leave_button; {:xpath => '//button[contains(., "Don\'t leave")]'} end
   def save_and_continue_button; {:xpath => '//button[contains(., "Save and continue")]'} end
   def revert_and_continue_button; {:xpath => '//button[contains(., "Revert and continue")]'} end
@@ -212,8 +215,9 @@ module CollectionSpacePages
 
   # Waits for a given page title to load
   # @param [String] title_prefix
-  def wait_for_title(title_prefix)
-    wait_until(Config.medium_wait) { page_title == "#{title_prefix} | CollectionSpace" }
+  def wait_for_title(title_prefix, start_time=nil)
+    finish = wait_until(Config.medium_wait) { page_title == "#{title_prefix} | CollectionSpace" }
+    logger.debug "BENCHMARK - #{title_prefix} page title loaded in #{finish - start_time} seconds" if start_time
   end
 
   # @param [String] condition
@@ -285,24 +289,27 @@ module CollectionSpacePages
   # Clicks save and waits for confirmation the record has been saved
   def save_record
     logger.info 'Saving the record'
-    click_save_button
-    wait_for_notification 'Saved'
+    start = click_save_button
+    finish = wait_for_notification 'Saved'
+    logger.warn "BENCHMARK - Took #{finish - start} seconds to save record"
   end
 
   # Clicks the save-only option for a record
   def save_record_only
     logger.info 'Saving but not locking the record'
     click_save_button
-    wait_for_element_and_click save_only_button
-    wait_for_notification 'Saved'
+    start = wait_for_element_and_click save_only_button
+    finish = wait_for_notification 'Saved'
+    logger.warn "BENCHMARK - Took #{finish - start} seconds to save but not lock record"
   end
 
   # Clicks the save-and-lock option for a record
   def save_and_lock_record
     logger.info 'Saving and locking the record'
     click_save_button
-    wait_for_element_and_click save_and_lock_button
-    wait_for_notification 'Saved'
+    start = wait_for_element_and_click save_and_lock_button
+    finish = wait_for_notification 'Saved'
+    logger.warn "BENCHMARK - Took #{finish - start} seconds to save and lock record"
   end
 
   # Clicks the delete button
@@ -314,8 +321,9 @@ module CollectionSpacePages
   def delete_record
     logger.info 'Deleting the record'
     click_delete_button
-    wait_for_element_and_click confirm_delete_button
-    when_not_exists(confirm_delete_button, Config.short_wait)
+    start = wait_for_element_and_click confirm_delete_button
+    finish = wait_for_notification 'Deleted'
+    logger.warn "BENCHMARK - Took #{finish - start} seconds to delete record"
   end
 
   # Returns the delete confirmation message text
@@ -419,19 +427,21 @@ module CollectionSpacePages
   def log_out
     logger.info 'Logging out'
     unhide_header_bar
-    wait_for_element_and_click sign_out_link
-    wait_until(Config.short_wait) { url.include? '/login' }
+    start = wait_for_element_and_click sign_out_link
+    finish = wait_until(Config.short_wait) { url.include? '/login' }
+    logger.warn "BENCHMARK - Took #{finish - start} seconds to log out"
   end
 
   # FLOATING HEADER AND NOTIFICATIONS BARS
 
   # Waits for the notifications bar to contain a given string
   # @param [String] string
-  def wait_for_notification(string, timeout=nil)
+  def wait_for_notification(string, timeout = nil)
     unhide_notifications_bar
     wait = timeout || Config.short_wait
     when_displayed(notifications_bar, wait)
     wait_until(wait) { element_text(notifications_bar).include? string }
+    Time.now
   end
 
   # Closes the notifications bar if it is present
@@ -592,14 +602,13 @@ module CollectionSpacePages
   # Executes a given block a configurable number of times until the block completes; intended for data updates made by
   # an event listener
   def wait_for_event_listener(&blk)
-    tries = Config.short_wait
+    tries = Config.medium_wait
     begin
-      sleep 3
       refresh_page
       yield
     rescue => e
       logger.error e.message
-      (tries -= 1).zero? ? fail : (sleep 3; retry)
+      (tries -= 1).zero? ? fail : (sleep 1; retry)
     end
   end
 

@@ -9,6 +9,7 @@ class SearchPage
   include CoreSearchOrganizationsForm
   include CoreSearchPersonsForm
   include PAHMASearchObjectsForm
+  include PAHMASearchAccessionsForm
 
   def search_button_one; {:xpath => '(//button[@name="search"])[1]'} end
   def search_button_two; {:xpath => '(//button[@name="search"])[2]'} end
@@ -50,6 +51,18 @@ class SearchPage
       logger.error e.message
       tries.zero? ? fail : (wait_for_element_and_click search_button_one)
     end
+  end
+
+  def click_search_and_wait_for_results(results_page)
+    start = click_search_button
+    finish = results_page.wait_for_results
+    logger.debug "BENCHMARK ACTION - Took #{finish - start} seconds for search to complete"
+  end
+
+  def hit_enter_and_wait_for_results(results_page)
+    start = hit_enter
+    finish = results_page.wait_for_results
+    logger.debug "BENCHMARK ACTION - Took #{finish - start} seconds for search to complete"
   end
 
   # Clicks the 'Clear' button
@@ -118,6 +131,7 @@ class SearchPage
   def enter_last_updated_times(after_date_str, before_date_str)
     logger.info "Entering last updated on-or-after '#{after_date_str}' and on-or-before '#{before_date_str}'"
     if after_date_str
+      wait_until(Config.short_wait) { elements(last_updated_time_input_locator).any? }
       elements(last_updated_time_input_locator)[0].clear
       sleep Config.click_wait
       elements(last_updated_time_input_locator)[0].send_keys after_date_str
@@ -125,6 +139,7 @@ class SearchPage
       hit_tab
     end
     if before_date_str
+      wait_until(Config.short_wait) { elements(last_updated_time_input_locator).any? }
       elements(last_updated_time_input_locator)[1].clear
       sleep Config.click_wait
       elements(last_updated_time_input_locator)[1].send_keys before_date_str

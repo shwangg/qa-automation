@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-describe 'Structured dates' do
+describe 'PAHMA structured dates' do
 
   include Logging
   include WebDriverManager

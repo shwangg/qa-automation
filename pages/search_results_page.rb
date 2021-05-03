@@ -5,7 +5,13 @@ class SearchResultsPage
   include CollectionSpacePages
 
   def result_rows; {:xpath => '//div[@class="cspace-ui-SearchResultTable--common"]//*[@aria-label="row"]'} end
+  def botgarden_taxonomic_name_column; {:xpath => '//div[@class="cspace-ui-SearchResultTable--common"]//*[@aria-label="row"]//div[@aria-colindex = 3]'} end
   def no_results_msg; {:xpath => '//span[text()="No records found"]'} end
+  def no_terms_msg; {:xpath => '//span[text() = "No terms found"]'} end
+  def num_per_row_lower; {:xpath => '(//div[contains(@class, "PageSizeChooser")])[2]'} end
+  def num_per_row_upper; {:xpath => '(//div[contains(@class, "PageSizeChooser")])[1]'} end
+  def title_bar_header_text; {:xpath => '//header[contains(@class, "TitleBar")]//h1//div'} end
+  def title_bar_record_link(identifier); {:xpath => "//a[contains(., \"#{identifier}\")]"} end
   def records_found_header_text; {:xpath => "//div[contains(@class, 'SearchResultSummary')]//div//span"} end
   def relate_selected_button; {:xpath => '//button[contains(.,"Relate selected")]'} end
   def search_filter_bar; {:xpath => '//div[contains(@class, "AdminSearchBar")]//input[contains(@class,"LineInput")]'} end
@@ -61,7 +67,7 @@ class SearchResultsPage
   # Clicks the checkbox for a search result row
   # @param [String] identifier
   def select_result_row(identifier)
-    wait_for_element_and_click({:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//div[@aria-label=\"row\"][contains(.,\"#{identifier}\")]//input"})
+    wait_for_element_and_click result_row_checkbox(identifier)
   end
 
   # Clicks the checkbox for a search result row
@@ -73,7 +79,7 @@ class SearchResultsPage
   # Returns the display name for a search result row
   # @param [Integer] row number
   def name_of_nth_row(value)
-    element_text(:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][#{value}]//div[@aria-colindex = 2]")
+    element(:xpath => "//div[@class=\"cspace-ui-SearchResultTable--common\"]//*[@aria-label=\"row\"][#{value}]//div[@aria-colindex = 3]").attribute("title")
   end
 
   def click_search_result_cbx(identifier)
@@ -83,44 +89,34 @@ class SearchResultsPage
   # Selects search result rows and clicks the 'Relate' button
   # @param [Array<String>] identifiers
   def relate_records(identifiers)
-    identifiers.each do |identifier|
-      click_search_result_cbx identifier
-    end
+    identifiers.each { |identifier| click_search_result_cbx identifier }
     wait_for_element_and_click relate_selected_button
     wait_for_notification 'related to'
   end
 
   def first_row_input; input_locator([], "0") end
   def second_row_input; input_locator([], "1") end
-  def group_input(id); {:xpath => "//div[contains(@class,\"ReactModal__Content\")]//div[contains(@class,\"cspace-ui-SearchResultTable--common\")]//div[contains(.,\"#{id}\")]"} end
 
   def new_search; {:xpath => '//label[text()="Find"]'} end
 
-  def relate_record(identifier)
-    wait_for_element_and_click group_input(identifier)
-    wait_for_element_and_click relate_selected_button
-    wait_for_notification 'related to'
-  end
-
-
-  def relate_first_two()
+  def relate_first_two
     wait_for_element_and_click first_row_input
     wait_for_element_and_click second_row_input
     wait_for_element_and_click relate_button
   end
 
-
-
   #SELECT BOX
 
   def header_select_size_input_locator; {:xpath => '(//div[contains(@class, "PageSizeChooser")]//input)[1]'} end
   def footer_select_size_input_locator; {:xpath => '(//div[contains(@class, "PageSizeChooser")]//input)[2]'} end
+  def select_size_input_options; {:xpath => '//div[contains(@class, "PageSizeChooser")]//input/following-sibling::div//li'} end
+
 
   # Enters a size integer in header select box
   # @param [Integer] integer
-  def select_size(input_locator, integer)
+  def select_size(integer)
     logger.info "Update results to show #{integer} records"
-    wait_for_element_and_type(input_locator, integer)
+    wait_for_options_and_select(footer_select_size_input_locator, select_size_input_options, integer)
   end
 
   # Enters a size integer and hits enter

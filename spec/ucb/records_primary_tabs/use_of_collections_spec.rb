@@ -2,7 +2,7 @@ require_relative '../../../spec_helper'
 
 [Deployment::CORE_UCB, Deployment::PAHMA].each do |deploy|
 
-  describe 'Use of Collection records' do
+  describe "#{deploy.name} Use of Collection records" do
 
     include Logging
     include WebDriverManager

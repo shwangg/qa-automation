@@ -88,12 +88,15 @@ module PAHMAObjectIdInfoForm
   def pahma_current_storage_location; input_locator_by_label(PAHMAObjectData::CURRENT_LOCATION.label) end
 
   def wait_for_pahma_location(movt_data)
+    start = Time.now
     wait_for_event_listener do
-      sleep 1
-      wait_until(3) { element_value(pahma_current_storage_location) == movt_data[PAHMAInventoryMovementData::CURRENT_LOCATION.name] }
+      expected = movt_data[PAHMAInventoryMovementData::CURRENT_LOCATION.name]
+      wait_until(3, "Expected #{expected}, got '#{element_value pahma_current_storage_location}'") do
+        element_value(pahma_current_storage_location) == expected
+      end
     end
+    logger.debug "BENCHMARK ACTION - location update took under #{Time.now - start} seconds"
   end
-
 
   def wait_for_pahma_storage_location(data)
     wait_for_location data
@@ -102,6 +105,13 @@ module PAHMAObjectIdInfoForm
   # CURRENT CRATE
 
   def pahma_current_crate_input; input_locator_by_label(PAHMAObjectData::CURRENT_CRATE.label) end
+
+  def wait_for_pahma_crate(data)
+    wait_for_event_listener do
+      sleep 1
+      wait_until(1) { element_value(pahma_current_crate_input) == data[PAHMAInventoryMovementData::CRATE.name] }
+    end
+  end
 
   # OBJECT CLASS
 
@@ -256,15 +266,15 @@ module PAHMAObjectIdInfoForm
       wait_for_element_and_type(pahma_material_input(index), mat[PAHMAObjectData::MATERIAL.name])
       wait_for_element_and_type(pahma_material_component_input(index), mat[PAHMAObjectData::MATERIAL_COMPONENT.name])
       wait_for_element_and_type(pahma_material_name_input(index), mat[PAHMAObjectData::MATERIAL_NAME.name])
-      attempt_action(data_input_errors, mat) { wait_for_element_and_type(pahma_material_source_input(index), mat[PAHMAObjectData::MATERIAL_SOURCE.name]) }
-      attempt_action(data_input_errors, mat) { wait_for_element_and_type(pahma_material_note_input(index), mat[PAHMAObjectData::MATERIAL_NOTE.name]) }
+      wait_for_element_and_type(pahma_material_source_input(index), mat[PAHMAObjectData::MATERIAL_SOURCE.name])
+      wait_for_element_and_type(pahma_material_note_input(index), mat[PAHMAObjectData::MATERIAL_NOTE.name])
     end
   end
 
   # TAXONOMIC INFORMATION
 
   def enter_pahma_taxonomics(data)
-    enter_taxonomics data
+    enter_taxonomics(data, "PAHMA")
   end
 
   # TITLE
@@ -304,7 +314,7 @@ module PAHMAObjectIdInfoForm
   def pahma_collection_options(index); input_options_locator([fieldset(PAHMAObjectData::PAHMA_COLLECTION_LIST.name, index)]) end
 
   def select_pahma_collections(data)
-    collections = data_set[PAHMAObjectData::PAHMA_COLLECTION_LIST.name]
+    collections = data[PAHMAObjectData::PAHMA_COLLECTION_LIST.name]
     prep_fieldsets_for_test_data([fieldset(PAHMAObjectData::PAHMA_COLLECTION_LIST.name)], collections)
     collections && collections.each_with_index do |collect, index|
       logger.debug "Entering collection '#{collect}' at index #{index}"

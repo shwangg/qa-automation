@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 
-class LoginPage < WebAppPage
+class WebappLoginPage < WebAppPage
 
   def username_input; {name: 'username'} end
   def password_input; {name: 'password'} end

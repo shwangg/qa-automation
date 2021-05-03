@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-describe 'Batch' do
+describe 'PAHMA Batch' do
 
   include Logging
   include WebDriverManager
