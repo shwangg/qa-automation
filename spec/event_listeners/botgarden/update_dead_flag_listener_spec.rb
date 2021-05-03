@@ -93,7 +93,8 @@ describe 'BOTGARDEN' do
     @current_loc_page.click_primary_record_tab
 
     @object_page.refresh_page
-    sleep Config.medium_wait
+    @object_page.when_displayed(@object_page.botgarden_dead_flag_input, Config.medium_wait)
+    sleep Config.click_wait
     expect(@object_page.element_value(@object_page.botgarden_dead_flag_input) == "no").to be true
   end
 

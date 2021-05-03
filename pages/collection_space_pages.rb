@@ -220,6 +220,12 @@ module CollectionSpacePages
     logger.debug "BENCHMARK - #{title_prefix} page title loaded in #{finish - start_time} seconds" if start_time
   end
 
+  # @param [String] condition
+  # @return [boolean]
+  def title_bar_field_present?(field)
+    exists?({:xpath => "//header[contains(@class,'TitleBar')]//div[contains(., '#{field}')]"})
+  end
+
   # Performs a search in the header bar, selecting a type and entering a search string
   # @param [String] type_string
   # @param [String] sub_type_string
