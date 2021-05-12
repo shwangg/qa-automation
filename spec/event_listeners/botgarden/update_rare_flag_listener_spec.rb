@@ -72,13 +72,8 @@ describe 'BOTGARDEN' do
     @taxon_page.expand_sidebar_used_by
     @taxon_page.click_sidebar_used_by(obj_rec[BOTGARDENObjectData::OBJECT_NUM.name])
     @object_page.when_exists(@object_page.botgarden_object_rarity, Config.short_wait)
-<<<<<<< HEAD
-    @object_page.scroll_to_element(@object_page.botgarden_object_rarity)
-    expect(@object_page.element_value(@object_page.botgarden_object_rarity) == "yes").to be true
-=======
     sleep Config.click_wait
     expect(@object_page.element_value(@object_page.botgarden_object_rarity)).to eql("yes")
->>>>>>> Adding PAHMA Place Auth test
   end
 
 end
