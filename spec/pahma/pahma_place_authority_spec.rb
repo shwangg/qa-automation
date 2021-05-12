@@ -40,7 +40,7 @@ describe 'Place Authority records', order: :defined do
     @place_1_display_name_1 = @place_1[CorePlaceData::PLACE_TERM_GRP.name][1][CorePlaceData::TERM_DISPLAY_NAME.name]
 
     @login_page.load_page
-    @login_page.log_in(@admin.username, @admin.password)
+    @login_page.log_in("sehyunhwang@berkeley.edu", "BlueWord2021!!")#@admin.username, @admin.password)
   end
 
   after(:all) { quit_browser @test.driver }
@@ -290,7 +290,7 @@ describe 'Place Authority records', order: :defined do
         @place_authority_page.when_not_exists(@place_authority_page.confirm_delete_msg_span, 1)
       end
 
-      it('can be confirmed') { @place_authority_page.delete_record }
+      it('can be confirmed') { @place_authority_page.delete_record(Config.medium_wait) }
 
       it 'prevents the term being returned in search results' do
         @search_results_page.click_search_link
@@ -383,7 +383,6 @@ describe 'Place Authority records', order: :defined do
       @search_page.when_exists(@search_page.search_button_two, Config.short_wait)
       @search_page.quick_search('Places', nil, "#{test_id}")
       @search_results_page.click_result @place_0_display_name
-      @search_results_page.refresh_page
       expect(@place_authority_page.verify_types(@place_5_type_empty)).to be_empty
     end
 

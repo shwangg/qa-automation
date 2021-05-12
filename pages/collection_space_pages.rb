@@ -318,11 +318,11 @@ module CollectionSpacePages
   end
 
   # Clicks delete, confirms the deletion, and waits for confirmation the record has been deleted
-  def delete_record
+  def delete_record(timeout = nil)
     logger.info 'Deleting the record'
     click_delete_button
     start = wait_for_element_and_click confirm_delete_button
-    finish = wait_for_notification 'Deleted'
+    finish = wait_for_notification('Deleted', timeout)
     logger.warn "BENCHMARK - Took #{finish - start} seconds to delete record"
   end
 
