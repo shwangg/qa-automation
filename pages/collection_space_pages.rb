@@ -287,10 +287,10 @@ module CollectionSpacePages
   end
 
   # Clicks save and waits for confirmation the record has been saved
-  def save_record
+  def save_record(timeout = nil)
     logger.info 'Saving the record'
     start = click_save_button
-    finish = wait_for_notification 'Saved'
+    finish = wait_for_notification('Saved', timeout)
     logger.warn "BENCHMARK - Took #{finish - start} seconds to save record"
   end
 
