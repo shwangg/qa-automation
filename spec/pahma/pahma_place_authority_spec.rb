@@ -73,7 +73,6 @@ describe 'Place Authority records', order: :defined do
       @exhibition_page.click_sidebar_term @place_0_display_name
       @place_authority_page.verify_display_name(@place_0_display_name, 0)
     end
-
   end
 
   context 'when searched' do
@@ -95,7 +94,6 @@ describe 'Place Authority records', order: :defined do
       @place_authority_page.wait_until(Config.short_wait) { @place_authority_page.page_title.include? @place_0_display_name }
       expect(@place_authority_page.element(@place_authority_page.page_h2).attribute('innerText')).to eql('Place - PAHMA')
     end
-
   end
 
   context 'when being created' do
@@ -132,7 +130,6 @@ describe 'Place Authority records', order: :defined do
       @place_authority_page.uncollapse_panel_if_collapsed CorePlaceData::GEOREFERENCE_INFO_PANEL.label
       @place_authority_page.uncollapse_panel_if_collapsed CorePlaceData::HIERARCHY_PANEL.label
     end
-
   end
 
   context 'when being created' do
