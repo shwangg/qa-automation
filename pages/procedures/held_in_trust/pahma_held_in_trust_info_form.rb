@@ -4,6 +4,9 @@ module PAHMAHeldInTrustInfoForm
   include Page
   include CollectionSpacePages
 
+  #AGREEMENT DATE
+  def pahma_agreement_date_input; disabled_input_locator_by_label("Agreement date") end
+
   ##DEPOSITORS
   def enter_pahma_depositors(test_data)
     depositors = test_data[CoreHeldInTrustData::DEPOSITOR_GRP.name] || [CoreHeldInTrustData.empty_depositor]

@@ -159,7 +159,6 @@
 
       {
         "hitNumber": "HiT add test",
-        "entryDate": "2021-05-01",
         "hitDepositorGroup": [
           {
             "depositor": "HiT Depositor Name 1",
@@ -181,7 +180,7 @@
             "agreementStatusNote": "HiT Agreement Status Note 1"
           },
           {
-            "agreementStatus": "authorized",
+            "agreementStatus": "agreed",
             "agreementStatusDate": "2020-06-01",
             "agreementStatusNote": "HiT Agreement Status Note 2"
           }

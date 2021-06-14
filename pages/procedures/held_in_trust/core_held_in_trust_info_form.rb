@@ -106,8 +106,7 @@ module CoreHeldInTrustInfoForm
     hide_notifications_bar
     prep_fieldsets_for_test_data([fieldset(CoreHeldInTrustData::DEPOSITOR_GRP.name)], depositors)
 
-    depositors.each do |depositor|
-      index = depositors.index depositor
+    depositors.each_with_index do |depositor, index|
       logger.info "Entering depositor data set at index #{index}: #{depositor}"
       enter_auto_complete(depositor_name_input(index), depositor_name_options(index), depositor[CoreHeldInTrustData::DEPOSITOR_NAME.name], 'Local Persons')
       enter_auto_complete(depositor_contact_input(index), depositor_contact_options(index), depositor[CoreHeldInTrustData::DEPOSITOR_CONTACT.name], 'Local Persons')
@@ -119,8 +118,7 @@ module CoreHeldInTrustInfoForm
   def verify_depositors(test_data)
     depositors = test_data[CoreHeldInTrustData::DEPOSITOR_GRP.name] || [CoreHeldInTrustData.empty_depositor]
     errors = []
-    depositors.each do |depositor|
-      index = depositors.index depositor
+    depositors.each_with_index do |depositor, index|
       text_values_match?(depositor[CoreHeldInTrustData::DEPOSITOR_NAME.name], element_value(depositor_name_input index), errors)
       text_values_match?(depositor[CoreHeldInTrustData::DEPOSITOR_CONTACT.name], element_value(depositor_contact_input index), errors)
       text_values_match?(depositor[CoreHeldInTrustData::DEPOSITOR_CONTACT_TYPE.name], element_value(depositor_contact_type_input index), errors)
@@ -151,8 +149,7 @@ module CoreHeldInTrustInfoForm
     hide_notifications_bar
     prep_fieldsets_for_test_data([fieldset(CoreHeldInTrustData::AGREEMENT_STATUS_GRP.name)], agreements)
 
-    agreements.each do |agreement|
-      index = agreements.index agreement
+    agreements.each_with_index do |agreement, index|
       logger.info "Entering agreement status data set at index #{index}: #{agreement}"
       wait_for_options_and_select(agreement_status_input(index), agreement_status_options(index), agreement[CoreHeldInTrustData::STATUS.name])
       enter_simple_date(agreement_status_date_input(index), agreement[CoreHeldInTrustData::STATUS_DATE.name])
@@ -163,8 +160,7 @@ module CoreHeldInTrustInfoForm
   def verify_agreement_statuses(test_data)
     agreements = test_data[CoreHeldInTrustData::AGREEMENT_STATUS_GRP.name] || [CoreHeldInTrustData.empty_agreement_status]
     errors = []
-    agreements.each do |agreement|
-      index = agreements.index agreement
+    agreements.each_with_index do |agreement, index|
       text_values_match?(agreement[CoreHeldInTrustData::STATUS.name], element_value(agreement_status_input index), errors)
       text_values_match?(agreement[CoreHeldInTrustData::STATUS_DATE.name], element_value(agreement_status_date_input index), errors)
       text_values_match?(agreement[CoreHeldInTrustData::STATUS_NOTE.name], element_value(agreement_status_note_input index), errors)
@@ -204,8 +200,7 @@ module CoreHeldInTrustInfoForm
     hide_notifications_bar
     prep_fieldsets_for_test_data([fieldset(CoreHeldInTrustData::ENTRY_METHODS.name)], entry_methods)
 
-    entry_methods.each do |entry_method|
-      index = entry_methods.index entry_method
+    entry_methods.each_with_index do |entry_method, index|
       logger.info "Entering entry method data set at index #{index}: #{entry_method}"
       wait_for_options_and_select(entry_method_input(index), entry_method_options(index), entry_method[CoreHeldInTrustData::ENTRY_METHOD.name])
     end
@@ -214,8 +209,7 @@ module CoreHeldInTrustInfoForm
   def verify_entry_methods(test_data)
     entry_methods = test_data[CoreHeldInTrustData::ENTRY_METHODS.name] || [{CoreHeldInTrustData::ENTRY_METHOD.name => ''}]
     errors = []
-    entry_methods.each do |entry_method|
-      index = entry_methods.index entry_method
+    entry_methods.each_with_index do |entry_method, index|
       text_values_match?(entry_method[CoreHeldInTrustData::ENTRY_METHOD.name], element_value(entry_method_input index), errors)
     end
     errors
@@ -227,7 +221,6 @@ module CoreHeldInTrustInfoForm
 
   def select_entry_reason(test_data)
     hide_notifications_bar
-
     logger.info "Entering entry reason data set"
     wait_for_options_and_select(entry_reason_input, entry_reason_options, test_data[CoreHeldInTrustData::ENTRY_REASON.name])
   end
@@ -281,8 +274,7 @@ module CoreHeldInTrustInfoForm
     hide_notifications_bar
     prep_fieldsets_for_test_data([fieldset(CoreHeldInTrustData::INTERNAL_APPROVAL_GRPS.name)], approvals)
 
-    approvals.each do |approval|
-      index = approvals.index approval
+    approvals.each_with_index do |approval, index|
       logger.info "Entering internal approval data set at index #{index}: #{approval}"
       wait_for_options_and_select(int_approval_group_input(index),int_approval_group_options(index), approval[CoreHeldInTrustData::INTERNAL_APPROVAL_GROUP.name])
       enter_auto_complete(int_approval_individual_input(index), int_approval_individual_options(index), approval[CoreHeldInTrustData::INTERNAL_APPROVAL_INDIVIDUAL.name], 'Local Persons')
@@ -295,8 +287,7 @@ module CoreHeldInTrustInfoForm
   def verify_internal_approvals(test_data)
     approvals = test_data[CoreHeldInTrustData::INTERNAL_APPROVAL_GRPS.name] || [CoreHeldInTrustData.empty_internal_approval]
     errors = []
-    approvals.each do |approval|
-      index = approvals.index approval
+    approvals.each_with_index do |approval, index|
       text_values_match?(approval[CoreHeldInTrustData::INTERNAL_APPROVAL_GROUP.name], element_value(int_approval_group_input index), errors)
       text_values_match?(approval[CoreHeldInTrustData::INTERNAL_APPROVAL_INDIVIDUAL.name], element_value(int_approval_individual_input index), errors)
       text_values_match?(approval[CoreHeldInTrustData::INTERNAL_APPROVAL_STATUS.name], element_value(int_approval_status_input index), errors)
@@ -321,8 +312,7 @@ module CoreHeldInTrustInfoForm
     hide_notifications_bar
     prep_fieldsets_for_test_data([fieldset(CoreHeldInTrustData::EXTERNAL_APPROVAL_GRPS.name)], approvals)
 
-    approvals.each do |approval|
-      index = approvals.index approval
+    approvals.each_with_index do |approval, index|
       logger.info "Entering external approval data set at index #{index}: #{approval}"
       wait_for_options_and_select(ext_approval_group_input(index),ext_approval_group_options(index), approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_GROUP.name])
       enter_auto_complete(ext_approval_individual_input(index), ext_approval_individual_options(index), approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_INDIVIDUAL.name], 'Local Persons')
@@ -335,8 +325,7 @@ module CoreHeldInTrustInfoForm
   def verify_external_approvals(test_data)
     approvals = test_data[CoreHeldInTrustData::EXTERNAL_APPROVAL_GRPS.name] || [CoreHeldInTrustData.empty_external_approval]
     errors = []
-    approvals.each do |approval|
-      index = approvals.index approval
+    approvals.each_with_index do |approval, index|
       text_values_match?(approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_GROUP.name], element_value(ext_approval_group_input index), errors)
       text_values_match?(approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_INDIVIDUAL.name], element_value(ext_approval_individual_input index), errors)
       text_values_match?(approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_STATUS.name], element_value(ext_approval_status_input index), errors)
@@ -380,8 +369,7 @@ module CoreHeldInTrustInfoForm
     hide_notifications_bar
     prep_fieldsets_for_test_data([fieldset(CoreHeldInTrustData::HANDLING_LIMITATIONS_GRP.name)], limitations)
 
-    limitations.each do |limitation|
-      index = limitations.index limitation
+    limitations.each_with_index do |limitation, index|
       logger.info "Entering handling limitations data set at index #{index}: #{limitation}"
       wait_for_options_and_select(handling_type_input(index),handling_type_options(index), limitation[CoreHeldInTrustData::HANDLING_TYPE.name])
       enter_auto_complete(handling_requestor_input(index), handling_requestor_options(index), limitation[CoreHeldInTrustData::HANDLING_REQUESTOR.name], 'Local Persons')
@@ -395,8 +383,7 @@ module CoreHeldInTrustInfoForm
   def verify_handling_limitations(test_data)
     limitations = test_data[CoreHeldInTrustData::HANDLING_LIMITATIONS_GRP.name] || [CoreHeldInTrustData.empty_handling_limitations]
     errors = []
-    limitations.each do |limitation|
-      index = limitations.index limitation
+    limitations.each_with_index do |limitation, index|
       text_values_match?(limitation[CoreHeldInTrustData::HANDLING_TYPE.name], element_value(handling_type_input index), errors)
       text_values_match?(limitation[CoreHeldInTrustData::HANDLING_REQUESTOR.name], element_value(handling_requestor_input index), errors)
       text_values_match?(limitation[CoreHeldInTrustData::HANDLING_LEVEL.name], element_value(handling_level_input index), errors)
@@ -423,8 +410,7 @@ module CoreHeldInTrustInfoForm
     hide_notifications_bar
     prep_fieldsets_for_test_data([fieldset(CoreHeldInTrustData::CORRESPONDENCE_GRP.name)], correspondences)
 
-    correspondences.each do |correspondence|
-      index = correspondences.index correspondence
+    correspondences.each_with_index do |correspondence, index|
       logger.info "Entering correspondences data set at index #{index}: #{correspondence}"
       enter_simple_date(correspondence_date_input(index), correspondence[CoreHeldInTrustData::CORRESPONDENCE_DATE.name])
       enter_auto_complete(correspondence_sender_input(index), correspondence_sender_options(index), correspondence[CoreHeldInTrustData::CORRESPONDENCE_SENDER.name], 'Local Persons')
@@ -437,8 +423,7 @@ module CoreHeldInTrustInfoForm
   def verify_correspondences(test_data)
     correspondences = test_data[CoreHeldInTrustData::CORRESPONDENCE_GRP.name] || [CoreHeldInTrustData.empty_correspondence]
     errors = []
-    correspondences.each do |correspondence|
-      index = correspondences.index correspondence
+    correspondences.each_with_index do |correspondence, index|
       text_values_match?(correspondence[CoreHeldInTrustData::CORRESPONDENCE_DATE.name], element_value(correspondence_date_input index), errors)
       text_values_match?(correspondence[CoreHeldInTrustData::CORRESPONDENCE_SENDER.name], element_value(correspondence_sender_input index), errors)
       text_values_match?(correspondence[CoreHeldInTrustData::CORRESPONDENCE_RECIPIENT.name], element_value(correspondence_recipient_input index), errors)
