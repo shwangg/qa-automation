@@ -67,13 +67,10 @@ module CoreHeldInTrustInfoForm
   end
 
   # Verifies that the values of the Number field matches the corresponding fields in a given set of
-  # test data. Returns an array of mismatches.
+  # test data.
   # @param [Hash] test_data
-  # @return [Array<String>]
   def verify_held_in_trust_number(test_data)
-    errors = []
-    text_values_match?(test_data[CoreHeldInTrustData::HIT_NUMBER.name], element_value(hit_number_input), errors)
-    errors
+    verify_values_match(test_data[CoreHeldInTrustData::HIT_NUMBER.name], element_value(hit_number_input))
   end
 
   ## ENTRY DATE
@@ -84,9 +81,7 @@ module CoreHeldInTrustInfoForm
   end
 
   def verify_entry_date(test_data)
-    errors = []
-    text_values_match?(test_data[CoreHeldInTrustData::ENTRY_DATE.name], element_value(entry_date_input), errors)
-    errors
+    verify_values_match(test_data[CoreHeldInTrustData::ENTRY_DATE.name], element_value(entry_date_input))
   end
 
   ##DEPOSITORS
@@ -117,14 +112,12 @@ module CoreHeldInTrustInfoForm
 
   def verify_depositors(test_data)
     depositors = test_data[CoreHeldInTrustData::DEPOSITOR_GRP.name] || [CoreHeldInTrustData.empty_depositor]
-    errors = []
     depositors.each_with_index do |depositor, index|
-      text_values_match?(depositor[CoreHeldInTrustData::DEPOSITOR_NAME.name], element_value(depositor_name_input index), errors)
-      text_values_match?(depositor[CoreHeldInTrustData::DEPOSITOR_CONTACT.name], element_value(depositor_contact_input index), errors)
-      text_values_match?(depositor[CoreHeldInTrustData::DEPOSITOR_CONTACT_TYPE.name], element_value(depositor_contact_type_input index), errors)
-      text_values_match?(depositor[CoreHeldInTrustData::DEPOSITOR_NOTE.name], element_value(depositor_note_input index), errors)
+      verify_values_match(depositor[CoreHeldInTrustData::DEPOSITOR_NAME.name], element_value(depositor_name_input index))
+      verify_values_match(depositor[CoreHeldInTrustData::DEPOSITOR_CONTACT.name], element_value(depositor_contact_input index))
+      verify_values_match(depositor[CoreHeldInTrustData::DEPOSITOR_CONTACT_TYPE.name], element_value(depositor_contact_type_input index))
+      verify_values_match(depositor[CoreHeldInTrustData::DEPOSITOR_NOTE.name], element_value(depositor_note_input index))
       end
-    errors
   end
 
   # Adds a depositor term fieldset
@@ -159,13 +152,11 @@ module CoreHeldInTrustInfoForm
 
   def verify_agreement_statuses(test_data)
     agreements = test_data[CoreHeldInTrustData::AGREEMENT_STATUS_GRP.name] || [CoreHeldInTrustData.empty_agreement_status]
-    errors = []
     agreements.each_with_index do |agreement, index|
-      text_values_match?(agreement[CoreHeldInTrustData::STATUS.name], element_value(agreement_status_input index), errors)
-      text_values_match?(agreement[CoreHeldInTrustData::STATUS_DATE.name], element_value(agreement_status_date_input index), errors)
-      text_values_match?(agreement[CoreHeldInTrustData::STATUS_NOTE.name], element_value(agreement_status_note_input index), errors)
+      verify_values_match(agreement[CoreHeldInTrustData::STATUS.name], element_value(agreement_status_input index))
+      verify_values_match(agreement[CoreHeldInTrustData::STATUS_DATE.name], element_value(agreement_status_date_input index))
+      verify_values_match(agreement[CoreHeldInTrustData::STATUS_NOTE.name], element_value(agreement_status_note_input index))
       end
-    errors
   end
 
   ##AGREEMENT RENEWAL DATE
@@ -184,11 +175,9 @@ module CoreHeldInTrustInfoForm
 
   def verify_agreement_renewal_dates(test_data)
     renewals = test_data[CoreHeldInTrustData::AGREEMENT_RENEWAL_DATES.name] || [{CoreHeldInTrustData::AGREEMENT_RENEWAL_DATE.name => ''}]
-    errors = []
     renewals.each_with_index do |renewal, index|
-      text_values_match?(renewal[CoreHeldInTrustData::AGREEMENT_RENEWAL_DATE.name], element_value(agreement_renewal_date_input index), errors)
+      verify_values_match(renewal[CoreHeldInTrustData::AGREEMENT_RENEWAL_DATE.name], element_value(agreement_renewal_date_input index))
     end
-    errors
   end
 
   ##ENTRY METHODS
@@ -208,11 +197,9 @@ module CoreHeldInTrustInfoForm
 
   def verify_entry_methods(test_data)
     entry_methods = test_data[CoreHeldInTrustData::ENTRY_METHODS.name] || [{CoreHeldInTrustData::ENTRY_METHOD.name => ''}]
-    errors = []
     entry_methods.each_with_index do |entry_method, index|
-      text_values_match?(entry_method[CoreHeldInTrustData::ENTRY_METHOD.name], element_value(entry_method_input index), errors)
+      verify_values_match(entry_method[CoreHeldInTrustData::ENTRY_METHOD.name], element_value(entry_method_input index))
     end
-    errors
   end
 
 ##ENTRY REASON
@@ -226,9 +213,7 @@ module CoreHeldInTrustInfoForm
   end
 
   def verify_entry_reason(test_data)
-    errors = []
-    text_values_match?(test_data[CoreHeldInTrustData::ENTRY_REASON.name], element_value(entry_reason_input), errors)
-    errors
+    verify_values_match(test_data[CoreHeldInTrustData::ENTRY_REASON.name], element_value(entry_reason_input))
   end
 
   ##RETURN DATE
@@ -240,9 +225,7 @@ module CoreHeldInTrustInfoForm
   end
 
   def verify_return_date(test_data)
-    errors = []
-    text_values_match?(test_data[CoreHeldInTrustData::RETURN_DATE.name], element_value(return_date_input), errors)
-    errors
+    verify_values_match(test_data[CoreHeldInTrustData::RETURN_DATE.name], element_value(return_date_input))
   end
 
   ##ENTRY NOTE
@@ -254,9 +237,7 @@ module CoreHeldInTrustInfoForm
   end
 
   def verify_entry_note(test_data)
-    errors = []
-    text_values_match?(test_data[CoreHeldInTrustData::ENTRY_NOTE.name], element_value(entry_note_input), errors)
-    errors
+    verify_values_match(test_data[CoreHeldInTrustData::ENTRY_NOTE.name], element_value(entry_note_input))
   end
 
   ##INTERNAL APPROVAL
@@ -286,15 +267,13 @@ module CoreHeldInTrustInfoForm
 
   def verify_internal_approvals(test_data)
     approvals = test_data[CoreHeldInTrustData::INTERNAL_APPROVAL_GRPS.name] || [CoreHeldInTrustData.empty_internal_approval]
-    errors = []
     approvals.each_with_index do |approval, index|
-      text_values_match?(approval[CoreHeldInTrustData::INTERNAL_APPROVAL_GROUP.name], element_value(int_approval_group_input index), errors)
-      text_values_match?(approval[CoreHeldInTrustData::INTERNAL_APPROVAL_INDIVIDUAL.name], element_value(int_approval_individual_input index), errors)
-      text_values_match?(approval[CoreHeldInTrustData::INTERNAL_APPROVAL_STATUS.name], element_value(int_approval_status_input index), errors)
-      text_values_match?(approval[CoreHeldInTrustData::INTERNAL_APPROVAL_DATE.name], element_value(int_approval_date_input index), errors)
-      text_values_match?(approval[CoreHeldInTrustData::INTERNAL_APPROVAL_NOTE.name], element_value(int_approval_note_input index), errors)
+      verify_values_match(approval[CoreHeldInTrustData::INTERNAL_APPROVAL_GROUP.name], element_value(int_approval_group_input index))
+      verify_values_match(approval[CoreHeldInTrustData::INTERNAL_APPROVAL_INDIVIDUAL.name], element_value(int_approval_individual_input index))
+      verify_values_match(approval[CoreHeldInTrustData::INTERNAL_APPROVAL_STATUS.name], element_value(int_approval_status_input index))
+      verify_values_match(approval[CoreHeldInTrustData::INTERNAL_APPROVAL_DATE.name], element_value(int_approval_date_input index))
+      verify_values_match(approval[CoreHeldInTrustData::INTERNAL_APPROVAL_NOTE.name], element_value(int_approval_note_input index))
     end
-    errors
   end
 
   ##EXTERNAL APPROVAL
@@ -324,15 +303,13 @@ module CoreHeldInTrustInfoForm
 
   def verify_external_approvals(test_data)
     approvals = test_data[CoreHeldInTrustData::EXTERNAL_APPROVAL_GRPS.name] || [CoreHeldInTrustData.empty_external_approval]
-    errors = []
     approvals.each_with_index do |approval, index|
-      text_values_match?(approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_GROUP.name], element_value(ext_approval_group_input index), errors)
-      text_values_match?(approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_INDIVIDUAL.name], element_value(ext_approval_individual_input index), errors)
-      text_values_match?(approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_STATUS.name], element_value(ext_approval_status_input index), errors)
-      text_values_match?(approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_DATE.name], element_value(ext_approval_date_input index), errors)
-      text_values_match?(approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_NOTE.name], element_value(ext_approval_note_input index), errors)
+      verify_values_match(approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_GROUP.name], element_value(ext_approval_group_input index))
+      verify_values_match(approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_INDIVIDUAL.name], element_value(ext_approval_individual_input index))
+      verify_values_match(approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_STATUS.name], element_value(ext_approval_status_input index))
+      verify_values_match(approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_DATE.name], element_value(ext_approval_date_input index))
+      verify_values_match(approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_NOTE.name], element_value(ext_approval_note_input index))
     end
-    errors
   end
 
   # [CULTURE CARE AND HANDLING] form
@@ -347,9 +324,7 @@ module CoreHeldInTrustInfoForm
   end
 
   def verify_handling_preferences(test_data)
-    errors = []
-    text_values_match?(test_data[CoreHeldInTrustData::HANDLING_PREFERENCES.name], element_value(handling_preferences_input), errors)
-    errors
+    verify_values_match(test_data[CoreHeldInTrustData::HANDLING_PREFERENCES.name], element_value(handling_preferences_input))
   end
 
   #HANDLING LIMITATIONS
@@ -382,16 +357,14 @@ module CoreHeldInTrustInfoForm
 
   def verify_handling_limitations(test_data)
     limitations = test_data[CoreHeldInTrustData::HANDLING_LIMITATIONS_GRP.name] || [CoreHeldInTrustData.empty_handling_limitations]
-    errors = []
     limitations.each_with_index do |limitation, index|
-      text_values_match?(limitation[CoreHeldInTrustData::HANDLING_TYPE.name], element_value(handling_type_input index), errors)
-      text_values_match?(limitation[CoreHeldInTrustData::HANDLING_REQUESTOR.name], element_value(handling_requestor_input index), errors)
-      text_values_match?(limitation[CoreHeldInTrustData::HANDLING_LEVEL.name], element_value(handling_level_input index), errors)
-      text_values_match?(limitation[CoreHeldInTrustData::HANDLING_BEHALF.name], element_value(handling_on_behalf_of_input index), errors)
-      text_values_match?(limitation[CoreHeldInTrustData::HANDLING_DETAIL.name], element_value(handling_detail_input index), errors)
-      text_values_match?(limitation[CoreHeldInTrustData::HANDLING_DATE.name], element_value(handling_date_input index), errors)
+      verify_values_match(limitation[CoreHeldInTrustData::HANDLING_TYPE.name], element_value(handling_type_input index))
+      verify_values_match(limitation[CoreHeldInTrustData::HANDLING_REQUESTOR.name], element_value(handling_requestor_input index))
+      verify_values_match(limitation[CoreHeldInTrustData::HANDLING_LEVEL.name], element_value(handling_level_input index))
+      verify_values_match(limitation[CoreHeldInTrustData::HANDLING_BEHALF.name], element_value(handling_on_behalf_of_input index))
+      verify_values_match(limitation[CoreHeldInTrustData::HANDLING_DETAIL.name], element_value(handling_detail_input index))
+      verify_values_match(limitation[CoreHeldInTrustData::HANDLING_DATE.name], element_value(handling_date_input index))
     end
-    errors
   end
 
   # [CORRESPONDENCE] form
@@ -422,15 +395,13 @@ module CoreHeldInTrustInfoForm
 
   def verify_correspondences(test_data)
     correspondences = test_data[CoreHeldInTrustData::CORRESPONDENCE_GRP.name] || [CoreHeldInTrustData.empty_correspondence]
-    errors = []
     correspondences.each_with_index do |correspondence, index|
-      text_values_match?(correspondence[CoreHeldInTrustData::CORRESPONDENCE_DATE.name], element_value(correspondence_date_input index), errors)
-      text_values_match?(correspondence[CoreHeldInTrustData::CORRESPONDENCE_SENDER.name], element_value(correspondence_sender_input index), errors)
-      text_values_match?(correspondence[CoreHeldInTrustData::CORRESPONDENCE_RECIPIENT.name], element_value(correspondence_recipient_input index), errors)
-      text_values_match?(correspondence[CoreHeldInTrustData::CORRESPONDENCE_SUMMARY.name], element_value(correspondence_summary_input index), errors)
-      text_values_match?(correspondence[CoreHeldInTrustData::CORRESPONDENCE_REF.name], element_value(correspondence_reference_input index), errors)
+      verify_values_match(correspondence[CoreHeldInTrustData::CORRESPONDENCE_DATE.name], element_value(correspondence_date_input index))
+      verify_values_match(correspondence[CoreHeldInTrustData::CORRESPONDENCE_SENDER.name], element_value(correspondence_sender_input index))
+      verify_values_match(correspondence[CoreHeldInTrustData::CORRESPONDENCE_RECIPIENT.name], element_value(correspondence_recipient_input index))
+      verify_values_match(correspondence[CoreHeldInTrustData::CORRESPONDENCE_SUMMARY.name], element_value(correspondence_summary_input index))
+      verify_values_match(correspondence[CoreHeldInTrustData::CORRESPONDENCE_REF.name], element_value(correspondence_reference_input index))
     end
-    errors
   end
 
 end
