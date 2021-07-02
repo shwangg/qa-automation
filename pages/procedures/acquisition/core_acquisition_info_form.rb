@@ -30,6 +30,14 @@ module CoreAcquisitionInfoForm
     end
   end
 
+  # Verifies that the values of the Accession Date field matches the corresponding field in a given set of
+  # test data.
+  # @param [Hash] data_set
+  def verify_accession_date(data_set)
+    logger.debug "Verifying accession date '#{data_set[CoreAcquisitionData::ACCESSION_DATE_GRP.name]}'"
+    verify_values_match(data_set[CoreAcquisitionData::ACCESSION_DATE_GRP.name], element_value(access_date_input_locator))
+  end
+
   # ACQUISITION DATE
 
   def acquis_date_input_locator(index); structured_date_input_locator([fieldset(CoreAcquisitionData::ACQUIS_DATE_GRP.name, index)]) end

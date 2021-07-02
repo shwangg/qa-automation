@@ -40,10 +40,12 @@ module CollectionSpacePages
 
   def related_tab; {:xpath => '//input[@placeholder="+ Related"]'} end
   def related_option; {:xpath => "//input[@placeholder='+ Related']/following-sibling::div//li"} end
+  def related_type_tab(option); {:xpath => "//button[text()=\"#{option}\"]"} end
   def relate_button; {:name => 'relate'} end
   def relate_selected_button; {:name => 'accept'} end
   def unrelate_button; {:name => 'unrelate'} end
   def unrelate_option; {:xpath => '//button[@name = "cancel"]/following-sibling::button'} end
+  def confirm_unrelate_msg_span; {:xpath => '//div[contains(@class,"ConfirmRecordUnrelateModal")]//span[contains(.,"Unrelate Current Location")]'} end
 
   def relation_editor_unrelate_button; {:xpath => '//div[contains(@class,"RelationEditor")]//button'} end
   def relation_editor_cancel_button; {:xpath => '//div[contains(@class,"ConfirmRecordUnrelateModal")]//button[@name="cancel"]'} end
@@ -55,6 +57,7 @@ module CollectionSpacePages
   def notifications_timestamp; {:xpath => '//div[contains(@class, "NotificationBar")]//header'} end
 
   def dialog_box; {:xpath => "//div[@role = 'dialog']"} end
+  def dialog_header; {:xpath => '//div[@role = "dialog"]//header//div'} end
   def dialog_message; {:xpath => '//div[@role = "dialog"]//header/following-sibling::div//span'} end
   def do_not_leave_button; {:xpath => '//button[contains(., "Don\'t leave")]'} end
   def save_and_continue_button; {:xpath => '//button[contains(., "Save and continue")]'} end
@@ -484,6 +487,12 @@ module CollectionSpacePages
   def select_related_type(option)
     logger.info "Clicking related record type '#{option}'"
     wait_for_options_and_select(related_tab, related_option, option)
+  end
+
+  # Clicks an open secondary tab of a given record type
+  def click_related_tab(option)
+    logger.info "Clicking tab for related record type '#{option}'"
+    wait_for_element_and_click related_type_tab(option)
   end
 
   # Clicks the 'Open' link for a record on another record's secondary tab

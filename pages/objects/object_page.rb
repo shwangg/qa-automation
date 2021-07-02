@@ -101,6 +101,13 @@ class ObjectPage
     data_input_errors
   end
 
+  def create_new_botgarden_object(data_set)
+    data_input_errors = enter_botgarden_object_id_data(data_set)
+    wait_for_element_and_click top_save_button
+    when_exists(delete_button, Config.short_wait)
+    data_input_errors
+  end
+
   def create_new_pahma_object(data_set)
     data_input_errors = enter_pahma_object_id_data(data_set)
     wait_for_element_and_click top_save_button

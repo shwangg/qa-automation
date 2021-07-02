@@ -96,15 +96,16 @@ module CoreHeldInTrustInfoForm
   def add_depositor_grp_btn; add_button_locator([fieldset(CoreHeldInTrustData::DEPOSITOR_GRP.name)]) end
   def move_depositor_grp_top_btn(index); move_top_button_locator([fieldset(CoreHeldInTrustData::DEPOSITOR_GRP.name)], index) end
 
-  def enter_depositors(test_data)
+  def enter_depositors(test_data, default_name = "Local Persons")
+    puts "default_name: #{default_name}"
     depositors = test_data[CoreHeldInTrustData::DEPOSITOR_GRP.name] || [CoreHeldInTrustData.empty_depositor]
     hide_notifications_bar
     prep_fieldsets_for_test_data([fieldset(CoreHeldInTrustData::DEPOSITOR_GRP.name)], depositors)
 
     depositors.each_with_index do |depositor, index|
       logger.info "Entering depositor data set at index #{index}: #{depositor}"
-      enter_auto_complete(depositor_name_input(index), depositor_name_options(index), depositor[CoreHeldInTrustData::DEPOSITOR_NAME.name], 'Local Persons')
-      enter_auto_complete(depositor_contact_input(index), depositor_contact_options(index), depositor[CoreHeldInTrustData::DEPOSITOR_CONTACT.name], 'Local Persons')
+      enter_auto_complete(depositor_name_input(index), depositor_name_options(index), depositor[CoreHeldInTrustData::DEPOSITOR_NAME.name], default_name)
+      enter_auto_complete(depositor_contact_input(index), depositor_contact_options(index), depositor[CoreHeldInTrustData::DEPOSITOR_CONTACT.name], default_name)
       wait_for_options_and_select(depositor_contact_type_input(index), depositor_contact_type_options(index), depositor[CoreHeldInTrustData::DEPOSITOR_CONTACT_TYPE.name])
       wait_for_element_and_type(depositor_note_input(index), depositor[CoreHeldInTrustData::DEPOSITOR_NOTE.name])
     end
@@ -250,7 +251,7 @@ module CoreHeldInTrustInfoForm
   def int_approval_date_input(index);  input_locator([fieldset(CoreHeldInTrustData::INTERNAL_APPROVAL_GRPS.name, index)], CoreHeldInTrustData::INTERNAL_APPROVAL_DATE.name) end
   def int_approval_note_input(index); input_locator([fieldset(CoreHeldInTrustData::INTERNAL_APPROVAL_GRPS.name, index)], CoreHeldInTrustData::INTERNAL_APPROVAL_NOTE.name) end
 
-  def enter_internal_approvals(test_data)
+  def enter_internal_approvals(test_data, default_name = 'Local Persons')
     approvals = test_data[CoreHeldInTrustData::INTERNAL_APPROVAL_GRPS.name] || [CoreHeldInTrustData.empty_internal_approval]
     hide_notifications_bar
     prep_fieldsets_for_test_data([fieldset(CoreHeldInTrustData::INTERNAL_APPROVAL_GRPS.name)], approvals)
@@ -258,7 +259,7 @@ module CoreHeldInTrustInfoForm
     approvals.each_with_index do |approval, index|
       logger.info "Entering internal approval data set at index #{index}: #{approval}"
       wait_for_options_and_select(int_approval_group_input(index),int_approval_group_options(index), approval[CoreHeldInTrustData::INTERNAL_APPROVAL_GROUP.name])
-      enter_auto_complete(int_approval_individual_input(index), int_approval_individual_options(index), approval[CoreHeldInTrustData::INTERNAL_APPROVAL_INDIVIDUAL.name], 'Local Persons')
+      enter_auto_complete(int_approval_individual_input(index), int_approval_individual_options(index), approval[CoreHeldInTrustData::INTERNAL_APPROVAL_INDIVIDUAL.name], default_name)
       wait_for_options_and_select(int_approval_status_input(index), int_approval_status_options(index), approval[CoreHeldInTrustData::INTERNAL_APPROVAL_STATUS.name])
       enter_simple_date(int_approval_date_input(index), approval[CoreHeldInTrustData::INTERNAL_APPROVAL_DATE.name])
       wait_for_element_and_type(int_approval_note_input(index), approval[CoreHeldInTrustData::INTERNAL_APPROVAL_NOTE.name])
@@ -286,7 +287,7 @@ module CoreHeldInTrustInfoForm
   def ext_approval_date_input(index);  input_locator([fieldset(CoreHeldInTrustData::EXTERNAL_APPROVAL_GRPS.name, index)], CoreHeldInTrustData::EXTERNAL_APPROVAL_DATE.name) end
   def ext_approval_note_input(index); input_locator([fieldset(CoreHeldInTrustData::EXTERNAL_APPROVAL_GRPS.name, index)], CoreHeldInTrustData::EXTERNAL_APPROVAL_NOTE.name) end
 
-  def enter_external_approvals(test_data)
+  def enter_external_approvals(test_data, default_name = 'Local Persons')
     approvals = test_data[CoreHeldInTrustData::EXTERNAL_APPROVAL_GRPS.name] || [CoreHeldInTrustData.empty_external_approval]
     hide_notifications_bar
     prep_fieldsets_for_test_data([fieldset(CoreHeldInTrustData::EXTERNAL_APPROVAL_GRPS.name)], approvals)
@@ -294,7 +295,7 @@ module CoreHeldInTrustInfoForm
     approvals.each_with_index do |approval, index|
       logger.info "Entering external approval data set at index #{index}: #{approval}"
       wait_for_options_and_select(ext_approval_group_input(index),ext_approval_group_options(index), approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_GROUP.name])
-      enter_auto_complete(ext_approval_individual_input(index), ext_approval_individual_options(index), approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_INDIVIDUAL.name], 'Local Persons')
+      enter_auto_complete(ext_approval_individual_input(index), ext_approval_individual_options(index), approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_INDIVIDUAL.name], default_name)
       wait_for_options_and_select(ext_approval_status_input(index), ext_approval_status_options(index), approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_STATUS.name])
       enter_simple_date(ext_approval_date_input(index), approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_DATE.name])
       wait_for_element_and_type(ext_approval_note_input(index), approval[CoreHeldInTrustData::EXTERNAL_APPROVAL_NOTE.name])
@@ -339,7 +340,7 @@ module CoreHeldInTrustInfoForm
   def handling_detail_input(index);  input_locator([fieldset(CoreHeldInTrustData::HANDLING_LIMITATIONS_GRP.name, index)], CoreHeldInTrustData::HANDLING_DETAIL.name) end
   def handling_date_input(index); input_locator([fieldset(CoreHeldInTrustData::HANDLING_LIMITATIONS_GRP.name, index)], CoreHeldInTrustData::HANDLING_DATE.name) end
 
-  def enter_handling_limitations(test_data)
+  def enter_handling_limitations(test_data, default_name = 'Local Persons')
     limitations = test_data[CoreHeldInTrustData::HANDLING_LIMITATIONS_GRP.name] || [CoreHeldInTrustData.empty_handling_limitations]
     hide_notifications_bar
     prep_fieldsets_for_test_data([fieldset(CoreHeldInTrustData::HANDLING_LIMITATIONS_GRP.name)], limitations)
@@ -347,9 +348,9 @@ module CoreHeldInTrustInfoForm
     limitations.each_with_index do |limitation, index|
       logger.info "Entering handling limitations data set at index #{index}: #{limitation}"
       wait_for_options_and_select(handling_type_input(index),handling_type_options(index), limitation[CoreHeldInTrustData::HANDLING_TYPE.name])
-      enter_auto_complete(handling_requestor_input(index), handling_requestor_options(index), limitation[CoreHeldInTrustData::HANDLING_REQUESTOR.name], 'Local Persons')
+      enter_auto_complete(handling_requestor_input(index), handling_requestor_options(index), limitation[CoreHeldInTrustData::HANDLING_REQUESTOR.name], default_name)
       wait_for_options_and_select(handling_level_input(index), handling_level_options(index), limitation[CoreHeldInTrustData::HANDLING_LEVEL.name])
-      enter_auto_complete(handling_on_behalf_of_input(index), handling_on_behalf_of_options(index), limitation[CoreHeldInTrustData::HANDLING_BEHALF.name], 'Local Persons')
+      enter_auto_complete(handling_on_behalf_of_input(index), handling_on_behalf_of_options(index), limitation[CoreHeldInTrustData::HANDLING_BEHALF.name], default_name)
       wait_for_element_and_type(handling_detail_input(index), limitation[CoreHeldInTrustData::HANDLING_DETAIL.name])
       enter_simple_date(handling_date_input(index), limitation[CoreHeldInTrustData::HANDLING_DATE.name])
     end
@@ -378,7 +379,7 @@ module CoreHeldInTrustInfoForm
   def correspondence_summary_input(index); input_locator([fieldset(CoreHeldInTrustData::CORRESPONDENCE_GRP.name, index)], CoreHeldInTrustData::CORRESPONDENCE_SUMMARY.name) end
   def correspondence_reference_input(index); input_locator([fieldset(CoreHeldInTrustData::CORRESPONDENCE_GRP.name, index)], CoreHeldInTrustData::CORRESPONDENCE_REF.name) end
 
-  def enter_correspondences(test_data)
+  def enter_correspondences(test_data, default_name = 'Local Persons')
     correspondences = test_data[CoreHeldInTrustData::CORRESPONDENCE_GRP.name] || [CoreHeldInTrustData.empty_correspondence]
     hide_notifications_bar
     prep_fieldsets_for_test_data([fieldset(CoreHeldInTrustData::CORRESPONDENCE_GRP.name)], correspondences)
@@ -386,8 +387,8 @@ module CoreHeldInTrustInfoForm
     correspondences.each_with_index do |correspondence, index|
       logger.info "Entering correspondences data set at index #{index}: #{correspondence}"
       enter_simple_date(correspondence_date_input(index), correspondence[CoreHeldInTrustData::CORRESPONDENCE_DATE.name])
-      enter_auto_complete(correspondence_sender_input(index), correspondence_sender_options(index), correspondence[CoreHeldInTrustData::CORRESPONDENCE_SENDER.name], 'Local Persons')
-      enter_auto_complete(correspondence_recipient_input(index), correspondence_recipient_options(index), correspondence[CoreHeldInTrustData::CORRESPONDENCE_RECIPIENT.name], 'Local Persons')
+      enter_auto_complete(correspondence_sender_input(index), correspondence_sender_options(index), correspondence[CoreHeldInTrustData::CORRESPONDENCE_SENDER.name], default_name)
+      enter_auto_complete(correspondence_recipient_input(index), correspondence_recipient_options(index), correspondence[CoreHeldInTrustData::CORRESPONDENCE_RECIPIENT.name], default_name)
       wait_for_element_and_type(correspondence_summary_input(index), correspondence[CoreHeldInTrustData::CORRESPONDENCE_SUMMARY.name])
       wait_for_element_and_type(correspondence_reference_input(index), correspondence[CoreHeldInTrustData::CORRESPONDENCE_REF.name])
     end

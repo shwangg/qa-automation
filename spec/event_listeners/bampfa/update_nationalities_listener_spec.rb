@@ -51,55 +51,56 @@ describe 'BAMPFA' do
     @object_page.save_record
   end
 
-  after(:all) { quit_browser test_run.driver }
+  after(:all) {
+    @object_page.click_sidebar_term("Bailey, Marsha E.")
+    @person_page.enter_nationality(@warhol_reset)
+    @person_page.save_record
+    quit_browser test_run.driver
+  }
 
-  it 'Add a new Person to an existing object' do
+  it 'add a new Person to an existing object' do
     @search_page.click_create_new_link
     @create_new_page.click_create_new_authority_person_local
-    @person_page.enter_terms @person_1
-    @person_page.enter_nationality @person_1
-    @person_page.save_record
+    @person_page.create_new_person_authority(@person_1)
     @person_page.quick_search("Objects", [], @object_1[BAMPFAObjectData::ID_PREFIX.name])
     @search_results_page.click_result(@object_1[BAMPFAObjectData::ID_PREFIX.name])
     @object_page.enter_artist_or_maker(@add_artist)
     @object_page.save_record
   end
 
-  it 'Search via Nationality' do
-    @person_page.click_search_link
+  it 'search via nationality' do
     ["United States", "Canada"].each do |nationality|
+      @object_page.click_search_link
       @search_page.select_record_type_option("Objects")
       @search_page.enter_persons_nationalities([nationality])
-      @search_page.click_search_button
-      @search_results_page.wait_for_results
+      @search_page.click_search_and_wait_for_results(@search_results_page)
       expect(@search_results_page.row_exists? @object_1[BAMPFAObjectData::ID_PREFIX.name]).to be true
       @search_results_page.click_search_link
     end
   end
 
-  it "Check changing a Person's nationality propagates to all object records" do
+  it "check adding a Person's nationality propagates to all object records" do
     @search_page.quick_search("Persons", "All", "Andy Warhol")
     @search_results_page.click_result("Warhol, Andy")
     @person_page.enter_nationality @warhol
     section_header = @person_page.element_text(@person_page.section_header_text("Used By"))
     expect(/Used By: 1(7[4-9]|8[0-5])/ === section_header).to be true
     used_records_num = section_header.delete("^0-9").to_i
-    @person_page.click_save_button
-    @person_page.when_enabled(@person_page.save_button, Config.long_wait)
+    @person_page.save_record(Config.long_wait)
 
     @person_page.click_search_link
     @search_page.select_record_type_option("Objects")
     @search_page.enter_persons_nationalities(["Warholian_test"])
-    @search_page.click_search_button
-    @search_results_page.wait_for_results
+    @search_page.click_search_and_wait_for_results(@search_results_page)
     records_found = @search_results_page.element_text(@search_results_page.records_found_header_text)
     expect(records_found[/(\d+)(?!.*\d)/].to_i).to eql(used_records_num)
+  end
 
+  it "check deleting a Person's nationality propagates to all object records" do
     @search_page.quick_search("Persons", "All", "Andy Warhol")
     @search_results_page.click_result("Warhol, Andy")
     @person_page.enter_nationality @warhol_reset
-    @person_page.click_save_button
-    @person_page.when_enabled(@person_page.save_button, Config.long_wait)
+    @person_page.save_record(Config.long_wait)
     @person_page.click_search_link
     @search_page.select_record_type_option("Objects")
     @search_page.enter_persons_nationalities(["Warholian_test"])
@@ -108,7 +109,7 @@ describe 'BAMPFA' do
     expect(@search_results_page.exists? @search_results_page.no_results_msg).to be true
   end
 
-  it "Check that records aren't refreshed if no nationality is added" do
+  it "check that records aren't refreshed if no nationality is added" do
     @search_page.quick_search("Persons", "All", "Marsha E. Bailey")
     @search_results_page.click_result("Bailey, Marsha E.")
     @person_page.expand_sidebar_used_by
@@ -121,18 +122,15 @@ describe 'BAMPFA' do
     @person_page.click_sidebar_used_by("1995.46.8.48")
     @object_page.when_exists(@object_page.timestamp, Config.short_wait)
     expect(@object_page.element_text(@object_page.timestamp)).to eql(original_time)
+  end
 
+  it "check that records aren't refreshed if nationality is added to related Person record" do
     @object_page.click_sidebar_term("Bailey, Marsha E.")
     @person_page.enter_nationality(@warhol)
     @person_page.save_record
     @person_page.click_sidebar_used_by("1995.46.8.48")
     @object_page.when_exists(@object_page.timestamp, Config.short_wait)
     expect(/Saved (1 minute|([1-5][\d+]|[1-9]) seconds?) ago/ === @object_page.element_text(@object_page.timestamp)).to be true
-
-    #Reset record for future tests
-    @object_page.click_sidebar_term("Bailey, Marsha E.")
-    @person_page.enter_nationality(@warhol_reset)
-    @person_page.save_record
   end
 
 end

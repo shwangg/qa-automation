@@ -33,6 +33,13 @@ class InventoryMovementPage
     enter_bampfa_note data
   end
 
+  def enter_botgarden_current_location_data(data)
+    enter_botgarden_action_date data
+    select_botgarden_garden_location data
+    enter_botgarden_movement_note data
+    select_botgarden_action_code data
+  end
+
   # Completes the Info form, saves the record, and adds the resulting record's URL to the test data
   # @param [Hash] data
   def create_unlocked_movement(data)
@@ -52,6 +59,11 @@ class InventoryMovementPage
     save_record_only
   end
 
+  def create_unlocked_botgarden_current_location(data)
+    enter_botgarden_current_location_data data
+    save_record
+  end
+
   def enter_number_and_text(data)
     enter_current_location_preset data
     save_record_only
@@ -65,13 +77,6 @@ class InventoryMovementPage
   def enter_location_and_save(data)
     enter_current_location data
     save_record_only
-  end
-
-  def enter_botgarden_current_location_data(data)
-    enter_botgarden_action_date data
-    select_botgarden_garden_location data
-    enter_botgarden_movement_note data
-    select_botgarden_action_code data
   end
 
   # Completes the Info Form with specified Current Location and saves the record

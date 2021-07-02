@@ -12,6 +12,7 @@ module Sidebar
   def expanded_div_locator(label); {:xpath => "#{section_xpath(label)}/div"} end
   def links_locator(label); {:xpath => "#{section_xpath(label)}//a[@role='row']"} end
   def link_locator(label, identifier); {:xpath => "#{section_xpath(label)}//a[contains(.,'#{identifier}')]"} end
+  def nth_link_locator(label, row_number); {:xpath => "#{section_xpath(label)}//a[@role='row'][#{row_number}]//div[1]"} end
   def report_link_locator(label, identifier); {:xpath => "#{section_xpath(label)}//div[contains(@class,'innerScrollContainer')]//div[contains(.,'#{identifier}')]"} end
   def num_per_page_input(label); {:xpath => "#{section_xpath(label)}//input"} end
   def num_per_page_option(label); {:xpath => "#{section_xpath(label)}//input/following-sibling::div//li"} end
@@ -32,7 +33,7 @@ module Sidebar
   def related_obj_expanded_div; expanded_div_locator('Related Objects') end
   def related_obj_links; links_locator('Related Objects') end
   def related_obj_link(obj); link_locator('Related Objects', obj) end
-  def related_obj_nth_link(row_number); {:xpath => "//section[contains(.,\"Related Objects:\")]//a[@role=\"row\"][#{row_number}]//div[1]"} end
+  def related_obj_nth_link(row_number); nth_link_locator('Related Objects', row_number) end
   def related_obj_num_per_page_input; num_per_page_input('Related Objects') end
   def related_obj_num_per_page_option; num_per_page_option('Related Objects') end
 
@@ -57,6 +58,10 @@ module Sidebar
 
   def related_proc_link(proc)
     (@deployment == Deployment::PAHMA) ? link_locator('Actions', proc) : link_locator('Procedures', proc)
+  end
+
+  def related_proc_nth_link(row_number)
+    (@deployment == Deployment::PAHMA) ? nth_link_locator('Actions', row_number) : nth_link_locator('Procedures', row_number)
   end
 
   def related_proc_num_per_page_input

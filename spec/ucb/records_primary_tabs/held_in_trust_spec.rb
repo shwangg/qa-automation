@@ -1,6 +1,6 @@
 require_relative '../../../spec_helper'
 
-[Deployment::CORE, Deployment::PAHMA].each do |deploy|
+[Deployment::PAHMA, Deployment::CORE].each do |deploy|
 
   describe "#{deploy.name} Use of Held-in-Trust records" do
 
@@ -237,8 +237,8 @@ require_relative '../../../spec_helper'
       it('allow Internal Approvals to be removed') { @held_in_trust_page.enter_pahma_internal_approvals @hit_2 }
       it('allow External Approvals to be removed') { @held_in_trust_page.enter_pahma_external_approvals @hit_2 }
       it('allow Handling Preferences to be removed') { @held_in_trust_page.enter_handling_preferences @hit_2 }
-      it('allow Handling Limitations to be removed') { @held_in_trust_page.enter_pahma_handling_limitations @hit_2 }
-      it('allow Correspondences to be removed') { @held_in_trust_page.enter_pahma_correspondences @hit_2 }
+      it('allow Handling Limitations to be removed') { @held_in_trust_page.enter_handling_limitations @hit_2 }
+      it('allow Correspondences to be removed') { @held_in_trust_page.enter_correspondences @hit_2 }
       it('allow deleted data to be saved') { @held_in_trust_page.save_record }
 
       it('show the right Held-in-Trust Number') { @held_in_trust_page.verify_held_in_trust_number @hit_2 }
